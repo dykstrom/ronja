@@ -1,0 +1,54 @@
+/*
+ * Copyright (C) 2016 Johan Dykstrom
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package se.dykstrom.ronja.engine.ui.command;
+
+import se.dykstrom.ronja.common.book.OpeningBook;
+import se.dykstrom.ronja.common.model.Game;
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.parser.SanParser;
+import se.dykstrom.ronja.engine.core.AlphaBetaFinder;
+import se.dykstrom.ronja.engine.core.Finder;
+import se.dykstrom.ronja.engine.ui.io.Response;
+import se.dykstrom.ronja.engine.utils.PositionUtils;
+
+public class HintCommand extends AbstractMoveCommand {
+
+    public static final String NAME = "hint";
+
+    private static final Finder FINDER = new AlphaBetaFinder();
+
+    @SuppressWarnings("WeakerAccess")
+    public HintCommand(String args, Response response) {
+        super(args, response);
+    }
+
+    @Override
+    public void execute() {
+        OpeningBook book = Game.instance().getBook();
+        Position position = Game.instance().getPosition();
+        if (!PositionUtils.isGameOver(position)) {
+            Move move = book.findBestMove(position);
+            if (move == null) {
+                // Limit the search depth to 3 in this case
+                move = FINDER.findBestMove(position, 3);
+            }
+            response.write("Hint: " + SanParser.format(move, position));
+        }
+    }
+}

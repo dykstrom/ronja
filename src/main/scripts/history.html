@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Version History</title>
+</head>
+<body>
+
+<h2>Version History</h2>
+
+<h3>0.6.0 (????-??-??)</h3>
+<ul>
+    <li>Added option to log all games played to a file.</li>
+    <li>Build with <a href="https://maven.apache.org">Maven</a> instead of <a href="http://ant.apache.org">Ant</a>.</li>
+    <li>Published on <a href="https://github.com/dykstrom/ronja">GitHub</a>.</li>
+</ul>
+
+<h3>0.5.0 (2015-08-02)</h3>
+<ul>
+    <li>Implemented simple incremental move generation.</li>
+    <li>Implemented <a href="http://en.wikipedia.org/wiki/Alpha-beta_pruning">alpha-beta pruning</a>
+        without move ordering.</li>
+    <li>Rewrote some of the bitboard methods to use <a href="https://chessprogramming.wikispaces.com/Bit-Twiddling">
+        bit twiddling</a> library methods, like
+        <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Long.html#numberOfTrailingZeros-long-">
+        numberOfTrailingZeros</a>.</li>
+</ul>
+
+<h3>0.4.1 (2015-06-12)</h3>
+<ul>
+    <li>Extended opening book to more than double size.</li>
+    <li>Rewrote opening book parser to use
+        <a href="http://en.wikipedia.org/wiki/Java_Architecture_for_XML_Binding">JAXB</a> for parsing.</li>
+    <li>Rewrote XBoard command parser using the
+        <a href="http://en.wikipedia.org/wiki/Factory_(object-oriented_programming)">factory pattern.</a></li>
+</ul>
+
+<h3>0.4.0 (2015-05-19)</h3>
+<ul>
+    <li>Initial version.</li>
+</ul>
+
+</body>
+</html>

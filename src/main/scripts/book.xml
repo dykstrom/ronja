@@ -1,0 +1,2305 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+    Copyright (C) 2016 Johan Dykstrom
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<move can="" weight="" name="Initial position">
+
+    <move can="a2a3" weight="0" name="A00 Anderssen Opening">
+        <move can="e7e5" weight="100"/>
+    </move>
+
+    <move can="a2a4" weight="0" name="A00 Ware Opening">
+        <move can="e7e5" weight="100"/>
+    </move>
+
+    <move can="b1a3" weight="0" name="A00 Durkin's Attack">
+        <move can="e7e5" weight="100"/>
+    </move>
+
+    <move can="b1c3" weight="0" name="A00 Dunst Opening">
+        <move can="d7d5" weight="100"/>
+    </move>
+
+    <move can="b2b3" weight="0" name="A01 Nimzovich-Larsen Attack">
+        <move can="e7e5" weight="100"/>
+    </move>
+
+    <move can="b2b4" weight="0" name="A00 Sokolsky Opening">
+        <move can="e7e5" weight="100"/>
+    </move>
+
+    <move can="c2c3" weight="0" name="A00 Saragossa Opening">
+        <move can="d7d5" weight="100"/>
+    </move>
+
+    <move can="c2c4" weight="0" name="A10 English Opening">
+        <move can="g8f6" weight="100" name="A15 English Opening, Anglo-Indian Defence">
+            <move can="b1c3" weight="100">
+                <move can="g7g6" weight="100"/>
+                <move can="e7e6" weight="100"/>
+            </move>
+        </move>
+        <move can="e7e5" weight="100" name="A20 English Opening">
+            <move can="b1c3" weight="100">
+                <move can="g8f6" weight="100"/>
+                <move can="b8c6" weight="100"/>
+            </move>
+        </move>
+    </move>
+
+    <move can="d2d3" weight="0" name="A00 Mieses Opening">
+        <move can="d7d5" weight="100"/>
+    </move>
+
+    <!-- W1: Queen's Pawn Opening -->
+    <move can="d2d4" weight="50" name="A40 Queen's Pawn Opening">
+        <move can="d7d5" weight="100" name="D00 Queen's Pawn Game">
+            <!-- W2: Queen's Gambit -->
+            <move can="c2c4" weight="100" name="D06 Queen's Gambit">
+                <!-- B2: Queen's Gambit Declined -->
+                <move can="e7e6" weight="100" name="D30 Queen's Gambit Declined">
+                    <move can="g1f3" weight="100">
+                        <move can="g8f6" weight="100">
+                            <move can="b1c3" weight="100"/>
+                        </move>
+                    </move>
+                    <move can="b1c3" weight="100">
+                        <move can="g8f6" weight="100">
+                            <move can="c1g5" weight="100"/>
+                        </move>
+                        <move can="c7c6" weight="100">
+                            <move can="g1f3" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+                <!-- B2: Queen's Gambit Declined, Slav Defence -->
+                <move can="c7c6" weight="100" name="D10 Queen's Gambit Declined, Slav Defence">
+                    <move can="g1f3" weight="100">
+                        <move can="g8f6" weight="100">
+                            <move can="b1c3" weight="100"/>
+                        </move>
+                    </move>
+                    <move can="b1c3" weight="50">
+                        <move can="g8f6" weight="100">
+                            <move can="g1f3" weight="100"/>
+                            <move can="e2e3" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+                <!-- B2: Queen's Gambit Accepted -->
+                <move can="d5c4" weight="50" name="D20 Queen's Gambit Accepted">
+                    <move can="g1f3" weight="100">
+                        <move can="g8f6" weight="100">
+                            <move can="e2e3" weight="100">
+                                <move can="e7e6" weight="100">
+                                    <move can="f1c4" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                </move>
+            </move>
+            <move can="g1f3" weight="100">
+                <move can="g8f6" weight="100">
+                    <move can="c2c4" weight="100"/>
+                </move>
+            </move>
+        </move>
+        <move can="g8f6" weight="100" name="A45 Queen's Pawn Game">
+            <move can="c2c4" weight="100">
+                <move can="e7e6" weight="150">
+                    <move can="b1c3" weight="100">
+                        <move can="f8b4" weight="100" name="E20 Nimzo-Indian Defence">
+                            <move can="e2e3" weight="100"/>
+                            <move can="d1c2" weight="100" name="E32 Nimzo-Indian, Classical Variation"/>
+                        </move>
+                    </move>
+                    <move can="g1f3" weight="100">
+                        <move can="b7b6" weight="42" name="E12 Queen's Indian Defence">
+                            <move can="g2g3" weight="100" name="E15 Queen's Indian, 4.g3">
+                                <move can="c8a6" weight="100">
+                                    <move can="b2b3" weight="100"/>
+                                </move>
+                                <move can="c8b7" weight="100">
+                                    <move can="f1g2" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="d7d5" weight="23">
+                            <move can="b1c3" weight="100"/>
+                        </move>
+                        <move can="f8b4" weight="18" name="E11 Bogo-Indian Defence">
+                            <move can="c1d2" weight="100"/>
+                        </move>
+                        <move can="c7c5" weight="11">
+                            <move can="d4d5" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+                <move can="g7g6" weight="150" name="E60 King's Indian Defence">
+                    <move can="b1c3" weight="100">
+                        <move can="f8g7" weight="88">
+                            <move can="e2e4" weight="100" name="E70 King's Indian, 4.e4">
+                                <move can="d7d6" weight="100">
+                                    <move can="g1f3" weight="100">
+                                        <move can="e8g8" weight="100"/>
+                                    </move>
+                                    <move can="f2f3" weight="100" name="E80 King's Indian, Saemisch Variation">
+                                        <move can="e8g8" weight="100"/>
+                                    </move>
+                                    <move can="g1f3" weight="100">
+                                        <move can="e8g8" weight="100"/>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="d7d5" weight="37" name="D80 Gruenfeld Defence">
+                            <move can="c4d5" weight="100">
+                                <move can="f6d5" weight="100" name="D85 Gruenfeld, Exchange Variation">
+                                    <move can="e2e4" weight="100"/>
+                                </move>
+                            </move>
+                            <move can="g1f3" weight="100" name="D90 Gruenfeld, Three Knights Variation"/>
+                        </move>
+                    </move>
+                </move>
+                <move can="c7c5" weight="50" name="A56 Benoni Defence">
+                    <move can="d4d5" weight="100"/>
+                </move>
+            </move>
+            <move can="g1f3" weight="100">
+                <move can="g7g6" weight="100" name="A48 King's Indian, East Indian Defence">
+                    <move can="c2c4" weight="100" name="E60 King's Indian, 3.Nf3">
+                        <move can="f8g7" weight="100">
+                            <move can="b1c3" weight="100"/>
+                            <move can="g2g3" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+                <move can="e7e6" weight="100">
+                    <move can="c2c4" weight="100">
+                        <!-- See d2d4 g8f6 c2c4 e7e6 g1f3 b7b6 -->
+                        <move can="b7b6" weight="100" name="E12 Queen's Indian Defence"/>
+                    </move>
+                </move>
+            </move>
+        </move>
+        <move can="e7e6" weight="50" name="A40 Queen's Pawn Game">
+            <move can="c2c4" weight="100"/>
+            <move can="g1f3" weight="100"/>
+            <move can="e2e4" weight="100" name="C00 French Defence">
+                <!-- See e2e4 e7e6 d2d4 d7d5 -->
+                <move can="d7d5" weight="100"/>
+            </move>
+        </move>
+        <move can="f7f5" weight="10" name="A80 Dutch">
+            <move can="g2g3" weight="110">
+                <move can="g8f6" weight="100">
+                    <move can="f1g2" weight="100"/>
+                </move>
+            </move>
+            <move can="c2c4" weight="80">
+                <move can="g8f6" weight="100">
+                    <move can="b1c3" weight="100"/>
+                </move>
+            </move>
+            <move can="g1f3" weight="60">
+                <move can="g8f6" weight="100">
+                    <move can="g2g3" weight="100"/>
+                </move>
+            </move>
+        </move>
+        <move can="g7g6" weight="0" name="A40 Modern Defence">
+            <move can="c2c4" weight="100">
+                <move can="f8g7" weight="100">
+                    <move can="b1c3" weight="100">
+                        <move can="d7d6" weight="100">
+                            <move can="e2e4" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+            </move>
+        </move>
+        <move can="d7d6" weight="0" name="A41 Queen's Pawn Game">
+            <move can="g1f3" weight="100"/>
+            <move can="c2c4" weight="100" name="A41 Old Indian Defence">
+                <move can="e7e5" weight="100">
+                    <move can="g1f3" weight="100"/>
+                    <move can="d4e5" weight="50"/>
+                </move>
+            </move>
+            <move can="e2e4" weight="100">
+                <move can="g8f6" weight="100">
+                    <!-- See e2e4 d7d6 d2d4 g8f6 b1c3 -->
+                    <move can="b1c3" weight="100" name="B07 Pirc Defence"/>
+                </move>
+                <move can="g7g6" weight="100">
+                    <move can="b1c3" weight="100"/>
+                </move>
+            </move>
+        </move>
+        <move can="c7c5" weight="0" name="A43 Old Benoni Defence">
+            <move can="d4d5" weight="100"/>
+        </move>
+    </move>
+
+    <move can="e2e3" weight="0" name="A00 Van't Kruijs Opening">
+        <move can="e7e5" weight="100">
+            <move can="d2d4" weight="100">
+                <move can="e5d4" weight="100"/>
+            </move>
+            <move can="c2c4" weight="100">
+                <move can="g8f6" weight="100"/>
+            </move>
+        </move>
+        <move can="d7d5" weight="100">
+            <move can="b2b3" weight="100">
+                <move can="g8f6" weight="100"/>
+            </move>
+            <move can="c2c4" weight="100">
+                <move can="g8f6" weight="100"/>
+            </move>
+        </move>
+    </move>
+
+    <!-- W1: King's Pawn Opening -->
+    <move can="e2e4" weight="100" name="B00 King's Pawn Opening">
+
+        <!-- B1: King's Pawn Game -->
+        <move can="e7e5" weight="100" name="C20 King's Pawn Game">
+            <move can="g1f3" weight="100" name="C40 King's Knight Opening">
+                <move can="b8c6" weight="100" name="Queen's Knight Variation">
+                    <!-- W3: Ruy Lopez -->
+                    <move can="f1b5" weight="100" name="C60 Ruy Lopez">
+                        <move can="a7a6" weight="100">
+                            <move can="b5a4" weight="100" name="C70 Ruy Lopez">
+                                <move can="g8f6" weight="100" name="C77 Ruy Lopez, Morphy Defence">
+                                    <move can="e1g1" weight="100" name="C78 Ruy Lopez, 5.O-O">
+                                        <move can="f8e7" weight="40" name="C84 Ruy Lopez, Closed Defence">
+                                            <move can="f1e1" weight="100">
+                                                <move can="b7b5" weight="100">
+                                                    <move can="a4b3" weight="100">
+                                                        <move can="d7d6" weight="100">
+                                                            <move can="c2c3" weight="100">
+                                                                <move can="e8g8" weight="100">
+                                                                    <move can="h2h3" weight="100"/>
+                                                                </move>
+                                                            </move>
+                                                        </move>
+                                                    </move>
+                                                </move>
+                                            </move>
+                                        </move>
+                                        <move can="b7b5" weight="10">
+                                            <move can="a4b3" weight="100"/>
+                                        </move>
+                                        <move can="f6e4" weight="7" name="C80 Ruy Lopez, Open Defence">
+                                            <move can="d2d4" weight="100">
+                                                <move can="b7b5" weight="100">
+                                                    <move can="a4b3" weight="100"/>
+                                                </move>
+                                            </move>
+                                        </move>
+                                    </move>
+                                    <move can="d2d3" weight="0" name="C77 Ruy Lopez, Anderssen Variation">
+                                        <move can="d7d6" weight="100">
+                                            <move can="c2c3" weight="100"/>
+                                        </move>
+                                        <move can="b7b5" weight="100">
+                                            <move can="a4b3" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="d7d6" weight="0" name="C71 Ruy Lopez, Modern Steinitz Defence">
+                                    <move can="c2c3" weight="100">
+                                        <move can="c8d7" weight="100">
+                                            <move can="d2d4" weight="100"/>
+                                            <move can="e1g1" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="e1g1" weight="100">
+                                        <move can="c8d7" weight="100">
+                                            <move can="c2c3" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="a4c6" weight="100">
+                                        <move can="b7c6" weight="100">
+                                            <move can="d2d4" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="b7b5" weight="0" name="C70 Ruy Lopez, Caro Variation">
+                                    <move can="a4b3" weight="100">
+                                        <move can="g8f6" weight="100">
+                                            <move can="e1g1" weight="100"/>
+                                        </move>
+                                        <move can="c6a5" weight="100">
+                                            <move can="e1g1" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="b5c6" weight="100" name="C68 Ruy Lopez, Exchange Variation">
+                                <move can="d7c6" weight="100">
+                                    <move can="e1g1" weight="100">
+                                        <move can="f7f6" weight="100" name="C69 Ruy Lopez, Exchange, Gligoric Variation">
+                                            <move can="d2d4" weight="100">
+                                                <move can="e5d4" weight="100">
+                                                    <move can="f3d4" weight="100">
+                                                        <move can="c6c5" weight="100">
+                                                            <move can="d4b3" weight="100"/>
+                                                        </move>
+                                                    </move>
+                                                </move>
+                                                <move can="c8g4" weight="50">
+                                                    <move can="d4e5" weight="100">
+                                                        <move can="d8d1" weight="100">
+                                                            <move can="f1d1" weight="100">
+                                                                <move can="f6e5" weight="100"/>
+                                                            </move>
+                                                        </move>
+                                                    </move>
+                                                    <move can="c2c3" weight="100">
+                                                        <move can="f8d6" weight="100">
+                                                            <move can="c1e3" weight="100">
+                                                                <move can="g8e7" weight="100"/>
+                                                                <move can="d8e7" weight="100"/>
+                                                            </move>
+                                                        </move>
+                                                    </move>
+                                                </move>
+                                            </move>
+                                        </move>
+                                        <move can="c8g4" weight="100">
+                                            <move can="h2h3" weight="100"/>
+                                        </move>
+                                        <move can="d8d6" weight="50">
+                                            <move can="b1a3" weight="100"/>
+                                            <move can="d2d4" weight="100"/>
+                                        </move>
+                                        <move can="f8d6" weight="50">
+                                            <move can="d2d4" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="b1c3" weight="30" name="C68 Ruy Lopez, Exchange, Keres Variation">
+                                        <move can="f7f6" weight="100">
+                                            <move can="d2d4" weight="100"/>
+                                        </move>
+                                        <move can="f8d6" weight="100">
+                                            <move can="d2d4" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="d2d4" weight="30">
+                                        <move can="e5d4" weight="100">
+                                            <move can="d1d4" weight="100">
+                                                <move can="d8d4" weight="100">
+                                                    <move can="f3d4" weight="100"/>
+                                                </move>
+                                            </move>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="g8f6" weight="15" name="C65 Ruy Lopez, Berlin Defence">
+                            <move can="e1g1" weight="100" name="C65 Ruy Lopez, Berlin Defence, 4.O-O">
+                                <move can="f6e4" weight="100" name="C67 Ruy Lopez, Berlin Defence, Open Variation">
+                                    <move can="d2d4" weight="100">
+                                        <move can="e4d6" weight="100">
+                                            <move can="b5c6" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="f1e1" weight="20">
+                                        <move can="e4d6" weight="100">
+                                            <move can="f3e5" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="d2d3" weight="30">
+                                <move can="d7d6" weight="100">
+                                    <move can="c2c3" weight="100">
+                                        <move can="g7g6" weight="100"/>
+                                        <move can="f8e7" weight="100"/>
+                                        <move can="c8d7" weight="100"/>
+                                    </move>
+                                    <move can="e1g1" weight="100">
+                                        <move can="g7g6" weight="100"/>
+                                        <move can="f8e7" weight="100"/>
+                                        <move can="c8d7" weight="100"/>
+                                    </move>
+                                </move>
+                                <move can="f8c5" weight="100">
+                                    <move can="c2c3" weight="100">
+                                        <move can="e8g8" weight="100"/>
+                                    </move>
+                                    <move can="e1g1" weight="100">
+                                        <move can="d7d6" weight="100"/>
+                                    </move>
+                                    <move can="b5c6" weight="100">
+                                        <move can="d7c6" weight="100"/>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="f7f5" weight="5" name="C63 Ruy Lopez, Schliemann Defence">
+                            <move can="b1c3" weight="100" name="C63 Ruy Lopez, Schliemann Defence, Berger Variation">
+                                <move can="f5e4" weight="100">
+                                    <move can="c3e4" weight="100">
+                                        <move can="d7d5" weight="100">
+                                            <move can="f3e5" weight="100"/>
+                                        </move>
+                                        <move can="g8f6" weight="100">
+                                            <move can="d1e2" weight="100"/>
+                                            <move can="e4f6" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="d2d3" weight="50">
+                                <move can="f5e4" weight="100">
+                                    <move can="d3e4" weight="100">
+                                        <move can="g8f6" weight="100">
+                                            <move can="e1g1" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="d7d6" weight="0" name="C62 Ruy Lopez, Old Steinitz Defence">
+                            <move can="d2d4" weight="100">
+                                <move can="c8d7" weight="100">
+                                    <move can="b1c3" weight="100"/>
+                                    <move can="e1g1" weight="100"/>
+                                </move>
+                                <move can="e5d4" weight="100">
+                                    <move can="f3d4" weight="100"/>
+                                </move>
+                            </move>
+                            <move can="e1g1" weight="100">
+                                <move can="c8d7" weight="100">
+                                    <move can="c2c3" weight="100"/>
+                                </move>
+                                <move can="g8f6" weight="100">
+                                    <move can="d2d4" weight="100"/>
+                                    <move can="f1e1" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="f8c5" weight="0" name="C64 Ruy Lopez, Classical Defence">
+                            <move can="e1g1" weight="100">
+                                <move can="c6d4" weight="100">
+                                    <move can="f3d4" weight="100"/>
+                                </move>
+                                <move can="d7d6" weight="100">
+                                    <move can="c2c3" weight="100"/>
+                                </move>
+                                <move can="g8f6" weight="100" name="C65 Ruy Lopez, Berlin Defence, Beverwijk Variation">
+                                    <move can="c2c3" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <!-- W3: Italian Game -->
+                    <move can="f1c4" weight="100" name="C50 Italian Game">
+                        <move can="f8c5" weight="100" name="C50 Giuoco Piano">
+                            <move can="c2c3" weight="100">
+                                <move can="g8f6" weight="100">
+                                    <move can="d2d4" weight="100">
+                                        <move can="e5d4" weight="100">
+                                            <move can="c3d4" weight="100"/>
+                                            <move can="e4e5" weight="50"/>
+                                        </move>
+                                    </move>
+                                    <move can="d2d3" weight="100">
+                                        <move can="d7d6" weight="100">
+                                            <move can="e1g1" weight="100"/>
+                                        </move>
+                                        <move can="a7a6" weight="100">
+                                            <move can="c4b3" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="d7d6" weight="10">
+                                    <move can="d2d4" weight="100">
+                                        <move can="e5d4" weight="100">
+                                            <move can="c3d4" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="d8e7" weight="10" name="C53 Giuoco Piano, Close Variation">
+                                    <move can="e1g1" weight="100">
+                                        <move can="d7d6" weight="100">
+                                            <move can="d2d4" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="d2d3" weight="50" name="C50 Giuoco Pianissimo">
+                                <move can="g8f6" weight="100">
+                                    <move can="c2c3" weight="100">
+                                        <move can="d7d6" weight="100">
+                                            <move can="c4b3" weight="100"/>
+                                            <move can="e1g1" weight="100"/>
+                                        </move>
+                                        <move can="a7a6" weight="100">
+                                            <move can="c4b3" weight="100"/>
+                                            <move can="e1g1" weight="100"/>
+                                        </move>
+                                        <move can="e8g8" weight="100">
+                                            <move can="e1g1" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="b1c3" weight="100">
+                                        <move can="d7d6" weight="100">
+                                            <move can="c1g5" weight="100"/>
+                                        </move>
+                                        <move can="h7h6" weight="100">
+                                            <move can="c1e3" weight="100"/>
+                                            <move can="e1g1" weight="100"/>
+                                        </move>
+                                        <move can="e8g8" weight="100">
+                                            <move can="c1g5" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="e1g1" weight="100">
+                                        <move can="d7d6" weight="100">
+                                            <move can="c2c3" weight="100"/>
+                                        </move>
+                                        <move can="e8g8" weight="100">
+                                            <move can="c1g5" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="c1g5" weight="100">
+                                        <move can="d7d6" weight="100">
+                                            <move can="h2h3" weight="100"/>
+                                            <move can="b1c3" weight="100"/>
+                                        </move>
+                                        <move can="h7h6" weight="100">
+                                            <move can="g5h4" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="d7d6" weight="100">
+                                    <move can="b1c3" weight="100">
+                                        <move can="c8g4" weight="100">
+                                            <move can="h2h3" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="e1g1" weight="50">
+                                <move can="g8f6" weight="100">
+                                    <move can="d2d3" weight="100">
+                                        <move can="d7d6" weight="100">
+                                            <move can="c2c3" weight="100"/>
+                                        </move>
+                                        <move can="e8g8" weight="100">
+                                            <move can="c1g5" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="b1c3" weight="50">
+                                        <move can="e8g8" weight="100">
+                                            <move can="d2d3" weight="100"/>
+                                        </move>
+                                        <move can="d7d6" weight="100">
+                                            <move can="d2d3" weight="100"/>
+                                            <move can="h2h3" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="d2d4" weight="50">
+                                        <move can="c5d4" weight="100">
+                                            <move can="f3d4" weight="100"/>
+                                        </move>
+                                        <move can="e5d4" weight="100">
+                                            <move can="e4e5" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="g8f6" weight="100" name="C55 Two Knights Defence">
+                            <move can="d2d3" weight="100" name="C55 Two Knights Defence (Modern Bishop's Opening)">
+                                <move can="f8e7" weight="100">
+                                    <move can="e1g1" weight="100">
+                                        <move can="e8g8" weight="100">
+                                            <move can="f1e1" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                                <!-- See e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 -->
+                                <move can="f8c5" weight="100" name="C50 Giuoco Pianissimo"/>
+                                <move can="h7h6" weight="50">
+                                    <move can="e1g1" weight="100">
+                                        <move can="d7d6" weight="100">
+                                            <move can="c2c3" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="f3g5" weight="100">
+                                <move can="d7d5" weight="100">
+                                    <move can="e4d5" weight="100">
+                                        <move can="c6a5" weight="100">
+                                            <move can="c4b5" weight="100"/>
+                                        </move>
+                                        <move can="f6d5" weight="50">
+                                            <move can="g5f7" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="b1c3" weight="100" name="C46 Four Knights, Italian Variation">
+                                <!-- See e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 b1c3 g8f6 -->
+                                <move can="f8c5" weight="100" name="C50 Giuoco Piano, Four Knights Variation"/>
+                                <move can="f6e4" weight="100">
+                                    <move can="c3e4" weight="100">
+                                        <move can="d7d5" weight="100">
+                                            <move can="c4d5" weight="100"/>
+                                            <move can="c4d3" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="c4f7" weight="50">
+                                        <move can="e8f7" weight="100">
+                                            <move can="c3e4" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="d2d4" weight="100">
+                                <move can="e5d4" weight="100">
+                                    <move can="e4e5" weight="100"/>
+                                    <move can="e1g1" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="f8e7" weight="0" name="C50 Hungarian Defence">
+                            <move can="d2d4" weight="100">
+                                <move can="d7d6" weight="100">
+                                    <move can="d4e5" weight="100"/>
+                                </move>
+                                <move can="e5d4" weight="100" name="C44 Scotch Gambit, Benima Defence">
+                                    <move can="f3d4" weight="100"/>
+                                    <move can="c2c3" weight="100"/>
+                                </move>
+                            </move>
+                            <move can="e1g1" weight="100">
+                                <move can="g8f6" weight="100">
+                                    <move can="d2d3" weight="100"/>
+                                    <move can="b1c3" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <!-- W3: Scotch Opening -->
+                    <move can="d2d4" weight="30" name="C44 Scotch Opening">
+                        <move can="e5d4" weight="100">
+                            <move can="f3d4" weight="100" name="C45 Scotch game">
+                                <move can="f8c5" weight="100">
+                                    <move can="c1e3" weight="100">
+                                        <move can="d8f6" weight="100">
+                                            <move can="c2c3" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="d4c6" weight="50">
+                                        <move can="d8f6" weight="100">
+                                            <move can="d1d2" weight="100"/>
+                                        </move>
+                                        <move can="b7c6" weight="25">
+                                            <move can="f1d3" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="d4b3" weight="50" name="C45 Scotch, Potter Variation">
+                                        <move can="c5b6" weight="100">
+                                            <move can="b1c3" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="g8f6" weight="100" name="C45 Scotch, Schmidt Variation">
+                                    <move can="d4c6" weight="100">
+                                        <move can="b7c6" weight="100">
+                                            <move can="e4e5" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="b1c3" weight="100">
+                                        <move can="f8b4" weight="100">
+                                            <move can="d4c6" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="c6d4" weight="50">
+                                    <move can="d1d4" weight="100">
+                                        <move can="d7d6" weight="100">
+                                            <move can="b1c3" weight="100"/>
+                                            <move can="f1c4" weight="100"/>
+                                        </move>
+                                        <move can="g8f6" weight="100">
+                                            <move can="b1c3" weight="100"/>
+                                            <move can="e4e5" weight="100"/>
+                                            <move can="c1g5" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="f1c4" weight="30" name="C44 Scotch Gambit">
+                                <move can="g8f6" weight="100" name="C44 Scotch Gambit, Dubois-Reti Defence">
+                                    <move can="e4e5" weight="100">
+                                        <move can="d7d5" weight="100">
+                                            <move can="c4b5" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="e1g1" weight="100">
+                                        <move can="f6e4" weight="100">
+                                            <move can="f1e1" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="f8c5" weight="50">
+                                    <move can="c2c3" weight="100">
+                                        <move can="g8f6" weight="100">
+                                            <move can="c3d4" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="e1g1" weight="50">
+                                        <move can="d7d6" weight="100">
+                                            <move can="c2c3" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="c2c3" weight="10" name="C44 Scotch, Goering Gambit">
+                                <move can="d4c3" weight="100">
+                                    <move can="f1c4" weight="100">
+                                        <move can="d7d6" weight="100">
+                                            <move can="b1c3" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="b1c3" weight="100">
+                                        <move can="f8b4" weight="100">
+                                            <move can="f1c4" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="d7d5" weight="100">
+                                    <move can="e4d5" weight="100">
+                                        <move can="d8d5" weight="100">
+                                            <move can="c3d4" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <!-- W3: Three Knights Game, see e2e4 e7e5 b1c3 b8c6 g1f3 -->
+                    <move can="b1c3" weight="30" name="C46 Three Knights Game"/>
+                </move>
+                <move can="g8f6" weight="10" name="C42 Petrov's Defence">
+                    <move can="f3e5" weight="100">
+                        <move can="d7d6" weight="100">
+                            <move can="e5f3" weight="100">
+                                <move can="f6e4" weight="100">
+                                    <move can="d2d4" weight="100" name="C42 Petrov, Classical Attack">
+                                        <move can="d6d5" weight="100">
+                                            <move can="f1d3" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="d8e7" weight="0">
+                            <move can="e5f3" weight="100">
+                                <move can="f6e4" weight="100">
+                                    <move can="f1e2" weight="100"/>
+                                    <move can="d1e2" weight="100"/>
+                                </move>
+                            </move>
+                            <move can="d2d4" weight="100">
+                                <move can="d7d6" weight="100">
+                                    <move can="e5f3" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="f6e4" weight="0" name="C42 Petrov, Damiano Variation">
+                            <move can="d1e2" weight="100">
+                                <move can="d8e7" weight="100">
+                                    <move can="e2e4" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <!-- See e2e4 e7e5 b1c3 g8f6 g1f3 -->
+                    <move can="b1c3" weight="50" name="C42 Petrov Three Knights Game"/>
+                </move>
+                <move can="d7d6" weight="0" name="C41 Philidor's Defence">
+                    <move can="d2d4" weight="100">
+                        <move can="e5d4" weight="100" name="C41 Philidor, Exchange Variation">
+                            <move can="f3d4" weight="100"/>
+                        </move>
+                        <move can="g8f6" weight="50" name="C41 Philidor, Nimzovich Variation">
+                            <move can="b1c3" weight="100"/>
+                            <move can="d4e5" weight="100"/>
+                        </move>
+                        <move can="b8d7" weight="50" name="C41 Philidor, Hanham Variation">
+                            <move can="f1c4" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+            </move>
+            <!-- W2: Vienna Game -->
+            <move can="b1c3" weight="10" name="C25 Vienna Game">
+                <move can="g8f6" weight="100" name="C26 Vienna, Falkbeer Variation">
+                    <move can="f2f4" weight="100">
+                        <move can="d7d5" weight="100" name="C29 Vienna Gambit">
+                            <move can="f4e5" weight="100">
+                                <move can="f6e4" weight="100">
+                                    <move can="g1f3" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <move can="f1c4" weight="100" name="C26 Vienna Game">
+                        <move can="b8c6" weight="100">
+                            <move can="d2d3" weight="100">
+                                <move can="f8b4" weight="100">
+                                    <move can="g1e2" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="f8c5" weight="100">
+                            <move can="d2d3" weight="100">
+                                <move can="d7d6" weight="100">
+                                    <move can="f2f4" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <move can="g1f3" weight="100" name="C42 Petrov Three Knights Game">
+                        <!-- See e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 -->
+                        <move can="b8c6" weight="100" name="C46 Four Knights Game"/>
+                        <move can="f8b4" weight="100">
+                            <move can="f3e5" weight="100">
+                                <move can="e8g8" weight="100">
+                                    <move can="f1e2" weight="100"/>
+                                </move>
+                            </move>
+                            <move can="f1c4" weight="100">
+                                <move can="e8g8" weight="100">
+                                    <move can="e1g1" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <move can="g2g3" weight="100" name="C26 Vienna, Paulsen-Mieses Variation">
+                        <move can="d7d5" weight="100">
+                            <move can="e4d5" weight="100">
+                                <move can="f6d5" weight="100">
+                                    <move can="f1g2" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="f8c5" weight="100">
+                            <move can="f1g2" weight="100">
+                                <move can="d7d6" weight="100">
+                                    <move can="g1e2" weight="100"/>
+                                </move>
+                                <move can="b8c6" weight="100">
+                                    <move can="g1e2" weight="100"/>
+                                </move>
+                                <move can="e8g8" weight="100">
+                                    <move can="g1e2" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                </move>
+                <move can="b8c6" weight="50" name="C25 Vienna Game, Max Lange Defence">
+                    <move can="f1c4" weight="100">
+                        <move can="g8f6" weight="150" name="C28 Vienna Game">
+                            <move can="d2d3" weight="100">
+                                <move can="f8b4" weight="100">
+                                    <move can="g1e2" weight="100"/>
+                                </move>
+                                <move can="c6a5" weight="100">
+                                    <move can="g1e2" weight="100"/>
+                                </move>
+                                <move can="f8c5" weight="100">
+                                    <move can="f2f4" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="f8c5" weight="50">
+                            <move can="d1g4" weight="100">
+                                <move can="g7g6" weight="100"/>
+                            </move>
+                            <move can="d2d3" weight="100">
+                                <move can="d7d6" weight="100"/>
+                            </move>
+                        </move>
+                    </move>
+                    <move can="f2f4" weight="50" name="C25 Vienna Gambit">
+                        <move can="e5f4" weight="100">
+                            <move can="g1f3" weight="100"/>
+                        </move>
+                    </move>
+                    <move can="g2g3" weight="50" name="C25 Vienna, Paulsen Variation">
+                        <move can="f8c5" weight="100">
+                            <move can="f1g2" weight="100"/>
+                        </move>
+                        <move can="g8f6" weight="100">
+                            <move can="f1g2" weight="100"/>
+                        </move>
+                    </move>
+                    <move can="g1f3" weight="50" name="C46 Three knights Game">
+                        <move can="g8f6" weight="100" name="C46 Four knights Game">
+                            <move can="f1b5" weight="100" name="C48 Four Knights, Spanish Variation">
+                                <move can="f8b4" weight="100" name="C49 Four Knights, Double Ruy Lopez">
+                                    <move can="e1g1" weight="100">
+                                        <move can="e8g8" weight="100">
+                                            <move can="d2d3" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="c6d4" weight="100" name="C48 Four Knights, Rubinstein Counter-gambit">
+                                    <move can="b5a4" weight="100">
+                                        <move can="f8c5" weight="100">
+                                            <move can="f3e5" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="f3d4" weight="100">
+                                        <move can="e5d4" weight="100">
+                                            <move can="e4e5" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="d2d4" weight="100" name="C47 Four Knights, Scotch Variation">
+                                <move can="e5d4" weight="100">
+                                    <move can="f3d4" weight="100">
+                                        <move can="f8b4" weight="100">
+                                            <move can="d4c6" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                </move>
+            </move>
+            <!-- W2: King's Gambit -->
+            <move can="f2f4" weight="10" name="C30 King's Gambit">
+                <move can="e5f4" weight="100" name="C33 King's Gambit Accepted">
+                    <move can="g1f3" weight="100" name="King's Knight Gambit">
+                        <move can="g7g5" weight="100">
+                            <move can="h2h4" weight="100"/>
+                            <move can="f1c4" weight="100"/>
+                        </move>
+                        <move can="d7d5" weight="50" name="C36 King's Gambit Accepted, Abbazia Defence">
+                            <move can="e4d5" weight="100"/>
+                        </move>
+                        <move can="d7d6" weight="50" name="C34 King's Gambit Accepted, Fischer Defence">
+                            <move can="d2d4" weight="100"/>
+                            <move can="f1c4" weight="100"/>
+                        </move>
+                    </move>
+                    <move can="f1c4" weight="100" name="King's Bishop Gambit">
+                        <move can="g8f6" weight="100" name="C33 King's Gambit Accepted, Bishop's Gambit, Cozio Defence">
+                            <move can="b1c3" weight="100" name="C33 King's Gambit Accepted, Bishop's Gambit, Bogolyubov Variation">
+                                <move can="c7c6" weight="100">
+                                    <move can="c4b3" weight="100"/>
+                                    <move can="d2d4" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="d8h4" weight="100">
+                            <move can="e1f1" weight="100">
+                                <move can="d7d6" weight="100">
+                                    <move can="g1f3" weight="100"/>
+                                    <move can="b1c3" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="d7d5" weight="100" name="C33 King's Gambit Accepted, Bishop's Gambit, Bledow Variation">
+                            <move can="c4d5" weight="100"/>
+                            <move can="e4d5" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+                <move can="f8c5" weight="30" name="C30 King's Gambit Declined, Classical Variation">
+                    <move can="g1f3" weight="100">
+                        <move can="d7d6" weight="100">
+                            <move can="c2c3" weight="100"/>
+                            <move can="f1c4" weight="100"/>
+                            <move can="b1c3" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+                <move can="d7d5" weight="30" name="C31 King's Gambit Declined, Falkbeer Counter-gambit">
+                    <move can="e4d5" weight="100">
+                        <move can="e5e4" weight="100">
+                            <move can="d2d3" weight="100"/>
+                            <move can="b1c3" weight="50"/>
+                        </move>
+                        <move can="e5f4" weight="50">
+                            <move can="g1f3" weight="100"/>
+                        </move>
+                        <move can="c7c6" weight="50" name="C31 King's Gambit Declined, Nimzovich Counter-gambit">
+                            <move can="b1c3" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+                <move can="d7d6" weight="0">
+                    <move can="g1f3" weight="100">
+                        <move can="b8c6" weight="100">
+                            <move can="f1c4" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+                <move can="b8c6" weight="0">
+                    <move can="g1f3" weight="100">
+                        <move can="d7d6" weight="100">
+                            <move can="f1c4" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+            </move>
+            <move can="f1c4" weight="0" name="C23 Bishop's Opening">
+                <move can="g8f6" weight="100" name="C24 Bishop's Opening, Berlin Defence">
+                    <move can="d2d3" weight="100">
+                        <move can="b8c6" weight="100">
+                            <move can="g1f3" weight="100" name="C55 Two Knights Defence (Modern Bishop's Opening)">
+                                <move can="f8e7" weight="100"/>
+                                <!-- See e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 -->
+                                <move can="f8c5" weight="100" name="C50 Giuoco Pianissimo"/>
+                            </move>
+                            <move can="b1c3" weight="100">
+                                <move can="f8b4" weight="100"/>
+                                <move can="c6a5" weight="100"/>
+                                <move can="f8c5" weight="100"/>
+                            </move>
+                        </move>
+                    </move>
+                </move>
+            </move>
+            <move can="d2d4" weight="0">
+                <move can="e5d4" weight="100" name="C21 Centre Game">
+                    <move can="d1d4" weight="100">
+                        <move can="b8c6" weight="100"/>
+                    </move>
+                </move>
+            </move>
+        </move>
+
+        <!-- B1: French Defence -->
+        <move can="e7e6" weight="100" name="C00 French Defence">
+            <move can="d2d4" weight="100">
+                <move can="d7d5" weight="100">
+                    <!-- W3: French Defence, Main Line -->
+                    <move can="b1c3" weight="75" name="C10 French Defence, Main Line">
+                        <!-- B3: French Defence, Winawer Variation -->
+                        <move can="f8b4" weight="100" name="C15 French, Winawer Variation">
+                            <move can="e4e5" weight="100" name="C17 French, Winawer, Advance Variation">
+                                <move can="c7c5" weight="100">
+                                    <move can="a2a3" weight="100" name="C17 French, Winawer, Advance, 5. a3">
+                                        <move can="b4c3" weight="100">
+                                            <move can="b2c3" weight="100">
+                                                <move can="d8c7" weight="100" name="French, Winawer, 6... c7">
+                                                    <move can="d1g4" weight="100">
+                                                        <move can="f7f5" weight="100">
+                                                            <move can="g4g3" weight="100">
+                                                                <move can="b8c6" weight="100" name="French, Winawer, Moskalenko Variation">
+                                                                    <move can="g1f3" weight="100">
+                                                                        <move can="c5d4" weight="100">
+                                                                            <move can="c3d4" weight="100">
+                                                                                <move can="g8e7" weight="100">
+                                                                                    <move can="c1d2" weight="100">
+                                                                                        <move can="e8g8" weight="100"/>
+                                                                                    </move>
+                                                                                </move>
+                                                                            </move>
+                                                                        </move>
+                                                                    </move>
+                                                                    <move can="f1e3" weight="0">
+                                                                        <move can="c7a5" weight="100">
+                                                                            <move can="c1d2" weight="100">
+                                                                                <move can="g7g6" weight="100"/>
+                                                                            </move>
+                                                                        </move>
+                                                                    </move>
+                                                                </move>
+                                                                <move can="c5d4" weight="50">
+                                                                    <move can="c3d4" weight="100">
+                                                                        <move can="g8e7" weight="100"/>
+                                                                    </move>
+                                                                </move>
+                                                            </move>
+                                                        </move>
+                                                    </move>
+                                                </move>
+                                                <move can="g8e7" weight="50"/>
+                                                <move can="d8a5" weight="50"/>
+                                            </move>
+                                        </move>
+                                        <move can="b4a5" weight="10">
+                                            <move can="b2b4" weight="100">
+                                                <move can="c5d4" weight="100"/>
+                                            </move>
+                                        </move>
+                                    </move>
+                                    <move can="c1d2" weight="10" name="C17 French, Winawer, Advance, Bogolyubov Variation">
+                                        <move can="g8e7" weight="100">
+                                            <move can="c3b5" weight="100">
+                                                <move can="b4d2" weight="100"/>
+                                            </move>
+                                            <move can="a2a3" weight="50">
+                                                <move can="b4c3" weight="100"/>
+                                            </move>
+                                        </move>
+                                        <move can="c5d4" weight="50">
+                                            <move can="c3b5" weight="100">
+                                                <move can="b4c5" weight="100"/>
+                                            </move>
+                                        </move>
+                                        <move can="b8c6" weight="50">
+                                            <move can="c3b5" weight="100">
+                                                <move can="b4d2" weight="100"/>
+                                            </move>
+                                        </move>
+                                    </move>
+                                    <move can="d1g4" weight="10" name="C17 French, Winawer, Advance, Russian Variation">
+                                        <move can="g8e7" weight="100">
+                                            <move can="d4c5" weight="100">
+                                                <move can="b8c6" weight="100"/>
+                                            </move>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="g8e7" weight="0">
+                                    <move can="a2a3" weight="100"/>
+                                </move>
+                            </move>
+                            <move can="c1d2" weight="0">
+                                <move can="d5e4" weight="100"/>
+                            </move>
+                        </move>
+                        <!-- B3: French Defence, Classical Variation -->
+                        <move can="g8f6" weight="100" name="C11 French Defence, Classical Variation">
+                            <move can="e4e5" weight="100" name="C11 French, Steinitz Variation">
+                                <move can="f6d7" weight="100">
+                                    <move can="f2f4" weight="80">
+                                        <move can="c7c5" weight="100">
+                                            <move can="g1f3" weight="100">
+                                                <move can="b8c6" weight="100">
+                                                    <move can="c1e3" weight="100" name="C11 French, Steinitz, Boleslavsky variation">
+                                                        <move can="c5d4" weight="100">
+                                                            <move can="f3d4" weight="100">
+                                                                <move can="f8c5" weight="100"/>
+                                                            </move>
+                                                        </move>
+                                                        <move can="a7a6" weight="100">
+                                                            <move can="d1d2" weight="100">
+                                                                <move can="b7b5" weight="100"/>
+                                                            </move>
+                                                        </move>
+                                                    </move>
+                                                </move>
+                                            </move>
+                                        </move>
+                                    </move>
+                                    <move can="c3e2" weight="10">
+                                        <move can="c7c5" weight="100">
+                                            <move can="c2c3" weight="100">
+                                                <move can="b8c6" weight="100"/>
+                                            </move>
+                                        </move>
+                                    </move>
+                                    <move can="g1f3" weight="10">
+                                        <move can="c7c5" weight="100">
+                                            <move can="d4c5" weight="100">
+                                                <move can="b8c6" weight="100"/>
+                                            </move>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="c1g5" weight="100">
+                                <move can="f8e7" weight="70">
+                                    <move can="e4e5" weight="100">
+                                        <move can="f6d7" weight="100">
+                                            <move can="g5e7" weight="100">
+                                                <move can="d8e7" weight="100"/>
+                                            </move>
+                                            <move can="h2h4" weight="100" name="French, Alekhine-Chatard Attack">
+                                                <move can="e7g5" weight="100">
+                                                    <move can="h4g5" weight="100">
+                                                        <move can="d8g5" weight="100"/>
+                                                    </move>
+                                                </move>
+                                            </move>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="d5e4" weight="60" name="C11 French, Burn Variation">
+                                    <move can="c3e4" weight="100">
+                                        <move can="f8e7" weight="45">
+                                            <move can="g5f6" weight="100">
+                                                <move can="e7f6" weight="100"/>
+                                                <move can="g7f6" weight="100"/>
+                                            </move>
+                                        </move>
+                                        <move can="b8d7" weight="15">
+                                            <move can="g1f3" weight="100">
+                                                <move can="h7h6" weight="100"/>
+                                            </move>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="f8b4" weight="50" name="C12 French, MacCutcheon Variation">
+                                    <move can="e4e5" weight="100">
+                                        <move can="h7h6" weight="100">
+                                            <move can="g5d2" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                        <!-- B3: French Defence, Rubinstein Variation -->
+                        <move can="d5e4" weight="50" name="C10 French, Rubinstein Variation">
+                            <move can="c3e4" weight="100">
+                                <move can="b8d7" weight="70">
+                                    <move can="g1f3" weight="100">
+                                        <move can="g8f6" weight="100">
+                                            <move can="e4f6" weight="100">
+                                                <move can="d7f6" weight="100"/>
+                                            </move>
+                                            <move can="c1g5" weight="50">
+                                                <move can="f8e7" weight="100">
+                                                    <move can="e4f6" weight="100">
+                                                        <move can="e7f6" weight="100"/>
+                                                    </move>
+                                                </move>
+                                            </move>
+                                            <move can="f1d3" weight="50">
+                                                <move can="f6e4" weight="100"/>
+                                            </move>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="c8d7" weight="35">
+                                    <move can="g1f3" weight="100">
+                                        <move can="d7c6" weight="100" name="C10 French, Fort Knox Variation">
+                                            <move can="f1d3" weight="100">
+                                                <move can="b8d7" weight="100">
+                                                    <move can="e1g1" weight="200">
+                                                        <move can="g8f6" weight="100"/>
+                                                    </move>
+                                                    <move can="d1e2" weight="50">
+                                                        <move can="g8f6" weight="100"/>
+                                                    </move>
+                                                </move>
+                                            </move>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="g8f6" weight="15">
+                                    <move can="e4f6" weight="100">
+                                        <move can="d8f6" weight="100">
+                                            <move can="g1f3" weight="100"/>
+                                        </move>
+                                        <move can="g7f6" weight="100">
+                                            <move can="g1f3" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="c1g5" weight="50">
+                                        <move can="f8e7" weight="100">
+                                            <move can="g5f6" weight="40">
+                                                <move can="e7f6" weight="100"/>
+                                                <move can="g7f6" weight="100"/>
+                                            </move>
+                                            <move can="e4f6" weight="10">
+                                                <move can="e7f6" weight="100">
+                                                    <move can="g5f6" weight="100">
+                                                        <move can="d8f6" weight="100"/>
+                                                    </move>
+                                                </move>
+                                            </move>
+                                        </move>
+                                        <move can="b8d7" weight="50">
+                                            <move can="g1f3" weight="100">
+                                                <move can="h7h6" weight="100">
+                                                    <move can="e4f6" weight="100">
+                                                        <move can="d7f6" weight="100"/>
+                                                    </move>
+                                                </move>
+                                                <move can="f8e7" weight="100">
+                                                    <move can="e4f6" weight="100">
+                                                        <move can="d7f6" weight="100"/>
+                                                        <move can="e7f6" weight="50"/>
+                                                    </move>
+                                                </move>
+                                            </move>
+                                            <move can="e4f6" weight="50">
+                                                <move can="d7f6" weight="100">
+                                                    <move can="g1f3" weight="100"/>
+                                                </move>
+                                            </move>
+                                        </move>
+                                    </move>
+                                    <move can="f1d3" weight="25">
+                                        <move can="b8d7" weight="100">
+                                            <move can="d1e2" weight="100"/>
+                                            <move can="g1f3" weight="100"/>
+                                        </move>
+                                        <move can="f8e7" weight="100">
+                                            <move can="g1f3" weight="100"/>
+                                        </move>
+                                        <move can="f6e4" weight="100">
+                                            <move can="d3e4" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="b8c6" weight="0">
+                            <move can="g1f3" weight="100"/>
+                            <move can="e4e5" weight="50"/>
+                        </move>
+                    </move>
+                    <!-- W3: French Defence, Tarrasch Variation -->
+                    <move can="b1d2" weight="50" name="C03 French Defence, Tarrasch Variation">
+                        <move can="g8f6" weight="220" name="C05 French, Tarrasch, Closed Variation">
+                            <move can="e4e5" weight="100">
+                                <move can="f6d7" weight="100">
+                                    <move can="f1d3" weight="110">
+                                        <move can="c7c5" weight="100">
+                                            <move can="c2c3" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="c2c3" weight="40">
+                                        <move can="c7c5" weight="100">
+                                            <move can="f1d3" weight="100"/>
+                                            <move can="f2f4" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="f2f4" weight="40">
+                                        <move can="c7c5" weight="100">
+                                            <move can="c2c3" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="f1d3" weight="0">
+                                <move can="c7c5" weight="100"/>
+                            </move>
+                        </move>
+                        <move can="c7c5" weight="140" name="C07 French, Tarrasch, Open Variation">
+                            <move can="e4d5" weight="100">
+                                <move can="e6d5" weight="100" name="C08 French, Tarrasch, Open, 4.ed ed">
+                                    <move can="g1f3" weight="100">
+                                        <move can="b8c6" weight="100"/>
+                                        <move can="g8f6" weight="100"/>
+                                    </move>
+                                    <move can="f1b5" weight="100">
+                                        <move can="b8c6" weight="100"/>
+                                        <move can="c8d7" weight="100"/>
+                                    </move>
+                                </move>
+                                <move can="d8d5" weight="100">
+                                    <move can="g1f3" weight="100">
+                                        <move can="c5d4" weight="100">
+                                            <move can="f1c4" weight="100">
+                                                <move can="d5d6" weight="100"/>
+                                            </move>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="g1f3" weight="50">
+                                <move can="b8c6" weight="100">
+                                    <move can="e4d5" weight="100">
+                                        <move can="e6d5" weight="100"/>
+                                    </move>
+                                    <move can="f1b5" weight="50">
+                                        <move can="a7a6" weight="100"/>
+                                        <move can="c5d4" weight="100"/>
+                                    </move>
+                                </move>
+                                <move can="c5d4" weight="100">
+                                    <move can="e4d5" weight="100">
+                                        <move can="d8d5" weight="100"/>
+                                    </move>
+                                    <move can="f3d4" weight="100">
+                                        <move can="b8c6" weight="100"/>
+                                    </move>
+                                </move>
+                                <move can="g8f6" weight="100">
+                                    <move can="e4d5" weight="100">
+                                        <move can="e6d5" weight="100"/>
+                                    </move>
+                                    <move can="e4e5" weight="100">
+                                        <move can="f6d7" weight="100"/>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="d5e4" weight="60" name="C10 French, Rubinstein Variation">
+                            <!-- See e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c2e3 -->
+                            <move can="d2e4" weight="100"/>
+                        </move>
+                        <move can="b8c6" weight="0" name="C03 French, Tarrasch, Guimard Variation">
+                            <move can="g1f3" weight="100">
+                                <move can="g8f6" weight="100" name="C04 French, Tarrasch, Guimard Main Line">
+                                    <move can="e4e5" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="f8e7" weight="0">
+                            <move can="g1f3" weight="100"/>
+                            <move can="f1d3" weight="100"/>
+                        </move>
+                        <move can="a7a6" weight="0">
+                            <move can="g1f3" weight="100"/>
+                        </move>
+                    </move>
+                    <!-- W3: French Defence, Advance Variation -->
+                    <move can="e4e5" weight="30" name="French Defence, Advance Variation">
+                        <move can="c7c5" weight="100">
+                            <move can="c2c3" weight="100">
+                                <move can="b8c6" weight="100">
+                                    <move can="g1f3" weight="100" name="C02 French, Advance, Paulsen Attack">
+                                        <move can="d8b6" weight="100"/>
+                                        <move can="c8d7" weight="50" name="C02 French, Advance, Euwe Variation"/>
+                                    </move>
+                                    <move can="c1e3" weight="0">
+                                        <move can="d8b6" weight="100"/>
+                                    </move>
+                                    <move can="f1b5" weight="0">
+                                        <move can="d8b6" weight="100"/>
+                                        <move can="c8d7" weight="100"/>
+                                    </move>
+                                </move>
+                                <move can="d8b6" weight="10">
+                                    <move can="g1f3" weight="100">
+                                        <move can="b8c6" weight="100"/>
+                                        <move can="c8d7" weight="100"/>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="g1f3" weight="0" name="C02 French, Advance, Nimzovich System">
+                                <move can="b8c6" weight="100"/>
+                            </move>
+                            <move can="d4c5" weight="0" name="C02 French, Advance, Steinitz Variation">
+                                <move can="f8c5" weight="100"/>
+                            </move>
+                        </move>
+                    </move>
+                    <!-- W3: French Defence, Exchange Variation -->
+                    <move can="e4d5" weight="20" name="C01 French, Exchange Variation">
+                        <move can="e6d5" weight="100">
+                            <move can="f1d3" weight="100">
+                                <move can="f8d6" weight="100">
+                                    <move can="g1f3" weight="100">
+                                        <move can="g8e7" weight="100"/>
+                                        <move can="g8f6" weight="100"/>
+                                    </move>
+                                    <move can="g1e2" weight="100">
+                                        <move can="g8e7" weight="100"/>
+                                    </move>
+                                </move>
+                                <move can="b8c6" weight="100">
+                                    <move can="c2c3" weight="100">
+                                        <move can="f8d6" weight="100"/>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="g1f3" weight="100">
+                                <move can="f8d6" weight="100">
+                                    <move can="f1d3" weight="100">
+                                        <move can="g8e7" weight="100"/>
+                                    </move>
+                                    <move can="c2c4" weight="100">
+                                        <move can="c7c6" weight="100"/>
+                                    </move>
+                                </move>
+                                <move can="g8f6" weight="100">
+                                    <move can="f1d3" weight="100">
+                                        <move can="f8d6" weight="100"/>
+                                        <move can="f8e7" weight="100"/>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <move can="f1d3" weight="0" name="C00 French, Schlechter Variation">
+                        <move can="d5e4" weight="100">
+                            <move can="d3e4" weight="100">
+                                <move can="g8f6" weight="100"/>
+                            </move>
+                        </move>
+                    </move>
+                    <move can="c1e3" weight="0" name="C00 French, Alapin Variation">
+                        <move can="d5e4" weight="100"/>
+                    </move>
+                </move>
+            </move>
+            <!-- W2: French Defence, King's Indian Attack -->
+            <move can="d2d3" weight="0" name="C00 French, King's Indian Attack">
+                <move can="d7d5" weight="100">
+                    <move can="b1d2" weight="100">
+                        <move can="g8f6" weight="100">
+                            <move can="g1f3" weight="100">
+                                <move can="c7c5" weight="100"/>
+                            </move>
+                            <move can="g2g3" weight="100">
+                                <move can="d5e4" weight="100"/>
+                                <move can="c7c5" weight="100"/>
+                            </move>
+                        </move>
+                        <move can="c7c5" weight="100">
+                            <move can="g1f3" weight="100">
+                                <move can="b8c6" weight="100"/>
+                            </move>
+                            <move can="g2g3" weight="100">
+                                <move can="b8c6" weight="100"/>
+                            </move>
+                        </move>
+                    </move>
+                </move>
+            </move>
+            <move can="g1f3" weight="0">
+                <move can="d7d5" weight="100">
+                    <move can="b1c3" weight="100" name="C00 French, Two knights Variation">
+                        <move can="g8f6" weight="100">
+                            <move can="e4e5" weight="100">
+                                <move can="f6d7" weight="100">
+                                    <move can="d2d4" weight="100">
+                                        <move can="c7c5" weight="100"/>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <move can="e4e5" weight="100">
+                        <move can="c7c5" weight="100">
+                            <move can="b2b4" weight="100" name="C00 French, Wing Gambit">
+                                <move can="c5b4" weight="100">
+                                    <move can="a2a3" weight="100">
+                                        <move can="b8c6" weight="100"/>
+                                        <move can="b4a3" weight="100"/>
+                                    </move>
+                                    <move can="d2d4" weight="100">
+                                        <move can="b8c6" weight="100"/>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <move can="e4d5" weight="100">
+                        <move can="e6d5" weight="100">
+                            <move can="d2d4" weight="100">
+                                <move can="f8d6" weight="300">
+                                    <move can="f1d3" weight="100">
+                                        <move can="g8e7" weight="100"/>
+                                    </move>
+                                    <move can="c2c4" weight="100">
+                                        <move can="c7c6" weight="100"/>
+                                    </move>
+                                </move>
+                                <move can="g8f6" weight="300">
+                                    <move can="f1d3" weight="100">
+                                        <move can="f8d6" weight="100"/>
+                                    </move>
+                                </move>
+                                <move can="c8g4" weight="100">
+                                    <move can="f1e2" weight="100">
+                                        <move can="f8d6" weight="100"/>
+                                    </move>
+                                    <move can="h2h3" weight="100">
+                                        <move can="g4h5" weight="100"/>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                </move>
+            </move>
+            <!-- W2: French Defence, Chigorin Variation -->
+            <move can="d1e2" weight="0" name="C00 French, Chigorin Variation">
+                <move can="c7c5" weight="100">
+                    <move can="g1f3" weight="100">
+                        <move can="b8c6" weight="100"/>
+                    </move>
+                    <move can="g2g3" weight="100">
+                        <move can="b8c6" weight="100"/>
+                    </move>
+                    <move can="f2f4" weight="100">
+                        <move can="b8c6" weight="100"/>
+                    </move>
+                </move>
+            </move>
+            <move can="b1c3" weight="0">
+                <move can="d7d5" weight="100"/>
+            </move>
+        </move>
+
+        <!-- B1: Sicilian Defence -->
+        <move can="c7c5" weight="100" name="B20 Sicilian Defence">
+
+            <!-- W2: Sicilian Defence, King's Knight Variation -->
+            <move can="g1f3" weight="100" name="B27 Sicilian Defence, King's Knight Variation">
+                <move can="d7d6" weight="200">
+                    <move can="d2d4" weight="100">
+                        <move can="c5d4" weight="100">
+                            <move can="f3d4" weight="100">
+                                <move can="g8f6" weight="100">
+                                    <move can="b1c3" weight="100">
+                                        <move can="a7a6" weight="80" name="B90 Sicilian, Najdorf">
+                                            <move can="f1e2" weight="100"/>
+                                            <move can="c1g5" weight="100"/>
+                                            <move can="f1e3" weight="100"/>
+                                            <move can="f1c4" weight="100"/>
+                                        </move>
+                                        <move can="g7g6" weight="30" name="B70 Sicilian, Dragon Variation">
+                                            <move can="c1e3" weight="100"/>
+                                        </move>
+                                        <move can="b8c6" weight="20">
+                                            <move can="c1g5" weight="100"/>
+                                            <move can="f1c4" weight="100"/>
+                                            <move can="f1e2" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                </move>
+                <move can="b8c6" weight="150">
+                    <move can="d2d4" weight="100">
+                        <move can="c5d4" weight="100">
+                            <move can="f3d4" weight="100">
+                                <move can="g8f6" weight="50">
+                                    <move can="b1c3" weight="100">
+                                        <move can="e7e5" weight="100">
+                                            <move can="d4b5" weight="100"/>
+                                        </move>
+                                        <move can="d7d6" weight="100">
+                                            <move can="c1g5" weight="100"/>
+                                            <move can="f1c4" weight="100"/>
+                                            <move can="f1e2" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="g7g6" weight="20">
+                                    <move can="b1c3" weight="100">
+                                        <move can="f8g7" weight="100">
+                                            <move can="c1e3" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="c2c4" weight="100">
+                                        <move can="f8g7" weight="100">
+                                            <move can="c1e3" weight="100"/>
+                                        </move>
+                                        <move can="g8f6" weight="50">
+                                            <move can="b1c3" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="e7e5" weight="10">
+                                    <move can="d4b5" weight="100">
+                                        <move can="d7d6" weight="100">
+                                            <move can="b1c3" weight="100"/>
+                                            <move can="c2c4" weight="100"/>
+                                        </move>
+                                        <move can="a7a6" weight="100">
+                                            <move can="b5d6" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <move can="f1b5" weight="100" name="B30 Sicilian, Nimzovich-Rossolimo Attack (Without ...d6)">
+                        <move can="g7g6" weight="100">
+                            <move can="e1g1" weight="100">
+                                <move can="f8g7" weight="100">
+                                    <move can="c2c3" weight="100">
+                                        <move can="g8f6" weight="100">
+                                            <move can="f1e1" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="f1e1" weight="100">
+                                        <move can="g8f6" weight="100">
+                                            <move can="e4e5" weight="100"/>
+                                            <move can="c2c3" weight="100"/>
+                                        </move>
+                                        <move can="e7e5" weight="100">
+                                            <move can="b5c6" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="b5c6" weight="50">
+                                <move can="d7c6" weight="100">
+                                    <move can="d2d3" weight="100">
+                                        <move can="f8g7" weight="100">
+                                            <move can="h2h3" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="b7c6" weight="50">
+                                    <move can="e1g1" weight="100">
+                                        <move can="f8g7" weight="100">
+                                            <move can="f1e1" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="e7e6" weight="50">
+                            <move can="e1g1" weight="100">
+                                <move can="g8e7" weight="100">
+                                    <move can="f1e1" weight="100">
+                                        <move can="a7a6" weight="100">
+                                            <move can="b5f1" weight="100"/>
+                                            <move can="b5c6" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="c2c3" weight="100">
+                                        <move can="a7a6" weight="100">
+                                            <move can="b5a4" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                            <move can="b5c6" weight="100">
+                                <move can="b7c6" weight="100">
+                                    <move can="d2d3" weight="100">
+                                        <move can="g8e7" weight="100">
+                                            <move can="d1e2" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="e1g1" weight="100">
+                                        <move can="g8e7" weight="100">
+                                            <move can="d2d3" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <move can="b1c3" weight="100">
+                        <move can="g7g6" weight="100">
+                            <move can="d2d4" weight="100">
+                                <move can="c5d4" weight="100">
+                                    <move can="f3d4" weight="100">
+                                        <move can="f8g7" weight="100">
+                                            <move can="c1e3" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="d7d6" weight="100">
+                            <move can="d2d4" weight="100">
+                                <move can="c5d4" weight="100">
+                                    <move can="f3d4" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                        <move can="e7e6" weight="100">
+                            <move can="d2d4" weight="100">
+                                <move can="c5d4" weight="100">
+                                    <move can="f3d4" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                </move>
+                <move can="e7e6" weight="100">
+                    <move can="d2d4" weight="100">
+                        <move can="c5d4" weight="100">
+                            <move can="f3d4" weight="100">
+                                <move can="a7a6" weight="100" name="B41 Sicilian, Kan Variation">
+                                    <move can="f1d3" weight="100"/>
+                                    <move can="b1c3" weight="100"/>
+                                </move>
+                                <move can="g8f6" weight="100" name="B40 Sicilian, Anderssen Variation">
+                                    <move can="b1c3" weight="100"/>
+                                </move>
+                                <move can="b8c6" weight="100">
+                                    <move can="b1c3" weight="100" name="B45 Sicilian, Taimanov Variation">
+                                        <move can="d8c7" weight="100" name="B47 Sicilian, Taimanov (Bastrikov) Variation">
+                                            <move can="f1e2" weight="100"/>
+                                            <move can="c1e3" weight="100"/>
+                                        </move>
+                                        <move can="a7a6" weight="100">
+                                            <move can="f1e2" weight="100"/>
+                                            <move can="c1e3" weight="100"/>
+                                        </move>
+                                        <move can="d7d6" weight="100">
+                                            <move can="f1e2" weight="100"/>
+                                            <move can="c1e3" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                </move>
+            </move>
+
+            <!-- W2: Sicilian Defence, Alapin Variation -->
+            <move can="c2c3" weight="50" name="B22 Sicilian Defence, Alapin Variation">
+                <move can="d7d5" weight="100">
+                    <move can="e4d5" weight="100">
+                        <move can="d8d5" weight="100">
+                            <move can="d2d4" weight="100">
+                                <move can="g8f6" weight="100">
+                                    <move can="g1f3" weight="100">
+                                        <move can="c8g4" weight="100">
+                                            <move can="f1e2" weight="100"/>
+                                        </move>
+                                        <move can="e7e6" weight="50">
+                                            <move can="f1e2" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                                <move can="b8c6" weight="50">
+                                    <move can="g1f3" weight="100">
+                                        <move can="c8g4" weight="100">
+                                            <move can="f1e2" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                </move>
+                <move can="g8f6" weight="100">
+                    <move can="e4e5" weight="100">
+                        <move can="f6d5" weight="100">
+                            <move can="d2d4" weight="100">
+                                <move can="c5d4" weight="100">
+                                    <move can="g1f3" weight="100">
+                                        <move can="b8c6" weight="100">
+                                            <move can="c3d4" weight="100"/>
+                                            <move can="f1c4" weight="100"/>
+                                        </move>
+                                        <move can="e7e6" weight="100">
+                                            <move can="c3d4" weight="100"/>
+                                        </move>
+                                    </move>
+                                    <move can="c3d4" weight="50">
+                                        <move can="d7d6" weight="100">
+                                            <move can="g1f3" weight="100"/>
+                                        </move>
+                                        <move can="e7e6" weight="100">
+                                            <move can="g1f3" weight="100"/>
+                                            <move can="b1c3" weight="100"/>
+                                        </move>
+                                    </move>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                </move>
+                <move can="e7e6" weight="50">
+                    <move can="d2d4" weight="100">
+                        <move can="d7d5" weight="100">
+                            <move can="e4e5" weight="100"/>
+                            <move can="e4d5" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+                <move can="d7d6" weight="50">
+                    <move can="d2d4" weight="100">
+                        <move can="g8f6" weight="100">
+                            <move can="f1d3" weight="100"/>
+                        </move>
+                        <move can="c5d4" weight="100">
+                            <move can="c3d4" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+            </move>
+
+            <!-- W2: Sicilian Defence, Closed -->
+            <move can="b1c3" weight="50" name="B23 Sicilian Defence, Closed">
+                <move can="b8c6" weight="100">
+                    <move can="g2g3" weight="100">
+                        <move can="g7g6" weight="100">
+                            <move can="f1g2" weight="100">
+                                <move can="f8g7" weight="100">
+                                    <move can="d2d3" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <move can="f2f4" weight="100" name="B21 Sicilian, Grand Prix Attack">
+                        <move can="g7g6" weight="100">
+                            <move can="g1f3" weight="100"/>
+                        </move>
+                        <move can="e7e6" weight="50">
+                            <move can="g1f3" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+                <move can="e7e6" weight="20">
+                    <move can="g2g3" weight="100">
+                        <move can="d7d5" weight="100">
+                            <move can="e4d5" weight="100"/>
+                        </move>
+                        <move can="b8c6" weight="100">
+                            <move can="f1g2" weight="100"/>
+                        </move>
+                    </move>
+                    <move can="g1f3" weight="100">
+                        <move can="a7a6" weight="100">
+                            <move can="d2d4" weight="100"/>
+                        </move>
+                        <move can="b8c6" weight="100">
+                            <move can="d2d4" weight="100"/>
+                        </move>
+                    </move>
+                    <move can="f2f4" weight="100">
+                        <move can="d7d5" weight="100">
+                            <move can="g1f3" weight="100"/>
+                        </move>
+                        <move can="b8c6" weight="100">
+                            <move can="g1f3" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+                <move can="d7d6" weight="20">
+                    <move can="g2g3" weight="100">
+                        <move can="b8c6" weight="100">
+                            <move can="f1g2" weight="100"/>
+                        </move>
+                    </move>
+                    <move can="f2f4" weight="100">
+                        <move can="b8c6" weight="100">
+                            <move can="g1f3" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+            </move>
+
+            <move can="d2d4" weight="0" name="B21 Sicilian, Smith-Morra Gambit">
+                <move can="c5d4" weight="100"/>
+            </move>
+
+            <move can="f2f4" weight="0" name="B21 Sicilian, Grand Prix Attack">
+                <move can="b8c6" weight="100"/>
+            </move>
+
+            <move can="d2d3" weight="0">
+                <move can="b8c6" weight="100"/>
+            </move>
+
+            <move can="b2b3" weight="0">
+                <move can="b8c6" weight="100"/>
+            </move>
+
+            <move can="c2c4" weight="0">
+                <move can="b8c6" weight="100"/>
+            </move>
+        </move>
+
+        <!-- B1: Caro-Kann Defence -->
+        <move can="c7c6" weight="30" name="B10 Caro-Kann Defence">
+            <move can="d2d4" weight="100">
+                <move can="d7d5" weight="100">
+                    <move can="b1c3" weight="27" name="B15 Caro-Kann Defence, Traditional">
+                        <move can="d5e4" weight="100">
+                            <move can="c3e4" weight="100"/>
+                        </move>
+                    </move>
+                    <move can="e4d5" weight="25" name="B13 Caro-Kann, Exchange Variation">
+                        <move can="c6d5" weight="100">
+                            <move can="c2c4" weight="100" name="B13 Caro-Kann, Panov-Botvinnik Attack">
+                                <move can="g8f6" weight="100">
+                                    <move can="b1c3" weight="100"/>
+                                </move>
+                            </move>
+                            <move can="f1d3" weight="50">
+                                <move can="b8c6" weight="100">
+                                    <move can="c2c3" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <move can="e4e5" weight="22" name="B12 Caro-Kann, Advance Variation">
+                        <move can="c8f5" weight="100">
+                            <move can="g1f3" weight="100">
+                                <move can="e7e6" weight="100">
+                                    <move can="f1e2" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <move can="b1d2" weight="12" name="B12 Caro-Kann, 3.Nd2">
+                        <move can="d5e4" weight="100">
+                            <move can="d2e4" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+            </move>
+        </move>
+
+        <!-- B1: Pirc Defence -->
+        <move can="d7d6" weight="0" name="B07 Pirc Defence">
+            <move can="d2d4" weight="100">
+                <move can="g8f6" weight="100">
+                    <move can="b1c3" weight="100">
+                        <move can="g7g6" weight="100">
+                            <move can="f2f4" weight="100">
+                                <move can="f8g7" weight="100">
+                                    <move can="g1f3" weight="100"/>
+                                </move>
+                            </move>
+                            <move can="g1f3" weight="100" name="B08 Pirc, Classical (Two Knights) System">
+                                <move can="f8g7" weight="100">
+                                    <move can="f1e2" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                    <!-- This is bad for white -->
+                    <move can="e4e5" weight="0">
+                        <move can="d6e5" weight="100">
+                            <move can="d4e5" weight="100">
+                                <move can="d8d1" weight="100"/>
+                            </move>
+                        </move>
+                    </move>
+                </move>
+                <move can="g7g6" weight="100">
+                    <move can="b1c3" weight="100"/>
+                </move>
+            </move>
+        </move>
+
+        <!-- B1: Scandinavian Defence -->
+        <move can="d7d5" weight="0" name="B01 Scandinavian Defence">
+            <move can="e4d5" weight="100">
+                <move can="d8d5" weight="100">
+                    <move can="b1c3" weight="100">
+                        <move can="d5a5" weight="100">
+                            <move can="d2d4" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+                <move can="g8f6" weight="100">
+                    <move can="d2d4" weight="100">
+                        <move can="f6d5" weight="100">
+                            <move can="c2c4" weight="100"/>
+                            <move can="g1f3" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+            </move>
+        </move>
+
+        <!-- B1: Robatsch (Modern) Defence -->
+        <move can="g7g6" weight="0" name="B06 Robatsch (Modern) Defence">
+            <move can="d2d4" weight="100">
+                <move can="f8g7" weight="100">
+                    <move can="b1c3" weight="100"/>
+                </move>
+            </move>
+        </move>
+
+        <!-- B1: Alekhine's Defence -->
+        <move can="g8f6" weight="0" name="B02 Alekhine's Defence">
+            <move can="e4e5" weight="100">
+                <move can="f6d5" weight="100">
+                    <move can="d2d4" weight="100"/>
+                </move>
+            </move>
+        </move>
+
+        <!-- B1: Nimzovich Defence -->
+        <move can="b8c6" weight="0" name="B00 Nimzovich Defence">
+            <move can="g1f3" weight="100"/>
+            <move can="d2d4" weight="100"/>
+        </move>
+
+        <!-- B1: Owen Defence -->
+        <move can="b7b6" weight="0" name="B00 Owen Defence">
+            <move can="d2d4" weight="100"/>
+        </move>
+
+        <!-- B1: St. George Defence -->
+        <move can="a7a6" weight="0" name="B00 St. George Defence">
+            <move can="d2d4" weight="100"/>
+        </move>
+    </move>
+
+    <move can="f2f3" weight="0" name="A00 Gedult's Opening">
+        <move can="e7e5" weight="100"/>
+    </move>
+
+    <!-- W1: Bird's Opening -->
+    <move can="f2f4" weight="10" name="A02 Bird's Opening">
+        <move can="d7d5" weight="100" name="A02 Bird's Opening, Dutch Variation">
+            <move can="g1f3" weight="100" name="Bird's Opening, Lasker Variation">
+                <move can="g8f6" weight="100">
+                    <move can="e2e3" weight="100">
+                        <move can="g7g6" weight="100"/>
+                        <move can="c7c5" weight="100"/>
+                        <move can="c8g4" weight="100"/>
+                    </move>
+                    <move can="g2g3" weight="100">
+                        <move can="g7g6" weight="100">
+                            <move can="f1g2" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+                <move can="g7g6" weight="50">
+                    <move can="e2e3" weight="100">
+                        <move can="f8g7" weight="100">
+                            <move can="f1e2" weight="100"/>
+                        </move>
+                    </move>
+                    <move can="g2g3" weight="100">
+                        <move can="f8g7" weight="100">
+                            <move can="f1g2" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+            </move>
+        </move>
+        <move can="g8f6" weight="100" name="A02 Bird's Opening">
+            <move can="g1f3" weight="100">
+                <move can="g7g6" weight="100">
+                    <move can="g2g3" weight="100">
+                        <move can="f8g7" weight="100">
+                            <move can="f1g2" weight="100"/>
+                        </move>
+                    </move>
+                    <move can="b2b3" weight="100">
+                        <move can="f8g7" weight="100"/>
+                    </move>
+                </move>
+            </move>
+        </move>
+        <move can="g7g6" weight="50">
+            <move can="g1f3" weight="100">
+                <move can="f8g7" weight="100">
+                    <move can="g2g3" weight="100"/>
+                    <move can="e2e3" weight="100"/>
+                </move>
+            </move>
+        </move>
+        <move can="e7e5" weight="50" name="A02 Bird's Opening, From's Gambit">
+            <move can="f4e5" weight="100" name="Bird's Opening, From's Gambit Accepted">
+                <move can="d7d6" weight="100">
+                    <move can="e5d6" weight="100">
+                        <move can="f8d6" weight="100">
+                            <move can="g1f3" weight="100"/>
+                        </move>
+                    </move>
+                    <move can="g1f3" weight="0">
+                        <move can="d6e5" weight="100"/>
+                    </move>
+                </move>
+            </move>
+            <!-- See e2e4 d2d4 f2f4 -->
+            <move can="e2e4" weight="50" name="King's Gambit">
+                <move can="e5f4" weight="100" name="King's Gambit Accepted"/>
+                <move can="f8c5" weight="30" name="King's Gambit Declined, Classical Variation"/>
+                <move can="d7d5" weight="30" name="King's Gambit Declined, Falkbeer Counter-gambit"/>
+            </move>
+        </move>
+        <move can="e7e6" weight="0">
+            <move can="g1f3" weight="100">
+                <move can="d7d5" weight="100">
+                    <move can="e2e3" weight="100">
+                        <move can="g8f6" weight="100">
+                            <move can="b2b3" weight="100"/>
+                        </move>
+                        <move can="c7c5" weight="100">
+                            <move can="b2b3" weight="100"/>
+                        </move>
+                    </move>
+                </move>
+            </move>
+        </move>
+    </move>
+
+    <move can="g1f3" weight="0" name="A04 Reti Opening">
+        <move can="g8f6" weight="100" name="A05 Reti Opening">
+            <move can="c2c4" weight="100" name="A15 English Opening">
+                <move can="g7g6" weight="100"/>
+                <move can="e7e6" weight="100"/>
+                <move can="c7c5" weight="100"/>
+            </move>
+            <move can="g2g3" weight="100">
+                <move can="g7g6" weight="100" name="A05 Reti, King's Indian Attack">
+                    <move can="f1g2" weight="100">
+                        <move can="f8g7" weight="100">
+                            <move can="e1g1" weight="100">
+                                <move can="e8g8" weight="100">
+                                    <move can="c2c4" weight="100"/>
+                                    <move can="d2d3" weight="100"/>
+                                    <move can="d2d4" weight="100"/>
+                                </move>
+                            </move>
+                        </move>
+                    </move>
+                </move>
+                <move can="d7d5" weight="50">
+                    <move can="f1g2" weight="100">
+                        <move can="c7c6" weight="100">
+                            <move can="e1g1" weight="100">
+                                <move can="c8g4" weight="100"/>
+                                <move can="c8f5" weight="100"/>
+                            </move>
+                        </move>
+                    </move>
+                </move>
+            </move>
+        </move>
+    </move>
+
+    <move can="g1h3" weight="0" name="A00 Amar Opening">
+        <move can="d7d5" weight="100"/>
+    </move>
+
+    <move can="g2g3" weight="0" name="A00 Benko's Opening">
+        <move can="d7d5" weight="100">
+            <move can="f1g2" weight="100">
+                <move can="g8f6" weight="100">
+                    <move can="g1f3" weight="100"/>
+                    <move can="d2d3" weight="100"/>
+                </move>
+            </move>
+        </move>
+    </move>
+
+    <move can="g2g4" weight="0" name="A00 Grob's Attack">
+        <move can="d7d5" weight="100"/>
+    </move>
+
+    <move can="h2h3" weight="0" name="A00 Clemenz Opening">
+        <move can="e7e5" weight="100"/>
+    </move>
+
+    <move can="h2h4" weight="0" name="A00 Desprez Opening">
+        <move can="e7e5" weight="100"/>
+    </move>
+</move>
