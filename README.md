@@ -1,2 +1,3 @@
 # ronja
-A WinBoard chess engine written in Java
+
+An XBoard/WinBoard chess engine written in Java.

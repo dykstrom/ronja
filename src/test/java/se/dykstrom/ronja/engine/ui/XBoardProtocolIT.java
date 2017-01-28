@@ -55,7 +55,7 @@ public class XBoardProtocolIT extends AbstractTestCase {
 
     private static final String ENGINE_NAME = "ENGINE_NAME";
 
-    private static final String JAVA_CMD = "javaw";
+    private static final String JAVA_CMD = "java";
     private static final String BOOK_ARG = "-D" + AppConfig.PROPERTY_BOOK_FILE;
     private static final String GAME_LOG_ARG = "-D" + AppConfig.PROPERTY_GAME_LOG_FILE;
     private static final String ENGINE_ARG = "-D" + AppConfig.PROPERTY_ENGINE_NAME;
