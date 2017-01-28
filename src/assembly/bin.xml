@@ -25,6 +25,17 @@
         <fileSet>
             <directory>${project.build.directory}/scripts</directory>
             <outputDirectory/>
+            <excludes>
+                <exclude>*.sh</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/scripts</directory>
+            <outputDirectory/>
+            <fileMode>775</fileMode>
+            <includes>
+                <include>*.sh</include>
+            </includes>
         </fileSet>
     </fileSets>
 </assembly>

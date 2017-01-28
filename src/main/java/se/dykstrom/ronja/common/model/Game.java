@@ -265,11 +265,11 @@ public class Game {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Move ").append(position.getFullMoveNumber()).append(", ");
         if (result.equals("*")) {
+            builder.append("Move ").append(position.getFullMoveNumber()).append(", ");
             builder.append(position.getActiveColor()).append(" to move\n");
         } else {
-            builder.append("result ").append(result).append("\n");
+            builder.append("Result ").append(result).append("\n");
         }
         builder.append(position);
         return builder.toString();
