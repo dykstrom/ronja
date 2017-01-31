@@ -23,6 +23,7 @@ import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.CanParser;
 import se.dykstrom.ronja.common.parser.IllegalMoveException;
+import se.dykstrom.ronja.common.parser.SanParser;
 import se.dykstrom.ronja.engine.core.AlphaBetaFinder;
 import se.dykstrom.ronja.engine.core.Finder;
 import se.dykstrom.ronja.engine.ui.io.Response;
@@ -46,20 +47,21 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
      */
     protected void move() {
         Game game = Game.instance();
+        Position position = game.getPosition();
 
         // If not in force mode, make a move
         if (!game.getForceMode()) {
             checkActiveColor(game);
 
             // Try to find a move in the opening book
-            Move move = game.getBook().findBestMove(game.getPosition());
+            Move move = game.getBook().findBestMove(position);
 
             // If no book move found, use Finder to find best move
             if (move == null) {
-                move = FINDER.findBestMove(game.getPosition(), AppConfig.getSearchDepth());
-                TLOG.fine("Engine move: " + prefix(game.getPosition()) + move);
+                move = FINDER.findBestMove(position, AppConfig.getSearchDepth());
+                TLOG.fine("Engine move: " + formatForLogging(move, position));
             } else {
-                TLOG.fine("Engine move: " + prefix(game.getPosition()) + move + " (book)");
+                TLOG.fine("Engine move: " + formatForLogging(move, position) + " (book)");
             }
 
             // Make the move
@@ -72,7 +74,7 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
             // Reply to XBoard
             response.write("move " + CanParser.format(move));
 
-            // Check game status after move
+            // Check game status after move (get new position)
             if (PositionUtils.isGameOver(game.getPosition())) {
                 notifyUserGameOverOk();
             }
@@ -94,20 +96,27 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
     }
 
     /**
-     * Returns a short prefix string, including the move number, to use for tracing.
+     * Returns a short prefix string, including the move number, to use for logging.
      */
-    protected static String prefix(Position position) {
-        return position.getFullMoveNumber() + ((position.getActiveColor() == Color.WHITE) ? ". " : "... ");
+    private static String prefix(Position position) {
+        return position.getFullMoveNumber() + (position.isWhiteMove() ? ". " : "... ");
+    }
+
+    /**
+     * Formats the given move for logging.
+     */
+    String formatForLogging(Move move, Position position) {
+        return prefix(position) + SanParser.format(move, position);
     }
 
     /**
      * Notifies the user that the game is over, and what was the result.
      */
-    protected void notifyUserGameOverOk() {
+    void notifyUserGameOverOk() {
         String result;
         Position position = Game.instance().getPosition();
         if (PositionUtils.isCheckMate(position)) {
-            if (position.getActiveColor() == Color.WHITE) {
+            if (position.isWhiteMove()) {
                 result = "0-1 {Black mates}";
             } else {
                 result = "1-0 {White mates}";
@@ -124,7 +133,7 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
     /**
      * Notifies the user that the game is over, and that the last command was an error.
      */
-    protected void notifyUserGameOverError(String command) {
+    void notifyUserGameOverError(String command) {
         Position position = Game.instance().getPosition();
         if (PositionUtils.isCheckMate(position)) {
             response.write("Error (checkmate): " + command);
