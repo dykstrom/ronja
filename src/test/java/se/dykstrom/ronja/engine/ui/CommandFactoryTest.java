@@ -89,6 +89,7 @@ public class CommandFactoryTest {
         assertTrue(CommandFactory.create(NameCommand.NAME, "", response) instanceof NameCommand);
         assertTrue(CommandFactory.create(NewCommand.NAME, "", response) instanceof NewCommand);
         assertTrue(CommandFactory.create(NoPostCommand.NAME, "", response) instanceof NoPostCommand);
+        assertTrue(CommandFactory.create(OtimCommand.NAME, "1", response) instanceof OtimCommand);
         assertTrue(CommandFactory.create(PingCommand.NAME, "", response) instanceof PingCommand);
         assertTrue(CommandFactory.create(PlayOtherCommand.NAME, "", response) instanceof PlayOtherCommand);
         assertTrue(CommandFactory.create(PostCommand.NAME, "", response) instanceof PostCommand);
@@ -98,6 +99,7 @@ public class CommandFactoryTest {
         assertTrue(CommandFactory.create(RejectedCommand.NAME, "", response) instanceof RejectedCommand);
         assertTrue(CommandFactory.create(ResultCommand.NAME, "", response) instanceof ResultCommand);
         assertTrue(CommandFactory.create(SetBoardCommand.NAME, "", response) instanceof SetBoardCommand);
+        assertTrue(CommandFactory.create(TimeCommand.NAME, "1", response) instanceof TimeCommand);
         assertTrue(CommandFactory.create(UserMoveCommand.NAME, "", response) instanceof UserMoveCommand);
         assertTrue(CommandFactory.create(XBoardCommand.NAME, "", response) instanceof XBoardCommand);
     }

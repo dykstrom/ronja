@@ -1,0 +1,57 @@
+/*
+ * Copyright (C) 2016 Johan Dykstrom
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package se.dykstrom.ronja.engine.ui.command;
+
+import se.dykstrom.ronja.engine.ui.io.Response;
+
+import java.util.logging.Logger;
+
+import static se.dykstrom.ronja.engine.utils.TimeUtils.formatTime;
+
+/**
+ * Class that represents the XBoard 'time' command.
+ *
+ * @author Johan Dykstrom
+ */
+public class TimeCommand extends AbstractCommand {
+
+    public static final String NAME = "time";
+
+    private final static Logger TLOG = Logger.getLogger(TimeCommand.class.getName());
+
+    private final int time;
+
+    public TimeCommand(String time, Response response) throws InvalidCommandException {
+        super(time, response);
+
+        if (time == null) {
+            throw new InvalidCommandException("missing time", NAME);
+        }
+
+        try {
+            this.time = Integer.parseInt(time);
+        } catch (NumberFormatException nfe) {
+            throw new InvalidCommandException("time not an integer", time);
+        }
+    }
+
+    @Override
+    public void execute() {
+        TLOG.info("XBoard reports time: " + time + " = " + formatTime(10 * time));
+    }
+}
