@@ -33,9 +33,9 @@ import java.util.logging.Logger;
  */
 public class AlphaBetaFinder extends AbstractFinder {
 
-    public static final int ALPHA_START = -3000000;
+    static final int ALPHA_START = -3000000;
 
-    public static final int BETA_START = 3000000;
+    static final int BETA_START = 3000000;
 
     private static final Logger TLOG = Logger.getLogger(AlphaBetaFinder.class.getName());
 
@@ -53,6 +53,11 @@ public class AlphaBetaFinder extends AbstractFinder {
 
     /** Used to generate moves. */
     private final MoveGenerator moveGenerator = new StatefulMoveGenerator();
+
+    @Override
+    public Move findBestMoveWithinTime(Position position, long maxTime) {
+        return findBestMove(position, 3);
+    }
 
     @Override
     public Move findBestMove(Position position, int maxDepth) {
@@ -106,7 +111,7 @@ public class AlphaBetaFinder extends AbstractFinder {
      * @param alpha The score of the best move found so far in any branch of the tree.
      * @param beta The score of the best move for our opponent found so far in any branch of the tree.
      */
-    public int alphaBeta(Position position, Move lastMove, int depth, int alpha, int beta) {
+    int alphaBeta(Position position, Move lastMove, int depth, int alpha, int beta) {
         if (DEBUG) TLOG.finest(enter(position, depth) + ", after " + lastMove + ", alpha = " + alpha + ", beta = " + beta);
 
         // Check that we do not pass by an end-of-game position

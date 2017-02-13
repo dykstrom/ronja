@@ -27,7 +27,12 @@ import se.dykstrom.ronja.engine.core.Finder;
 import se.dykstrom.ronja.engine.ui.io.Response;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
 
-public class HintCommand extends AbstractMoveCommand {
+/**
+ * Class that represents the XBoard 'hint' command.
+ *
+ * @author Johan Dykstrom
+ */
+public class HintCommand extends AbstractCommand {
 
     public static final String NAME = "hint";
 

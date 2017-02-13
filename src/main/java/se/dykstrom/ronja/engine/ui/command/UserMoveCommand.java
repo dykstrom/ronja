@@ -36,7 +36,7 @@ public class UserMoveCommand extends AbstractMoveCommand {
     public UserMoveCommand(String move, Response response) throws InvalidCommandException {
         super(move, response);
         if (move == null) {
-            throw new InvalidCommandException("missing move", NAME);
+            throw new InvalidCommandException("missing move argument");
         }
     }
 

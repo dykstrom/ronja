@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Johan Dykstrom
+ * Copyright (C) 2017 Johan Dykstrom
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,28 +25,24 @@ import se.dykstrom.ronja.engine.ui.io.Response;
 import java.text.ParseException;
 import java.util.logging.Logger;
 
-import static se.dykstrom.ronja.engine.time.TimeUtils.parseLevelText;
+import static se.dykstrom.ronja.engine.time.TimeUtils.parseStText;
 
 /**
- * Class that represents the XBoard 'level' command. The level command takes three arguments:
- *
- * - number of moves: positive integer for conventional clock, 0 for incremental clock
- * - base time: number of minutes, optionally followed by a colon and number of seconds
- * - increment: 0 for conventional clock, 0 or positive integer for incremental clock
+ * Class that represents the XBoard 'st' command.
  *
  * @author Johan Dykstrom
  */
-public class LevelCommand extends AbstractCommand {
+public class StCommand extends AbstractCommand {
 
-    public static final String NAME = "level";
+    public static final String NAME = "st";
 
-    private final static Logger TLOG = Logger.getLogger(LevelCommand.class.getName());
+    private final static Logger TLOG = Logger.getLogger(StCommand.class.getName());
 
     @SuppressWarnings("WeakerAccess")
-    public LevelCommand(String args, Response response) throws InvalidCommandException {
+    public StCommand(String args, Response response) throws InvalidCommandException {
         super(args, response);
         if (args == null) {
-            throw new InvalidCommandException("missing arguments");
+            throw new InvalidCommandException("missing time argument");
         }
     }
 
@@ -54,11 +50,11 @@ public class LevelCommand extends AbstractCommand {
     public void execute() {
         TLOG.info("Time settings: " + getArgs());
         try {
-            TimeControl timeControl = parseLevelText(getArgs());
+            TimeControl timeControl = parseStText(getArgs());
             Game.instance().setTimeControl(timeControl);
             Game.instance().setTimeData(TimeData.from(timeControl));
         } catch (ParseException pe) {
-            response.write("Error (" + pe.getMessage() + "): level " + getArgs());
+            response.write("Error (" + pe.getMessage() + "): st " + getArgs());
         }
     }
 }

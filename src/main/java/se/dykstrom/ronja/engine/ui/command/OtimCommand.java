@@ -21,7 +21,7 @@ import se.dykstrom.ronja.engine.ui.io.Response;
 
 import java.util.logging.Logger;
 
-import static se.dykstrom.ronja.engine.utils.TimeUtils.formatTime;
+import static se.dykstrom.ronja.engine.time.TimeUtils.formatTime;
 
 /**
  * Class that represents the XBoard 'otim' command.
@@ -40,13 +40,13 @@ public class OtimCommand extends AbstractCommand {
         super(time, response);
 
         if (time == null) {
-            throw new InvalidCommandException("missing time", NAME);
+            throw new InvalidCommandException("missing time argument");
         }
 
         try {
             this.time = Integer.parseInt(time);
         } catch (NumberFormatException nfe) {
-            throw new InvalidCommandException("time not an integer", time);
+            throw new InvalidCommandException("time not an integer");
         }
     }
 

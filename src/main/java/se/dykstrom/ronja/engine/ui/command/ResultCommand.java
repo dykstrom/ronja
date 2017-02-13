@@ -36,7 +36,7 @@ public class ResultCommand extends AbstractCommand {
     public ResultCommand(String result, Response response) throws InvalidCommandException {
         super(result, response);
         if (result == null) {
-            throw new InvalidCommandException("missing result", NAME);
+            throw new InvalidCommandException("missing result");
         }
     }
 

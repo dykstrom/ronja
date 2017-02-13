@@ -36,13 +36,13 @@ public class ProtoverCommand extends AbstractCommand {
         super(version, response);
 
         if (version == null) {
-            throw new InvalidCommandException("missing version", NAME);
+            throw new InvalidCommandException("missing version");
         }
 
         try {
             this.version = Integer.parseInt(version);
         } catch (NumberFormatException nfe) {
-            throw new InvalidCommandException("version not an integer", version);
+            throw new InvalidCommandException("version not an integer");
         }
     }
 

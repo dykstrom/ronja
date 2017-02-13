@@ -26,7 +26,7 @@ public class PingCommand extends AbstractCommand {
     public PingCommand(String number, Response response) throws InvalidCommandException {
         super(number, response);
         if (number == null) {
-            throw new InvalidCommandException("missing number", "ping");
+            throw new InvalidCommandException("missing number");
         }
     }
 

@@ -22,8 +22,18 @@ import se.dykstrom.ronja.common.model.Position;
 
 /**
  * Interface to be implemented by all move finders.
+ *
+ * @author Johan Dykstrom
  */
 public interface Finder {
+    /**
+     * Finds and returns the best move in the given position within the given time.
+     *
+     * @param position The position to find the best move for.
+     * @param maxTime The maximum time to spend in milliseconds.
+     */
+    Move findBestMoveWithinTime(Position position, long maxTime);
+
     /**
      * Finds and returns the best move in the given position. Searching is limited to the given maximum {@code maxDepth}.
      *

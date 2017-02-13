@@ -35,7 +35,7 @@ public class NegaMaxFinder extends AbstractFinder {
     private static final Logger TLOG = Logger.getLogger(NegaMaxFinder.class.getName());
 
     /** True if debugging this class. */
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     private static final NumberFormat NF = NumberFormat.getIntegerInstance();
 
@@ -50,9 +50,13 @@ public class NegaMaxFinder extends AbstractFinder {
     private final MoveGenerator moveGenerator = new StatefulMoveGenerator();
 
     @Override
+    public Move findBestMoveWithinTime(Position position, long maxTime) {
+        return findBestMove(position, 3);
+    }
+
+    @Override
     public Move findBestMove(Position position, int maxDepth) {
         setMaxDepth(maxDepth);
-//        if (DEBUG) TLOG.finest(enter(position, 0));
 
         // Reset statistics
         this.nodes = 0;
@@ -81,7 +85,6 @@ public class NegaMaxFinder extends AbstractFinder {
         }
         long stop = System.currentTimeMillis();
 
-//        if (DEBUG) TLOG.finest(leave(position, 0) + ", score = " + bestScore + ", best move = " + bestMove);
         TLOG.fine("Evaluated " + nodes + " nodes (max depth " + maxDepth + ") in " +
                 ((stop - start) / 1000.0) + " seconds = " + NF.format(nodes / ((stop - start) / 1000.0)) + " nps");
 
@@ -95,7 +98,7 @@ public class NegaMaxFinder extends AbstractFinder {
      * @param lastMove The last made move that led to this position.
      * @param depth The current search depth.
      */
-    public int negaMax(Position position, Move lastMove, int depth) {
+    int negaMax(Position position, Move lastMove, int depth) {
         if (DEBUG) TLOG.finest(enter(position, depth) + ", after " + lastMove);
 
         // Check that we do not pass by an end-of-game position

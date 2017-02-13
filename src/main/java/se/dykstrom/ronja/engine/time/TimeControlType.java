@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Johan Dykstrom
+ * Copyright (C) 2017 Johan Dykstrom
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,28 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.dykstrom.ronja.engine.utils;
-
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+package se.dykstrom.ronja.engine.time;
 
 /**
- * Utility methods related to time.
+ * Enumerates the different types of time controls.
  *
  * @author Johan Dykstrom
  */
-public final class TimeUtils {
-
-    private static final long NANOS_PER_MILLI = 1_000_000L;
-
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_TIME;
-
-    private TimeUtils() { }
-
-    /**
-     * Formats the time given in milliseconds as HH:mm:ss.SSS.
-     */
-    public static String formatTime(long millis) {
-        return FORMATTER.format(LocalTime.ofNanoOfDay(millis * NANOS_PER_MILLI));
-    }
+public enum TimeControlType {
+    CLASSIC,
+    INCREMENTAL,
+    SECONDS_PER_MOVE
 }

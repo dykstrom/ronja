@@ -17,11 +17,12 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
 
 import java.util.logging.Logger;
 
-import static se.dykstrom.ronja.engine.utils.TimeUtils.formatTime;
+import static se.dykstrom.ronja.engine.time.TimeUtils.formatTime;
 
 /**
  * Class that represents the XBoard 'time' command.
@@ -34,24 +35,27 @@ public class TimeCommand extends AbstractCommand {
 
     private final static Logger TLOG = Logger.getLogger(TimeCommand.class.getName());
 
+    /** The remaining time in milliseconds, according to XBoard. */
     private final int time;
 
     public TimeCommand(String time, Response response) throws InvalidCommandException {
         super(time, response);
 
         if (time == null) {
-            throw new InvalidCommandException("missing time", NAME);
+            throw new InvalidCommandException("missing time argument");
         }
 
         try {
-            this.time = Integer.parseInt(time);
+            this.time = 10 * Integer.parseInt(time);
         } catch (NumberFormatException nfe) {
-            throw new InvalidCommandException("time not an integer", time);
+            throw new InvalidCommandException("time not an integer");
         }
     }
 
     @Override
     public void execute() {
-        TLOG.info("XBoard reports time: " + time + " = " + formatTime(10 * time));
+        TLOG.info("XBoard reports time: " + time + " = " + formatTime(time));
+        long engineTime = Game.instance().getTimeData().getRemainingTime();
+        TLOG.info("Engine reports time: " + engineTime + " = " + formatTime(engineTime));
     }
 }

@@ -99,6 +99,7 @@ public class CommandFactoryTest {
         assertTrue(CommandFactory.create(RejectedCommand.NAME, "", response) instanceof RejectedCommand);
         assertTrue(CommandFactory.create(ResultCommand.NAME, "", response) instanceof ResultCommand);
         assertTrue(CommandFactory.create(SetBoardCommand.NAME, "", response) instanceof SetBoardCommand);
+        assertTrue(CommandFactory.create(StCommand.NAME, "", response) instanceof StCommand);
         assertTrue(CommandFactory.create(TimeCommand.NAME, "1", response) instanceof TimeCommand);
         assertTrue(CommandFactory.create(UserMoveCommand.NAME, "", response) instanceof UserMoveCommand);
         assertTrue(CommandFactory.create(XBoardCommand.NAME, "", response) instanceof XBoardCommand);

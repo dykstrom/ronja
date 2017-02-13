@@ -61,6 +61,7 @@ class CommandFactory {
         COMMANDS.put(RejectedCommand.NAME, RejectedCommand.class);
         COMMANDS.put(ResultCommand.NAME, ResultCommand.class);
         COMMANDS.put(SetBoardCommand.NAME, SetBoardCommand.class);
+        COMMANDS.put(StCommand.NAME, StCommand.class);
         COMMANDS.put(TimeCommand.NAME, TimeCommand.class);
         COMMANDS.put(UserMoveCommand.NAME, UserMoveCommand.class);
         COMMANDS.put(XBoardCommand.NAME, XBoardCommand.class);

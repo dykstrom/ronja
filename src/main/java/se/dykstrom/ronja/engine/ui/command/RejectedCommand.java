@@ -30,7 +30,7 @@ public class RejectedCommand extends AbstractCommand {
     public RejectedCommand(String feature, Response response) throws InvalidCommandException {
         super(feature, response);
         if (feature == null) {
-            throw new InvalidCommandException("missing feature", NAME);
+            throw new InvalidCommandException("missing feature");
         }
     }
 
