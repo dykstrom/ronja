@@ -132,7 +132,6 @@ public final class TimeUtils {
      * @param usedTime The time used for this move in milliseconds.
      */
     public static void updateTimeDataAfterMove(Game game, long usedTime) {
-        TLOG.info("Old time data: " + game.getTimeData());
         TimeControl timeControl = game.getTimeControl();
         if (timeControl.getType() == TimeControlType.SECONDS_PER_MOVE) {
             game.setTimeData(TimeData.from(timeControl));
@@ -151,7 +150,6 @@ public final class TimeUtils {
             long remainingTime = timeData.getRemainingTime() - usedTime + timeControl.getIncrement();
             game.setTimeData(timeData.withRemainingTime(remainingTime));
         }
-        TLOG.info("New time data: " + game.getTimeData());
     }
 
     /**
@@ -166,8 +164,8 @@ public final class TimeUtils {
             // Divide remaining time evenly between remaining moves
             return timeData.getRemainingTime() / timeData.getNumberOfMoves();
         } else { // TimeControlType.INCREMENTAL
-            // Always assume there are 40 moves left
-            return timeData.getRemainingTime() / 40;
+            // Always assume there are 20 moves left
+            return timeData.getRemainingTime() / 20;
         }
     }
 }

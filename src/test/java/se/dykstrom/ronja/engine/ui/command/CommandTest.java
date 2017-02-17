@@ -44,14 +44,15 @@ import static se.dykstrom.ronja.test.TestUtils.assertContainsRegex;
  */
 public class CommandTest extends AbstractTestCase {
 
-    private static final TimeControl TC_40_2_0 = new TimeControl(40, 2 * 60 * 1000, 0, CLASSIC);
     private static final TimeControl TC_40_5_0 = new TimeControl(40, 5 * 60 * 1000, 0, CLASSIC);
     private static final TimeControl TC_0_5_30 = new TimeControl(0, 5 * 60 * 1000, 30 * 1000, INCREMENTAL);
     private static final TimeControl TC_0_0_10 = new TimeControl(0, 0, 10 * 1000, SECONDS_PER_MOVE);
+    private static final TimeControl TC_0_0_01 = new TimeControl(0, 0, 100, SECONDS_PER_MOVE);
 
     private static final TimeData TD_40_5_0 = TimeData.from(TC_40_5_0);
     private static final TimeData TD_0_5_30 = TimeData.from(TC_0_5_30);
     private static final TimeData TD_0_0_10 = TimeData.from(TC_0_0_10);
+    private static final TimeData TD_0_0_01 = TimeData.from(TC_0_0_01);
 
     @Before
     public void setUp() throws Exception {
@@ -59,6 +60,8 @@ public class CommandTest extends AbstractTestCase {
         AppConfig.setGameLogFilename(null);
         Game.instance().reset();
         Game.instance().setBook(OpeningBook.DEFAULT);
+        Game.instance().setTimeControl(TC_0_0_01);
+        Game.instance().setTimeData(TD_0_0_01);
     }
 
     // ------------------------------------------------------------------------
@@ -126,7 +129,6 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testLevelCommand_ConventionalClock() throws Exception {
-        Game.instance().setTimeData(TimeData.from(TC_40_2_0));
         Command command = new LevelCommand("40 5 0", new ListResponse());
         command.execute();
         assertEquals(TD_40_5_0, Game.instance().getTimeData());
@@ -134,7 +136,6 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testLevelCommand_IncrementalClock() throws Exception {
-        Game.instance().setTimeData(TimeData.from(TC_40_2_0));
         Command command = new LevelCommand("0 5 30", new ListResponse());
         command.execute();
         assertEquals(TD_0_5_30, Game.instance().getTimeData());
@@ -157,7 +158,6 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testStCommand() throws Exception {
-        Game.instance().setTimeData(TimeData.from(TC_40_2_0));
         Command command = new StCommand("10", new ListResponse());
         command.execute();
         assertEquals(TD_0_0_10, Game.instance().getTimeData());
@@ -180,6 +180,8 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testGoCommand() throws Exception {
+        Game.instance().setTimeControl(TC_40_5_0);
+        Game.instance().setTimeData(TD_40_5_0);
         ListResponse response = new ListResponse();
         Command command = new GoCommand(null, response);
         TimeData timeDataBefore = Game.instance().getTimeData();
@@ -380,16 +382,11 @@ public class CommandTest extends AbstractTestCase {
     public void testUserMoveCommand_AsWhite() throws Exception {
         ListResponse response = new ListResponse();
         Command command = new UserMoveCommand("e2e4", response);
-        TimeData timeDataBefore = Game.instance().getTimeData();
         command.execute();
-        TimeData timeDataAfter = Game.instance().getTimeData();
         assertEquals(1, response.getList().size());
         assertContainsRegex("move e7(e5|e6)", response.getList());
         Position position = Game.instance().getPosition();
         assertTrue(position.equals(FenParser.parse(FEN_E4_E5)) || position.equals(FenParser.parse(FEN_E4_E6)));
-        // The remaining time has decreased by some amount, and the number of moves left has decreased by one
-        assertTrue(timeDataAfter.getRemainingTime() <= timeDataBefore.getRemainingTime());
-        assertTrue(timeDataAfter.getNumberOfMoves() == timeDataBefore.getNumberOfMoves() - 1);
     }
 
     @Test
@@ -398,15 +395,10 @@ public class CommandTest extends AbstractTestCase {
         Game.instance().setEngineColor(Color.WHITE);
         ListResponse response = new ListResponse();
         Command command = new UserMoveCommand("a8a1", response);
-        TimeData timeDataBefore = Game.instance().getTimeData();
         command.execute();
-        TimeData timeDataAfter = Game.instance().getTimeData();
         assertEquals(1, response.getList().size());
         assertEquals("move f4c1", response.getList().get(0)); // The only move to get out of check
         assertEquals(FenParser.parse(FEN_CHECKMATE_1_2), Game.instance().getPosition());
-        // The remaining time has decreased by some amount, and the number of moves left has decreased by one
-        assertTrue(timeDataAfter.getRemainingTime() <= timeDataBefore.getRemainingTime());
-        assertTrue(timeDataAfter.getNumberOfMoves() == timeDataBefore.getNumberOfMoves() - 1);
     }
 
     @Test

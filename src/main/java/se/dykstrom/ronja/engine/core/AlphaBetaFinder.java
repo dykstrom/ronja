@@ -25,6 +25,8 @@ import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
+import static se.dykstrom.ronja.engine.time.TimeUtils.formatTime;
+
 /**
  * This class implements the {@link Finder} interface using the alpha-beta search algorithm. For an explanation of
  * the alpha-beta algorithm, see <a href="https://en.wikipedia.org/wiki/Alpha-beta_pruning">Wikipedia</a>.
@@ -34,7 +36,6 @@ import java.util.logging.Logger;
 public class AlphaBetaFinder extends AbstractFinder {
 
     static final int ALPHA_START = -3000000;
-
     static final int BETA_START = 3000000;
 
     private static final Logger TLOG = Logger.getLogger(AlphaBetaFinder.class.getName());
@@ -56,17 +57,37 @@ public class AlphaBetaFinder extends AbstractFinder {
 
     @Override
     public Move findBestMoveWithinTime(Position position, long maxTime) {
-        return findBestMove(position, 3);
+        TLOG.fine("Available time: " + maxTime + " = " + formatTime(maxTime));
+
+        // Reset statistics
+        nodes = 0;
+        long startTime = System.currentTimeMillis();
+        long usedTime;
+        MoveWithScore bestMove;
+        int depth = 1;
+
+        do {
+            long startTimeForDepth = System.currentTimeMillis();
+            bestMove = findBestMove(position, depth);
+            usedTime = System.currentTimeMillis() - startTime;
+            long remainingTime = maxTime - usedTime;
+            TLOG.fine("Best move at depth " + depth + " is " + bestMove.getMove() + " with score " + bestMove.getScore());
+            TLOG.fine("Depth used time = " + (System.currentTimeMillis() - startTimeForDepth));
+            TLOG.fine("Total used time = " + usedTime);
+            TLOG.fine("Remaining time = " + remainingTime);
+            depth++;
+        } while (usedTime < maxTime / 2); // While we have used less than half of the time
+
+        long stopTime = System.currentTimeMillis();
+        TLOG.fine("Evaluated " + nodes + " nodes in " + (stopTime - startTime) + " ms = "
+                + NF.format(nodes / ((stopTime - startTime) / 1000.0)) + " nps");
+        return bestMove.getMove();
     }
 
     @Override
-    public Move findBestMove(Position position, int maxDepth) {
+    public MoveWithScore findBestMove(Position position, int maxDepth) {
         setMaxDepth(maxDepth);
         if (DEBUG) TLOG.finest(enter(position, 0));
-
-        // Reset statistics
-        this.nodes = 0;
-        long start = System.currentTimeMillis();
 
         Move bestMove = null;
         int alpha = ALPHA_START;
@@ -92,13 +113,9 @@ public class AlphaBetaFinder extends AbstractFinder {
                 alpha = score;
             }
         }
-        long stop = System.currentTimeMillis();
 
         if (DEBUG) TLOG.finest(leave(position, 0) + ", score = " + alpha + ", best move = " + bestMove);
-        TLOG.fine("Evaluated " + nodes + " nodes (max depth " + maxDepth + ") in " +
-                ((stop - start) / 1000.0) + " seconds = " + NF.format(nodes / ((stop - start) / 1000.0)) + " nps");
-
-        return bestMove;
+        return MoveWithScore.of(bestMove, alpha);
     }
 
     /**

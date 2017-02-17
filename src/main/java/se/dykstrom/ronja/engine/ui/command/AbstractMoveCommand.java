@@ -28,7 +28,6 @@ import se.dykstrom.ronja.engine.core.AlphaBetaFinder;
 import se.dykstrom.ronja.engine.core.Finder;
 import se.dykstrom.ronja.engine.time.TimeUtils;
 import se.dykstrom.ronja.engine.ui.io.Response;
-import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
 
 import java.util.logging.Logger;
@@ -67,7 +66,8 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
 
             // If no book move found, use Finder to find best move
             if (move == null) {
-                move = FINDER.findBestMove(position, AppConfig.getSearchDepth());
+                long availableTime = TimeUtils.calculateTimeForNextMove(game.getTimeControl(), game.getTimeData());
+                move = FINDER.findBestMoveWithinTime(position, availableTime);
                 TLOG.fine("Engine move: " + formatForLogging(move, position));
             } else {
                 TLOG.fine("Engine move: " + formatForLogging(move, position) + " (book)");
@@ -89,8 +89,8 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
             }
 
             long stopTime = System.currentTimeMillis();
-            long usedTime = stopTime - startTime + 10; // Add 10 ms as a safety margin
-            TLOG.fine("Engine used " + usedTime + " millis");
+            long usedTime = stopTime - startTime + 20; // Add 20 ms as a safety margin
+            TLOG.fine("Engine used " + usedTime + " ms");
             TimeUtils.updateTimeDataAfterMove(game, usedTime);
         }
     }

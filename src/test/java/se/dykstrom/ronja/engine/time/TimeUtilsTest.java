@@ -160,8 +160,8 @@ public class TimeUtilsTest {
 
     @Test
     public void testCalculateTimeForNextMoveIncremental() {
-        assertEquals(45000, calculateTimeForNextMove(TC_0_30_5, TimeData.from(TC_0_30_5)));
-        assertEquals(25, calculateTimeForNextMove(TC_0_30_5, TimeData.from(TC_0_30_5).withRemainingTime(1000)));
+        assertEquals(90000, calculateTimeForNextMove(TC_0_30_5, TimeData.from(TC_0_30_5)));
+        assertEquals(50, calculateTimeForNextMove(TC_0_30_5, TimeData.from(TC_0_30_5).withRemainingTime(1000)));
     }
 
     @Test

@@ -31,6 +31,7 @@ public interface Finder {
      *
      * @param position The position to find the best move for.
      * @param maxTime The maximum time to spend in milliseconds.
+     * @return The move found.
      */
     Move findBestMoveWithinTime(Position position, long maxTime);
 
@@ -39,6 +40,7 @@ public interface Finder {
      *
      * @param position The position to find the best move for.
      * @param maxDepth The maximum search depth.
+     * @return The move and its score.
      */
-    Move findBestMove(Position position, int maxDepth);
+    MoveWithScore findBestMove(Position position, int maxDepth);
 }
