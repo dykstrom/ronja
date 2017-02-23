@@ -22,7 +22,7 @@ import se.dykstrom.ronja.common.model.Game;
 import java.text.ParseException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.logging.Logger;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,8 +35,6 @@ import static se.dykstrom.ronja.engine.time.TimeControlType.*;
  * @author Johan Dykstrom
  */
 public final class TimeUtils {
-
-    private static final Logger TLOG = Logger.getLogger(TimeUtils.class.getName());
 
     private static final long NANOS_PER_MILLI = 1_000_000L;
     private static final long MILLIS_PER_SECOND = 1_000L;
@@ -158,8 +156,8 @@ public final class TimeUtils {
      */
     public static long calculateTimeForNextMove(TimeControl timeControl, TimeData timeData) {
         if (timeControl.getType() == TimeControlType.SECONDS_PER_MOVE) {
-            // Use all available time
-            return timeData.getRemainingTime();
+            // Use all available time minus a safety margin
+            return timeData.getRemainingTime() - 50;
         } else if (timeControl.getType() == TimeControlType.CLASSIC) {
             // Divide remaining time evenly between remaining moves
             return timeData.getRemainingTime() / timeData.getNumberOfMoves();
@@ -167,5 +165,16 @@ public final class TimeUtils {
             // Always assume there are 20 moves left
             return timeData.getRemainingTime() / 20;
         }
+    }
+
+    /**
+     * Estimates the time it will take to find the best move at the next search depth,
+     * by looking at the previous search times.
+     *
+     * @param searchTimes A list of search times in millis for previous search depths.
+     * @return The estimated time in millis to find the best move next time.
+     */
+    public static long estimateTimeForNextDepth(List<Long> searchTimes) {
+        return searchTimes.get(searchTimes.size() - 1) * 3;
     }
 }

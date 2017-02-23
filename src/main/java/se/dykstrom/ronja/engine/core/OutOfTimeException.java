@@ -20,32 +20,22 @@ package se.dykstrom.ronja.engine.core;
 import se.dykstrom.ronja.common.model.Move;
 
 /**
- * Represents a move and the score it was evaluated to.
+ * Thrown when a search must be aborted because we are out of time.
  *
  * @author Johan Dykstrom
  */
-public class MoveWithScore {
+class OutOfTimeException extends RuntimeException {
 
-    private final Move move;
-    private final int score;
+    private final Move Move;
 
-    private MoveWithScore(Move move, int score) {
-        this.move = move;
-        this.score = score;
+    OutOfTimeException(Move move) {
+        this.Move = move;
     }
 
     /**
-     * Creates a new move with score of the given move and score.
+     * Returns the move included with this exception.
      */
-    public static MoveWithScore of(Move move, int score) {
-        return new MoveWithScore(move, score);
-    }
-
     public Move getMove() {
-        return move;
-    }
-
-    public int getScore() {
-        return score;
+        return Move;
     }
 }

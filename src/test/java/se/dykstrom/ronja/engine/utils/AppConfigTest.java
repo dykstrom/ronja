@@ -34,23 +34,23 @@ import static org.junit.Assert.assertEquals;
  */
 public class AppConfigTest extends AbstractTestCase {
 
-    private static final Integer SETTER_SEARCH_DEPTH = 3;
-    private static final Integer PROPERTIES_SEARCH_DEPTH = 5;
-    private static final Integer FILE_SEARCH_DEPTH = 7;
+    private static final String SETTER_ENGINE_NAME = "setter";
+    private static final String PROPERTIES_ENGINE_NAME = "properties";
+    private static final String FILE_ENGINE_NAME = "file";
 
     private static final String TEMP_DIRECTORY = System.getProperty("java.io.tmpdir");
 
     @Before
     public void setUp() throws Exception {
         AppConfig.setConfigDirectory(TEMP_DIRECTORY);
-        AppConfig.setSearchDepth(null);
-        System.clearProperty(AppConfig.PROPERTY_SEARCH_DEPTH);
+        AppConfig.setEngineName(null);
+        System.clearProperty(AppConfig.PROPERTY_ENGINE_NAME);
 
         File file = new File(TEMP_DIRECTORY, "ronja.properties");
         file.deleteOnExit();
 
         PrintStream out = new PrintStream(file, "ISO-8859-1");
-        out.println(AppConfig.PROPERTY_SEARCH_DEPTH + "=" + FILE_SEARCH_DEPTH);
+        out.println(AppConfig.PROPERTY_ENGINE_NAME + "=" + FILE_ENGINE_NAME);
         out.close();
     }
 
@@ -58,19 +58,19 @@ public class AppConfigTest extends AbstractTestCase {
 
     @Test
     public void testGetFromSetter() {
-        AppConfig.setSearchDepth(SETTER_SEARCH_DEPTH);
-        System.setProperty(AppConfig.PROPERTY_SEARCH_DEPTH, PROPERTIES_SEARCH_DEPTH.toString());
-        assertEquals(SETTER_SEARCH_DEPTH, AppConfig.getSearchDepth());
+        AppConfig.setEngineName(SETTER_ENGINE_NAME);
+        System.setProperty(AppConfig.PROPERTY_ENGINE_NAME, PROPERTIES_ENGINE_NAME);
+        assertEquals(SETTER_ENGINE_NAME, AppConfig.getEngineName());
     }
 
     @Test
     public void testGetFromSystemProperties() {
-        System.setProperty(AppConfig.PROPERTY_SEARCH_DEPTH, PROPERTIES_SEARCH_DEPTH.toString());
-        assertEquals(PROPERTIES_SEARCH_DEPTH, AppConfig.getSearchDepth());
+        System.setProperty(AppConfig.PROPERTY_ENGINE_NAME, PROPERTIES_ENGINE_NAME);
+        assertEquals(PROPERTIES_ENGINE_NAME, AppConfig.getEngineName());
     }
 
     @Test
     public void testGetFromDataStore() {
-        assertEquals(FILE_SEARCH_DEPTH, AppConfig.getSearchDepth());
+        assertEquals(FILE_ENGINE_NAME, AppConfig.getEngineName());
     }
 }

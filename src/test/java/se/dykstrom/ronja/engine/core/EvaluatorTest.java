@@ -51,6 +51,6 @@ public class EvaluatorTest extends AbstractTestCase {
     @Test
     public void testCalculateAttackedSquares() throws Exception {
         assertEquals(0, evaluator.calculateAttackedSquares(FenParser.parse(FEN_START)));
-        assertEquals(-200, evaluator.calculateAttackedSquares(FenParser.parse(FEN_END_GAME_3)));
+        assertEquals(-20, evaluator.calculateAttackedSquares(FenParser.parse(FEN_END_GAME_3)));
     }
 }

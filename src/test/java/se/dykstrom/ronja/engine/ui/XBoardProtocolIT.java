@@ -59,7 +59,6 @@ public class XBoardProtocolIT extends AbstractTestCase {
     private static final String BOOK_ARG = "-D" + AppConfig.PROPERTY_BOOK_FILE;
     private static final String GAME_LOG_ARG = "-D" + AppConfig.PROPERTY_GAME_LOG_FILE;
     private static final String ENGINE_ARG = "-D" + AppConfig.PROPERTY_ENGINE_NAME;
-    private static final String SEARCH_ARG = "-D" + AppConfig.PROPERTY_SEARCH_DEPTH;
     private static final String CLASSPATH_ARG = "-classpath";
     private static final String CLASSPATH_VALUE = "target/classes";
     private static final String MAIN_CLASS = "se.dykstrom.ronja.engine.ui.Ronja";
@@ -135,7 +134,6 @@ public class XBoardProtocolIT extends AbstractTestCase {
                 BOOK_ARG + "=" + bookFile.getAbsolutePath(),
                 GAME_LOG_ARG + "=" + gameLogFile.getAbsolutePath(),
                 ENGINE_ARG + "=" + ENGINE_NAME,
-                SEARCH_ARG + "=1",
                 CLASSPATH_ARG,
                 CLASSPATH_VALUE,
                 MAIN_CLASS};

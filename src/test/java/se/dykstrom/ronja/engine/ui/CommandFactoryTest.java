@@ -21,7 +21,6 @@ import org.junit.Before;
 import org.junit.Test;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.command.*;
-import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.test.ListResponse;
 
 import static org.junit.Assert.assertEquals;
@@ -40,7 +39,6 @@ public class CommandFactoryTest {
 
     @Before
     public void setUp() throws Exception {
-        AppConfig.setSearchDepth(1);
         Game.instance().reset();
     }
 

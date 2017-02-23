@@ -166,6 +166,6 @@ public class TimeUtilsTest {
 
     @Test
     public void testCalculateTimeForNextMoveSecondsPerMove() {
-        assertEquals(30000, calculateTimeForNextMove(TC_0_0_30, TimeData.from(TC_0_0_30)));
+        assertEquals(29950, calculateTimeForNextMove(TC_0_0_30, TimeData.from(TC_0_0_30)));
     }
 }

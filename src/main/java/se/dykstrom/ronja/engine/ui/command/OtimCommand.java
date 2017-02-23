@@ -44,7 +44,7 @@ public class OtimCommand extends AbstractCommand {
         }
 
         try {
-            this.time = Integer.parseInt(time);
+            this.time = 10 * Integer.parseInt(time);
         } catch (NumberFormatException nfe) {
             throw new InvalidCommandException("time not an integer");
         }
@@ -52,6 +52,6 @@ public class OtimCommand extends AbstractCommand {
 
     @Override
     public void execute() {
-        TLOG.info("XBoard reports otim: " + time + " = " + formatTime(10 * time));
+        TLOG.fine("XBoard reports otim " + time + " = " + formatTime(time));
     }
 }

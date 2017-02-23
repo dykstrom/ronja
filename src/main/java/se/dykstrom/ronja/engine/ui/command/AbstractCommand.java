@@ -26,10 +26,10 @@ import se.dykstrom.ronja.engine.ui.io.Response;
  */
 public abstract class AbstractCommand implements Command {
 
-    protected final String args;
-    protected final Response response;
+    final String args;
+    final Response response;
 
-    protected AbstractCommand(String args, Response response) {
+    AbstractCommand(String args, Response response) {
         this.args = args;
         this.response = response;
     }

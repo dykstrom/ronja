@@ -207,7 +207,7 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
 
     @Test
     public void testFindBestMoveWithinTime() throws Exception {
-        assertEquals(of(KNIGHT, Square.B5, Square.C7, null, false, false), findBestMoveWithTime(FEN_FORK_0, 100));
+        assertEquals(of(KNIGHT, Square.B5, Square.C7, null, false, false), findBestMoveWithTime(FEN_FORK_0, 1000));
     }
 
     // -----------------------------------------------------------------------
@@ -223,7 +223,7 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      * Calls findBestMove with the position specified by {@code fen} and the maximum search depth.
      */
     private Move findBestMoveWithDepth(String fen) throws ParseException {
-        return finder.findBestMove(parse(fen), MAX_DEPTH).getMove();
+        return finder.findBestMove(parse(fen), MAX_DEPTH);
     }
 
     /**

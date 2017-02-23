@@ -42,9 +42,6 @@ public class AppConfig {
     /** The environment property for game log filename. */
     public static final String PROPERTY_GAME_LOG_FILE = "ronja.game.file";
 
-    /** The environment property for search depth. */
-    public static final String PROPERTY_SEARCH_DEPTH = "ronja.search.depth";
-
     private static final Logger TLOG = Logger.getLogger(AppConfig.class.getName());
 
     /** The name of the application properties file. */
@@ -54,7 +51,6 @@ public class AppConfig {
     private static String engineName;
     private static String bookFilename;
     private static String gameLogFilename;
-    private static Integer searchDepth;
 
     // ------------------------------------------------------------------------
     // Configuration data:
@@ -84,6 +80,7 @@ public class AppConfig {
     /**
      * Sets the opening book filename.
      */
+    @SuppressWarnings("unused")
     public static void setBookFilename(String bookFilename) {
         AppConfig.bookFilename = bookFilename;
     }
@@ -142,28 +139,8 @@ public class AppConfig {
         return engineName;
     }
 
-    /**
-     * Sets the search depth.
-     */
-    public static void setSearchDepth(Integer searchDepth) {
-        AppConfig.searchDepth = searchDepth;
-    }
-
-    /**
-     * Returns the search depth, i.e. the number of plies to search.
-     */
-    public static Integer getSearchDepth() {
-        if (searchDepth == null) {
-            searchDepth = getIntegerProperty(PROPERTY_SEARCH_DEPTH);
-        }
-        if (searchDepth == null) {
-            searchDepth = getInteger(PROPERTY_SEARCH_DEPTH, 3);
-        }
-        return searchDepth;
-    }
-
     // ------------------------------------------------------------------------
-    // Data store:
+    // File properties:
     // ------------------------------------------------------------------------
 
     /**
@@ -179,23 +156,6 @@ public class AppConfig {
             return res;
         } else {
             TLOG.warning("Missing data for [" + name + "]. Using default value '" + def + "'.");
-            return def;
-        }
-    }
-
-    /**
-     * Returns the specified configuration data, an integer, converted to a
-     * Java int. If no data is found, a default value is returned.
-     *
-     * @param name The configuration data name.
-     * @param def The default value to use if no data is found.
-     */
-    private static int getInteger(String name, int def) {
-        String res = getProperties().getProperty(name);
-        try {
-            return Integer.parseInt(res);
-        } catch (NumberFormatException nfe) {
-            TLOG.warning("Invalid data for [" + name + "]. Not an integer. Using default value '" + def + "'.");
             return def;
         }
     }
@@ -218,11 +178,6 @@ public class AppConfig {
     // ------------------------------------------------------------------------
     // Environment properties:
     // ------------------------------------------------------------------------
-
-    private static Integer getIntegerProperty(String name) {
-        String value = System.getProperty(name);
-        return (value != null) ? Integer.valueOf(value) : null;
-    }
 
     private static String getStringProperty(String name) {
         return System.getProperty(name);

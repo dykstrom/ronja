@@ -89,8 +89,7 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
             }
 
             long stopTime = System.currentTimeMillis();
-            long usedTime = stopTime - startTime + 20; // Add 20 ms as a safety margin
-            TLOG.fine("Engine used " + usedTime + " ms");
+            long usedTime = stopTime - startTime + 50; // Add 50 ms as a safety margin
             TimeUtils.updateTimeDataAfterMove(game, usedTime);
         }
     }

@@ -54,8 +54,8 @@ public class TimeCommand extends AbstractCommand {
 
     @Override
     public void execute() {
-        TLOG.info("XBoard reports time: " + time + " = " + formatTime(time));
         long engineTime = Game.instance().getTimeData().getRemainingTime();
-        TLOG.info("Engine reports time: " + engineTime + " = " + formatTime(engineTime));
+        TLOG.fine("XBoard reports time " + time + " = " + formatTime(time));
+        TLOG.fine("Engine reports time " + engineTime + " = " + formatTime(engineTime));
     }
 }

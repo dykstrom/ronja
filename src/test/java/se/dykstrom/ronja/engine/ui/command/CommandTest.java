@@ -56,7 +56,6 @@ public class CommandTest extends AbstractTestCase {
 
     @Before
     public void setUp() throws Exception {
-        AppConfig.setSearchDepth(1);
         AppConfig.setGameLogFilename(null);
         Game.instance().reset();
         Game.instance().setBook(OpeningBook.DEFAULT);

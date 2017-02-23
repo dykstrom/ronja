@@ -138,6 +138,6 @@ public class SlowFinderTest extends AbstractTestCase {
      * Calls findBestMove with the position specified by {@code fen} and the given depth.
      */
     private Move findBestMoveWithDepth(String fen, int maxDepth) throws ParseException {
-        return finder.findBestMove(FenParser.parse(fen), maxDepth).getMove();
+        return finder.findBestMove(FenParser.parse(fen), maxDepth);
     }
 }

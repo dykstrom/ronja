@@ -19,10 +19,13 @@ package se.dykstrom.ronja.engine.core;
 
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.engine.time.TimeUtils;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Logger;
 
 import static se.dykstrom.ronja.engine.time.TimeUtils.formatTime;
@@ -53,52 +56,83 @@ public class AlphaBetaFinder extends AbstractFinder {
     private final Evaluator evaluator = new Evaluator();
 
     /** Used to generate moves. */
-    private final MoveGenerator moveGenerator = new StatefulMoveGenerator();
+    private final FullMoveGenerator fullMoveGenerator = new FullMoveGenerator();
+    private final MoveGenerator statefulMoveGenerator = new StatefulMoveGenerator();
 
     @Override
     public Move findBestMoveWithinTime(Position position, long maxTime) {
-        TLOG.fine("Available time: " + maxTime + " = " + formatTime(maxTime));
+        TLOG.fine("Available time " + maxTime + " = " + formatTime(maxTime));
+        List<Long> searchTimes = new ArrayList<>();
 
         // Reset statistics
         nodes = 0;
         long startTime = System.currentTimeMillis();
-        long usedTime;
-        MoveWithScore bestMove;
-        int depth = 1;
+        long remainingTime = maxTime;
+        long estimatedTime;
+        Move bestMove = null;
+        int maxDepth = 1;
 
-        do {
-            long startTimeForDepth = System.currentTimeMillis();
-            bestMove = findBestMove(position, depth);
-            usedTime = System.currentTimeMillis() - startTime;
-            long remainingTime = maxTime - usedTime;
-            TLOG.fine("Best move at depth " + depth + " is " + bestMove.getMove() + " with score " + bestMove.getScore());
-            TLOG.fine("Depth used time = " + (System.currentTimeMillis() - startTimeForDepth));
-            TLOG.fine("Total used time = " + usedTime);
-            TLOG.fine("Remaining time = " + remainingTime);
-            depth++;
-        } while (usedTime < maxTime / 2); // While we have used less than half of the time
+        // Find all possible moves
+        List<Move> moves = fullMoveGenerator.getMoves(position);
+
+        try {
+            do {
+                long startTimeForDepth = System.currentTimeMillis();
+                bestMove = findBestMove(position, maxDepth, moves, remainingTime);
+                if (DEBUG) TLOG.fine("Best move at depth " + maxDepth + " is " + bestMove);
+                searchTimes.add(System.currentTimeMillis() - startTimeForDepth);
+                long usedTime = System.currentTimeMillis() - startTime;
+                remainingTime = maxTime - usedTime;
+                estimatedTime = TimeUtils.estimateTimeForNextDepth(searchTimes);
+                if (DEBUG) TLOG.fine("Estimated = time " + estimatedTime + ", remaining time = " + remainingTime);
+
+                // Put best move first in list
+                if (!moves.get(0).equals(bestMove)) {
+                    moves.remove(bestMove);
+                    moves.add(0, bestMove);
+                }
+                maxDepth++;
+            } while (estimatedTime < remainingTime);
+        } catch (OutOfTimeException exception) {
+            if (DEBUG) TLOG.fine("Aborted search with max depth " + maxDepth + " because time is up");
+            if (!exception.getMove().equals(bestMove)) {
+                bestMove = exception.getMove();
+                TLOG.fine("New best move found in aborted search: " + bestMove);
+            }
+        }
+        if (DEBUG) TLOG.fine("Search times: " + searchTimes);
 
         long stopTime = System.currentTimeMillis();
-        TLOG.fine("Evaluated " + nodes + " nodes in " + (stopTime - startTime) + " ms = "
+        TLOG.fine("Evaluated " + nodes + " nodes (depth " + maxDepth + ") in " + (stopTime - startTime) + " ms = "
                 + NF.format(nodes / ((stopTime - startTime) / 1000.0)) + " nps");
-        return bestMove.getMove();
+        return bestMove;
     }
 
     @Override
-    public MoveWithScore findBestMove(Position position, int maxDepth) {
+    public Move findBestMove(Position position, int maxDepth) {
+        return findBestMove(position, maxDepth, fullMoveGenerator.getMoves(position), 1000);
+    }
+
+    /**
+     * Finds the best move in the given position, searching in the given list of moves.
+     * Searching is limited to the given max depth and the given max time.
+     */
+    private Move findBestMove(Position position, int maxDepth, List<Move> moves, long maxTime) {
         setMaxDepth(maxDepth);
         if (DEBUG) TLOG.finest(enter(position, 0));
 
+        long startTime = System.currentTimeMillis();
         Move bestMove = null;
         int alpha = ALPHA_START;
         int beta = BETA_START;
 
-        // For all possible moves
-        Iterator<Move> iterator = moveGenerator.iterator(position);
-        while (iterator.hasNext()) {
-            Move move = iterator.next();
+        // Search all moves
+        for (int moveIndex = 0; moveIndex < moves.size(); moveIndex++) {
+            // Abort search if we realize we won't finish in time
+            abortSearchIfOutOfTime(moves, moveIndex, startTime, maxTime, bestMove);
 
             // Make the move
+            Move move = moves.get(moveIndex);
             Position next = position.withMove(move);
 
             // Calculate the score for the move by searching deeper
@@ -115,7 +149,29 @@ public class AlphaBetaFinder extends AbstractFinder {
         }
 
         if (DEBUG) TLOG.finest(leave(position, 0) + ", score = " + alpha + ", best move = " + bestMove);
-        return MoveWithScore.of(bestMove, alpha);
+        return bestMove;
+    }
+
+    /**
+     * Aborts the search by throwing an exception if we realize we won't be able to finish in time.
+     * We calculate the average time it has taken to search a move, and if this time exceeds the
+     * time left, we abort the search.
+     *
+     * @param moves The list of all moves to search.
+     * @param moveIndex The index of the move we will search next.
+     * @param startTime The time we started to search.
+     * @param maxTime The maximum time to use for the search.
+     * @param bestMove The best move found so far, to be used if we must abort.
+     */
+    private void abortSearchIfOutOfTime(List<Move> moves, int moveIndex, long startTime, long maxTime, Move bestMove) {
+        long usedTime = System.currentTimeMillis() - startTime;
+        long remainingTime = maxTime - usedTime;
+        long averageTime = (moveIndex == 0) ? 0 : usedTime / moveIndex;
+        if (averageTime > remainingTime) {
+            TLOG.fine("Aborting search at move " + moveIndex + "/" + moves.size()
+                    + ", average time = " + averageTime + ", remaining time = " + remainingTime);
+            throw new OutOfTimeException(bestMove);
+        }
     }
 
     /**
@@ -156,7 +212,7 @@ public class AlphaBetaFinder extends AbstractFinder {
         Move bestMove = null;
 
         // For all possible moves
-        Iterator<Move> iterator = moveGenerator.iterator(position);
+        Iterator<Move> iterator = statefulMoveGenerator.iterator(position);
         while (iterator.hasNext()) {
             Move move = iterator.next();
 

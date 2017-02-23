@@ -51,7 +51,7 @@ public class HintCommand extends AbstractCommand {
             Move move = book.findBestMove(position);
             if (move == null) {
                 // Limit the search depth to 3 in this case
-                move = FINDER.findBestMove(position, 3).getMove();
+                move = FINDER.findBestMove(position, 3);
             }
             response.write("Hint: " + SanParser.format(move, position));
         }
