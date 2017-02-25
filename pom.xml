@@ -4,7 +4,7 @@
 
     <groupId>se.dykstrom.ronja</groupId>
     <artifactId>ronja</artifactId>
-    <version>0.6.0</version>
+    <version>0.6.1-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -13,7 +13,7 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/dykstrom/ronja.git</developerConnection>
-        <tag>ronja-0.6.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <build>
