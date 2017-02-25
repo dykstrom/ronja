@@ -31,7 +31,7 @@ public class NameCommand extends AbstractCommand {
     public NameCommand(String name, Response response) throws InvalidCommandException {
         super(name, response);
         if (name == null) {
-            throw new InvalidCommandException("missing name", NAME);
+            throw new InvalidCommandException("missing name");
         }
     }
 

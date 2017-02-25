@@ -29,7 +29,7 @@ import java.io.IOException;
  * The log levels are used like this:
  * 
  * INFO:   Opening book info. Game info.
- * FINE:   User moves. Engine moves. Statistics from searching.
+ * FINE:   User and engine moves. Statistics from searching. Time control.
  * FINER:  XBoard input and output.
  * FINEST: Debug info from searching, move generation, and evaluation.
  *

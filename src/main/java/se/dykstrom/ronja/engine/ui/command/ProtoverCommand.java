@@ -20,6 +20,11 @@ package se.dykstrom.ronja.engine.ui.command;
 import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.engine.ui.io.Response;
 
+/**
+ * Class that represents the XBoard 'protover' command.
+ *
+ * @author Johan Dykstrom
+ */
 public class ProtoverCommand extends AbstractCommand {
 
     public static final String NAME = "protover";
@@ -31,13 +36,13 @@ public class ProtoverCommand extends AbstractCommand {
         super(version, response);
 
         if (version == null) {
-            throw new InvalidCommandException("missing version", "protover");
+            throw new InvalidCommandException("missing version");
         }
 
         try {
             this.version = Integer.parseInt(version);
         } catch (NumberFormatException nfe) {
-            throw new InvalidCommandException("version not an integer", version);
+            throw new InvalidCommandException("version not an integer");
         }
     }
 
@@ -53,7 +58,6 @@ public class ProtoverCommand extends AbstractCommand {
             response.write("feature setboard=1");
             response.write("feature sigint=0");
             response.write("feature sigterm=0");
-            response.write("feature time=0");
             response.write("feature usermove=1");
             response.write("feature variants=\"normal\"");
             response.write("feature done=1");

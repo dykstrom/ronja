@@ -18,7 +18,6 @@
 package se.dykstrom.ronja.engine.core;
 
 import se.dykstrom.ronja.common.model.Board;
-import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Position;
 
 /**
@@ -46,7 +45,7 @@ public class Evaluator {
 
     private static final int BISHOP_PAIR_VALUE = PAWN_VALUE / 2;
 
-    private static final int ATTACKED_SQUARE_VALUE = 100;
+    private static final int ATTACKED_SQUARE_VALUE = 10;
 
     /**
      * Evaluates the given position, and returns a score. The score will be
@@ -67,7 +66,7 @@ public class Evaluator {
         // TODO: King safety, centralization, open files.
 
         // If black is to move, negate the score
-        return (position.getActiveColor() == Color.WHITE) ? score: -score;
+        return position.isWhiteMove() ? score: -score;
     }
 
     /**

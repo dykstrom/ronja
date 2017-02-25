@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Johan Dykstrom
+ * Copyright (C) 2017 Johan Dykstrom
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,23 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.dykstrom.ronja.engine.ui.command;
+package se.dykstrom.ronja.engine.time;
 
-import se.dykstrom.ronja.engine.ui.io.Response;
-
-public class PingCommand extends AbstractCommand {
-
-    public static final String NAME = "ping";
-
-    public PingCommand(String number, Response response) throws InvalidCommandException {
-        super(number, response);
-        if (number == null) {
-            throw new InvalidCommandException("missing number");
-        }
-    }
-
-    @Override
-    public void execute() {
-        response.write("pong " + getArgs());
-    }
+/**
+ * Enumerates the different types of time controls.
+ *
+ * @author Johan Dykstrom
+ */
+public enum TimeControlType {
+    CLASSIC,
+    INCREMENTAL,
+    SECONDS_PER_MOVE
 }

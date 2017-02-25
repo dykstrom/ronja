@@ -93,8 +93,10 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
     }
 
     /**
-     * Returns the list of all possible pseudo moves for this position,
-     * including moves that put my king in check.
+     * Returns the list of all possible pseudo moves for this position, including moves that put my king in check.
+     *
+     * @param position The position to generate moves for.
+     * @return A list of moves found.
      */
     public List<Move> getMoves(Position position) {
         setup(position);

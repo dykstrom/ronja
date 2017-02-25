@@ -21,7 +21,6 @@ import org.junit.Before;
 import org.junit.Test;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.command.*;
-import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.test.ListResponse;
 
 import static org.junit.Assert.assertEquals;
@@ -40,7 +39,6 @@ public class CommandFactoryTest {
 
     @Before
     public void setUp() throws Exception {
-        AppConfig.setSearchDepth(1);
         Game.instance().reset();
     }
 
@@ -89,6 +87,7 @@ public class CommandFactoryTest {
         assertTrue(CommandFactory.create(NameCommand.NAME, "", response) instanceof NameCommand);
         assertTrue(CommandFactory.create(NewCommand.NAME, "", response) instanceof NewCommand);
         assertTrue(CommandFactory.create(NoPostCommand.NAME, "", response) instanceof NoPostCommand);
+        assertTrue(CommandFactory.create(OtimCommand.NAME, "1", response) instanceof OtimCommand);
         assertTrue(CommandFactory.create(PingCommand.NAME, "", response) instanceof PingCommand);
         assertTrue(CommandFactory.create(PlayOtherCommand.NAME, "", response) instanceof PlayOtherCommand);
         assertTrue(CommandFactory.create(PostCommand.NAME, "", response) instanceof PostCommand);
@@ -98,6 +97,8 @@ public class CommandFactoryTest {
         assertTrue(CommandFactory.create(RejectedCommand.NAME, "", response) instanceof RejectedCommand);
         assertTrue(CommandFactory.create(ResultCommand.NAME, "", response) instanceof ResultCommand);
         assertTrue(CommandFactory.create(SetBoardCommand.NAME, "", response) instanceof SetBoardCommand);
+        assertTrue(CommandFactory.create(StCommand.NAME, "", response) instanceof StCommand);
+        assertTrue(CommandFactory.create(TimeCommand.NAME, "1", response) instanceof TimeCommand);
         assertTrue(CommandFactory.create(UserMoveCommand.NAME, "", response) instanceof UserMoveCommand);
         assertTrue(CommandFactory.create(XBoardCommand.NAME, "", response) instanceof XBoardCommand);
     }

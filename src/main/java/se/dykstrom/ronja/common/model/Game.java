@@ -20,6 +20,8 @@ package se.dykstrom.ronja.common.model;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.book.OpeningBookParser;
 import se.dykstrom.ronja.common.parser.IllegalMoveException;
+import se.dykstrom.ronja.engine.time.TimeControl;
+import se.dykstrom.ronja.engine.time.TimeData;
 import se.dykstrom.ronja.engine.utils.AppConfig;
 
 import java.io.File;
@@ -30,6 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static se.dykstrom.ronja.engine.time.TimeControlType.CLASSIC;
+
 /**
  * This class holds state information for the current game. Only one game can be played at a time,
  * so this is a singleton class.
@@ -37,8 +41,11 @@ import java.util.logging.Logger;
  * @author Johan Dykstrom
  */
 public class Game {
-    
+
     private static final Logger TLOG = Logger.getLogger(Game.class.getName());
+
+    /** Default time control is 40 moves in 2 minutes. */
+    private static final TimeControl TWO_MINUTES = new TimeControl(40, 2 * 60 * 1000, 0, CLASSIC);
 
     /** The singleton instance of this class. */
     private static final class Holder {
@@ -78,6 +85,12 @@ public class Game {
      */
     private int startMoveNumber;
 
+    /** Time control set by XBoard. */
+    private TimeControl timeControl;
+
+    /** Remaining time and moves for the engine. */
+    private TimeData timeData;
+
     // ------------------------------------------------------------------------
 
     private Game() {
@@ -109,6 +122,8 @@ public class Game {
         setOpponent(null);
         setResult("*");
         setStartTime(LocalDateTime.now());
+        setTimeControl(TWO_MINUTES);
+        setTimeData(TimeData.from(TWO_MINUTES));
     }
 
     /**
@@ -260,6 +275,35 @@ public class Game {
      */
     public LocalDateTime getStartTime() {
         return startTime;
+    }
+
+    /**
+     * Sets the time data.
+     */
+    public void setTimeData(TimeData timeData) {
+        this.timeData = timeData;
+    }
+
+    /**
+     * Returns the time data.
+     */
+    public TimeData getTimeData() {
+        return timeData;
+    }
+
+    /**
+     * Sets the time control. This method does not set the time data to match the time control.
+     * This must be done by invoking method {@link #setTimeData(TimeData)}.
+     */
+    public void setTimeControl(TimeControl timeControl) {
+        this.timeControl = timeControl;
+    }
+
+    /**
+     * Returns the time control.
+     */
+    public TimeControl getTimeControl() {
+        return timeControl;
     }
 
     @Override

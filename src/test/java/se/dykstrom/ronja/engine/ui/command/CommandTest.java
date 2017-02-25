@@ -23,6 +23,8 @@ import org.junit.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.*;
 import se.dykstrom.ronja.common.parser.FenParser;
+import se.dykstrom.ronja.engine.time.TimeControl;
+import se.dykstrom.ronja.engine.time.TimeData;
 import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.test.AbstractTestCase;
 import se.dykstrom.ronja.test.ListResponse;
@@ -31,6 +33,7 @@ import se.dykstrom.ronja.test.SizeMatcher;
 import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.junit.Assert.*;
+import static se.dykstrom.ronja.engine.time.TimeControlType.*;
 import static se.dykstrom.ronja.test.TestUtils.assertContainsRegex;
 
 /**
@@ -41,12 +44,23 @@ import static se.dykstrom.ronja.test.TestUtils.assertContainsRegex;
  */
 public class CommandTest extends AbstractTestCase {
 
+    private static final TimeControl TC_40_5_0 = new TimeControl(40, 5 * 60 * 1000, 0, CLASSIC);
+    private static final TimeControl TC_0_5_30 = new TimeControl(0, 5 * 60 * 1000, 30 * 1000, INCREMENTAL);
+    private static final TimeControl TC_0_0_10 = new TimeControl(0, 0, 10 * 1000, SECONDS_PER_MOVE);
+    private static final TimeControl TC_0_0_01 = new TimeControl(0, 0, 100, SECONDS_PER_MOVE);
+
+    private static final TimeData TD_40_5_0 = TimeData.from(TC_40_5_0);
+    private static final TimeData TD_0_5_30 = TimeData.from(TC_0_5_30);
+    private static final TimeData TD_0_0_10 = TimeData.from(TC_0_0_10);
+    private static final TimeData TD_0_0_01 = TimeData.from(TC_0_0_01);
+
     @Before
     public void setUp() throws Exception {
-        AppConfig.setSearchDepth(1);
         AppConfig.setGameLogFilename(null);
         Game.instance().reset();
         Game.instance().setBook(OpeningBook.DEFAULT);
+        Game.instance().setTimeControl(TC_0_0_01);
+        Game.instance().setTimeData(TD_0_0_01);
     }
 
     // ------------------------------------------------------------------------
@@ -95,6 +109,7 @@ public class CommandTest extends AbstractTestCase {
         assertEquals(Position.START, Game.instance().getPosition());
         assertEquals("*", Game.instance().getResult());
         assertNotNull(Game.instance().getStartTime());
+        assertEquals(TimeData.from(Game.instance().getTimeControl()), Game.instance().getTimeData());
     }
 
     @Test
@@ -112,14 +127,72 @@ public class CommandTest extends AbstractTestCase {
     }
 
     @Test
+    public void testLevelCommand_ConventionalClock() throws Exception {
+        Command command = new LevelCommand("40 5 0", new ListResponse());
+        command.execute();
+        assertEquals(TD_40_5_0, Game.instance().getTimeData());
+    }
+
+    @Test
+    public void testLevelCommand_IncrementalClock() throws Exception {
+        Command command = new LevelCommand("0 5 30", new ListResponse());
+        command.execute();
+        assertEquals(TD_0_5_30, Game.instance().getTimeData());
+    }
+
+    @Test(expected = InvalidCommandException.class)
+    public void testLevelCommand_NoArguments() throws Exception {
+        Command command = new LevelCommand(null, new ListResponse());
+        command.execute();
+    }
+
+    @Test
+    public void testLevelCommand_InvalidArguments() throws Exception {
+        ListResponse response = new ListResponse();
+        Command command = new LevelCommand("foo", response);
+        command.execute();
+        assertEquals(1, response.getList().size());
+        assertContainsRegex("Error \\(invalid number of arguments\\): level foo", response.getList());
+    }
+
+    @Test
+    public void testStCommand() throws Exception {
+        Command command = new StCommand("10", new ListResponse());
+        command.execute();
+        assertEquals(TD_0_0_10, Game.instance().getTimeData());
+    }
+
+    @Test(expected = InvalidCommandException.class)
+    public void testStCommand_NoArguments() throws Exception {
+        Command command = new StCommand(null, new ListResponse());
+        command.execute();
+    }
+
+    @Test
+    public void testStCommand_InvalidArguments() throws Exception {
+        ListResponse response = new ListResponse();
+        Command command = new StCommand("foo", response);
+        command.execute();
+        assertEquals(1, response.getList().size());
+        assertContainsRegex("Error \\(invalid time\\): st foo", response.getList());
+    }
+
+    @Test
     public void testGoCommand() throws Exception {
+        Game.instance().setTimeControl(TC_40_5_0);
+        Game.instance().setTimeData(TD_40_5_0);
         ListResponse response = new ListResponse();
         Command command = new GoCommand(null, response);
+        TimeData timeDataBefore = Game.instance().getTimeData();
         command.execute();
+        TimeData timeDataAfter = Game.instance().getTimeData();
         assertFalse(Game.instance().getForceMode());
         assertEquals(Game.instance().getPosition().getActiveColor().flip(), Game.instance().getEngineColor());
         assertEquals(1, response.getList().size());
         assertContainsRegex("move (e2e4|d2d4)", response.getList());
+        // The remaining time has decreased by some amount, and the number of moves left has decreased by one
+        assertTrue(timeDataAfter.getRemainingTime() <= timeDataBefore.getRemainingTime());
+        assertTrue(timeDataAfter.getNumberOfMoves() == timeDataBefore.getNumberOfMoves() - 1);
     }
 
     @Test
@@ -324,7 +397,7 @@ public class CommandTest extends AbstractTestCase {
         command.execute();
         assertEquals(1, response.getList().size());
         assertEquals("move f4c1", response.getList().get(0)); // The only move to get out of check
-        Assert.assertEquals(FenParser.parse(FEN_CHECKMATE_1_2), Game.instance().getPosition());
+        assertEquals(FenParser.parse(FEN_CHECKMATE_1_2), Game.instance().getPosition());
     }
 
     @Test

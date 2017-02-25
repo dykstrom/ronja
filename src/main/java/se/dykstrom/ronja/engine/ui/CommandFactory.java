@@ -30,7 +30,7 @@ import java.util.Map;
  *
  * @author Johan Dykstrom
  */
-public class CommandFactory {
+class CommandFactory {
 
     /** Maps command name to command class. */
     private static final Map<String, Class<? extends Command>> COMMANDS = new HashMap<>();
@@ -51,6 +51,7 @@ public class CommandFactory {
         COMMANDS.put(NameCommand.NAME, NameCommand.class);
         COMMANDS.put(NewCommand.NAME, NewCommand.class);
         COMMANDS.put(NoPostCommand.NAME, NoPostCommand.class);
+        COMMANDS.put(OtimCommand.NAME, OtimCommand.class);
         COMMANDS.put(PingCommand.NAME, PingCommand.class);
         COMMANDS.put(PlayOtherCommand.NAME, PlayOtherCommand.class);
         COMMANDS.put(PostCommand.NAME, PostCommand.class);
@@ -60,6 +61,8 @@ public class CommandFactory {
         COMMANDS.put(RejectedCommand.NAME, RejectedCommand.class);
         COMMANDS.put(ResultCommand.NAME, ResultCommand.class);
         COMMANDS.put(SetBoardCommand.NAME, SetBoardCommand.class);
+        COMMANDS.put(StCommand.NAME, StCommand.class);
+        COMMANDS.put(TimeCommand.NAME, TimeCommand.class);
         COMMANDS.put(UserMoveCommand.NAME, UserMoveCommand.class);
         COMMANDS.put(XBoardCommand.NAME, XBoardCommand.class);
     }
@@ -75,7 +78,7 @@ public class CommandFactory {
      * @param response The command response object (optional).
      * @return The created command.
      */
-    public static Command create(String name, String args, Response response) {
+    static Command create(String name, String args, Response response) {
         Class<? extends Command> clazz = COMMANDS.get(name);
         if (clazz == null) {
             return new InvalidCommand(name, response, "unknown command");

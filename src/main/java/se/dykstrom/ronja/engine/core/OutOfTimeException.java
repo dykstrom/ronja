@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Johan Dykstrom
+ * Copyright (C) 2017 Johan Dykstrom
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,35 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.dykstrom.ronja.engine.ui.command;
+package se.dykstrom.ronja.engine.core;
 
-import se.dykstrom.ronja.engine.ui.io.Response;
+import se.dykstrom.ronja.common.model.Move;
 
 /**
- * An abstract base class for all XBoard commands.
- * 
+ * Thrown when a search must be aborted because we are out of time.
+ *
  * @author Johan Dykstrom
  */
-public abstract class AbstractCommand implements Command {
+class OutOfTimeException extends RuntimeException {
 
-    final String args;
-    final Response response;
+    private final Move Move;
 
-    AbstractCommand(String args, Response response) {
-        this.args = args;
-        this.response = response;
+    OutOfTimeException(Move move) {
+        this.Move = move;
     }
 
     /**
-     * Returns the arguments associated with this command, or {@code null} if no arguments.
+     * Returns the move included with this exception.
      */
-    public String getArgs() {
-        return args;
+    public Move getMove() {
+        return Move;
     }
-
-    /**
-     * Default implementation does nothing.
-     */
-    @Override
-    public void execute() { /* Empty */ }
 }

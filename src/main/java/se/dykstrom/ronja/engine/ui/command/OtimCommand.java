@@ -21,21 +21,37 @@ import se.dykstrom.ronja.engine.ui.io.Response;
 
 import java.util.logging.Logger;
 
-public class RejectedCommand extends AbstractCommand {
+import static se.dykstrom.ronja.engine.time.TimeUtils.formatTime;
 
-    public static final String NAME = "rejected";
+/**
+ * Class that represents the XBoard 'otim' command.
+ *
+ * @author Johan Dykstrom
+ */
+public class OtimCommand extends AbstractCommand {
 
-    private final static Logger TLOG = Logger.getLogger(RejectedCommand.class.getName());
+    public static final String NAME = "otim";
 
-    public RejectedCommand(String feature, Response response) throws InvalidCommandException {
-        super(feature, response);
-        if (feature == null) {
-            throw new InvalidCommandException("missing feature");
+    private final static Logger TLOG = Logger.getLogger(OtimCommand.class.getName());
+
+    private final int time;
+
+    public OtimCommand(String time, Response response) throws InvalidCommandException {
+        super(time, response);
+
+        if (time == null) {
+            throw new InvalidCommandException("missing time argument");
+        }
+
+        try {
+            this.time = 10 * Integer.parseInt(time);
+        } catch (NumberFormatException nfe) {
+            throw new InvalidCommandException("time not an integer");
         }
     }
 
     @Override
     public void execute() {
-        TLOG.warning("XBoard rejects feature: " + getArgs());
+        TLOG.fine("XBoard reports otim " + time + " = " + formatTime(time));
     }
 }

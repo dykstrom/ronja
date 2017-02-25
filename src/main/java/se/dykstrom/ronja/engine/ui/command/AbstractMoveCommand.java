@@ -26,12 +26,17 @@ import se.dykstrom.ronja.common.parser.IllegalMoveException;
 import se.dykstrom.ronja.common.parser.SanParser;
 import se.dykstrom.ronja.engine.core.AlphaBetaFinder;
 import se.dykstrom.ronja.engine.core.Finder;
+import se.dykstrom.ronja.engine.time.TimeUtils;
 import se.dykstrom.ronja.engine.ui.io.Response;
-import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
 
 import java.util.logging.Logger;
 
+/**
+ * Abstract base class for all move related XBoard commands.
+ *
+ * @author Johan Dykstrom
+ */
 public abstract class AbstractMoveCommand extends AbstractCommand {
 
     private static final Logger TLOG = Logger.getLogger(AbstractMoveCommand.class.getName());
@@ -47,10 +52,13 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
      */
     protected void move() {
         Game game = Game.instance();
-        Position position = game.getPosition();
 
         // If not in force mode, make a move
         if (!game.getForceMode()) {
+            long startTime = System.currentTimeMillis();
+
+            Position position = game.getPosition();
+
             checkActiveColor(game);
 
             // Try to find a move in the opening book
@@ -58,7 +66,8 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
 
             // If no book move found, use Finder to find best move
             if (move == null) {
-                move = FINDER.findBestMove(position, AppConfig.getSearchDepth());
+                long availableTime = TimeUtils.calculateTimeForNextMove(game.getTimeControl(), game.getTimeData());
+                move = FINDER.findBestMoveWithinTime(position, availableTime);
                 TLOG.fine("Engine move: " + formatForLogging(move, position));
             } else {
                 TLOG.fine("Engine move: " + formatForLogging(move, position) + " (book)");
@@ -78,6 +87,10 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
             if (PositionUtils.isGameOver(game.getPosition())) {
                 notifyUserGameOverOk();
             }
+
+            long stopTime = System.currentTimeMillis();
+            long usedTime = stopTime - startTime + 50; // Add 50 ms as a safety margin
+            TimeUtils.updateTimeDataAfterMove(game, usedTime);
         }
     }
 
@@ -96,17 +109,10 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
     }
 
     /**
-     * Returns a short prefix string, including the move number, to use for logging.
-     */
-    private static String prefix(Position position) {
-        return position.getFullMoveNumber() + (position.isWhiteMove() ? ". " : "... ");
-    }
-
-    /**
      * Formats the given move for logging.
      */
     String formatForLogging(Move move, Position position) {
-        return prefix(position) + SanParser.format(move, position);
+        return position.getFullMoveNumber() + (position.isWhiteMove() ? ". " : "... ") + SanParser.format(move, position);
     }
 
     /**

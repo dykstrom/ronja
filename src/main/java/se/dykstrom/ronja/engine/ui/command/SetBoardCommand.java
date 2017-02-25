@@ -33,7 +33,7 @@ public class SetBoardCommand extends AbstractCommand {
     public SetBoardCommand(String fen, Response response) throws InvalidCommandException {
         super(fen, response);
         if (fen == null) {
-            throw new InvalidCommandException("missing position", NAME);
+            throw new InvalidCommandException("missing position");
         }
     }
 

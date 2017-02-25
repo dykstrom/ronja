@@ -24,17 +24,7 @@ package se.dykstrom.ronja.engine.ui.command;
  */
 public class InvalidCommandException extends Exception {
 
-    private final String command;
-
-    public InvalidCommandException(String message, String command) {
+    public InvalidCommandException(String message) {
         super(message);
-        this.command = command;
-    }
-
-    /**
-     * Returns the invalid command.
-     */
-    public String getCommand() {
-        return command;
     }
 }
