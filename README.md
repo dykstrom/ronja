@@ -41,3 +41,5 @@ commonly seen features of chess engines:
 Ronja is designed in an object-oriented way, with classes representing 
 moves, positions, and other entities. This probably slows the engine
 down, and so may be changed in the future.
+
+[![Build Status](https://travis-ci.org/dykstrom/ronja.svg?branch=master)](https://travis-ci.org/dykstrom/ronja)
