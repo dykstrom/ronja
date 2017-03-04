@@ -18,6 +18,7 @@
 package se.dykstrom.ronja.engine.time;
 
 import org.junit.Test;
+import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Game;
 
 import java.text.ParseException;
@@ -50,6 +51,8 @@ public class TimeUtilsTest {
     private static final long THIRTY_MINUTES = 30 * 60 * 1000;
     private static final long FIVE_SECONDS = 5 * 1000;
     private static final long THIRTY_SECONDS = 30 * 1000;
+
+    private final Game game = new Game(OpeningBook.DEFAULT);
 
     @Test
     public void testFormatTime() {
@@ -96,7 +99,6 @@ public class TimeUtilsTest {
 
     @Test
     public void testUpdateTimeDataAfterMoveClassic() throws Exception {
-        Game game = Game.instance();
         int usedTime = 1000;
 
         game.setTimeControl(TC_40_5_0);
@@ -110,7 +112,6 @@ public class TimeUtilsTest {
 
     @Test
     public void testUpdateTimeDataAfterMoveClassicPassedTimeControl() throws Exception {
-        Game game = Game.instance();
         int usedTime = 1000;
 
         game.setTimeControl(TC_40_5_0);
@@ -126,7 +127,6 @@ public class TimeUtilsTest {
 
     @Test
     public void testUpdateTimeDataAfterMoveIncremental() throws Exception {
-        Game game = Game.instance();
         int usedTime = 1000;
 
         game.setTimeControl(TC_0_30_5);
@@ -140,7 +140,6 @@ public class TimeUtilsTest {
 
     @Test
     public void testUpdateTimeDataAfterMoveSecondsPerMove() throws Exception {
-        Game game = Game.instance();
         int usedTime = 1000;
 
         game.setTimeControl(TC_0_0_30);

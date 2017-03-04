@@ -39,8 +39,8 @@ public class StCommand extends AbstractCommand {
     private final static Logger TLOG = Logger.getLogger(StCommand.class.getName());
 
     @SuppressWarnings("WeakerAccess")
-    public StCommand(String args, Response response) throws InvalidCommandException {
-        super(args, response);
+    public StCommand(String args, Response response, Game game) throws InvalidCommandException {
+        super(args, response, game);
         if (args == null) {
             throw new InvalidCommandException("missing time argument");
         }
@@ -51,8 +51,8 @@ public class StCommand extends AbstractCommand {
         TLOG.info("Time settings: " + getArgs());
         try {
             TimeControl timeControl = parseStText(getArgs());
-            Game.instance().setTimeControl(timeControl);
-            Game.instance().setTimeData(TimeData.from(timeControl));
+            game.setTimeControl(timeControl);
+            game.setTimeData(TimeData.from(timeControl));
         } catch (ParseException pe) {
             response.write("Error (" + pe.getMessage() + "): st " + getArgs());
         }

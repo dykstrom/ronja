@@ -17,9 +17,10 @@
 
 package se.dykstrom.ronja.engine.ui;
 
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.command.Command;
-import se.dykstrom.ronja.engine.utils.Version;
 import se.dykstrom.ronja.engine.ui.command.QuitCommand;
+import se.dykstrom.ronja.engine.utils.Version;
 
 import java.io.IOException;
 
@@ -46,8 +47,11 @@ public class Ronja {
     public static void main(String[] args) throws IOException {
         System.out.println("# Ronja version " + Version.instance());
 
+        // Create a game
+        Game game = new Game();
+
         // Create a command parser
-        CommandParser parser = new CommandParser(System.in, System.out);
+        CommandParser parser = new CommandParser(System.in, System.out, game);
 
         // Start parsing commands
         start(parser);

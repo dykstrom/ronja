@@ -43,8 +43,8 @@ public class LevelCommand extends AbstractCommand {
     private final static Logger TLOG = Logger.getLogger(LevelCommand.class.getName());
 
     @SuppressWarnings("WeakerAccess")
-    public LevelCommand(String args, Response response) throws InvalidCommandException {
-        super(args, response);
+    public LevelCommand(String args, Response response, Game game) throws InvalidCommandException {
+        super(args, response, game);
         if (args == null) {
             throw new InvalidCommandException("missing arguments");
         }
@@ -55,8 +55,8 @@ public class LevelCommand extends AbstractCommand {
         TLOG.info("Time settings: " + getArgs());
         try {
             TimeControl timeControl = parseLevelText(getArgs());
-            Game.instance().setTimeControl(timeControl);
-            Game.instance().setTimeData(TimeData.from(timeControl));
+            game.setTimeControl(timeControl);
+            game.setTimeData(TimeData.from(timeControl));
         } catch (ParseException pe) {
             response.write("Error (" + pe.getMessage() + "): level " + getArgs());
         }

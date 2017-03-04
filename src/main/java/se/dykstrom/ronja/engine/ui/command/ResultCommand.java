@@ -33,8 +33,9 @@ public class ResultCommand extends AbstractCommand {
 
     private final static Logger TLOG = Logger.getLogger(ResultCommand.class.getName());
 
-    public ResultCommand(String result, Response response) throws InvalidCommandException {
-        super(result, response);
+    @SuppressWarnings("WeakerAccess")
+    public ResultCommand(String result, Response response, Game game) throws InvalidCommandException {
+        super(result, response, game);
         if (result == null) {
             throw new InvalidCommandException("missing result");
         }
@@ -43,11 +44,11 @@ public class ResultCommand extends AbstractCommand {
     @Override
     public void execute() {
         TLOG.info("Game over: " + getArgs());
-        Game.instance().setResult(getArgs());
+        game.setResult(getArgs());
         String filename = AppConfig.getGameLogFilename();
         if (filename != null) {
             try {
-                FileUtils.write(PgnParser.format(Game.instance()), new File(filename), true);
+                FileUtils.write(PgnParser.format(game), new File(filename), true);
             } catch (IOException ioe) {
                 TLOG.warning("Failed to write to game log file: " + ioe.getMessage());
             }

@@ -29,13 +29,13 @@ public class GoCommand extends AbstractMoveCommand {
 
     private final static Logger TLOG = Logger.getLogger(GoCommand.class.getName());
 
-    public GoCommand(String args, Response response) {
-        super(args, response);
+    @SuppressWarnings("WeakerAccess")
+    public GoCommand(String args, Response response, Game game) {
+        super(args, response, game);
     }
 
     @Override
     public void execute() {
-        Game game = Game.instance();
         if (PositionUtils.isGameOver(game.getPosition())) {
             notifyUserGameOverError(NAME);
         } else {

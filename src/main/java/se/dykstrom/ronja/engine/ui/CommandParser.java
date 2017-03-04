@@ -17,6 +17,7 @@
 
 package se.dykstrom.ronja.engine.ui;
 
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.parser.CanParser;
 import se.dykstrom.ronja.engine.ui.command.Command;
 import se.dykstrom.ronja.engine.ui.command.UserMoveCommand;
@@ -40,9 +41,13 @@ public class CommandParser {
     /** Response object to write responses to. */
     private final PrintWriterResponse response;
 
-    public CommandParser(InputStream in, OutputStream out) {
+    /** Holds game state. */
+    private final Game game;
+
+    public CommandParser(InputStream in, OutputStream out, Game game) {
         this.in = new BufferedReader(new InputStreamReader(in));
         this.response = new PrintWriterResponse(new PrintWriter(out, true));
+        this.game = game;
     }
 
     /**
@@ -57,9 +62,9 @@ public class CommandParser {
 
         // Check if command is a just a move, e.g. "e2e4"
         if (CanParser.isMove(array[0])) {
-            return CommandFactory.create(UserMoveCommand.NAME, array[0], response);
+            return CommandFactory.create(UserMoveCommand.NAME, array[0], response, game);
         } else {
-            return CommandFactory.create(array[0], array[1], response);
+            return CommandFactory.create(array[0], array[1], response, game);
         }
     }
 

@@ -17,14 +17,16 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
 
 public class PingCommand extends AbstractCommand {
 
     public static final String NAME = "ping";
 
-    public PingCommand(String number, Response response) throws InvalidCommandException {
-        super(number, response);
+    @SuppressWarnings("WeakerAccess")
+    public PingCommand(String number, Response response, Game game) throws InvalidCommandException {
+        super(number, response, game);
         if (number == null) {
             throw new InvalidCommandException("missing number");
         }

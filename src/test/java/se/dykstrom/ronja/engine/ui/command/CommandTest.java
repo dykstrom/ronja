@@ -54,13 +54,13 @@ public class CommandTest extends AbstractTestCase {
     private static final TimeData TD_0_0_10 = TimeData.from(TC_0_0_10);
     private static final TimeData TD_0_0_01 = TimeData.from(TC_0_0_01);
 
+    private final Game game = new Game(OpeningBook.DEFAULT);
+
     @Before
     public void setUp() throws Exception {
         AppConfig.setGameLogFilename(null);
-        Game.instance().reset();
-        Game.instance().setBook(OpeningBook.DEFAULT);
-        Game.instance().setTimeControl(TC_0_0_01);
-        Game.instance().setTimeData(TD_0_0_01);
+        game.setTimeControl(TC_0_0_01);
+        game.setTimeData(TD_0_0_01);
     }
 
     // ------------------------------------------------------------------------
@@ -68,7 +68,7 @@ public class CommandTest extends AbstractTestCase {
     @Test
     public void testBkCommand() throws Exception {
         ListResponse response = new ListResponse();
-        Command command = new BkCommand(null, response);
+        Command command = new BkCommand(null, response, game);
         command.execute();
         assertTrue(response.getList().size() > 1);
         assertContainsRegex("Book moves:", response.getList());
@@ -76,9 +76,9 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testBkCommand_NoMoves() throws Exception {
-        Game.instance().makeMove(Move.of(Piece.PAWN, Square.A2, Square.A4, null, false, false));
+        game.makeMove(Move.of(Piece.PAWN, Square.A2, Square.A4, null, false, false));
         ListResponse response = new ListResponse();
-        Command command = new BkCommand(null, response);
+        Command command = new BkCommand(null, response, game);
         command.execute();
         assertTrue(response.getList().size() > 1);
         assertContainsRegex("No book moves", response.getList());
@@ -87,7 +87,7 @@ public class CommandTest extends AbstractTestCase {
     @Test
     public void testHintCommand() throws Exception {
         ListResponse response = new ListResponse();
-        Command command = new HintCommand(null, response);
+        Command command = new HintCommand(null, response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertContainsRegex("Hint:", response.getList());
@@ -95,61 +95,61 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testForceCommand() throws Exception {
-        Command command = new ForceCommand(null, null);
+        Command command = new ForceCommand(null, null, game);
         command.execute();
-        assertTrue(Game.instance().getForceMode());
+        assertTrue(game.getForceMode());
     }
 
     @Test
     public void testNewCommand() throws Exception {
-        Command command = new NewCommand(null, null);
+        Command command = new NewCommand(null, null, game);
         command.execute();
-        assertFalse(Game.instance().getForceMode());
-        Assert.assertEquals(Color.BLACK, Game.instance().getEngineColor());
-        assertEquals(Position.START, Game.instance().getPosition());
-        assertEquals("*", Game.instance().getResult());
-        assertNotNull(Game.instance().getStartTime());
-        assertEquals(TimeData.from(Game.instance().getTimeControl()), Game.instance().getTimeData());
+        assertFalse(game.getForceMode());
+        Assert.assertEquals(Color.BLACK, game.getEngineColor());
+        assertEquals(Position.START, game.getPosition());
+        assertEquals("*", game.getResult());
+        assertNotNull(game.getStartTime());
+        assertEquals(TimeData.from(game.getTimeControl()), game.getTimeData());
     }
 
     @Test
     public void testNameCommand() throws Exception {
         String name = "GNU Chess";
-        Command command = new NameCommand(name, null);
+        Command command = new NameCommand(name, null, game);
         command.execute();
-        assertEquals(name, Game.instance().getOpponent());
+        assertEquals(name, game.getOpponent());
     }
 
     @Test(expected = InvalidCommandException.class)
     public void testNameCommand_NoArgument() throws Exception {
-        Command command = new NameCommand(null, new ListResponse());
+        Command command = new NameCommand(null, new ListResponse(), game);
         command.execute();
     }
 
     @Test
     public void testLevelCommand_ConventionalClock() throws Exception {
-        Command command = new LevelCommand("40 5 0", new ListResponse());
+        Command command = new LevelCommand("40 5 0", new ListResponse(), game);
         command.execute();
-        assertEquals(TD_40_5_0, Game.instance().getTimeData());
+        assertEquals(TD_40_5_0, game.getTimeData());
     }
 
     @Test
     public void testLevelCommand_IncrementalClock() throws Exception {
-        Command command = new LevelCommand("0 5 30", new ListResponse());
+        Command command = new LevelCommand("0 5 30", new ListResponse(), game);
         command.execute();
-        assertEquals(TD_0_5_30, Game.instance().getTimeData());
+        assertEquals(TD_0_5_30, game.getTimeData());
     }
 
     @Test(expected = InvalidCommandException.class)
     public void testLevelCommand_NoArguments() throws Exception {
-        Command command = new LevelCommand(null, new ListResponse());
+        Command command = new LevelCommand(null, new ListResponse(), game);
         command.execute();
     }
 
     @Test
     public void testLevelCommand_InvalidArguments() throws Exception {
         ListResponse response = new ListResponse();
-        Command command = new LevelCommand("foo", response);
+        Command command = new LevelCommand("foo", response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertContainsRegex("Error \\(invalid number of arguments\\): level foo", response.getList());
@@ -157,21 +157,21 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testStCommand() throws Exception {
-        Command command = new StCommand("10", new ListResponse());
+        Command command = new StCommand("10", new ListResponse(), game);
         command.execute();
-        assertEquals(TD_0_0_10, Game.instance().getTimeData());
+        assertEquals(TD_0_0_10, game.getTimeData());
     }
 
     @Test(expected = InvalidCommandException.class)
     public void testStCommand_NoArguments() throws Exception {
-        Command command = new StCommand(null, new ListResponse());
+        Command command = new StCommand(null, new ListResponse(), game);
         command.execute();
     }
 
     @Test
     public void testStCommand_InvalidArguments() throws Exception {
         ListResponse response = new ListResponse();
-        Command command = new StCommand("foo", response);
+        Command command = new StCommand("foo", response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertContainsRegex("Error \\(invalid time\\): st foo", response.getList());
@@ -179,15 +179,15 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testGoCommand() throws Exception {
-        Game.instance().setTimeControl(TC_40_5_0);
-        Game.instance().setTimeData(TD_40_5_0);
+        game.setTimeControl(TC_40_5_0);
+        game.setTimeData(TD_40_5_0);
         ListResponse response = new ListResponse();
-        Command command = new GoCommand(null, response);
-        TimeData timeDataBefore = Game.instance().getTimeData();
+        Command command = new GoCommand(null, response, game);
+        TimeData timeDataBefore = game.getTimeData();
         command.execute();
-        TimeData timeDataAfter = Game.instance().getTimeData();
-        assertFalse(Game.instance().getForceMode());
-        assertEquals(Game.instance().getPosition().getActiveColor().flip(), Game.instance().getEngineColor());
+        TimeData timeDataAfter = game.getTimeData();
+        assertFalse(game.getForceMode());
+        assertEquals(game.getPosition().getActiveColor().flip(), game.getEngineColor());
         assertEquals(1, response.getList().size());
         assertContainsRegex("move (e2e4|d2d4)", response.getList());
         // The remaining time has decreased by some amount, and the number of moves left has decreased by one
@@ -197,27 +197,27 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testGoCommand_ResultingInCheckmate() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_CHECKMATE_1_2));
+        game.setPosition(FenParser.parse(FEN_CHECKMATE_1_2));
         ListResponse response = new ListResponse();
-        Command command = new GoCommand(null, response);
+        Command command = new GoCommand(null, response, game);
         command.execute();
         assertThat(response.getList(), both(hasItems("move a1c1", "0-1 {Black mates}")).and(SizeMatcher.hasSize(2)));
     }
 
     @Test
     public void testGoCommand_WhenInCheckmate() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_CHECKMATE_1_3));
+        game.setPosition(FenParser.parse(FEN_CHECKMATE_1_3));
         ListResponse response = new ListResponse();
-        Command command = new GoCommand(null, response);
+        Command command = new GoCommand(null, response, game);
         command.execute();
         assertThat(response.getList(), both(hasItems("Error (checkmate): go")).and(SizeMatcher.hasSize(1)));
     }
 
     @Test
     public void testGoCommand_ResultingInDraw() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_DRAW_1_1));
+        game.setPosition(FenParser.parse(FEN_DRAW_1_1));
         ListResponse response = new ListResponse();
-        Command command = new GoCommand(null, response);
+        Command command = new GoCommand(null, response, game);
         command.execute();
         assertEquals(2, response.getList().size());
         assertEquals("move f3h1", response.getList().get(0));
@@ -226,9 +226,9 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testGoCommand_WhenInDraw() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_DRAW_1_2));
+        game.setPosition(FenParser.parse(FEN_DRAW_1_2));
         ListResponse response = new ListResponse();
-        Command command = new GoCommand(null, response);
+        Command command = new GoCommand(null, response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertEquals("Error (draw): go", response.getList().get(0));
@@ -237,27 +237,27 @@ public class CommandTest extends AbstractTestCase {
     @Test
     public void testPlayOtherCommand() throws Exception {
         ListResponse response = new ListResponse();
-        Command command = new PlayOtherCommand(null, response);
+        Command command = new PlayOtherCommand(null, response, game);
         command.execute();
-        assertFalse(Game.instance().getForceMode());
-        assertEquals(Game.instance().getPosition().getActiveColor().flip(), Game.instance().getEngineColor());
+        assertFalse(game.getForceMode());
+        assertEquals(game.getPosition().getActiveColor().flip(), game.getEngineColor());
         assertEquals(0, response.getList().size());
     }
 
     @Test
     public void testPlayOtherCommand_WhenInDraw() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_DRAW_1_2));
+        game.setPosition(FenParser.parse(FEN_DRAW_1_2));
         ListResponse response = new ListResponse();
-        Command command = new PlayOtherCommand(null, response);
+        Command command = new PlayOtherCommand(null, response, game);
         command.execute();
         assertThat(response.getList(), both(hasItems("Error (draw): playother")).and(SizeMatcher.hasSize(1)));
     }
 
     @Test
     public void testPlayOtherCommand_WhenInCheckmate() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_CHECKMATE_1_3));
+        game.setPosition(FenParser.parse(FEN_CHECKMATE_1_3));
         ListResponse response = new ListResponse();
-        Command command = new PlayOtherCommand(null, response);
+        Command command = new PlayOtherCommand(null, response, game);
         command.execute();
         assertThat(response.getList(), both(hasItems("Error (checkmate): playother")).and(SizeMatcher.hasSize(1)));
     }
@@ -265,7 +265,7 @@ public class CommandTest extends AbstractTestCase {
     @Test
     public void testPingCommand() throws Exception {
         ListResponse response = new ListResponse();
-        Command command = new PingCommand("1", response);
+        Command command = new PingCommand("1", response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertEquals("pong 1", response.getList().get(0));
@@ -273,7 +273,7 @@ public class CommandTest extends AbstractTestCase {
 
     @Test(expected = InvalidCommandException.class)
     public void testPingCommand_NoArgument() throws Exception {
-        Command command = new PingCommand(null, new ListResponse());
+        Command command = new PingCommand(null, new ListResponse(), game);
         command.execute();
     }
 
@@ -281,85 +281,85 @@ public class CommandTest extends AbstractTestCase {
     public void testResultCommand() throws Exception {
         String result = "1-0 {White mates}";
         ListResponse response = new ListResponse();
-        Command command = new ResultCommand(result, response);
+        Command command = new ResultCommand(result, response, game);
         command.execute();
         assertEquals(0, response.getList().size());
-        assertEquals(result, Game.instance().getResult());
+        assertEquals(result, game.getResult());
     }
 
     @Test
     public void testResultCommand_NoFile() throws Exception {
         String result = "1-0 {White mates}";
         ListResponse response = new ListResponse();
-        Command command = new ResultCommand(result, response);
+        Command command = new ResultCommand(result, response, game);
         command.execute();
         assertEquals(0, response.getList().size());
-        assertEquals(result, Game.instance().getResult());
+        assertEquals(result, game.getResult());
         assertNull(AppConfig.getGameLogFilename()); // How can we assert that no file has been written?
     }
 
     @Test(expected = InvalidCommandException.class)
     public void testResultCommand_NoArgument() throws Exception {
-        Command command = new ResultCommand(null, new ListResponse());
+        Command command = new ResultCommand(null, new ListResponse(), game);
         command.execute();
     }
 
     @Test
     public void testSetBoardCommand() throws Exception {
-        Game.instance().setForceMode(true);
+        game.setForceMode(true);
         ListResponse response = new ListResponse();
-        Command command = new SetBoardCommand(FEN_MIDDLE_GAME_0, response);
+        Command command = new SetBoardCommand(FEN_MIDDLE_GAME_0, response, game);
         command.execute();
         assertEquals(0, response.getList().size());
-        assertEquals(FenParser.parse(FEN_MIDDLE_GAME_0), Game.instance().getPosition());
-        assertEquals(FenParser.parse(FEN_MIDDLE_GAME_0), Game.instance().getStartPosition());
+        assertEquals(FenParser.parse(FEN_MIDDLE_GAME_0), game.getPosition());
+        assertEquals(FenParser.parse(FEN_MIDDLE_GAME_0), game.getStartPosition());
     }
 
     @Test
     public void testSetBoardCommand_ParseException() throws Exception {
-        Game.instance().setForceMode(true);
+        game.setForceMode(true);
         ListResponse response = new ListResponse();
-        Command command = new SetBoardCommand("foo", response);
+        Command command = new SetBoardCommand("foo", response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertContainsRegex("Illegal position", response.getList());
-        assertEquals(Position.START, Game.instance().getPosition()); // Position has not changed
-        assertEquals(Position.START, Game.instance().getStartPosition());
+        assertEquals(Position.START, game.getPosition()); // Position has not changed
+        assertEquals(Position.START, game.getStartPosition());
     }
 
     @Test
     public void testSetBoardCommand_IllegalPosition() throws Exception {
-        Game.instance().setForceMode(true);
+        game.setForceMode(true);
         ListResponse response = new ListResponse();
-        Command command = new SetBoardCommand(FEN_ILLEGAL_0, response);
+        Command command = new SetBoardCommand(FEN_ILLEGAL_0, response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertContainsRegex("Illegal position", response.getList());
-        assertEquals(Position.START, Game.instance().getPosition()); // Position has not changed
-        assertEquals(Position.START, Game.instance().getStartPosition());
+        assertEquals(Position.START, game.getPosition()); // Position has not changed
+        assertEquals(Position.START, game.getStartPosition());
     }
 
     @Test
     public void testSetBoardCommand_NotInForceMode() throws Exception {
         ListResponse response = new ListResponse();
-        Command command = new SetBoardCommand(FEN_MIDDLE_GAME_0, response);
+        Command command = new SetBoardCommand(FEN_MIDDLE_GAME_0, response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertContainsRegex("Not in force mode", response.getList());
-        assertEquals(Position.START, Game.instance().getPosition()); // Position has not changed
-        assertEquals(Position.START, Game.instance().getStartPosition());
+        assertEquals(Position.START, game.getPosition()); // Position has not changed
+        assertEquals(Position.START, game.getStartPosition());
     }
 
     @Test
     public void testMovesCommand() throws Exception {
-        Game.instance().setForceMode(true);
+        game.setForceMode(true);
         ListResponse response = new ListResponse();
-        new UserMoveCommand("e2e4", response).execute();
-        new UserMoveCommand("d7d5", response).execute();
-        new UserMoveCommand("e4d5", response).execute();
-        new UserMoveCommand("d8d5", response).execute();
-        new UserMoveCommand("b1c3", response).execute();
-        new MovesCommand(null, response).execute();
+        new UserMoveCommand("e2e4", response, game).execute();
+        new UserMoveCommand("d7d5", response, game).execute();
+        new UserMoveCommand("e4d5", response, game).execute();
+        new UserMoveCommand("d8d5", response, game).execute();
+        new UserMoveCommand("b1c3", response, game).execute();
+        new MovesCommand(null, response, game).execute();
         assertContainsRegex("1[.]\\s+e4\\s+d5$", response.getList());
         assertContainsRegex("2[.]\\s+exd5\\s+Qxd5$", response.getList());
         assertContainsRegex("3[.]\\s+Nc3\\s+$", response.getList());
@@ -367,45 +367,44 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testMovesCommand_BlackStarts() throws Exception {
-        Game game = Game.instance();
         game.setForceMode(true);
         game.setEngineColor(Color.WHITE);
         game.setPosition(FenParser.parse(FEN_CHECKMATE_1_2));
         ListResponse response = new ListResponse();
-        new UserMoveCommand("a1c1", response).execute();
-        new MovesCommand(null, response).execute();
+        new UserMoveCommand("a1c1", response, game).execute();
+        new MovesCommand(null, response, game).execute();
         assertContainsRegex("18[.]\\s+Rxc1#$", response.getList());
     }
 
     @Test
     public void testUserMoveCommand_AsWhite() throws Exception {
         ListResponse response = new ListResponse();
-        Command command = new UserMoveCommand("e2e4", response);
+        Command command = new UserMoveCommand("e2e4", response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertContainsRegex("move e7(e5|e6)", response.getList());
-        Position position = Game.instance().getPosition();
+        Position position = game.getPosition();
         assertTrue(position.equals(FenParser.parse(FEN_E4_E5)) || position.equals(FenParser.parse(FEN_E4_E6)));
     }
 
     @Test
     public void testUserMoveCommand_AsBlack() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_CHECKMATE_1_0));
-        Game.instance().setEngineColor(Color.WHITE);
+        game.setPosition(FenParser.parse(FEN_CHECKMATE_1_0));
+        game.setEngineColor(Color.WHITE);
         ListResponse response = new ListResponse();
-        Command command = new UserMoveCommand("a8a1", response);
+        Command command = new UserMoveCommand("a8a1", response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertEquals("move f4c1", response.getList().get(0)); // The only move to get out of check
-        assertEquals(FenParser.parse(FEN_CHECKMATE_1_2), Game.instance().getPosition());
+        assertEquals(FenParser.parse(FEN_CHECKMATE_1_2), game.getPosition());
     }
 
     @Test
     public void testUserMoveCommand_WhenInCheckmate() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_CHECKMATE_1_3));
-        Game.instance().setEngineColor(Color.BLACK);
+        game.setPosition(FenParser.parse(FEN_CHECKMATE_1_3));
+        game.setEngineColor(Color.BLACK);
         ListResponse response = new ListResponse();
-        Command command = new UserMoveCommand("g1h1", response);
+        Command command = new UserMoveCommand("g1h1", response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertEquals("Error (checkmate): usermove", response.getList().get(0));
@@ -413,10 +412,10 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testUserMoveCommand_ResultingInCheckmate_ForUser() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_CHECKMATE_1_2));
-        Game.instance().setEngineColor(Color.WHITE);
+        game.setPosition(FenParser.parse(FEN_CHECKMATE_1_2));
+        game.setEngineColor(Color.WHITE);
         ListResponse response = new ListResponse();
-        Command command = new UserMoveCommand("a1c1", response);
+        Command command = new UserMoveCommand("a1c1", response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertEquals("0-1 {Black mates}", response.getList().get(0));
@@ -424,10 +423,10 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testUserMoveCommand_ResultingInCheckmate_ForEngine() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_CHECKMATE_2_7));
-        Game.instance().setEngineColor(Color.WHITE);
+        game.setPosition(FenParser.parse(FEN_CHECKMATE_2_7));
+        game.setEngineColor(Color.WHITE);
         ListResponse response = new ListResponse();
-        Command command = new UserMoveCommand("e8g8", response);
+        Command command = new UserMoveCommand("e8g8", response, game);
         command.execute();
         assertEquals(2, response.getList().size());
         assertEquals("move h6f7", response.getList().get(0));
@@ -436,10 +435,10 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testUserMoveCommand_WhenInDraw() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_ONE_BISHOP));
-        Game.instance().setEngineColor(Color.BLACK);
+        game.setPosition(FenParser.parse(FEN_ONE_BISHOP));
+        game.setEngineColor(Color.BLACK);
         ListResponse response = new ListResponse();
-        Command command = new UserMoveCommand("e2e1", response);
+        Command command = new UserMoveCommand("e2e1", response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertEquals("Error (draw): usermove", response.getList().get(0));
@@ -447,10 +446,10 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testUserMoveCommand_ResultingInDraw_ForUser() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_DRAW_1_1));
-        Game.instance().setEngineColor(Color.BLACK);
+        game.setPosition(FenParser.parse(FEN_DRAW_1_1));
+        game.setEngineColor(Color.BLACK);
         ListResponse response = new ListResponse();
-        Command command = new UserMoveCommand("f3h1", response);
+        Command command = new UserMoveCommand("f3h1", response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertEquals("1/2-1/2 {Stalemate}", response.getList().get(0));
@@ -458,10 +457,10 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testUserMoveCommand_ResultingInDraw_ForEngine() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_DRAW_1_0));
-        Game.instance().setEngineColor(Color.WHITE);
+        game.setPosition(FenParser.parse(FEN_DRAW_1_0));
+        game.setEngineColor(Color.WHITE);
         ListResponse response = new ListResponse();
-        Command command = new UserMoveCommand("h4h1", response);
+        Command command = new UserMoveCommand("h4h1", response, game);
         command.execute();
         assertEquals(2, response.getList().size());
         assertEquals("move f3h1", response.getList().get(0));
@@ -470,29 +469,29 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testUserMoveCommand_ForceMode() throws Exception {
-        Game.instance().setForceMode(true);
-        Game.instance().setEngineColor(null);
+        game.setForceMode(true);
+        game.setEngineColor(null);
 
         ListResponse response = new ListResponse();
-        Command command = new UserMoveCommand("e2e4", response);
+        Command command = new UserMoveCommand("e2e4", response, game);
         command.execute();
         assertEquals(0, response.getList().size());
-        Assert.assertEquals(FenParser.parse(FEN_E4), Game.instance().getPosition());
+        Assert.assertEquals(FenParser.parse(FEN_E4), game.getPosition());
 
         response = new ListResponse();
-        command = new UserMoveCommand("e7e5", response);
+        command = new UserMoveCommand("e7e5", response, game);
         command.execute();
         assertEquals(0, response.getList().size());
-        Assert.assertEquals(FenParser.parse(FEN_E4_E5), Game.instance().getPosition());
+        Assert.assertEquals(FenParser.parse(FEN_E4_E5), game.getPosition());
 
-        assertTrue(Game.instance().getForceMode());
-        assertNull(Game.instance().getEngineColor());
+        assertTrue(game.getForceMode());
+        assertNull(game.getEngineColor());
     }
 
     @Test
     public void testUserMoveCommand_IllegalMove_SyntaxError() throws Exception {
         ListResponse response = new ListResponse();
-        Command command = new UserMoveCommand("foo", response);
+        Command command = new UserMoveCommand("foo", response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertContainsRegex("Illegal move \\(syntax error\\)", response.getList());
@@ -500,9 +499,9 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testUserMoveCommand_IllegalMove_IllegalCheck() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_CHECKMATE_1_1));
+        game.setPosition(FenParser.parse(FEN_CHECKMATE_1_1));
         ListResponse response = new ListResponse();
-        Command command = new UserMoveCommand("g1h1", response); // Still in check
+        Command command = new UserMoveCommand("g1h1", response, game); // Still in check
         command.execute();
         assertEquals(1, response.getList().size());
         assertContainsRegex("Illegal move \\(in check after move\\)", response.getList());
@@ -511,7 +510,7 @@ public class CommandTest extends AbstractTestCase {
     @Test
     public void testUserMoveCommand_IllegalMove_NoPiece() throws Exception {
         ListResponse response = new ListResponse();
-        Command command = new UserMoveCommand("e4e5", response); // No piece on this square
+        Command command = new UserMoveCommand("e4e5", response, game); // No piece on this square
         command.execute();
         assertEquals(1, response.getList().size());
         assertContainsRegex("Illegal move", response.getList());
@@ -520,7 +519,7 @@ public class CommandTest extends AbstractTestCase {
     @Test
     public void testUserMoveCommand_IllegalMove_IllegalCapture() throws Exception {
         ListResponse response = new ListResponse();
-        Command command = new UserMoveCommand("g1e2", response); // Cannot capture your own piece
+        Command command = new UserMoveCommand("g1e2", response, game); // Cannot capture your own piece
         command.execute();
         assertEquals(1, response.getList().size());
         assertContainsRegex("Illegal move", response.getList());
@@ -528,9 +527,9 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testUserMoveCommand_IllegalMove_KsCastlingNok() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_WKC_NOK_K));
+        game.setPosition(FenParser.parse(FEN_WKC_NOK_K));
         ListResponse response = new ListResponse();
-        Command command = new UserMoveCommand("e1g1", response); // Castling not available
+        Command command = new UserMoveCommand("e1g1", response, game); // Castling not available
         command.execute();
         assertEquals(1, response.getList().size());
         assertContainsRegex("Illegal move", response.getList());
@@ -538,9 +537,9 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testUserMoveCommand_IllegalMove_QsCastlingNok() throws Exception {
-        Game.instance().setPosition(FenParser.parse(FEN_WQC_NOK_K));
+        game.setPosition(FenParser.parse(FEN_WQC_NOK_K));
         ListResponse response = new ListResponse();
-        Command command = new UserMoveCommand("e1c1", response); // Castling not available
+        Command command = new UserMoveCommand("e1c1", response, game); // Castling not available
         command.execute();
         assertEquals(1, response.getList().size());
         assertContainsRegex("Illegal move", response.getList());
@@ -548,7 +547,7 @@ public class CommandTest extends AbstractTestCase {
 
     @Test(expected = InvalidCommandException.class)
     public void testUserMoveCommand_NoArgument() throws Exception {
-        Command command = new UserMoveCommand(null, new ListResponse());
+        Command command = new UserMoveCommand(null, new ListResponse(), game);
         command.execute();
     }
 }

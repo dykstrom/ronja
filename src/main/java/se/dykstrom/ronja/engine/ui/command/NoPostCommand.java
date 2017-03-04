@@ -17,13 +17,15 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
 
 public class NoPostCommand extends AbstractCommand {
 
     public static final String NAME = "nopost";
 
-    public NoPostCommand(String args, Response response) {
-        super(args, response);
+    @SuppressWarnings("WeakerAccess")
+    public NoPostCommand(String args, Response response, Game game) {
+        super(args, response, game);
     }
 }

@@ -30,8 +30,9 @@ public class SetBoardCommand extends AbstractCommand {
 
     public static final String NAME = "setboard";
 
-    public SetBoardCommand(String fen, Response response) throws InvalidCommandException {
-        super(fen, response);
+    @SuppressWarnings("WeakerAccess")
+    public SetBoardCommand(String fen, Response response, Game game) throws InvalidCommandException {
+        super(fen, response, game);
         if (fen == null) {
             throw new InvalidCommandException("missing position");
         }
@@ -43,11 +44,11 @@ public class SetBoardCommand extends AbstractCommand {
             Position position = FenParser.parse(getArgs());
             if (!PositionUtils.isLegal(position)) {
                 response.write("tellusererror Illegal position");
-            } else if (!Game.instance().getForceMode()) {
+            } else if (!game.getForceMode()) {
                 response.write("tellusererror Not in force mode");
             } else {
-                Game.instance().setPosition(position);
-                Game.instance().setMoves(new ArrayList<>());
+                game.setPosition(position);
+                game.setMoves(new ArrayList<>());
             }
         } catch (ParseException e) {
             response.write("tellusererror Illegal position");

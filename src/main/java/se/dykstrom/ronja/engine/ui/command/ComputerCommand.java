@@ -17,6 +17,7 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
 
 import java.util.logging.Logger;
@@ -27,8 +28,9 @@ public class ComputerCommand extends AbstractCommand {
 
     private final static Logger TLOG = Logger.getLogger(ComputerCommand.class.getName());
 
-    public ComputerCommand(String args, Response response) {
-        super(args, response);
+    @SuppressWarnings("WeakerAccess")
+    public ComputerCommand(String args, Response response, Game game) {
+        super(args, response, game);
     }
 
     @Override

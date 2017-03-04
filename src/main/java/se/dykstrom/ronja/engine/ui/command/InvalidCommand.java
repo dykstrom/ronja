@@ -17,14 +17,16 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
 
 public class InvalidCommand extends AbstractCommand {
 
     private final String message;
 
-    public InvalidCommand(String command, Response response, String message) {
-        super(command, response);
+    @SuppressWarnings("WeakerAccess")
+    public InvalidCommand(String command, Response response, String message, Game game) {
+        super(command, response, game);
         this.message = message;
     }
 

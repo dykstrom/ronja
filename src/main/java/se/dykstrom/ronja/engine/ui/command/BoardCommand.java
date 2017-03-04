@@ -24,14 +24,15 @@ public class BoardCommand extends AbstractCommand {
 
     public static final String NAME = "board";
 
-    public BoardCommand(String args, Response response) {
-        super(args, response);
+    @SuppressWarnings("WeakerAccess")
+    public BoardCommand(String args, Response response, Game game) {
+        super(args, response, game);
     }
 
     @Override
     public void execute() {
         response.write("");
-        response.write(Game.instance().toString());
+        response.write(game.toString());
         response.write("");
     }
 }

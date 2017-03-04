@@ -39,14 +39,14 @@ public class HintCommand extends AbstractCommand {
     private static final Finder FINDER = new AlphaBetaFinder();
 
     @SuppressWarnings("WeakerAccess")
-    public HintCommand(String args, Response response) {
-        super(args, response);
+    public HintCommand(String args, Response response, Game game) {
+        super(args, response, game);
     }
 
     @Override
     public void execute() {
-        OpeningBook book = Game.instance().getBook();
-        Position position = Game.instance().getPosition();
+        OpeningBook book = game.getBook();
+        Position position = game.getPosition();
         if (!PositionUtils.isGameOver(position)) {
             Move move = book.findBestMove(position);
             if (move == null) {

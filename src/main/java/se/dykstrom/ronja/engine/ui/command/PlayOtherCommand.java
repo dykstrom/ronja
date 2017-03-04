@@ -30,13 +30,13 @@ public class PlayOtherCommand extends AbstractMoveCommand {
 
     private final static Logger TLOG = Logger.getLogger(PlayOtherCommand.class.getName());
 
-    public PlayOtherCommand(String args, Response response) {
-        super(args, response);
+    @SuppressWarnings("WeakerAccess")
+    public PlayOtherCommand(String args, Response response, Game game) {
+        super(args, response, game);
     }
 
     @Override
     public void execute() {
-        Game game = Game.instance();
         if (PositionUtils.isGameOver(game.getPosition())) {
             notifyUserGameOverError(NAME);
         } else {

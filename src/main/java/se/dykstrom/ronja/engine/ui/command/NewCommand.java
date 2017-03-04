@@ -29,13 +29,13 @@ public class NewCommand extends AbstractCommand {
 
     private final static Logger TLOG = Logger.getLogger(NewCommand.class.getName());
 
-    public NewCommand(String args, Response response) {
-        super(args, response);
+    @SuppressWarnings("WeakerAccess")
+    public NewCommand(String args, Response response, Game game) {
+        super(args, response, game);
     }
 
     @Override
     public void execute() {
-        Game game = Game.instance();
         game.reset();
         TLOG.info("New game, engine plays " + Objects.toString(game.getEngineColor()).toLowerCase());
     }

@@ -35,8 +35,7 @@ import java.util.logging.Logger;
 import static se.dykstrom.ronja.engine.time.TimeControlType.CLASSIC;
 
 /**
- * This class holds state information for the current game. Only one game can be played at a time,
- * so this is a singleton class.
+ * This class holds state information for the current game.
  *
  * @author Johan Dykstrom
  */
@@ -46,11 +45,6 @@ public class Game {
 
     /** Default time control is 40 moves in 2 minutes. */
     private static final TimeControl TWO_MINUTES = new TimeControl(40, 2 * 60 * 1000, 0, CLASSIC);
-
-    /** The singleton instance of this class. */
-    private static final class Holder {
-        static final Game INSTANCE = new Game();
-    }
 
     /** True if force mode is on. */
     private boolean force;
@@ -93,7 +87,10 @@ public class Game {
 
     // ------------------------------------------------------------------------
 
-    private Game() {
+    /**
+     * Creates a new game and loads the opening book from file.
+     */
+    public Game() {
         try {
             book = OpeningBookParser.parse(new File(AppConfig.getBookFilename()));
         } catch (IOException | ParseException e) {
@@ -104,11 +101,11 @@ public class Game {
     }
 
     /**
-     * Returns the singleton instance of this class.
+     * Creates a new game with that uses the given opening book.
      */
-    @SuppressWarnings("SameReturnValue")
-    public static Game instance() {
-        return Holder.INSTANCE;
+    public Game(OpeningBook book) {
+        this.book = book;
+        reset();
     }
 
     /**

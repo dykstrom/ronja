@@ -18,6 +18,8 @@
 package se.dykstrom.ronja.engine.ui;
 
 import org.junit.Test;
+import se.dykstrom.ronja.common.book.OpeningBook;
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.command.*;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
@@ -35,6 +37,8 @@ import static org.junit.Assert.assertNotNull;
  * @see CommandParser
  */
 public class CommandParserTest extends AbstractTestCase {
+
+    private final Game game = new Game(OpeningBook.DEFAULT);
 
     @Test
     public void testQuit() throws Exception {
@@ -97,7 +101,7 @@ public class CommandParserTest extends AbstractTestCase {
         assertEquals(classes.length, args.length);
 
         InputStream in = new ByteArrayInputStream(commands.getBytes(Charset.forName("ISO-8859-1")));
-        CommandParser commandParser = new CommandParser(in, System.out);
+        CommandParser commandParser = new CommandParser(in, System.out, game);
 
         for (int i = 0; i < classes.length; i++) {
             AbstractCommand command = (AbstractCommand) commandParser.next();
