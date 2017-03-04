@@ -17,8 +17,8 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import org.junit.Before;
 import org.junit.Test;
+import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.utils.AppConfig;
@@ -27,9 +27,7 @@ import se.dykstrom.ronja.test.AbstractTestCase;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static org.hamcrest.CoreMatchers.both;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -46,13 +44,9 @@ public class PgnParserTest extends AbstractTestCase {
     private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter TF = DateTimeFormatter.ofPattern("HH:mm");
 
-    @Before
-    public void setUp() throws Exception {
-        Game.instance().reset();
-    }
+    private final Game game = new Game(OpeningBook.DEFAULT);
 
     private void setUpGame(String opponent, String result) throws IllegalMoveException {
-        Game game = Game.instance();
         game.setStartTime(DATE);
         game.setEngineColor(Color.WHITE);
         game.setOpponent(opponent);
@@ -67,7 +61,7 @@ public class PgnParserTest extends AbstractTestCase {
         String fullResult = shortResult + " {Time forfeit}";
         setUpGame(opponent, fullResult);
 
-        String contents = PgnParser.format(Game.instance());
+        String contents = PgnParser.format(game);
         assertThat(contents, both(containsString("[Event \"Chess Game\"]"))
                 .and(containsString("[Result \"" + shortResult + "\"]"))
                 .and(containsString("[White \"" + AppConfig.getEngineName() + "\"]"))
@@ -83,7 +77,7 @@ public class PgnParserTest extends AbstractTestCase {
     @Test
     public void testFormat_NewGame() throws Exception {
         LocalDateTime now = LocalDateTime.now();
-        String contents = PgnParser.format(Game.instance());
+        String contents = PgnParser.format(game);
         assertThat(contents, both(containsString("[Event \"Chess Game\"]"))
                 .and(containsString("[Result \"*\"]"))
                 .and(containsString("[White \"\"]"))
@@ -99,7 +93,6 @@ public class PgnParserTest extends AbstractTestCase {
         String shortResult = "0-1";
         String fullResult = shortResult + " {Black mates}";
 
-        Game game = Game.instance();
         game.setStartTime(DATE);
         game.setOpponent(opponent);
         game.setEngineColor(Color.WHITE);
@@ -108,7 +101,7 @@ public class PgnParserTest extends AbstractTestCase {
         game.makeMove(MoveParser.parse("a1c1", game.getPosition()));
         game.setResult(fullResult);
 
-        String contents = PgnParser.format(Game.instance());
+        String contents = PgnParser.format(game);
         assertThat(contents, both(containsString("[Event \"Chess Game\"]"))
                 .and(containsString("[Result \"" + shortResult + "\"]"))
                 .and(containsString("[White \"" + AppConfig.getEngineName() + "\"]"))
@@ -127,7 +120,6 @@ public class PgnParserTest extends AbstractTestCase {
         String shortResult = "0-1";
         String fullResult = shortResult + " {Black mates}";
 
-        Game game = Game.instance();
         game.setStartTime(DATE);
         game.setOpponent(opponent);
         game.setEngineColor(Color.BLACK);
@@ -135,7 +127,7 @@ public class PgnParserTest extends AbstractTestCase {
         game.makeMove(MoveParser.parse("a1c1", game.getPosition()));
         game.setResult(fullResult);
 
-        String contents = PgnParser.format(Game.instance());
+        String contents = PgnParser.format(game);
         assertThat(contents, both(containsString("[Event \"Chess Game\"]"))
                 .and(containsString("[Result \"" + shortResult + "\"]"))
                 .and(containsString("[White \"" + opponent + "\"]"))
@@ -150,7 +142,6 @@ public class PgnParserTest extends AbstractTestCase {
 
     @Test
     public void testGetShortResult() throws Exception {
-        Game game = Game.instance();
         assertEquals("*", PgnParser.getShortResult(game));
         game.setResult("1-0");
         assertEquals("1-0", PgnParser.getShortResult(game));

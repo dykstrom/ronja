@@ -28,13 +28,14 @@ public class ForceCommand extends AbstractCommand {
 
     private final static Logger TLOG = Logger.getLogger(ForceCommand.class.getName());
 
-    public ForceCommand(String args, Response response) {
-        super(args, response);
+    @SuppressWarnings("WeakerAccess")
+    public ForceCommand(String args, Response response, Game game) {
+        super(args, response, game);
     }
 
     @Override
     public void execute() {
-        Game.instance().setForceMode(true);
+        game.setForceMode(true);
         TLOG.info("Entering force mode, engine plays neither color");
     }
 }

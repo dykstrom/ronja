@@ -17,6 +17,7 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
 
 /**
@@ -28,10 +29,12 @@ public abstract class AbstractCommand implements Command {
 
     final String args;
     final Response response;
+    final Game game;
 
-    AbstractCommand(String args, Response response) {
+    AbstractCommand(String args, Response response, Game game) {
         this.args = args;
         this.response = response;
+        this.game = game;
     }
 
     /**

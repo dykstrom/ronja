@@ -33,8 +33,9 @@ public class UserMoveCommand extends AbstractMoveCommand {
 
     private static final Logger TLOG = Logger.getLogger(UserMoveCommand.class.getName());
 
-    public UserMoveCommand(String move, Response response) throws InvalidCommandException {
-        super(move, response);
+    @SuppressWarnings("WeakerAccess")
+    public UserMoveCommand(String move, Response response, Game game) throws InvalidCommandException {
+        super(move, response, game);
         if (move == null) {
             throw new InvalidCommandException("missing move argument");
         }
@@ -42,7 +43,6 @@ public class UserMoveCommand extends AbstractMoveCommand {
 
     @Override
     public void execute() {
-        Game game = Game.instance();
         Position position = game.getPosition();
 
         if (PositionUtils.isGameOver(position)) {

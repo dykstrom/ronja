@@ -32,14 +32,14 @@ public class BkCommand extends AbstractCommand {
     public static final String NAME = "bk";
 
     @SuppressWarnings("WeakerAccess")
-    public BkCommand(String args, Response response) {
-        super(args, response);
+    public BkCommand(String args, Response response, Game game) {
+        super(args, response, game);
     }
 
     @Override
     public void execute() {
-        OpeningBook book = Game.instance().getBook();
-        Position position = Game.instance().getPosition();
+        OpeningBook book = game.getBook();
+        Position position = game.getPosition();
 
         List<BookMove> bookMoves = book.findAllMoves(position);
 

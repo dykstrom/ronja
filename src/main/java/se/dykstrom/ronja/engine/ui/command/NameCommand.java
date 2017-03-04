@@ -28,8 +28,9 @@ public class NameCommand extends AbstractCommand {
 
     private final static Logger TLOG = Logger.getLogger(NameCommand.class.getName());
 
-    public NameCommand(String name, Response response) throws InvalidCommandException {
-        super(name, response);
+    @SuppressWarnings("WeakerAccess")
+    public NameCommand(String name, Response response, Game game) throws InvalidCommandException {
+        super(name, response, game);
         if (name == null) {
             throw new InvalidCommandException("missing name");
         }
@@ -38,6 +39,6 @@ public class NameCommand extends AbstractCommand {
     @Override
     public void execute() {
         TLOG.info("Opponent name: " + getArgs());
-        Game.instance().setOpponent(getArgs());
+        game.setOpponent(getArgs());
     }
 }

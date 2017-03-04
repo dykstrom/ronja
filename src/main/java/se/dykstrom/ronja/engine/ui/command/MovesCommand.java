@@ -30,14 +30,12 @@ public class MovesCommand extends AbstractCommand {
     public static final String NAME = "moves";
 
     @SuppressWarnings("WeakerAccess")
-    public MovesCommand(String args, Response response) {
-        super(args, response);
+    public MovesCommand(String args, Response response, Game game) {
+        super(args, response, game);
     }
 
     @Override
     public void execute() {
-        Game game = Game.instance();
-
         response.write("");
         response.write("      White   Black");
 

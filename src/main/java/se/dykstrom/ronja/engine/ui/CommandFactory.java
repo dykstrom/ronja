@@ -17,6 +17,7 @@
 
 package se.dykstrom.ronja.engine.ui;
 
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.command.*;
 import se.dykstrom.ronja.engine.ui.io.Response;
 import se.dykstrom.ronja.engine.utils.ClassUtils;
@@ -76,19 +77,20 @@ class CommandFactory {
      * @param name The name of the command.
      * @param args The command arguments (optional).
      * @param response The command response object (optional).
+     * @param game The game state.
      * @return The created command.
      */
-    static Command create(String name, String args, Response response) {
+    static Command create(String name, String args, Response response, Game game) {
         Class<? extends Command> clazz = COMMANDS.get(name);
         if (clazz == null) {
-            return new InvalidCommand(name, response, "unknown command");
+            return new InvalidCommand(name, response, "unknown command", game);
         }
         try {
-            Constructor<? extends Command> constructor = ClassUtils.getConstructorOrFail(clazz, String.class, Response.class);
-            return ClassUtils.invokeConstructorOrFail(constructor, args, response);
+            Constructor<? extends Command> constructor = ClassUtils.getConstructorOrFail(clazz, String.class, Response.class, Game.class);
+            return ClassUtils.invokeConstructorOrFail(constructor, args, response, game);
         } catch (Exception e) {
             if (e.getCause() instanceof InvalidCommandException) {
-                return new InvalidCommand(name, response, e.getCause().getMessage());
+                return new InvalidCommand(name, response, e.getCause().getMessage(), game);
             } else {
                 throw e;
             }

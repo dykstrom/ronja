@@ -38,8 +38,9 @@ public class TimeCommand extends AbstractCommand {
     /** The remaining time in milliseconds, according to XBoard. */
     private final int time;
 
-    public TimeCommand(String time, Response response) throws InvalidCommandException {
-        super(time, response);
+    @SuppressWarnings("WeakerAccess")
+    public TimeCommand(String time, Response response, Game game) throws InvalidCommandException {
+        super(time, response, game);
 
         if (time == null) {
             throw new InvalidCommandException("missing time argument");
@@ -54,7 +55,7 @@ public class TimeCommand extends AbstractCommand {
 
     @Override
     public void execute() {
-        long engineTime = Game.instance().getTimeData().getRemainingTime();
+        long engineTime = game.getTimeData().getRemainingTime();
         TLOG.fine("XBoard reports time " + time + " = " + formatTime(time));
         TLOG.fine("Engine reports time " + engineTime + " = " + formatTime(engineTime));
     }

@@ -43,16 +43,14 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
 
     private static final Finder FINDER = new AlphaBetaFinder();
 
-    AbstractMoveCommand(String args, Response response) {
-        super(args, response);
+    AbstractMoveCommand(String args, Response response, Game game) {
+        super(args, response, game);
     }
 
     /**
      * Find and make the engine's move.
      */
     protected void move() {
-        Game game = Game.instance();
-
         // If not in force mode, make a move
         if (!game.getForceMode()) {
             long startTime = System.currentTimeMillis();
@@ -120,7 +118,7 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
      */
     void notifyUserGameOverOk() {
         String result;
-        Position position = Game.instance().getPosition();
+        Position position = game.getPosition();
         if (PositionUtils.isCheckMate(position)) {
             if (position.isWhiteMove()) {
                 result = "0-1 {Black mates}";
@@ -133,14 +131,14 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
             result = "?";
         }
         response.write(result);
-        Game.instance().setResult(result);
+        game.setResult(result);
     }
 
     /**
      * Notifies the user that the game is over, and that the last command was an error.
      */
     void notifyUserGameOverError(String command) {
-        Position position = Game.instance().getPosition();
+        Position position = game.getPosition();
         if (PositionUtils.isCheckMate(position)) {
             response.write("Error (checkmate): " + command);
         } else if (PositionUtils.isDraw(position)) {

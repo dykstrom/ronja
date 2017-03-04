@@ -17,8 +17,9 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
-import se.dykstrom.ronja.engine.utils.AppConfig;
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
+import se.dykstrom.ronja.engine.utils.AppConfig;
 
 /**
  * Class that represents the XBoard 'protover' command.
@@ -32,8 +33,9 @@ public class ProtoverCommand extends AbstractCommand {
     /** Protocol version. */
 	private final int version;
 
-    public ProtoverCommand(String version, Response response) throws InvalidCommandException {
-        super(version, response);
+    @SuppressWarnings("WeakerAccess")
+    public ProtoverCommand(String version, Response response, Game game) throws InvalidCommandException {
+        super(version, response, game);
 
         if (version == null) {
             throw new InvalidCommandException("missing version");

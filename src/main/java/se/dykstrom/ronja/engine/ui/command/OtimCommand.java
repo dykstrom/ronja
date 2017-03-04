@@ -17,6 +17,7 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
 
 import java.util.logging.Logger;
@@ -36,8 +37,9 @@ public class OtimCommand extends AbstractCommand {
 
     private final int time;
 
-    public OtimCommand(String time, Response response) throws InvalidCommandException {
-        super(time, response);
+    @SuppressWarnings("WeakerAccess")
+    public OtimCommand(String time, Response response, Game game) throws InvalidCommandException {
+        super(time, response, game);
 
         if (time == null) {
             throw new InvalidCommandException("missing time argument");

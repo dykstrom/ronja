@@ -17,8 +17,8 @@
 
 package se.dykstrom.ronja.engine.ui;
 
-import org.junit.Before;
 import org.junit.Test;
+import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.command.*;
 import se.dykstrom.ronja.test.ListResponse;
@@ -37,16 +37,13 @@ public class CommandFactoryTest {
 
     private final ListResponse response = new ListResponse();
 
-    @Before
-    public void setUp() throws Exception {
-        Game.instance().reset();
-    }
+    private final Game game = new Game(OpeningBook.DEFAULT);
 
     // ------------------------------------------------------------------------
 
     @Test
     public void testHintCommand() throws Exception {
-        Command command = CommandFactory.create(HintCommand.NAME, null, response);
+        Command command = CommandFactory.create(HintCommand.NAME, null, response, game);
         command.execute();
         assertEquals(1, response.getList().size());
         assertContainsRegex("Hint:", response.getList());
@@ -55,15 +52,15 @@ public class CommandFactoryTest {
     @Test
     public void testNameCommand() throws Exception {
         String opponent = "GNU Chess";
-        Command command = CommandFactory.create(NameCommand.NAME, opponent, response);
+        Command command = CommandFactory.create(NameCommand.NAME, opponent, response, game);
         command.execute();
         assertEquals(0, response.getList().size());
-        assertEquals(opponent, Game.instance().getOpponent());
+        assertEquals(opponent, game.getOpponent());
     }
 
     @Test
     public void testInvalidCommand() throws Exception {
-        Command command = CommandFactory.create("foo", null, response);
+        Command command = CommandFactory.create("foo", null, response, game);
         assertTrue(command instanceof InvalidCommand);
         command.execute();
         assertEquals(1, response.getList().size());
@@ -72,34 +69,34 @@ public class CommandFactoryTest {
 
     @Test
     public void testAllCommands() throws Exception {
-        assertTrue(CommandFactory.create(AcceptedCommand.NAME, "", response) instanceof AcceptedCommand);
-        assertTrue(CommandFactory.create(BkCommand.NAME, "", response) instanceof BkCommand);
-        assertTrue(CommandFactory.create(BoardCommand.NAME, "", response) instanceof BoardCommand);
-        assertTrue(CommandFactory.create(ComputerCommand.NAME, "", response) instanceof ComputerCommand);
-        assertTrue(CommandFactory.create(EasyCommand.NAME, "", response) instanceof EasyCommand);
-        assertTrue(CommandFactory.create(ForceCommand.NAME, "", response) instanceof ForceCommand);
-        assertTrue(CommandFactory.create(GoCommand.NAME, "", response) instanceof GoCommand);
-        assertTrue(CommandFactory.create(HardCommand.NAME, "", response) instanceof HardCommand);
-        assertTrue(CommandFactory.create(HelpCommand.NAME, "", response) instanceof HelpCommand);
-        assertTrue(CommandFactory.create(HintCommand.NAME, "", response) instanceof HintCommand);
-        assertTrue(CommandFactory.create(LevelCommand.NAME, "", response) instanceof LevelCommand);
-        assertTrue(CommandFactory.create(MovesCommand.NAME, "", response) instanceof MovesCommand);
-        assertTrue(CommandFactory.create(NameCommand.NAME, "", response) instanceof NameCommand);
-        assertTrue(CommandFactory.create(NewCommand.NAME, "", response) instanceof NewCommand);
-        assertTrue(CommandFactory.create(NoPostCommand.NAME, "", response) instanceof NoPostCommand);
-        assertTrue(CommandFactory.create(OtimCommand.NAME, "1", response) instanceof OtimCommand);
-        assertTrue(CommandFactory.create(PingCommand.NAME, "", response) instanceof PingCommand);
-        assertTrue(CommandFactory.create(PlayOtherCommand.NAME, "", response) instanceof PlayOtherCommand);
-        assertTrue(CommandFactory.create(PostCommand.NAME, "", response) instanceof PostCommand);
-        assertTrue(CommandFactory.create(ProtoverCommand.NAME, "1", response) instanceof ProtoverCommand);
-        assertTrue(CommandFactory.create(QuitCommand.NAME, "", response) instanceof QuitCommand);
-        assertTrue(CommandFactory.create(RandomCommand.NAME, "", response) instanceof RandomCommand);
-        assertTrue(CommandFactory.create(RejectedCommand.NAME, "", response) instanceof RejectedCommand);
-        assertTrue(CommandFactory.create(ResultCommand.NAME, "", response) instanceof ResultCommand);
-        assertTrue(CommandFactory.create(SetBoardCommand.NAME, "", response) instanceof SetBoardCommand);
-        assertTrue(CommandFactory.create(StCommand.NAME, "", response) instanceof StCommand);
-        assertTrue(CommandFactory.create(TimeCommand.NAME, "1", response) instanceof TimeCommand);
-        assertTrue(CommandFactory.create(UserMoveCommand.NAME, "", response) instanceof UserMoveCommand);
-        assertTrue(CommandFactory.create(XBoardCommand.NAME, "", response) instanceof XBoardCommand);
+        assertTrue(CommandFactory.create(AcceptedCommand.NAME, "", response, game) instanceof AcceptedCommand);
+        assertTrue(CommandFactory.create(BkCommand.NAME, "", response, game) instanceof BkCommand);
+        assertTrue(CommandFactory.create(BoardCommand.NAME, "", response, game) instanceof BoardCommand);
+        assertTrue(CommandFactory.create(ComputerCommand.NAME, "", response, game) instanceof ComputerCommand);
+        assertTrue(CommandFactory.create(EasyCommand.NAME, "", response, game) instanceof EasyCommand);
+        assertTrue(CommandFactory.create(ForceCommand.NAME, "", response, game) instanceof ForceCommand);
+        assertTrue(CommandFactory.create(GoCommand.NAME, "", response, game) instanceof GoCommand);
+        assertTrue(CommandFactory.create(HardCommand.NAME, "", response, game) instanceof HardCommand);
+        assertTrue(CommandFactory.create(HelpCommand.NAME, "", response, game) instanceof HelpCommand);
+        assertTrue(CommandFactory.create(HintCommand.NAME, "", response, game) instanceof HintCommand);
+        assertTrue(CommandFactory.create(LevelCommand.NAME, "", response, game) instanceof LevelCommand);
+        assertTrue(CommandFactory.create(MovesCommand.NAME, "", response, game) instanceof MovesCommand);
+        assertTrue(CommandFactory.create(NameCommand.NAME, "", response, game) instanceof NameCommand);
+        assertTrue(CommandFactory.create(NewCommand.NAME, "", response, game) instanceof NewCommand);
+        assertTrue(CommandFactory.create(NoPostCommand.NAME, "", response, game) instanceof NoPostCommand);
+        assertTrue(CommandFactory.create(OtimCommand.NAME, "1", response, game) instanceof OtimCommand);
+        assertTrue(CommandFactory.create(PingCommand.NAME, "", response, game) instanceof PingCommand);
+        assertTrue(CommandFactory.create(PlayOtherCommand.NAME, "", response, game) instanceof PlayOtherCommand);
+        assertTrue(CommandFactory.create(PostCommand.NAME, "", response, game) instanceof PostCommand);
+        assertTrue(CommandFactory.create(ProtoverCommand.NAME, "1", response, game) instanceof ProtoverCommand);
+        assertTrue(CommandFactory.create(QuitCommand.NAME, "", response, game) instanceof QuitCommand);
+        assertTrue(CommandFactory.create(RandomCommand.NAME, "", response, game) instanceof RandomCommand);
+        assertTrue(CommandFactory.create(RejectedCommand.NAME, "", response, game) instanceof RejectedCommand);
+        assertTrue(CommandFactory.create(ResultCommand.NAME, "", response, game) instanceof ResultCommand);
+        assertTrue(CommandFactory.create(SetBoardCommand.NAME, "", response, game) instanceof SetBoardCommand);
+        assertTrue(CommandFactory.create(StCommand.NAME, "", response, game) instanceof StCommand);
+        assertTrue(CommandFactory.create(TimeCommand.NAME, "1", response, game) instanceof TimeCommand);
+        assertTrue(CommandFactory.create(UserMoveCommand.NAME, "", response, game) instanceof UserMoveCommand);
+        assertTrue(CommandFactory.create(XBoardCommand.NAME, "", response, game) instanceof XBoardCommand);
     }
 }

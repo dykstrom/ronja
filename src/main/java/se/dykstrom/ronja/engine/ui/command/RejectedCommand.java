@@ -17,6 +17,7 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
 
 import java.util.logging.Logger;
@@ -27,8 +28,9 @@ public class RejectedCommand extends AbstractCommand {
 
     private final static Logger TLOG = Logger.getLogger(RejectedCommand.class.getName());
 
-    public RejectedCommand(String feature, Response response) throws InvalidCommandException {
-        super(feature, response);
+    @SuppressWarnings("WeakerAccess")
+    public RejectedCommand(String feature, Response response, Game game) throws InvalidCommandException {
+        super(feature, response, game);
         if (feature == null) {
             throw new InvalidCommandException("missing feature");
         }
