@@ -18,19 +18,13 @@
 package se.dykstrom.ronja.common.model;
 
 import se.dykstrom.ronja.common.book.OpeningBook;
-import se.dykstrom.ronja.common.book.OpeningBookParser;
 import se.dykstrom.ronja.common.parser.IllegalMoveException;
 import se.dykstrom.ronja.engine.time.TimeControl;
 import se.dykstrom.ronja.engine.time.TimeData;
-import se.dykstrom.ronja.engine.utils.AppConfig;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static se.dykstrom.ronja.engine.time.TimeControlType.CLASSIC;
 
@@ -40,8 +34,6 @@ import static se.dykstrom.ronja.engine.time.TimeControlType.CLASSIC;
  * @author Johan Dykstrom
  */
 public class Game {
-
-    private static final Logger TLOG = Logger.getLogger(Game.class.getName());
 
     /** Default time control is 40 moves in 2 minutes. */
     private static final TimeControl TWO_MINUTES = new TimeControl(40, 2 * 60 * 1000, 0, CLASSIC);
@@ -88,20 +80,7 @@ public class Game {
     // ------------------------------------------------------------------------
 
     /**
-     * Creates a new game and loads the opening book from file.
-     */
-    public Game() {
-        try {
-            book = OpeningBookParser.parse(new File(AppConfig.getBookFilename()));
-        } catch (IOException | ParseException e) {
-            TLOG.severe("Failed to load opening book. " + e.getMessage());
-            book = OpeningBook.DEFAULT;
-        }
-        reset();
-    }
-
-    /**
-     * Creates a new game with that uses the given opening book.
+     * Creates a new game that uses the given opening book.
      */
     public Game(OpeningBook book) {
         this.book = book;

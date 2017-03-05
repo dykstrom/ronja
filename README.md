@@ -2,7 +2,7 @@
 
 An XBoard/WinBoard chess engine written in Java.
 
-## Prerequisites
+## System Requirements
 
 Ronja runs in XBoard/WinBoard on Linux/Windows. You will also need
 Java 8 installed to run Ronja. The Java runtime can be downloaded
