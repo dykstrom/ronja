@@ -4,10 +4,12 @@ An XBoard/WinBoard chess engine written in Java.
 
 ## System Requirements
 
-Ronja runs in XBoard/WinBoard on Linux/Windows. You will also need
+Ronja is a chess engine. It provides  only a simple, character based user 
+interface. It is highly recommended that you run it from a chess GUI like 
+[XBoard/WinBoard](https://www.gnu.org/software/xboard) or
+[Arena](http://www.playwitharena.com/). You will also need
 Java 8 installed to run Ronja. The Java runtime can be downloaded
-from [Oracle](https://java.com/download). Ronja has not been tested
-with Arena.
+from [Oracle](https://java.com/download).
 
 ## Installation
 
@@ -16,17 +18,28 @@ Download the latest release from the GitHub
 and unzip it into a directory of your choice. Let's call this directory
 <ronja_home>.
 
-If you run Windows, find your WinBoard .ini file, and find the option 
-/firstChessProgramNames in this file. Add a line like the following 
-in the list of chess programs:
+#### XBoard
+
+Find the XBoard resource file .xboardrc in your home directory.
+Now find the option -firstChessProgramNames in this file. Add a 
+line like the following in the list of chess programs:
+
+    "Ronja" -fcp ./ronja.sh -fd <ronja_home>
+
+#### WinBoard
+
+Find your WinBoard .ini file. It will be located somewhere in 
+your home directory in AppData/Roaming. Now find the option 
+/firstChessProgramNames in this file. Add a line like the
+following in the list of chess programs:
 
     "Ronja" -fcp ronja.bat -fd <ronja_home>
 
-If you run Linux, find the XBoard resource file .xboardrc, and find the
-option -firstChessProgramNames in this file. Add a line like the
-following in the list of chess programs:
+#### Arena
 
-    "Ronja" -fcp ./ronja.sh -fd <ronja_home>
+In Arena, you should go to Engines | Install New Engine... In the 
+dialog that appears, navigate to <ronja_home> and select ronja.bat.
+In the next dialog, set the type of the engine to Winboard. That's it!
 
 ## Description
 
