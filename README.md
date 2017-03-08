@@ -16,7 +16,7 @@ from [Oracle](https://java.com/download).
 Download the latest release from the GitHub 
 [releases page](https://github.com/dykstrom/ronja/releases), 
 and unzip it into a directory of your choice. Let's call this directory
-<ronja_home>.
+&lt;ronja_home&gt;.
 
 #### XBoard
 
@@ -38,7 +38,7 @@ following in the list of chess programs:
 #### Arena
 
 In Arena, you should go to Engines | Install New Engine... In the 
-dialog that appears, navigate to <ronja_home> and select ronja.bat.
+dialog that appears, navigate to &lt;ronja_home&gt; and select ronja.bat.
 In the next dialog, set the type of the engine to Winboard. That's it!
 
 ## Description
