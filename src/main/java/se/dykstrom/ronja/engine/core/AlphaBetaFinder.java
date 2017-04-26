@@ -149,6 +149,7 @@ public class AlphaBetaFinder extends AbstractFinder {
         }
 
         if (DEBUG) TLOG.finest(leave(position, 0) + ", score = " + alpha + ", best move = " + bestMove);
+        TLOG.fine("Returning best move " + bestMove + " with score " + alpha + " for max depth " + maxDepth);
         return bestMove;
     }
 

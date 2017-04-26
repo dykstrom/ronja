@@ -103,7 +103,7 @@ public class XBoardProtocolIT extends AbstractTestCase {
         writer = new PrintWriter(process.getOutputStream(), true);
 
         // Wait for the process to start
-        assertProcessStarted(process, 1000, TimeUnit.MILLISECONDS);
+        assertProcessStarted(process, 5000, TimeUnit.MILLISECONDS);
 
         // If we failed to start the process
         if (!process.isAlive()) {
@@ -122,7 +122,7 @@ public class XBoardProtocolIT extends AbstractTestCase {
      * Tears down the chess engine.
      */
     private void tearDownChessEngine() throws Exception {
-        process.waitFor(1000, TimeUnit.MILLISECONDS);
+        process.waitFor(5000, TimeUnit.MILLISECONDS);
         process.destroy();
     }
 
@@ -540,10 +540,10 @@ public class XBoardProtocolIT extends AbstractTestCase {
 
         // Assume there will be some input
         while (!reader.ready() && process.isAlive()) {
-            Thread.sleep(1);
+            Thread.sleep(10);
         }
         while (reader.ready()) {
-            Thread.sleep(10);
+            Thread.sleep(20);
             list.add(reader.readLine());
         }
 
