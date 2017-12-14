@@ -17,15 +17,15 @@
 
 package se.dykstrom.ronja.test;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * Utility functions related to testing.
@@ -98,22 +98,20 @@ public class TestUtils {
         File bookFile = File.createTempFile("ronja_", ".xml");
         bookFile.deleteOnExit();
 
-        PrintStream out = new PrintStream(bookFile, "ISO-8859-1");
-
-        out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
-        out.println("<move can='' weight='100' name='Initial position'>");
-        out.println("  <move can='e2e4' weight='100'>");
-        out.println("    <move can='e7e5' weight='50'>");
-        out.println("      <move can='g1f3' weight='100'/>");
-        out.println("    </move>");
-        out.println("    <move can='e7e6' weight='50' name='French Defense'>");
-        out.println("      <move can='d2d4' weight='100'/>");
-        out.println("    </move>");
-        out.println("  </move>");
-        out.println("</move>");
-
-        out.close();
-
+        try (PrintStream out = new PrintStream(bookFile, "ISO-8859-1")) {
+            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
+            out.println("<move can='' weight='100' name='Initial position'>");
+            out.println("  <move can='e2e4' weight='100'>");
+            out.println("    <move can='e7e5' weight='50'>");
+            out.println("      <move can='g1f3' weight='100'/>");
+            out.println("    </move>");
+            out.println("    <move can='e7e6' weight='50' name='French Defense'>");
+            out.println("      <move can='d2d4' weight='100'/>");
+            out.println("    </move>");
+            out.println("  </move>");
+            out.println("</move>");
+        }
+        
         return bookFile;
     }
 }

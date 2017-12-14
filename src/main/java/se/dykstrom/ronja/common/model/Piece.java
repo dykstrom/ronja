@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Johan Dykstrom
+ * Copyright (C) 2017 Johan Dykstrom
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,42 +18,32 @@
 package se.dykstrom.ronja.common.model;
 
 /**
- * An enum class that enumerates all chess pieces, including pawns. The method
- * {@link #valueOf(char)} can be used to convert a symbol to a {@code Piece}.
- *
+ * This class enumerates all chess pieces, and provides functionality to convert
+ * pieces to symbols, and vice versa.
+ * 
  * @author Johan Dykstrom
  */
-public enum Piece {
+public class Piece {
 
-    BISHOP('B'),
-    KING('K'),
-    KNIGHT('N'),
-    PAWN('P'),
-    QUEEN('Q'),
-    ROOK('R');
-
-    /** The piece symbol, e.g. 'R' for Rook. */
-    private final char symbol;
+    public static final int BISHOP = 1;
+    public static final int KING   = 2;
+    public static final int KNIGHT = 3;
+    public static final int PAWN   = 4;
+    public static final int QUEEN  = 5;
+    public static final int ROOK   = 6;
 
     /**
-     * Creates a new piece enum value with the given symbol.
+     * Returns the symbol for the given piece.
      */
-    Piece(char symbol) {
-        this.symbol = symbol;
+    public static char toSymbol(int piece) {
+        return " BKNPQR".charAt(piece);
     }
 
     /**
-     * Returns the symbol of this piece, that is one of BKNPQR.
+     * Returns the symbol for the given piece, taking into account the piece color.
      */
-    public final char getSymbol() {
-        return symbol;
-    }
-
-    /**
-     * Returns the symbol of this piece for the given {@code color}, that is,
-     * one of BKNPQR for White and one of bknpqr for Black.
-     */
-    public final char getSymbol(Color color) {
+    public static char toSymbol(int piece, Color color) {
+        char symbol = toSymbol(piece);
         if (color == Color.WHITE) {
             return symbol;
         } else {
@@ -61,35 +51,25 @@ public enum Piece {
         }
     }
 
-	/**
-	 * Returns the {@code Piece} corresponding to the given symbol.
-	 *
-	 * @param symbol The symbol of the piece.
-	 * @return The piece.
-     * @throws IllegalArgumentException If the symbol cannot be interpreted as a piece.
-	 */
-	public static Piece valueOf(char symbol) throws IllegalArgumentException {
-		switch (symbol) {
-        case 'b':
+    /**
+     * Returns the piece that corresponds to the given symbol.
+     */
+    public static int valueOf(char symbol) {
+        switch (Character.toUpperCase(symbol)) {
         case 'B':
-			return BISHOP;
-        case 'k':
+            return BISHOP;
         case 'K':
-			return KING;
-        case 'n':
+            return KING;
         case 'N':
-			return KNIGHT;
-        case 'p':
+            return KNIGHT;
         case 'P':
-			return PAWN;
-        case 'q':
+            return PAWN;
         case 'Q':
-			return QUEEN;
-        case 'r':
+            return QUEEN;
         case 'R':
-			return ROOK;
-		default:
-			throw new IllegalArgumentException("invalid piece: " + symbol);
-		}
-	}
+            return ROOK;
+        default:
+            throw new IllegalArgumentException("invalid piece: " + symbol);
+        }
+    }
 }

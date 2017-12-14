@@ -17,14 +17,12 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import org.junit.Test;
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Piece;
-import se.dykstrom.ronja.common.model.Position;
-import se.dykstrom.ronja.common.model.Square;
-import se.dykstrom.ronja.test.AbstractTestCase;
-
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.test.AbstractTestCase;
 
 /**
  * This class is for testing class {@code MoveParser} using JUnit. However, most of the parsing tests
@@ -40,8 +38,8 @@ public class MoveParserTest extends AbstractTestCase {
         Position position = Position.START;
 
         // CAN format
-        assertEquals(Move.of(Piece.PAWN, Square.E2, Square.E4, null, false, false), MoveParser.parse("e2e4", position));
-        assertEquals(Move.of(Piece.KNIGHT, Square.G1, Square.F3, null, false, false), MoveParser.parse("g1f3", position));
+        assertEquals(MOVE_E2E4, MoveParser.parse("e2e4", position));
+        assertEquals(MOVE_G1F3, MoveParser.parse("g1f3", position));
 
         // TODO: Add some SAN tests.
     }

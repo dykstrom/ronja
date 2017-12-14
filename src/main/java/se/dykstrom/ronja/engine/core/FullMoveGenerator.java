@@ -17,12 +17,14 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import se.dykstrom.ronja.common.model.*;
+import static se.dykstrom.ronja.common.model.Piece.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
+import se.dykstrom.ronja.common.model.*;
 
 /**
  * A class used to generate all possible pseudo moves for a certain position. A
@@ -88,7 +90,7 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
     // ------------------------------------------------------------------------
 
     @Override
-    public Iterator<Move> iterator(Position position) {
+    public Iterator<Integer> iterator(Position position) {
         return new Itr(position);
     }
 
@@ -98,10 +100,10 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
      * @param position The position to generate moves for.
      * @return A list of moves found.
      */
-    public List<Move> getMoves(Position position) {
+    public List<Integer> getMoves(Position position) {
         setup(position);
 
-        List<Move> moves = new ArrayList<>();
+        List<Integer> moves = new ArrayList<>();
 
         moves.addAll(getAllBishopMoves());
         moves.addAll(getAllKingMoves());
@@ -182,18 +184,26 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
     /**
      * Returns a list of all possible king moves for the side to move in the given position.
      */
-    public List<Move> getAllKingMoves() {
-        List<Move> moves = new ArrayList<>();
+    public List<Integer> getAllKingMoves() {
+        List<Integer> moves = new ArrayList<>();
 
         // There is only one king
         long fromSquare = position.king & friend;
         int fromIndex = Square.idToIndex(fromSquare);
 
         List<Long> toSquares = getNormalKingMoves(fromIndex);
-        moves.addAll(Move.of(Piece.KING, fromSquare, toSquares, null, false, false));
+        for (Long toSquare : toSquares) {
+            if (isCapture(toSquare)) {
+                moves.add(Move.createCapture(KING, fromSquare, toSquare, position.getPiece(toSquare)));
+            } else {
+                moves.add(Move.create(KING, fromSquare, toSquare));
+            }
+        }
 
         toSquares = getCastlingKingMoves(fromSquare);
-        moves.addAll(Move.of(Piece.KING, fromSquare, toSquares, null, true, false));
+        for (Long toSquare : toSquares) {
+            moves.add(Move.createCastling(fromSquare, toSquare));
+        }
 
         return moves;
     }
@@ -222,8 +232,8 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
     /**
      * Returns a list of all possible knight moves for the side to move in the given position.
      */
-    public List<Move> getAllKnightMoves() {
-        List<Move> moves = new ArrayList<>();
+    public List<Integer> getAllKnightMoves() {
+        List<Integer> moves = new ArrayList<>();
 
         // Find all my knights
         List<Integer> fromIndices = Square.bitboardToIndices(position.knight & friend);
@@ -232,7 +242,13 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
         for (Integer fromIndex : fromIndices) {
             long fromSquare = Square.indexToId(fromIndex);
             List<Long> toSquares = getKnightMoves(fromIndex);
-            moves.addAll(Move.of(Piece.KNIGHT, fromSquare, toSquares, null, false, false));
+            for (Long toSquare : toSquares) {
+                if (isCapture(toSquare)) {
+                    moves.add(Move.createCapture(KNIGHT, fromSquare, toSquare, position.getPiece(toSquare)));
+                } else {
+                    moves.add(Move.create(KNIGHT, fromSquare, toSquare));
+                }
+            }
         }
 
         return moves;
@@ -344,8 +360,8 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
     /**
      * Returns a list of all possible pawn moves for the side to move in the given position.
      */
-    public List<Move> getAllPawnMoves() {
-        List<Move> moves = new ArrayList<>();
+    public List<Integer> getAllPawnMoves() {
+        List<Integer> moves = new ArrayList<>();
 
         // Find all my pawns
         List<Long> fromSquares = Square.bitboardToIds(position.pawn & friend);
@@ -355,17 +371,31 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
             List<Long> toSquares = getNormalPawnMoves(fromSquare);
             for (Long toSquare : toSquares) {
                 if ((toSquare & (Board.RANK_1 | Board.RANK_8)) != 0) {
-                    moves.add(Move.of(Piece.PAWN, fromSquare, toSquare, Piece.BISHOP, false, false));
-                    moves.add(Move.of(Piece.PAWN, fromSquare, toSquare, Piece.KNIGHT, false, false));
-                    moves.add(Move.of(Piece.PAWN, fromSquare, toSquare, Piece.QUEEN, false, false));
-                    moves.add(Move.of(Piece.PAWN, fromSquare, toSquare, Piece.ROOK, false, false));
+                    if (isCapture(toSquare)) {
+                        int captured = position.getPiece(toSquare);
+                        moves.add(Move.createCapturePromotion(fromSquare, toSquare, captured, BISHOP));
+                        moves.add(Move.createCapturePromotion(fromSquare, toSquare, captured, KNIGHT));
+                        moves.add(Move.createCapturePromotion(fromSquare, toSquare, captured, QUEEN));
+                        moves.add(Move.createCapturePromotion(fromSquare, toSquare, captured, ROOK));
+                    } else {
+                        moves.add(Move.createPromotion(fromSquare, toSquare, BISHOP));
+                        moves.add(Move.createPromotion(fromSquare, toSquare, KNIGHT));
+                        moves.add(Move.createPromotion(fromSquare, toSquare, QUEEN));
+                        moves.add(Move.createPromotion(fromSquare, toSquare, ROOK));
+                    }
                 } else {
-                    moves.add(Move.of(Piece.PAWN, fromSquare, toSquare, null, false, false));
+                    if (isCapture(toSquare)) {
+                        moves.add(Move.createCapture(PAWN, fromSquare, toSquare, position.getPiece(toSquare)));
+                    } else {
+                        moves.add(Move.create(PAWN, fromSquare, toSquare));
+                    }
                 }
             }
 
             toSquares = getEnPassantPawnMoves(fromSquare);
-            moves.addAll(Move.of(Piece.PAWN, fromSquare, toSquares, null, false, true));
+            for (Long toSquare : toSquares) {
+                moves.add(Move.createEnPassant(fromSquare, toSquare));
+            }
         }
 
         return moves;
@@ -376,8 +406,8 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
     /**
      * Returns a list of all possible bishop moves for the side to move in the given position.
      */
-    public List<Move> getAllBishopMoves() {
-        List<Move> moves = new ArrayList<>();
+    public List<Integer> getAllBishopMoves() {
+        List<Integer> moves = new ArrayList<>();
 
         // Find all my bishops
         List<Long> fromSquares = Square.bitboardToIds(position.bishop & friend);
@@ -385,7 +415,13 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
         // For each bishop, find all of its 'to' squares
         for (Long fromSquare : fromSquares) {
             List<Long> toSquares = getDiagonalMoves(fromSquare);
-            moves.addAll(Move.of(Piece.BISHOP, fromSquare, toSquares, null, false, false));
+            for (Long toSquare : toSquares) {
+                if (isCapture(toSquare)) {
+                    moves.add(Move.createCapture(BISHOP, fromSquare, toSquare, position.getPiece(toSquare)));
+                } else {
+                    moves.add(Move.create(BISHOP, fromSquare, toSquare));
+                }
+            }
         }
 
         return moves;
@@ -394,8 +430,8 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
     /**
      * Returns a list of all possible queen moves for the side to move in the given position.
      */
-    public List<Move> getAllQueenMoves() {
-        List<Move> moves = new ArrayList<>();
+    public List<Integer> getAllQueenMoves() {
+        List<Integer> moves = new ArrayList<>();
 
         // Find all my queens
         List<Long> fromSquares = Square.bitboardToIds(position.queen & friend);
@@ -404,7 +440,13 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
         for (Long fromSquare : fromSquares) {
             List<Long> toSquares = getStraightMoves(fromSquare);
             toSquares.addAll(getDiagonalMoves(fromSquare));
-            moves.addAll(Move.of(Piece.QUEEN, fromSquare, toSquares, null, false, false));
+            for (Long toSquare : toSquares) {
+                if (isCapture(toSquare)) {
+                    moves.add(Move.createCapture(QUEEN, fromSquare, toSquare, position.getPiece(toSquare)));
+                } else {
+                    moves.add(Move.create(QUEEN, fromSquare, toSquare));
+                }
+            }
         }
 
         return moves;
@@ -413,8 +455,8 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
     /**
      * Returns a list of all possible rook moves for the side to move in the given position.
      */
-    public List<Move> getAllRookMoves() {
-        List<Move> moves = new ArrayList<>();
+    public List<Integer> getAllRookMoves() {
+        List<Integer> moves = new ArrayList<>();
 
         // Find all my rooks
         List<Long> fromSquares = Square.bitboardToIds(position.rook & friend);
@@ -422,7 +464,13 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
         // For each rook, find all of its 'to' squares
         for (Long fromSquare : fromSquares) {
             List<Long> toSquares = getStraightMoves(fromSquare);
-            moves.addAll(Move.of(Piece.ROOK, fromSquare, toSquares, null, false, false));
+            for (Long toSquare : toSquares) {
+                if (isCapture(toSquare)) {
+                    moves.add(Move.createCapture(ROOK, fromSquare, toSquare, position.getPiece(toSquare)));
+                } else {
+                    moves.add(Move.create(ROOK, fromSquare, toSquare));
+                }
+            }
         }
 
         return moves;
@@ -625,10 +673,10 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
     /**
      * A move iterator that pre-generates the full list of moves when created.
      */
-    private class Itr implements Iterator<Move> {
+    private class Itr implements Iterator<Integer> {
 
         /** Internal iterator used to iterate over all pre-generated moves. */
-        private final Iterator<Move> iterator;
+        private final Iterator<Integer> iterator;
 
         public Itr(Position position) {
             this.iterator = getMoves(position).iterator();
@@ -640,7 +688,7 @@ public class FullMoveGenerator extends AbstractGenerator implements MoveGenerato
         }
 
         @Override
-        public Move next() {
+        public Integer next() {
             return iterator.next();
         }
     }

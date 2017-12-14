@@ -17,7 +17,6 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Position;
 
 /**
@@ -33,14 +32,14 @@ public interface Finder {
      * @param maxTime The maximum time to spend in milliseconds.
      * @return The move found.
      */
-    Move findBestMoveWithinTime(Position position, long maxTime);
+    int findBestMoveWithinTime(Position position, long maxTime);
 
     /**
      * Finds and returns the best move in the given position. Searching is limited to the given {@code maxDepth}.
      *
      * @param position The position to find the best move for.
      * @param maxDepth The maximum search depth.
-     * @return The move and its score.
+     * @return The move found.
      */
-    Move findBestMove(Position position, int maxDepth);
+    int findBestMove(Position position, int maxDepth);
 }

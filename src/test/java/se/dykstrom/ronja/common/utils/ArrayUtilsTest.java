@@ -15,25 +15,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.dykstrom.ronja.engine.core;
+package se.dykstrom.ronja.common.utils;
+
+import static org.junit.Assert.assertArrayEquals;
+
+import java.util.Arrays;
+import java.util.Collections;
+
+import org.junit.Test;
+
+import se.dykstrom.ronja.test.AbstractTestCase;
 
 /**
- * Thrown when a search must be aborted because we are out of time.
+ * This class is for testing class {@code ArrayUtils} using JUnit.
  *
  * @author Johan Dykstrom
+ * @see ArrayUtils
  */
-class OutOfTimeException extends RuntimeException {
+public class ArrayUtilsTest extends AbstractTestCase {
 
-    private final Integer move;
-
-    OutOfTimeException(Integer move) {
-        this.move = move;
+    @Test
+    public void shouldConvertEmptyList() throws Exception {
+        assertArrayEquals(new int[0], ArrayUtils.toArray(Collections.emptyList()));
     }
 
-    /**
-     * Returns the move included with this exception.
-     */
-    public Integer getMove() {
-        return move;
+    @Test
+    public void shouldConvertList() throws Exception {
+        assertArrayEquals(new int[] {1, 2, 3}, ArrayUtils.toArray(Arrays.asList(1, 2, 3)));
     }
 }

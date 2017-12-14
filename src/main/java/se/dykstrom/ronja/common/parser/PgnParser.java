@@ -17,10 +17,7 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import se.dykstrom.ronja.common.model.Color;
-import se.dykstrom.ronja.common.model.Game;
-import se.dykstrom.ronja.common.model.Position;
-import se.dykstrom.ronja.engine.utils.AppConfig;
+import static se.dykstrom.ronja.common.utils.ArrayUtils.toArray;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -28,6 +25,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import se.dykstrom.ronja.common.model.Color;
+import se.dykstrom.ronja.common.model.Game;
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.engine.utils.AppConfig;
 
 /**
  * A class that can parse and format files specified in Portable Game Notation (PGN).
@@ -93,7 +95,7 @@ public final class PgnParser {
         StringBuilder line = new StringBuilder();
 
         int moveNumber = game.getStartMoveNumber();
-        Iterator<String> iterator = SanParser.format(game.getMoves(), game.getStartPosition()).iterator();
+        Iterator<String> iterator = SanParser.format(game.getStartPosition(), toArray(game.getMoves())).iterator();
         // If the game was setup, and the first move was by black, we need some special formatting
         if (!game.getStartPosition().isWhiteMove() && iterator.hasNext()) {
             line.append(String.format("%d... %s ", moveNumber++, iterator.next()));

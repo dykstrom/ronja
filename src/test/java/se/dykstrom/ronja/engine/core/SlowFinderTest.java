@@ -17,18 +17,22 @@
 
 package se.dykstrom.ronja.engine.core;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static se.dykstrom.ronja.common.model.Piece.KING;
+import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
+import static se.dykstrom.ronja.common.model.Piece.QUEEN;
+
+import java.text.ParseException;
+
 import org.junit.Ignore;
 import org.junit.Test;
+
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Piece;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
-
-import java.text.ParseException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * This class is for testing the different {@code Finder} classes using JUnit.
@@ -46,8 +50,7 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_MateInFour() throws Exception {
-        assertEquals(Move.of(Piece.KING, Square.G8, Square.H8, null, false, false),
-                findBestMoveWithDepth(FEN_CHECKMATE_2_5, 5));
+        assertEquals(Move.create(KING, Square.G8, Square.H8), findBestMoveWithDepth(FEN_CHECKMATE_2_5, 5));
     }
 
     /**
@@ -55,8 +58,7 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_DrawInFour() throws Exception {
-        assertEquals(Move.of(Piece.KING, Square.A7, Square.B8, null, false, false),
-                findBestMoveWithDepth(FEN_DRAW_2_1, 5));
+        assertEquals(Move.createCapture(KING, Square.A7, Square.B8, QUEEN), findBestMoveWithDepth(FEN_DRAW_2_1, 5));
     }
 
     /**
@@ -64,8 +66,7 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_MateInFive() throws Exception {
-        assertEquals(Move.of(Piece.KNIGHT, Square.F7, Square.H6, null, false, false),
-                findBestMoveWithDepth(FEN_CHECKMATE_2_4, 5));
+        assertEquals(Move.create(KNIGHT, Square.F7, Square.H6), findBestMoveWithDepth(FEN_CHECKMATE_2_4, 5));
     }
 
     /**
@@ -73,10 +74,10 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_DrawInFive() throws Exception {
-        Move actual = findBestMoveWithDepth(FEN_DRAW_2_0, 5);
-        assertEquals(Piece.PAWN, actual.getPiece());
-        assertEquals(Square.B7, actual.getFrom());
-        assertEquals(Square.B8, actual.getTo());
+        Integer actual = findBestMoveWithDepth(FEN_DRAW_2_0, 5);
+        assertEquals(Piece.PAWN, Move.getPiece(actual));
+        assertEquals(Square.B7, Move.getFrom(actual));
+        assertEquals(Square.B8, Move.getTo(actual));
         // Any promotion piece will do as the piece will be taken anyway
     }
 
@@ -85,8 +86,7 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_MateInSix() throws Exception {
-        assertEquals(Move.of(Piece.KING, Square.H8, Square.G8, null, false, false),
-                findBestMoveWithDepth(FEN_CHECKMATE_2_3, 6));
+        assertEquals(Move.create(KING, Square.H8, Square.G8), findBestMoveWithDepth(FEN_CHECKMATE_2_3, 6));
     }
 
     /**
@@ -94,8 +94,8 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_MiddleGame() throws Exception {
-        assertNotNull(findBestMoveWithDepth(FEN_MIDDLE_GAME_0, 5));
-        assertNotNull(findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 5));
+        assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_0, 5));
+        assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 5));
     }
 
     /**
@@ -103,10 +103,10 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_OpeningFour() throws Exception {
-        assertNotNull(findBestMoveWithDepth(FEN_E4_C5_NF3, 4));
-        assertNotNull(findBestMoveWithDepth(FEN_E4_E6, 4));
-        assertNotNull(findBestMoveWithDepth(FEN_OPENING_1, 4));
-        assertNotNull(findBestMoveWithDepth(FEN_OPENING_2, 4));
+        assertNotEquals(0, findBestMoveWithDepth(FEN_E4_C5_NF3, 4));
+        assertNotEquals(0, findBestMoveWithDepth(FEN_E4_E6, 4));
+        assertNotEquals(0, findBestMoveWithDepth(FEN_OPENING_1, 4));
+        assertNotEquals(0, findBestMoveWithDepth(FEN_OPENING_2, 4));
     }
 
     /**
@@ -114,8 +114,8 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_OpeningFive() throws Exception {
-        assertNotNull(findBestMoveWithDepth(FEN_OPENING_1, 5));
-        assertNotNull(findBestMoveWithDepth(FEN_OPENING_2, 5));
+        assertNotEquals(0, findBestMoveWithDepth(FEN_OPENING_1, 5));
+        assertNotEquals(0, findBestMoveWithDepth(FEN_OPENING_2, 5));
     }
 
     /**
@@ -128,8 +128,8 @@ public class SlowFinderTest extends AbstractTestCase {
         Thread.sleep(waitTime);
         System.out.println("Starting test...");
         long start = System.currentTimeMillis();
-        assertNotNull(findBestMoveWithDepth(FEN_MIDDLE_GAME_0, 5));
-        assertNotNull(findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 5));
+        assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_0, 5));
+        assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 5));
         long stop = System.currentTimeMillis();
         System.out.println("Finished after " + ((stop - start) / 1000.0) + " seconds");
     }
@@ -137,7 +137,7 @@ public class SlowFinderTest extends AbstractTestCase {
     /**
      * Calls findBestMove with the position specified by {@code fen} and the given depth.
      */
-    private Move findBestMoveWithDepth(String fen, int maxDepth) throws ParseException {
+    private int findBestMoveWithDepth(String fen, int maxDepth) throws ParseException {
         return finder.findBestMove(FenParser.parse(fen), maxDepth);
     }
 }

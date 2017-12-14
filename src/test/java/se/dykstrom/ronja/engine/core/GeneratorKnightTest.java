@@ -17,20 +17,21 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import org.junit.Test;
-import se.dykstrom.ronja.common.model.Color;
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Piece;
-import se.dykstrom.ronja.common.model.Square;
-import se.dykstrom.ronja.common.parser.FenParser;
-import se.dykstrom.ronja.test.AbstractTestCase;
-
-import java.util.List;
-
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
 import static se.dykstrom.ronja.test.SizeMatcher.hasSize;
+
+import java.util.List;
+
+import org.junit.Test;
+
+import se.dykstrom.ronja.common.model.Color;
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Square;
+import se.dykstrom.ronja.common.parser.FenParser;
+import se.dykstrom.ronja.test.AbstractTestCase;
 
 /**
  * This class is for testing knight moves with the generator classes using JUnit.
@@ -54,12 +55,12 @@ public class GeneratorKnightTest extends AbstractTestCase {
     public void testPositionStart() throws Exception {
         MOVE_GENERATOR.setup(FenParser.parse(FEN_START));
 
-        List<Move> moves = MOVE_GENERATOR.getAllKnightMoves();
+        List<Integer> moves = MOVE_GENERATOR.getAllKnightMoves();
         assertThat(moves, hasSize(4));
-        assertThat(moves, hasItems(Move.of(Piece.KNIGHT, Square.B1, Square.A3, null, false, false),
-                                   Move.of(Piece.KNIGHT, Square.B1, Square.C3, null, false, false),
-                                   Move.of(Piece.KNIGHT, Square.G1, Square.F3, null, false, false),
-                                   Move.of(Piece.KNIGHT, Square.G1, Square.H3, null, false, false)));
+        assertThat(moves, hasItems(Move.create(KNIGHT, Square.B1, Square.A3),
+                                   Move.create(KNIGHT, Square.B1, Square.C3),
+                                   Move.create(KNIGHT, Square.G1, Square.F3),
+                                   Move.create(KNIGHT, Square.G1, Square.H3)));
     }
 
     // TODO: Add more tests for class MoveGenerator.

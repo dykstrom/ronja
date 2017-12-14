@@ -17,11 +17,10 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Position;
-
 import java.util.Collections;
 import java.util.Iterator;
+
+import se.dykstrom.ronja.common.model.Position;
 
 /**
  * A {@link MoveGenerator} that generates moves incrementally, when they are needed,
@@ -30,7 +29,7 @@ import java.util.Iterator;
 public class StatefulMoveGenerator implements MoveGenerator {
 
     @Override
-    public Iterator<Move> iterator(Position position) {
+    public Iterator<Integer> iterator(Position position) {
         return new Itr(position);
     }
 
@@ -39,7 +38,7 @@ public class StatefulMoveGenerator implements MoveGenerator {
     /**
      * An iterator that has an internal state variable to keep track on which type of moves to generate next.
      */
-    private class Itr implements Iterator<Move> {
+    private class Itr implements Iterator<Integer> {
 
         private final FullMoveGenerator delegate = new FullMoveGenerator();
 
@@ -47,11 +46,11 @@ public class StatefulMoveGenerator implements MoveGenerator {
         private int state = 0;
 
         /** Internal iterator used to iterate over the move buffer. */
-        private Iterator<Move> iterator;
+        private Iterator<Integer> iterator;
 
         Itr(Position position) {
             delegate.setup(position);
-            iterator = Collections.<Move>emptyList().iterator();
+            iterator = Collections.<Integer>emptyList().iterator();
         }
 
         @Override
@@ -64,7 +63,7 @@ public class StatefulMoveGenerator implements MoveGenerator {
         }
 
         @Override
-        public Move next() {
+        public Integer next() {
             if (iterator.hasNext()) {
                 return iterator.next();
             }

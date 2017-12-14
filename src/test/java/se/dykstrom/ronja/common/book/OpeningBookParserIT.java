@@ -17,13 +17,11 @@
 
 package se.dykstrom.ronja.common.book;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import se.dykstrom.ronja.common.parser.CanParser;
-import se.dykstrom.ronja.common.parser.FenParser;
-import se.dykstrom.ronja.test.AbstractTestCase;
-import se.dykstrom.ronja.test.TestUtils;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static se.dykstrom.ronja.test.SizeMatcher.hasSize;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +29,13 @@ import java.io.PrintStream;
 import java.text.ParseException;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import se.dykstrom.ronja.common.parser.CanParser;
+import se.dykstrom.ronja.common.parser.FenParser;
+import se.dykstrom.ronja.test.AbstractTestCase;
+import se.dykstrom.ronja.test.TestUtils;
 
 /**
  * This class is for integration testing class {@code OpeningBookParser} using JUnit.
@@ -57,10 +61,10 @@ public class OpeningBookParserIT extends AbstractTestCase {
 
         List<BookMove> moves = book.findAllMoves(FenParser.parse(FEN_START));
         assertEquals(1, moves.size());
-        Assert.assertEquals("e2e4", CanParser.format(moves.get(0).getMove()));
+        assertEquals("e2e4", CanParser.format(moves.get(0).getMove()));
 
         moves = book.findAllMoves(FenParser.parse(FEN_E4));
-        assertEquals(2, moves.size());
+        assertThat(moves, hasSize(2));
         assertTrue(moves.stream().map(bm -> CanParser.format(bm.getMove())).allMatch(s -> s.matches("^e7(e5|e6)$")));
 
         // Check some non-existing positions
@@ -74,13 +78,13 @@ public class OpeningBookParserIT extends AbstractTestCase {
         File file = File.createTempFile("ronja_tag_", ".xml");
         file.deleteOnExit();
 
-        PrintStream out = new PrintStream(file, "ISO-8859-1");
-        out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
-        out.println("<move can='' weight='' name='Initial position'>");
-        out.println("  <move can='e2e4' weight='100'>");
-        out.println("    <move can='e7e6' weight='100'/>");
-        out.println("</move>");
-        out.close();
+        try (PrintStream out = new PrintStream(file, "ISO-8859-1")) {
+            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
+            out.println("<move can='' weight='' name='Initial position'>");
+            out.println("  <move can='e2e4' weight='100'>");
+            out.println("    <move can='e7e6' weight='100'/>");
+            out.println("</move>");
+        }
 
         OpeningBook book = OpeningBookParser.parse(file);
         assertNull(book);
@@ -91,15 +95,15 @@ public class OpeningBookParserIT extends AbstractTestCase {
         File file = File.createTempFile("ronja_attribute_", ".xml");
         file.deleteOnExit();
 
-        PrintStream out = new PrintStream(file, "ISO-8859-1");
-        out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
-        out.println("<move can='' weight='' name='Initial position'>");
-        out.println("  <move weight='100'>"); // Missing can
-        out.println("    <move can='e7e6' weight='100'/>");
-        out.println("  </move>");
-        out.println("  <move can='d2d4' weight='100'/>");
-        out.println("</move>");
-        out.close();
+        try (PrintStream out = new PrintStream(file, "ISO-8859-1")) {
+            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
+            out.println("<move can='' weight='' name='Initial position'>");
+            out.println("  <move weight='100'>"); // Missing can
+            out.println("    <move can='e7e6' weight='100'/>");
+            out.println("  </move>");
+            out.println("  <move can='d2d4' weight='100'/>");
+            out.println("</move>");
+        }
 
         OpeningBook book = OpeningBookParser.parse(file);
         assertEquals(1, book.size()); // Initial position
@@ -110,15 +114,15 @@ public class OpeningBookParserIT extends AbstractTestCase {
         File file = File.createTempFile("ronja_move_", ".xml");
         file.deleteOnExit();
 
-        PrintStream out = new PrintStream(file, "ISO-8859-1");
-        out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
-        out.println("<move can='' weight='' name='Initial position'>");
-        out.println("  <move can='e2e4' weight='100'>");
-        out.println("    <move can='e6d6' weight='100'/>"); // Invalid move
-        out.println("  </move>");
-        out.println("  <move can='d2d4' weight='100'/>");
-        out.println("</move>");
-        out.close();
+        try (PrintStream out = new PrintStream(file, "ISO-8859-1")) {
+            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
+            out.println("<move can='' weight='' name='Initial position'>");
+            out.println("  <move can='e2e4' weight='100'>");
+            out.println("    <move can='e6d6' weight='100'/>"); // Invalid move
+            out.println("  </move>");
+            out.println("  <move can='d2d4' weight='100'/>");
+            out.println("</move>");
+        }
 
         OpeningBook book = OpeningBookParser.parse(file);
         assertEquals(2, book.size()); // Initial position and position after e2e4
@@ -129,14 +133,14 @@ public class OpeningBookParserIT extends AbstractTestCase {
         File file = File.createTempFile("ronja_tag_", ".xml");
         file.deleteOnExit();
 
-        PrintStream out = new PrintStream(file, "ISO-8859-1");
-        out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
-        out.println("<move can='' weight='' name='Initial position'>");
-        out.println("  <move can='e2e4' weight='foo'>"); // Invalid weight
-        out.println("    <move can='e7e6' weight='100'/>");
-        out.println("  </move>");
-        out.println("</move>");
-        out.close();
+        try (PrintStream out = new PrintStream(file, "ISO-8859-1")) {
+            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
+            out.println("<move can='' weight='' name='Initial position'>");
+            out.println("  <move can='e2e4' weight='foo'>"); // Invalid weight
+            out.println("    <move can='e7e6' weight='100'/>");
+            out.println("  </move>");
+            out.println("</move>");
+        }
 
         OpeningBook book = OpeningBookParser.parse(file);
         assertNull(book);
@@ -147,11 +151,11 @@ public class OpeningBookParserIT extends AbstractTestCase {
         File file = File.createTempFile("ronja_empty_", ".xml");
         file.deleteOnExit();
 
-        PrintStream out = new PrintStream(file, "ISO-8859-1");
-        out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
-        out.println("<move can='' weight='' name='Initial position'>");
-        out.println("</move>");
-        out.close();
+        try (PrintStream out = new PrintStream(file, "ISO-8859-1")) {
+            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
+            out.println("<move can='' weight='' name='Initial position'>");
+            out.println("</move>");
+        }
 
         OpeningBook book = OpeningBookParser.parse(file);
         assertEquals(0, book.size());

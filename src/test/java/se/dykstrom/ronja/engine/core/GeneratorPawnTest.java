@@ -17,19 +17,21 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import org.junit.Test;
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Square;
-import se.dykstrom.ronja.common.model.Color;
-import se.dykstrom.ronja.common.model.Piece;
-import se.dykstrom.ronja.common.parser.FenParser;
-import se.dykstrom.ronja.test.AbstractTestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+
+import se.dykstrom.ronja.common.model.Color;
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Piece;
+import se.dykstrom.ronja.common.model.Square;
+import se.dykstrom.ronja.common.parser.FenParser;
+import se.dykstrom.ronja.test.AbstractTestCase;
 
 /**
  * This class is for testing pawn moves with the generator classes using JUnit.
@@ -56,7 +58,7 @@ public class GeneratorPawnTest extends AbstractTestCase {
         MOVE_GENERATOR.setup(FenParser.parse(FEN_START));
 
         // There should be 16 possible pawn moves in this position
-        List<Move> moves = MOVE_GENERATOR.getAllPawnMoves();
+        List<Integer> moves = MOVE_GENERATOR.getAllPawnMoves();
         assertEquals(16, moves.size());
     }
 
@@ -103,19 +105,17 @@ public class GeneratorPawnTest extends AbstractTestCase {
         MOVE_GENERATOR.setup(FenParser.parse(FEN_WP_D7D8_OR_D7C8));
 
         // Get all possible pawn moves
-        List<Move> allMoves = MOVE_GENERATOR.getAllPawnMoves();
+        List<Integer> allMoves = MOVE_GENERATOR.getAllPawnMoves();
         assertTrue(allMoves.size() > 8);
 
         // Save the promotion pieces
-        Set<Piece> d7d8 = new HashSet<>();
-        Set<Piece> d7c8 = new HashSet<>();
-        for (Move move : allMoves) {
-            if ((move.getFrom() == Square.D7) && (move.getTo() == Square.D8)) {
-                assertNotNull(move.getPromoted());
-                d7d8.add(move.getPromoted());
-            } else if ((move.getFrom() == Square.D7) && (move.getTo() == Square.C8)) {
-                assertNotNull(move.getPromoted());
-                d7c8.add(move.getPromoted());
+        Set<Integer> d7d8 = new HashSet<>();
+        Set<Integer> d7c8 = new HashSet<>();
+        for (Integer move : allMoves) {
+            if ((Move.getFrom(move) == Square.D7) && (Move.getTo(move) == Square.D8)) {
+                d7d8.add(Move.getPromoted(move));
+            } else if ((Move.getFrom(move) == Square.D7) && (Move.getTo(move) == Square.C8)) {
+                d7c8.add(Move.getPromoted(move));
             }
         }
 
@@ -142,15 +142,14 @@ public class GeneratorPawnTest extends AbstractTestCase {
         MOVE_GENERATOR.setup(FenParser.parse(FEN_BP_A2A1));
 
         // Get all possible pawn moves
-        List<Move> allMoves = MOVE_GENERATOR.getAllPawnMoves();
+        List<Integer> allMoves = MOVE_GENERATOR.getAllPawnMoves();
         assertTrue(allMoves.size() > 4);
 
         // Save the promotion pieces
-        Set<Piece> promotionPieces = new HashSet<>();
-        allMoves.stream().filter(move -> (move.getFrom() == Square.A2) && (move.getTo() == Square.A1)).forEach(move -> {
-            assertNotNull(move.getPromoted());
-            promotionPieces.add(move.getPromoted());
-        });
+        Set<Integer> promotionPieces = new HashSet<>();
+        allMoves.stream()
+                .filter(move -> (Move.getFrom(move) == Square.A2) && (Move.getTo(move) == Square.A1))
+                .forEach(move -> promotionPieces.add(Move.getPromoted(move)));
 
         // There should be exactly 4 promotion pieces
         assertEquals(4, promotionPieces.size());

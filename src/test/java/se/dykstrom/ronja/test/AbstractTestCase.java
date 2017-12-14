@@ -17,15 +17,15 @@
 
 package se.dykstrom.ronja.test;
 
-import se.dykstrom.ronja.common.model.*;
-import se.dykstrom.ronja.common.parser.IllegalMoveException;
-import se.dykstrom.ronja.common.parser.MoveParser;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import se.dykstrom.ronja.common.model.*;
+import se.dykstrom.ronja.common.parser.IllegalMoveException;
+import se.dykstrom.ronja.common.parser.MoveParser;
 
 /**
  * An abstract base test case for all {@code se.dykstrom.ronja} test cases.
@@ -35,11 +35,17 @@ import static org.junit.Assert.assertNull;
 public abstract class AbstractTestCase {
 
     // Single moves
-    protected static final Move MOVE_E2E4 = Move.of(Piece.PAWN, Square.E2, Square.E4, null, false, false);
-    protected static final Move MOVE_D2D4 = Move.of(Piece.PAWN, Square.D2, Square.D4, null, false, false);
-    protected static final Move MOVE_C2C4 = Move.of(Piece.PAWN, Square.C2, Square.C4, null, false, false);
-    protected static final Move MOVE_E7E5 = Move.of(Piece.PAWN, Square.E7, Square.E5, null, false, false);
-    protected static final Move MOVE_C7C5 = Move.of(Piece.PAWN, Square.C7, Square.C5, null, false, false);
+    protected static final int MOVE_E2E4 = Move.create(Piece.PAWN, Square.E2, Square.E4);
+    protected static final int MOVE_D2D4 = Move.create(Piece.PAWN, Square.D2, Square.D4);
+    protected static final int MOVE_C2C4 = Move.create(Piece.PAWN, Square.C2, Square.C4);
+    protected static final int MOVE_E7E5 = Move.create(Piece.PAWN, Square.E7, Square.E5);
+    protected static final int MOVE_E7E6 = Move.create(Piece.PAWN, Square.E7, Square.E6);
+    protected static final int MOVE_C7C5 = Move.create(Piece.PAWN, Square.C7, Square.C5);
+    protected static final int MOVE_G1F3 = Move.create(Piece.KNIGHT, Square.G1, Square.F3);
+    protected static final int MOVE_E1G1 = Move.createCastling(Square.E1, Square.G1);
+    protected static final int MOVE_E1C1 = Move.createCastling(Square.E1, Square.C1);
+    protected static final int MOVE_E8G8 = Move.createCastling(Square.E8, Square.G8);
+    protected static final int MOVE_E8C8 = Move.createCastling(Square.E8, Square.C8);
 
     // Move sequences
     protected static final String[] MOVE_START            = { };
@@ -184,7 +190,7 @@ public abstract class AbstractTestCase {
      */
     protected static void assertEmpty(Position position, long... squares) {
         for (long square : squares) {
-            assertNull(position.getPiece(square));
+            assertEquals(0,  position.getPiece(square));
             assertNull(position.getColor(square));
         }
     }
@@ -192,22 +198,22 @@ public abstract class AbstractTestCase {
     /**
      * Asserts that {@code square} contains a piece of type {@code piece} and {@code color} in the given {@code position}.
      */
-    protected static void assertPiece(Position position, long square, Color color, Piece piece) {
+    protected static void assertPiece(Position position, long square, Color color, int piece) {
         assertEquals(piece, position.getPiece(square));
         assertEquals(color, position.getColor(square));
     }
 
     /**
-     * Converts an array of moves in string format to a list of {@link Move} objects.
+     * Converts an array of moves in string format to a list of real moves.
      * This method assumes that the moves are made from the start position.
      *
      * @param moves An array move moves in string format to convert.
      * @return The list of converted moves.
      * @throws IllegalMoveException If there was an illegal move.
      */
-    protected static List<Move> toMoveList(String[] moves) throws IllegalMoveException {
+    protected static List<Integer> toMoveList(String[] moves) throws IllegalMoveException {
         Position position = Position.START;
-        List<Move> result = new ArrayList<>(moves.length);
+        List<Integer> result = new ArrayList<>(moves.length);
         for (String move : moves) {
             result.add(MoveParser.parse(move, position));
             position = position.withMove(result.get(result.size() - 1));

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Johan Dykstrom
+ * Copyright (C) 2017 Johan Dykstrom
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,23 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.dykstrom.ronja.engine.ui.command;
+package se.dykstrom.ronja.common.utils;
 
-import se.dykstrom.ronja.common.model.Game;
-import se.dykstrom.ronja.engine.ui.io.Response;
+import java.util.List;
 
-public class InvalidCommand extends AbstractCommand {
+/**
+ * Utility methods related to arrays.
+ *
+ * @author Johan Dykstrom
+ */
+public final class ArrayUtils {
 
-    private final String message;
+    private ArrayUtils() { }
 
-    @SuppressWarnings("WeakerAccess")
-    public InvalidCommand(String command, Response response, String message, Game game) {
-        super(command, response, game);
-        this.message = message;
-    }
-
-    @Override
-    public void execute() {
-        response.write("Error (" + message + "): " + getArgs());
+    /**
+     * Converts the given list of Integer objects to an array of ints.
+     */
+    public static int[] toArray(List<Integer> list) {
+        return list.stream().mapToInt(element -> element).toArray();
     }
 }

@@ -17,13 +17,15 @@
 
 package se.dykstrom.ronja.common.model;
 
-import se.dykstrom.ronja.common.parser.IllegalMoveException;
-import se.dykstrom.ronja.common.parser.MoveParser;
-import se.dykstrom.ronja.engine.core.AttackGenerator;
+import static se.dykstrom.ronja.common.model.Piece.*;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+
+import se.dykstrom.ronja.common.parser.IllegalMoveException;
+import se.dykstrom.ronja.common.parser.MoveParser;
+import se.dykstrom.ronja.engine.core.AttackGenerator;
 
 /**
  * Represents a chess position, including the move number, the active color,
@@ -210,12 +212,12 @@ public class Position {
      * @param move The move to make.
      * @return The position that arises when making the given move in this position.
      */
-    public Position withMove(Move move) {
-        long from = move.getFrom();
-        long to = move.getTo();
+    public Position withMove(int move) {
+        long from = Move.getFrom(move);
+        long to = Move.getTo(move);
 
-        Piece fromPiece = move.getPiece();
-        Piece toPiece = getPiece(to);
+        int fromPiece = Move.getPiece(move);
+        int toPiece = getPiece(to);
 
         long white = this.white;
         long black = this.black;
@@ -256,7 +258,7 @@ public class Position {
         }
 
         // If there was a piece on the to square (a capture)
-        if (toPiece != null) {
+        if (toPiece != 0) {
             // Update white/black bitboards to remove the piece that has been captured
             if (isWhiteMove()) {
                 black = black ^ to;
@@ -290,32 +292,32 @@ public class Position {
         }
 
         // Promotion
-        if (move.isPromotion()) {
+        if (Move.isPromotion(move)) {
             // Remove the pawn
             pawn = pawn ^ to;
 
             // Add promotion piece
-            switch (move.getPromoted()) {
-                case BISHOP:
+            switch (Move.getPromoted(move)) {
+                case Piece.BISHOP:
                     bishop = bishop | to;
                     break;
-                case KNIGHT:
+                case Piece.KNIGHT:
                     knight = knight | to;
                     break;
-                case QUEEN:
+                case Piece.QUEEN:
                     queen = queen | to;
                     break;
-                case ROOK:
+                case Piece.ROOK:
                     rook = rook | to;
                     break;
                 default:
-                    TLOG.severe("Invalid promotion piece: " + move.getPromoted());
-                    throw new IllegalArgumentException("invalid promotion piece: " + move.getPromoted());
+                    TLOG.severe("Invalid promotion piece: " + Move.getPromoted(move));
+                    throw new IllegalArgumentException("invalid promotion piece: " + Move.getPromoted(move));
             }
         }
 
         // Castling
-        else if (move.isCastling()) {
+        else if (Move.isCastling(move)) {
             if (to == Square.G1) {          // White king-side castling
                 rook = rook ^ Square.H1 | Square.F1;
                 white = white ^ Square.H1 | Square.F1;
@@ -335,7 +337,7 @@ public class Position {
         }
 
         // En passant
-        else if (move.isEnPassant()) {
+        else if (Move.isEnPassant(move)) {
             // Update white/black bitboards to remove the pawn that has been captured
             // This pawn is not on the 'to' square, but one square closer to the
             // center of the board, so we shift the 'to' square towards the center
@@ -421,15 +423,15 @@ public class Position {
      * Returns {@code true} if this move is a pawn move or a capture, based on the
      * {@code fromPiece} and the {@code toPiece}.
      */
-    private boolean isPawnMoveOrCapture(Piece fromPiece, Piece toPiece) {
-        return (fromPiece == Piece.PAWN) || (toPiece != null);
+    private boolean isPawnMoveOrCapture(int fromPiece, int toPiece) {
+        return (fromPiece == Piece.PAWN) || (toPiece != 0);
     }
 
     /**
      * Calculates the new 'en passant' square if the given piece is a pawn that has made a two-square move.
      * Otherwise, this method returns 0, which means 'en passant' not allowed.
      */
-    private long updateEnPassantSquare(Piece piece, long from, long to) {
+    private long updateEnPassantSquare(int piece, long from, long to) {
         if (isWhiteMove()) {
             if ((piece == Piece.PAWN) && ((from & Board.RANK_2) != 0) && ((to & Board.RANK_4) != 0)) {
                 return Square.north(from);
@@ -518,10 +520,9 @@ public class Position {
     }
 
     /**
-     * Returns the piece that occupies the specified square,
-     * or {@code null} if the square is unoccupied.
+     * Returns the piece that occupies the specified square, or 0 if the square is unoccupied.
      */
-    public Piece getPiece(long square) {
+    public int getPiece(long square) {
         if ((square & bishop) != 0) {
             return Piece.BISHOP;
         } else if ((square & king) != 0) {
@@ -535,7 +536,7 @@ public class Position {
         } else if ((square & rook) != 0) {
             return Piece.ROOK;
         } else {
-            return null;
+            return 0;
         }
     }
 
@@ -544,11 +545,11 @@ public class Position {
      * This position remains unchanged.
      *
      * @param square The square to change.
-     * @param piece  The piece to place on the square, may be {@code null}.
+     * @param piece  The piece to place on the square, may be 0.
      * @param color  The color of the piece, may be {@code null}.
      * @return A position, based on this position with the piece and color altered.
      */
-    public Position withPieceAndColor(long square, Piece piece, Color color) {
+    public Position withPieceAndColor(long square, int piece, Color color) {
         // Remove old piece
         long bishop = this.bishop & ~square;
         long king = this.king & ~square;
@@ -737,10 +738,10 @@ public class Position {
                 long square = Board.getSquareId(f + 1, r + 1);
 
                 // Get piece and color
-                Piece piece = getPiece(square);
+                int piece = getPiece(square);
                 Color color = getColor(square);
                 if (color != null) {
-                    ranks[r].append(piece.getSymbol(color)).append(" ");
+                    ranks[r].append(Piece.toSymbol(piece, color)).append(" ");
                 } else {
                     ranks[r].append(". ");
                 }

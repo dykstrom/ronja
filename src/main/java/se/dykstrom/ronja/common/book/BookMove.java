@@ -17,8 +17,6 @@
 
 package se.dykstrom.ronja.common.book;
 
-import se.dykstrom.ronja.common.model.Move;
-
 /**
  * Represents an opening book move with the actual move, and its weight in the opening book.
  *
@@ -26,20 +24,20 @@ import se.dykstrom.ronja.common.model.Move;
  */
 public class BookMove {
     
-    private final Move move;
+    private final int move;
     private final int weight;
 
-    public BookMove(Move move, int weight) {
+    public BookMove(int move, int weight) {
         this.move = move;
         this.weight = weight;
     }
 
     @Override
     public String toString() {
-        return move.toString();
+        return Integer.toString(move);
     }
     
-    public Move getMove() {
+    public int getMove() {
         return move;
     }
 

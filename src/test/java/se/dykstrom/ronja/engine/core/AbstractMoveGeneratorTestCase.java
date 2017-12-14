@@ -17,17 +17,16 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Position;
-import se.dykstrom.ronja.common.parser.FenParser;
-import se.dykstrom.ronja.test.AbstractTestCase;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.parser.FenParser;
+import se.dykstrom.ronja.test.AbstractTestCase;
 
 /**
  * An abstract base class for classes that test the different move generators.
@@ -75,8 +74,8 @@ public class AbstractMoveGeneratorTestCase extends AbstractTestCase {
      * @param position The position to test with.
      */
     protected void testIteratorForPosition(MoveGenerator testee, Position position) {
-        Set<Move> moves = new HashSet<>();
-        Iterator<Move> iterator = testee.iterator(position);
+        Set<Integer> moves = new HashSet<>();
+        Iterator<Integer> iterator = testee.iterator(position);
         while (iterator.hasNext()) {
             moves.add(iterator.next());
         }

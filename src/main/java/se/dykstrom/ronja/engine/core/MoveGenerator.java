@@ -17,10 +17,9 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Position;
-
 import java.util.Iterator;
+
+import se.dykstrom.ronja.common.model.Position;
 
 /**
  * Interface to be implemented by all move generators.
@@ -33,5 +32,5 @@ public interface MoveGenerator {
      * @param position The position for which to generate moves.
      * @return The iterator.
      */
-    Iterator<Move> iterator(Position position);
+    Iterator<Integer> iterator(Position position);
 }

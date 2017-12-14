@@ -17,14 +17,18 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import org.junit.Assert;
-import org.junit.Test;
-import se.dykstrom.ronja.common.model.*;
-import se.dykstrom.ronja.test.AbstractTestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.text.ParseException;
 
-import static org.junit.Assert.*;
+import org.junit.Assert;
+import org.junit.Test;
+
+import se.dykstrom.ronja.common.model.*;
+import se.dykstrom.ronja.test.AbstractTestCase;
 
 /**
  * This class is for testing class {@code FenParser} using JUnit.

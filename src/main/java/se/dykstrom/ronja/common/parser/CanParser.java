@@ -17,10 +17,7 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Piece;
-import se.dykstrom.ronja.common.model.Square;
-import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.model.*;
 
 /**
  * A class that can parse and format moves specified in Coordinate Algebraic Notation (CAN).
@@ -47,34 +44,36 @@ public class CanParser extends AbstractMoveParser {
      *
 	 * @param move The move in CAN format.
 	 * @param position The position when the move is made.
+	 * @return The parsed move.
 	 * @throws IllegalMoveException If the given string cannot be parsed as a legal move in CAN format.
 	 */
-    public static Move parse(String move, Position position) throws IllegalMoveException {
+    public static int parse(String move, Position position) throws IllegalMoveException {
         long from = Square.nameToId(move.substring(0, 2));
         long to = Square.nameToId(move.substring(2, 4));
-        Piece piece = position.getPiece(from);
-        Piece promoted = (move.length() == 5) ? getPromotionPiece(position, from, move.charAt(4)) : null;
-        boolean isCastling = isCastling(position, from, to);
-        boolean isEnPassant = isEnPassant(position, from, to);
+        int piece = position.getPiece(from);
+        int promoted = (move.length() == 5) ? getPromotionPiece(position, from, move.charAt(4)) : 0;
+        int captured = position.getPiece(to);
+        boolean isCastling = isCastling(piece, from, to);
+        boolean isEnPassant = isEnPassant(piece, to, position);
 
         validate(position, from, to, isCastling);
 
-        return Move.of(piece, from, to, promoted, isCastling, isEnPassant);
+        return create(piece, from, to, captured, promoted, isCastling, isEnPassant);
 	}
-
+    
     /**
      * Formats the given move in CAN format.
      *
      * @param move The move to format.
      * @return The formatted move.
      */
-    public static String format(Move move) {
+    public static String format(int move) {
         StringBuilder builder = new StringBuilder();
 
-        builder.append(Square.idToName(move.getFrom()));
-        builder.append(Square.idToName(move.getTo()));
-        if (move.isPromotion()) {
-            builder.append(move.getPromoted().getSymbol());
+        builder.append(Square.idToName(Move.getFrom(move)));
+        builder.append(Square.idToName(Move.getTo(move)));
+        if (Move.isPromotion(move)) {
+            builder.append(Piece.toSymbol(Move.getPromoted(move), Color.BLACK));
         }
 
         return builder.toString().toLowerCase();

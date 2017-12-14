@@ -17,8 +17,6 @@
 
 package se.dykstrom.ronja.engine.time;
 
-import se.dykstrom.ronja.common.model.Game;
-
 import java.text.ParseException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -120,34 +118,6 @@ public final class TimeUtils {
 
     private static long getMinutesAsMillis(Matcher matcher) {
         return parseLong(matcher.group(1)) * MILLIS_PER_MINUTE;
-    }
-
-    /**
-     * Updates the time data in the {@code game} after a move, taking into account the {@code usedTime},
-     * and the type of the time control.
-     *
-     * @param game The game state.
-     * @param usedTime The time used for this move in milliseconds.
-     */
-    public static void updateTimeDataAfterMove(Game game, long usedTime) {
-        TimeControl timeControl = game.getTimeControl();
-        if (timeControl.getType() == TimeControlType.SECONDS_PER_MOVE) {
-            game.setTimeData(TimeData.from(timeControl));
-        } else if (timeControl.getType() == TimeControlType.CLASSIC) {
-            TimeData timeData = game.getTimeData();
-            long remainingTime = timeData.getRemainingTime() - usedTime;
-            long numberOfMoves = timeData.getNumberOfMoves() - 1;
-            // If we have reached the time control, reset number of moves and add time
-            if (numberOfMoves == 0) {
-                numberOfMoves = timeControl.getNumberOfMoves();
-                remainingTime += timeControl.getBaseTime();
-            }
-            game.setTimeData(timeData.withRemainingTime(remainingTime).withNumberOfMoves(numberOfMoves));
-        } else { // TimeControlType.INCREMENTAL
-            TimeData timeData = game.getTimeData();
-            long remainingTime = timeData.getRemainingTime() - usedTime + timeControl.getIncrement();
-            game.setTimeData(timeData.withRemainingTime(remainingTime));
-        }
     }
 
     /**

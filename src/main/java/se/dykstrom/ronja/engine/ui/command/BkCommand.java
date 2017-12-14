@@ -17,15 +17,15 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import java.util.Comparator;
+import java.util.List;
+
 import se.dykstrom.ronja.common.book.BookMove;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.SanParser;
 import se.dykstrom.ronja.engine.ui.io.Response;
-
-import java.util.Comparator;
-import java.util.List;
 
 public class BkCommand extends AbstractCommand {
 
@@ -51,19 +51,11 @@ public class BkCommand extends AbstractCommand {
             bookMoves.stream()
                     .filter(bookMove -> bookMove.getWeight() > 0)
                     .sorted(BOOK_MOVE_COMPARATOR)
-                    .map(bookMove -> String.format(" %-6s %3d%%", SanParser.format(bookMove.getMove(), position), bookMove.getWeight()))
+                    .map(bookMove -> String.format(" %-6s %3d%%", SanParser.format(position, bookMove.getMove()), bookMove.getWeight()))
                     .forEach(response::write);
         }
         response.write("");
     }
 
-    private static final Comparator<BookMove> BOOK_MOVE_COMPARATOR = (bm1, bm2) -> {
-        if (bm1.getWeight() > bm2.getWeight()) {
-            return -1;
-        } else if (bm1.getWeight() < bm2.getWeight()) {
-            return 1;
-        } else {
-            return 0;
-        }
-    };
+    private static final Comparator<BookMove> BOOK_MOVE_COMPARATOR = (bm1, bm2) -> Integer.compare(bm2.getWeight(), bm1.getWeight());
 }

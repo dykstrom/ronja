@@ -17,20 +17,19 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import org.junit.Before;
-import org.junit.Test;
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Piece;
-import se.dykstrom.ronja.common.model.Square;
-import se.dykstrom.ronja.test.AbstractTestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static se.dykstrom.ronja.common.model.Piece.*;
+import static se.dykstrom.ronja.common.parser.FenParser.parse;
 
 import java.text.ParseException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static se.dykstrom.ronja.common.model.Move.of;
-import static se.dykstrom.ronja.common.model.Piece.*;
-import static se.dykstrom.ronja.common.parser.FenParser.parse;
+import org.junit.Before;
+import org.junit.Test;
+
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Square;
+import se.dykstrom.ronja.test.AbstractTestCase;
 
 /**
  * This class is for testing class {@code AlphaBetaFinder} using JUnit.
@@ -126,9 +125,9 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_CheckmateInOne() throws Exception {
-        assertEquals(of(ROOK, Square.A1, Square.C1, null, false, false), findBestMoveWithDepth(FEN_CHECKMATE_1_2));
-        assertEquals(of(KNIGHT, Square.H6, Square.F7, null, false, false), findBestMoveWithDepth(FEN_CHECKMATE_2_8));
-        assertEquals(of(BISHOP, Square.B4, Square.A3, null, false, false), findBestMoveWithDepth(FEN_CHECKMATE_3_2));
+        assertEquals(Move.createCapture(ROOK, Square.A1, Square.C1, BISHOP), findBestMoveWithDepth(FEN_CHECKMATE_1_2));
+        assertEquals(Move.create(KNIGHT, Square.H6, Square.F7), findBestMoveWithDepth(FEN_CHECKMATE_2_8));
+        assertEquals(Move.create(BISHOP, Square.B4, Square.A3), findBestMoveWithDepth(FEN_CHECKMATE_3_2));
     }
 
     /**
@@ -136,8 +135,8 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_DrawInOne() throws Exception {
-        assertEquals(of(BISHOP, Square.F3, Square.H1, null, false, false), findBestMoveWithDepth(FEN_DRAW_1_1));
-        assertEquals(of(BISHOP, Square.F4, Square.H2, null, false, false), findBestMoveWithDepth(FEN_DRAW_2_4));
+        assertEquals(Move.createCapture(BISHOP, Square.F3, Square.H1, ROOK), findBestMoveWithDepth(FEN_DRAW_1_1));
+        assertEquals(Move.createCapture(BISHOP, Square.F4, Square.H2, PAWN), findBestMoveWithDepth(FEN_DRAW_2_4));
     }
 
     /**
@@ -145,13 +144,13 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_CheckmateInTwo() throws Exception {
-        assertEquals(of(BISHOP, Square.F4, Square.C1, null, false, false), findBestMoveWithDepth(FEN_CHECKMATE_1_1));
-        assertEquals(of(ROOK, Square.E8, Square.G8, null, false, false), findBestMoveWithDepth(FEN_CHECKMATE_2_7));
+        assertEquals(Move.create(BISHOP, Square.F4, Square.C1), findBestMoveWithDepth(FEN_CHECKMATE_1_1));
+        assertEquals(Move.createCapture(ROOK, Square.E8, Square.G8, QUEEN), findBestMoveWithDepth(FEN_CHECKMATE_2_7));
 
-        Move actual = findBestMoveWithDepth(FEN_CHECKMATE_3_1);
-        Move f3d1 = of(QUEEN, Square.F3, Square.D1, null, false, false);
-        Move c1b2 = of(KING, Square.C1, Square.B2, null, false, false);
-        assertTrue(actual.equals(f3d1) || actual.equals(c1b2));
+        int actual = findBestMoveWithDepth(FEN_CHECKMATE_3_1);
+        int f3d1 = Move.create(QUEEN, Square.F3, Square.D1);
+        int c1b2 = Move.create(KING, Square.C1, Square.B2);
+        assertTrue(actual == f3d1 || actual == c1b2);
     }
 
     /**
@@ -159,11 +158,11 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_DrawInTwo() throws Exception {
-        assertEquals(of(ROOK, Square.H4, Square.H1, null, false, false), findBestMoveWithDepth(FEN_DRAW_1_0));
+        assertEquals(Move.create(ROOK, Square.H4, Square.H1), findBestMoveWithDepth(FEN_DRAW_1_0));
 
-        Move actual = findBestMoveWithDepth(FEN_DRAW_2_3);
-        assertEquals(Piece.KING, actual.getPiece());
-        assertEquals(Square.B8, actual.getFrom());
+        int actual = findBestMoveWithDepth(FEN_DRAW_2_3);
+        assertEquals(KING, Move.getPiece(actual));
+        assertEquals(Square.B8, Move.getFrom(actual));
         // We don't care about the to-square since there are some alternatives
     }
 
@@ -172,9 +171,9 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_MateInThree() throws Exception {
-        assertEquals(of(ROOK, Square.A8, Square.A1, null, false, false), findBestMoveWithDepth(FEN_CHECKMATE_1_0));
-        assertEquals(of(QUEEN, Square.C4, Square.G8, null, false, false), findBestMoveWithDepth(FEN_CHECKMATE_2_6));
-        assertEquals(of(QUEEN, Square.E7, Square.E1, null, false, false), findBestMoveWithDepth(FEN_CHECKMATE_3_0));
+        assertEquals(Move.create(ROOK, Square.A8, Square.A1), findBestMoveWithDepth(FEN_CHECKMATE_1_0));
+        assertEquals(Move.create(QUEEN, Square.C4, Square.G8), findBestMoveWithDepth(FEN_CHECKMATE_2_6));
+        assertEquals(Move.create(QUEEN, Square.E7, Square.E1), findBestMoveWithDepth(FEN_CHECKMATE_3_0));
     }
 
     /**
@@ -182,8 +181,8 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_DrawInThree() throws Exception {
-        assertEquals(of(ROOK, Square.H4, Square.H1, null, false, false), findBestMoveWithDepth(FEN_DRAW_1_0));
-        assertEquals(of(BISHOP, Square.D2, Square.F4, null, false, false), findBestMoveWithDepth(FEN_DRAW_2_2));
+        assertEquals(Move.create(ROOK, Square.H4, Square.H1), findBestMoveWithDepth(FEN_DRAW_1_0));
+        assertEquals(Move.create(BISHOP, Square.D2, Square.F4), findBestMoveWithDepth(FEN_DRAW_2_2));
     }
 
     /**
@@ -191,8 +190,8 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_ForkInThree() throws Exception {
-        assertEquals(of(KNIGHT, Square.B5, Square.C7, null, false, false), findBestMoveWithDepth(FEN_FORK_0));
-        assertEquals(of(KNIGHT, Square.D4, Square.E6, null, false, false), findBestMoveWithDepth(FEN_FORK_1));
+        assertEquals(Move.createCapture(KNIGHT, Square.B5, Square.C7, PAWN), findBestMoveWithDepth(FEN_FORK_0));
+        assertEquals(Move.createCapture(KNIGHT, Square.D4, Square.E6, PAWN), findBestMoveWithDepth(FEN_FORK_1));
     }
 
     /**
@@ -200,14 +199,14 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMoveWithinTime_CheckmateInOne() throws Exception {
-        assertEquals(of(ROOK, Square.A1, Square.C1, null, false, false), findBestMoveWithTime(FEN_CHECKMATE_1_2, 50));
-        assertEquals(of(KNIGHT, Square.H6, Square.F7, null, false, false), findBestMoveWithTime(FEN_CHECKMATE_2_8, 50));
-        assertEquals(of(BISHOP, Square.B4, Square.A3, null, false, false), findBestMoveWithTime(FEN_CHECKMATE_3_2, 50));
+        assertEquals(Move.createCapture(ROOK, Square.A1, Square.C1, BISHOP), findBestMoveWithTime(FEN_CHECKMATE_1_2, 50));
+        assertEquals(Move.create(KNIGHT, Square.H6, Square.F7), findBestMoveWithTime(FEN_CHECKMATE_2_8, 50));
+        assertEquals(Move.create(BISHOP, Square.B4, Square.A3), findBestMoveWithTime(FEN_CHECKMATE_3_2, 50));
     }
 
     @Test
     public void testFindBestMoveWithinTime() throws Exception {
-        assertEquals(of(KNIGHT, Square.B5, Square.C7, null, false, false), findBestMoveWithTime(FEN_FORK_0, 1000));
+        assertEquals(Move.createCapture(KNIGHT, Square.B5, Square.C7, PAWN), findBestMoveWithTime(FEN_FORK_0, 1000));
     }
 
     // -----------------------------------------------------------------------
@@ -215,14 +214,14 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
     /**
      * Calls findBestMoveWithinTime with the position specified by {@code fen} and the maximum search time.
      */
-    private Move findBestMoveWithTime(String fen, int maxTime) throws ParseException {
+    private int findBestMoveWithTime(String fen, int maxTime) throws ParseException {
         return finder.findBestMoveWithinTime(parse(fen), maxTime);
     }
 
     /**
      * Calls findBestMove with the position specified by {@code fen} and the maximum search depth.
      */
-    private Move findBestMoveWithDepth(String fen) throws ParseException {
+    private int findBestMoveWithDepth(String fen) throws ParseException {
         return finder.findBestMove(parse(fen), MAX_DEPTH);
     }
 
@@ -230,6 +229,6 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      * Calls the alphaBeta method with the position specified by {@code fen} and the given depth.
      */
     private int alphaBeta(String fen, int maxDepth) throws ParseException {
-        return finder.alphaBeta(parse(fen), null, maxDepth, AlphaBetaFinder.ALPHA_START, AlphaBetaFinder.BETA_START);
+        return finder.alphaBeta(parse(fen), 0, maxDepth, AlphaBetaFinder.ALPHA_START, AlphaBetaFinder.BETA_START);
     }
 }

@@ -17,10 +17,13 @@
 
 package se.dykstrom.ronja.common.model;
 
-import org.junit.Test;
-import se.dykstrom.ronja.test.AbstractTestCase;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static se.dykstrom.ronja.common.model.Piece.*;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+
+import se.dykstrom.ronja.test.AbstractTestCase;
 
 /**
  * This class is for testing class {@code Move} using JUnit.
@@ -31,92 +34,90 @@ import static org.junit.Assert.*;
 public class MoveTest extends AbstractTestCase {
 
     @Test
-    public void testOf() throws Exception {
-        Move move = Move.of(Piece.KING, Square.E1, Square.F1, null, false, false);
-        assertEquals(Square.E1, move.getFrom());
-        assertEquals(Square.F1, move.getTo());
-        assertEquals(Piece.KING, move.getPiece());
-        assertNull(move.getPromoted());
-        assertFalse(move.isCastling());
-        assertFalse(move.isEnPassant());
+    public void shouldCreateNormalMove() {
+        createAndAssertNormalMove(BISHOP, Square.A1, Square.C3);
+        createAndAssertNormalMove(KING, Square.E1, Square.F1);
+        createAndAssertNormalMove(KNIGHT, Square.G1, Square.F3);
+        createAndAssertNormalMove(PAWN, Square.E2, Square.E4);
+        createAndAssertNormalMove(QUEEN, Square.D1, Square.D8);
+        createAndAssertNormalMove(ROOK, Square.A8, Square.H8);
+    }
+    
+    @Test
+    public void shouldCreateCaptureMove() {
+        createAndAssertCaptureMove(BISHOP, Square.A1, Square.C3, BISHOP);
+        createAndAssertCaptureMove(KING, Square.E8, Square.F8, BISHOP);
+        createAndAssertCaptureMove(KNIGHT, Square.G8, Square.F6, PAWN);
+        createAndAssertCaptureMove(PAWN, Square.A7, Square.A6, ROOK);
+        createAndAssertCaptureMove(QUEEN, Square.D1, Square.D8, KNIGHT);
+        createAndAssertCaptureMove(ROOK, Square.A8, Square.A1, QUEEN);
+    }
+    
+    @Test
+    public void shouldCreatePromotionMove() {
+        createAndAssertPromotionMove(PAWN, Square.E7, Square.E8, ROOK);
+        createAndAssertPromotionMove(PAWN, Square.H2, Square.H1, BISHOP);
+    }
+    
+    @Test
+    public void shouldCreateCapturePromotionMove() {
+        createAndAssertCapturePromotionMove(PAWN, Square.E7, Square.F8, QUEEN, ROOK);
+        createAndAssertCapturePromotionMove(PAWN, Square.H2, Square.G1, KNIGHT, BISHOP);
+    }
+    
+    @Test
+    public void shouldCreateCastlingMove() {
+        createAndAssertCastlingMove(KING, Square.E1, Square.G1);
+        createAndAssertCastlingMove(KING, Square.E1, Square.C1);
+        createAndAssertCastlingMove(KING, Square.E8, Square.G8);
+        createAndAssertCastlingMove(KING, Square.E8, Square.C8);
+    }
+    
+    @Test
+    public void shouldCreateEnPassantMove() {
+        createAndAssertEnPassantMove(PAWN, Square.E6, Square.F7, PAWN);
+        createAndAssertEnPassantMove(PAWN, Square.A3, Square.B2, PAWN);
     }
 
-    @Test
-    public void testOfCastling() throws Exception {
-        Move move = Move.of(Piece.KING, Square.E1, Square.G1, null, true, false);
-        assertEquals(Square.E1, move.getFrom());
-        assertEquals(Square.G1, move.getTo());
-        assertEquals(Piece.KING, move.getPiece());
-        assertNull(move.getPromoted());
-        assertTrue(move.isCastling());
-        assertFalse(move.isEnPassant());
+    private void createAndAssertNormalMove(int piece, long from, long to) {
+        int move = Move.create(piece, from, to);
+        assertMove(move, piece, from, to, 0, 0, false, false);
     }
 
-    @Test
-    public void testOfPromotion() throws Exception {
-        Move move = Move.of(Piece.PAWN, Square.E7, Square.F8, Piece.QUEEN, false, false);
-        assertEquals(Square.E7, move.getFrom());
-        assertEquals(Square.F8, move.getTo());
-        assertEquals(Piece.PAWN, move.getPiece());
-        assertEquals(Piece.QUEEN, move.getPromoted());
-        assertFalse(move.isCastling());
-        assertFalse(move.isEnPassant());
+    private void createAndAssertCaptureMove(int piece, long from, long to, int captured) {
+        int move = Move.createCapture(piece, from, to, captured);
+        assertMove(move, piece, from, to, captured, 0, false, false);
     }
 
-    @Test
-    public void testOfEnPassant() throws Exception {
-        Move move = Move.of(Piece.PAWN, Square.E5, Square.D6, null, false, true);
-        assertEquals(Square.E5, move.getFrom());
-        assertEquals(Square.D6, move.getTo());
-        assertEquals(Piece.PAWN, move.getPiece());
-        assertNull(move.getPromoted());
-        assertFalse(move.isCastling());
-        assertTrue(move.isEnPassant());
+    private void createAndAssertPromotionMove(int piece, long from, long to, int promoted) {
+        int move = Move.createPromotion(from, to, promoted);
+        assertMove(move, piece, from, to, 0, promoted, false, false);
     }
 
-	/**
-	 * Tests the {@code equals} method.
-	 */
-    @Test
-	public void testEquals() throws Exception {
-        // Equal normal moves
-	    Move m0 = Move.of(Piece.PAWN, Square.A2, Square.A4, null, false, false);
-	    Move m1 = Move.of(Piece.PAWN, Square.A2, Square.A4, null, false, false);
-	    assertTrue(m0.equals(m1));
+    private void createAndAssertCapturePromotionMove(int piece, long from, long to, int captured, int promoted) {
+        int move = Move.createCapturePromotion(from, to, captured, promoted);
+        assertMove(move, piece, from, to, captured, promoted, false, false);
+    }
 
-        // Different in from and to square
-        m0 = Move.of(Piece.PAWN, Square.A2, Square.A4, null, false, false);
-        m1 = Move.of(Piece.PAWN, Square.B2, Square.B4, null, false, false);
-	    assertFalse(m0.equals(m1));
+    private void createAndAssertCastlingMove(int piece, long from, long to) {
+        int move = Move.createCastling(from, to);
+        assertMove(move, piece, from, to, 0, 0, true, false);
+    }
 
-        // Equal promotion moves
-        m0 = Move.of(Piece.PAWN, Square.E7, Square.F8, Piece.QUEEN, false, false);
-        m1 = Move.of(Piece.PAWN, Square.E7, Square.F8, Piece.QUEEN, false, false);
-        assertTrue(m0.equals(m1));
+    private void createAndAssertEnPassantMove(int piece, long from, long to, int captured) {
+        int move = Move.createEnPassant(from, to);
+        assertMove(move, piece, from, to, captured, 0, false, true);
+    }
 
-        // Differ only in promotion piece
-        m0 = Move.of(Piece.PAWN, Square.E7, Square.F8, Piece.QUEEN, false, false);
-        m1 = Move.of(Piece.PAWN, Square.E7, Square.F8, Piece.ROOK, false, false);
-        assertFalse(m0.equals(m1));
-
-        // Equal castling moves
-        m0 = Move.of(Piece.KING, Square.E1, Square.G1, null, true, false);
-        m1 = Move.of(Piece.KING, Square.E1, Square.G1, null, true, false);
-        assertTrue(m0.equals(m1));
-
-        // Differ only in castling
-        m0 = Move.of(Piece.KING, Square.E1, Square.G1, null, false, false);
-        m1 = Move.of(Piece.KING, Square.E1, Square.G1, null, true, false);
-        assertFalse(m0.equals(m1));
-
-        // Equal 'en passant' moves
-        m0 = Move.of(Piece.PAWN, Square.E5, Square.D6, null, false, true);
-        m1 = Move.of(Piece.PAWN, Square.E5, Square.D6, null, false, true);
-        assertTrue(m0.equals(m1));
-
-        // Differ only in 'en passant'
-        m0 = Move.of(Piece.PAWN, Square.E5, Square.D6, null, false, true);
-        m1 = Move.of(Piece.PAWN, Square.E5, Square.D6, null, false, false);
-        assertFalse(m0.equals(m1));
-	}
+    private void assertMove(int move, int piece, long from, long to, int captured, int promoted, boolean castling, boolean enPassant) {
+        assertThat(Move.getPiece(move), is(piece));
+        assertThat(Move.getFrom(move), is(from));
+        assertThat(Move.getTo(move), is(to));
+        assertThat(Move.getCaptured(move), is(captured));
+        assertThat(Move.getPromoted(move), is(promoted));
+        assertThat(Move.isCastling(move), is(castling));
+        assertThat(Move.isEnPassant(move), is(enPassant));
+        assertThat(Move.isPromotion(move), is(promoted != 0));
+        assertThat(Move.isCapture(move), is(captured != 0));
+    }
 }

@@ -17,14 +17,13 @@
 
 package se.dykstrom.ronja.engine.utils;
 
+import java.util.Iterator;
+
 import se.dykstrom.ronja.common.model.Board;
 import se.dykstrom.ronja.common.model.Color;
-import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.engine.core.MoveGenerator;
 import se.dykstrom.ronja.engine.core.StatefulMoveGenerator;
-
-import java.util.Iterator;
 
 /**
  * Utility methods related to class {@link Position}.
@@ -64,9 +63,9 @@ public final class PositionUtils {
         }
 
         // If we can find a move out of check, it is not checkmate
-        Iterator<Move> iterator = MOVE_GENERATOR.iterator(position);
+        Iterator<Integer> iterator = MOVE_GENERATOR.iterator(position);
         while (iterator.hasNext()) {
-            Move move = iterator.next();
+            int move = iterator.next();
             if (!position.withMove(move).isCheck(color)) {
                 return false;
             }
@@ -116,9 +115,9 @@ public final class PositionUtils {
         }
 
         // If we find a move that is not check, it is not stalemate
-        Iterator<Move> iterator = MOVE_GENERATOR.iterator(position);
+        Iterator<Integer> iterator = MOVE_GENERATOR.iterator(position);
         while (iterator.hasNext()) {
-            Move move = iterator.next();
+            int move = iterator.next();
             if (!position.withMove(move).isCheck(color)) {
                 return false;
             }

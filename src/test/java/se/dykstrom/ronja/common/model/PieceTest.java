@@ -21,10 +21,9 @@ import org.junit.Test;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
- * This class is for testing class {@code Piece} using JUnit.
+ * This class is for testing class {@code PieceC} using JUnit.
  *
  * @author Johan Dykstrom
  * @see Piece
@@ -32,7 +31,7 @@ import static org.junit.Assert.assertNull;
 public class PieceTest extends AbstractTestCase {
 
     @Test
-    public void testValueOf() {
+    public void shouldGetValueOf() {
         assertEquals(Piece.BISHOP, Piece.valueOf('B'));
         assertEquals(Piece.KING, Piece.valueOf('K'));
         assertEquals(Piece.KNIGHT, Piece.valueOf('N'));
@@ -49,34 +48,34 @@ public class PieceTest extends AbstractTestCase {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testValueOfFailure() {
-        assertNull(Piece.valueOf('U'));
+    public void shouldNotGetValueOf() {
+        Piece.valueOf('U');
     }
 
     @Test
-    public void testGetSymbol() {
-        assertEquals('B', Piece.BISHOP.getSymbol());
-        assertEquals('K', Piece.KING.getSymbol());
-        assertEquals('N', Piece.KNIGHT.getSymbol());
-        assertEquals('P', Piece.PAWN.getSymbol());
-        assertEquals('Q', Piece.QUEEN.getSymbol());
-        assertEquals('R', Piece.ROOK.getSymbol());
+    public void shouldGetSymbol() {
+        assertEquals('B', Piece.toSymbol(Piece.BISHOP));
+        assertEquals('K', Piece.toSymbol(Piece.KING));
+        assertEquals('N', Piece.toSymbol(Piece.KNIGHT));
+        assertEquals('P', Piece.toSymbol(Piece.PAWN));
+        assertEquals('Q', Piece.toSymbol(Piece.QUEEN));
+        assertEquals('R', Piece.toSymbol(Piece.ROOK));
     }
 
     @Test
-    public void testGetSymbolForColor() {
-        assertEquals('B', Piece.BISHOP.getSymbol(Color.WHITE));
-        assertEquals('K', Piece.KING.getSymbol(Color.WHITE));
-        assertEquals('N', Piece.KNIGHT.getSymbol(Color.WHITE));
-        assertEquals('P', Piece.PAWN.getSymbol(Color.WHITE));
-        assertEquals('Q', Piece.QUEEN.getSymbol(Color.WHITE));
-        assertEquals('R', Piece.ROOK.getSymbol(Color.WHITE));
+    public void shouldGetSymbolForColor() {
+        assertEquals('B', Piece.toSymbol(Piece.BISHOP, Color.WHITE));
+        assertEquals('K', Piece.toSymbol(Piece.KING, Color.WHITE));
+        assertEquals('N', Piece.toSymbol(Piece.KNIGHT, Color.WHITE));
+        assertEquals('P', Piece.toSymbol(Piece.PAWN, Color.WHITE));
+        assertEquals('Q', Piece.toSymbol(Piece.QUEEN, Color.WHITE));
+        assertEquals('R', Piece.toSymbol(Piece.ROOK, Color.WHITE));
 
-        assertEquals('b', Piece.BISHOP.getSymbol(Color.BLACK));
-        assertEquals('k', Piece.KING.getSymbol(Color.BLACK));
-        assertEquals('n', Piece.KNIGHT.getSymbol(Color.BLACK));
-        assertEquals('p', Piece.PAWN.getSymbol(Color.BLACK));
-        assertEquals('q', Piece.QUEEN.getSymbol(Color.BLACK));
-        assertEquals('r', Piece.ROOK.getSymbol(Color.BLACK));
+        assertEquals('b', Piece.toSymbol(Piece.BISHOP, Color.BLACK));
+        assertEquals('k', Piece.toSymbol(Piece.KING, Color.BLACK));
+        assertEquals('n', Piece.toSymbol(Piece.KNIGHT, Color.BLACK));
+        assertEquals('p', Piece.toSymbol(Piece.PAWN, Color.BLACK));
+        assertEquals('q', Piece.toSymbol(Piece.QUEEN, Color.BLACK));
+        assertEquals('r', Piece.toSymbol(Piece.ROOK, Color.BLACK));
     }
 }

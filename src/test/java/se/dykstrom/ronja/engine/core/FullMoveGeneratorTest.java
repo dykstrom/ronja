@@ -17,18 +17,18 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import org.junit.Test;
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Position;
-import se.dykstrom.ronja.common.parser.CanParser;
-import se.dykstrom.ronja.common.parser.FenParser;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertThat;
+import static se.dykstrom.ronja.test.SizeMatcher.hasSize;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertThat;
-import static se.dykstrom.ronja.test.SizeMatcher.hasSize;
+import org.junit.Test;
+
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.parser.CanParser;
+import se.dykstrom.ronja.common.parser.FenParser;
 
 /**
  * This class is for testing class {@code FullMoveGenerator} using JUnit.
@@ -47,7 +47,7 @@ public class FullMoveGeneratorTest extends AbstractMoveGeneratorTestCase {
      */
     @Test
     public void testPositionStart() throws Exception {
-        List<Move> moves = MOVE_GENERATOR.getMoves(FenParser.parse(FEN_START));
+        List<Integer> moves = MOVE_GENERATOR.getMoves(FenParser.parse(FEN_START));
         assertThat(moves, hasSize(20));
     }
 
@@ -56,7 +56,7 @@ public class FullMoveGeneratorTest extends AbstractMoveGeneratorTestCase {
      */
     @Test
     public void testPositionMiddleGame2() throws Exception {
-        List<Move> moves = MOVE_GENERATOR.getMoves(FenParser.parse(FEN_MIDDLE_GAME_2));
+        List<Integer> moves = MOVE_GENERATOR.getMoves(FenParser.parse(FEN_MIDDLE_GAME_2));
         // a7a6, a7a5, d5d4, f6f5, g7g6, g7g5, h6h5 = 7
         // Nb8a6, Nb8c6, Nb8d7, Ne4d6, Ne4g5, Ne4g3, Ne4f2, Ne4d2, Ne4c3, Ne4c5 = 10
         // Bb6a5, Bb6c7, Bb6d8, Bb6c5, Bb6d4, Bb6e3, Bh7g6, Bh7f5 = 8
@@ -70,7 +70,7 @@ public class FullMoveGeneratorTest extends AbstractMoveGeneratorTestCase {
      */
     @Test
     public void testPositionCheckmate11() throws Exception {
-        List<Move> moves = MOVE_GENERATOR.getMoves(FenParser.parse(FEN_CHECKMATE_1_1));
+        List<Integer> moves = MOVE_GENERATOR.getMoves(FenParser.parse(FEN_CHECKMATE_1_1));
         // b2b3, b2b4, f2f3, g2g3, g2g4, h2h3, h2h4 = 7
         // Bf4b8, Bf4c7, Bf4d6, Bf4e5, Bf4g3, Bf4c1, Bf4d2, Bf4e3, Bf4g5, Bf4h6 = 10
         // Kg1h1 = 1 (h1 is not attacked in the original position because the king is in the way)
@@ -85,7 +85,7 @@ public class FullMoveGeneratorTest extends AbstractMoveGeneratorTestCase {
      */
     @Test
     public void testPositionDraw20() throws Exception {
-        List<Move> moves = MOVE_GENERATOR.getMoves(FenParser.parse(FEN_DRAW_2_0));
+        List<Integer> moves = MOVE_GENERATOR.getMoves(FenParser.parse(FEN_DRAW_2_0));
         // b7b8b, b7b8n, b7b8r, b7b8q = 4
         // Bd2c1, Bd2c3, Bd2b4, Bd2a5, Bd2e1, Bd2e3, Bd2f4, Bd2g5, Bd2h6 = 9
         // Ke4d3, Ke4d4, Ke4d5, Ke4e5, Ke4f5, Ke4f4, Ke4f3, Ke4e3 = 8
@@ -100,7 +100,7 @@ public class FullMoveGeneratorTest extends AbstractMoveGeneratorTestCase {
      */
     @Test
     public void testPosition_BQC_OK() throws Exception {
-        List<Move> moves = MOVE_GENERATOR.getMoves(FenParser.parse(FEN_BQC_OK));
+        List<Integer> moves = MOVE_GENERATOR.getMoves(FenParser.parse(FEN_BQC_OK));
         // a7a6, a7a5, b7b6, d6d5, f7f6, f7f5, g7g6, g7g5, h7h6, h7h5 = 10
         // Nc6b8, Nc6d8, Nc6a5, Nc6b4, Nc6d4, Ng8f6, Ng8h6 = 7
         // Bg4f3, Bg4h3, Bg4h5, Bg4f5, Bg4e6, Bg4d7, Bg4c8 = 7
@@ -126,7 +126,7 @@ public class FullMoveGeneratorTest extends AbstractMoveGeneratorTestCase {
      * @param expectedMoves An array of expected moves, in CAN format.
      * @param actualMoves The list of actual moves to check.
      */
-    private void assertMoves(String[] expectedMoves, List<Move> actualMoves) {
+    private void assertMoves(String[] expectedMoves, List<Integer> actualMoves) {
         Arrays.sort(expectedMoves);
         assertArrayEquals(expectedMoves, actualMoves.stream().map(CanParser::format).sorted().toArray());
     }

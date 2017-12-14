@@ -17,12 +17,18 @@
 
 package se.dykstrom.ronja.common.model;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static se.dykstrom.ronja.common.model.Piece.BISHOP;
+import static se.dykstrom.ronja.common.model.Piece.ROOK;
+
 import org.junit.Test;
+
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
-
-import static org.junit.Assert.*;
 
 /**
  * This class is for testing class {@code Position} using JUnit.
@@ -105,14 +111,14 @@ public class PositionTest extends AbstractTestCase {
 
         position = position.withPieceAndColor(Square.E4, Piece.KNIGHT, Color.BLACK);
         position = position.withPieceAndColor(Square.A8, Piece.QUEEN, Color.WHITE);
-        position = position.withPieceAndColor(Square.A1, null, null);
+        position = position.withPieceAndColor(Square.A1, 0, null);
 
         assertEquals(Piece.KNIGHT, position.getPiece(Square.E4));
         assertEquals(Color.BLACK, position.getColor(Square.E4));
         assertEquals(Piece.QUEEN, position.getPiece(Square.A8));
         assertEquals(Color.WHITE, position.getColor(Square.A8));
-        assertEquals(null, position.getPiece(Square.A1));
-        assertEquals(null, position.getColor(Square.A1));
+        assertEquals(0, position.getPiece(Square.A1));
+        assertNull(position.getColor(Square.A1));
 	}
 
     /**
@@ -133,7 +139,6 @@ public class PositionTest extends AbstractTestCase {
 		p2 = Position.START;
 		assertEquals(p1, p2);
 		assertEquals(p2, p1);
-
 		p1 = p1.withMove(MoveParser.parse(e2e4, p1));
 		p2 = p2.withMove(MoveParser.parse(d2d4, p2));
 		assertFalse(p1.equals(p2));
@@ -197,9 +202,9 @@ public class PositionTest extends AbstractTestCase {
         assertEquals(Piece.PAWN, position.getPiece(Square.E4));
         assertEquals(Piece.PAWN, position.getPiece(Square.E5));
         assertEquals(Piece.KNIGHT, position.getPiece(Square.F3));
-        assertNull(position.getPiece(Square.E2));
-        assertNull(position.getPiece(Square.E7));
-        assertNull(position.getPiece(Square.G1));
+        assertEquals(0, position.getPiece(Square.E2));
+        assertEquals(0, position.getPiece(Square.E7));
+        assertEquals(0, position.getPiece(Square.G1));
 
         // Test that making the same moves, but not in the same order, gives the same result
         assertEquals(Position.of(MOVE_E4_E5_D4_D5), Position.of(MOVE_D4_E5_E4_D5));
@@ -300,6 +305,7 @@ public class PositionTest extends AbstractTestCase {
         // White king-side castling
         Position originalPosition = FenParser.parse(FEN_WKC_OK);
         Position castledPosition = originalPosition.withMove(MoveParser.parse("e1g1", originalPosition));
+
         assertEquals(Piece.KING, castledPosition.getPiece(Square.G1));
         assertEquals(Piece.ROOK, castledPosition.getPiece(Square.F1));
         assertFalse(castledPosition.isKingSideCastlingAllowed(Color.WHITE));
@@ -353,14 +359,14 @@ public class PositionTest extends AbstractTestCase {
         assertEquals(Square.D6, originalPosition.getEnPassantSquare());
 
         // Make the 'en passant' move
-        Position resultPosition = originalPosition.withMove(Move.of(Piece.PAWN, Square.E5, Square.D6, null, false, true));
+        Position resultPosition = originalPosition.withMove(Move.createEnPassant(Square.E5, Square.D6));
 
         // Verify that the white pawn is on d6
         assertEquals(Piece.PAWN, resultPosition.getPiece(Square.D6));
         assertEquals(Color.WHITE, resultPosition.getColor(Square.D6));
 
         // Verify that the black pawn is _not_ on d5
-        assertNull(resultPosition.getPiece(Square.D5));
+        assertEquals(0, resultPosition.getPiece(Square.D5));
         assertNull(resultPosition.getColor(Square.D5));
     }
 
@@ -373,14 +379,14 @@ public class PositionTest extends AbstractTestCase {
         assertEquals(Square.C3, originalPosition.getEnPassantSquare());
 
         // Make the 'en passant' move
-        Position resultPosition = originalPosition.withMove(Move.of(Piece.PAWN, Square.D4, Square.C3, null, false, true));
+        Position resultPosition = originalPosition.withMove(Move.createEnPassant(Square.D4, Square.C3));
 
         // Verify that the black pawn is on c3
         assertEquals(Piece.PAWN, resultPosition.getPiece(Square.C3));
         assertEquals(Color.BLACK, resultPosition.getColor(Square.C3));
 
         // Verify that the white pawn is _not_ on c4
-        assertNull(resultPosition.getPiece(Square.C4));
+        assertEquals(0, resultPosition.getPiece(Square.C4));
         assertNull(resultPosition.getColor(Square.C4));
     }
 
@@ -392,14 +398,14 @@ public class PositionTest extends AbstractTestCase {
         Position originalPosition = FenParser.parse(FEN_WP_E7F8);
 
         // Make the promotion move
-        Position resultPosition = originalPosition.withMove(Move.of(Piece.PAWN, Square.E7, Square.F8, Piece.BISHOP, false, false));
+        Position resultPosition = originalPosition.withMove(Move.createPromotion(Square.E7, Square.F8, BISHOP));
 
         // Verify that the white bishop is on f8
         assertEquals(Piece.BISHOP, resultPosition.getPiece(Square.F8));
         assertEquals(Color.WHITE,  resultPosition.getColor(Square.F8));
 
         // Verify that the white pawn is _not_ on e7
-        assertNull(resultPosition.getPiece(Square.E7));
+        assertEquals(0, resultPosition.getPiece(Square.E7));
         assertNull(resultPosition.getColor(Square.E7));
     }
 
@@ -411,14 +417,14 @@ public class PositionTest extends AbstractTestCase {
         Position originalPosition = FenParser.parse(FEN_BP_A2A1);
 
         // Make the promotion move
-        Position resultPosition = originalPosition.withMove(Move.of(Piece.PAWN, Square.A2, Square.A1, Piece.ROOK, false, false));
+        Position resultPosition = originalPosition.withMove(Move.createPromotion(Square.A2, Square.A1, ROOK));
 
         // Verify that the black rook is on a1
         assertEquals(Piece.ROOK,  resultPosition.getPiece(Square.A1));
         assertEquals(Color.BLACK, resultPosition.getColor(Square.A1));
 
         // Verify that the black pawn is _not_ on a2
-        assertNull(resultPosition.getPiece(Square.A2));
+        assertEquals(0, resultPosition.getPiece(Square.A2));
         assertNull(resultPosition.getColor(Square.A2));
     }
 }

@@ -17,14 +17,15 @@
 
 package se.dykstrom.ronja.engine.utils;
 
-import org.junit.Before;
-import org.junit.Test;
-import se.dykstrom.ronja.test.AbstractTestCase;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
+
+import se.dykstrom.ronja.test.AbstractTestCase;
 
 /**
  * This class is for testing class {@code AppConfig} using JUnit.
@@ -49,9 +50,9 @@ public class AppConfigTest extends AbstractTestCase {
         File file = new File(TEMP_DIRECTORY, "ronja.properties");
         file.deleteOnExit();
 
-        PrintStream out = new PrintStream(file, "ISO-8859-1");
-        out.println(AppConfig.PROPERTY_ENGINE_NAME + "=" + FILE_ENGINE_NAME);
-        out.close();
+        try (PrintStream out = new PrintStream(file, "ISO-8859-1")) {
+            out.println(AppConfig.PROPERTY_ENGINE_NAME + "=" + FILE_ENGINE_NAME);
+        }
     }
 
     // ------------------------------------------------------------------------

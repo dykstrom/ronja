@@ -17,16 +17,16 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import org.junit.Test;
-import se.dykstrom.ronja.common.model.Color;
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Square;
-import se.dykstrom.ronja.common.parser.FenParser;
-import se.dykstrom.ronja.test.AbstractTestCase;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+
+import se.dykstrom.ronja.common.model.Color;
+import se.dykstrom.ronja.common.model.Square;
+import se.dykstrom.ronja.common.parser.FenParser;
+import se.dykstrom.ronja.test.AbstractTestCase;
 
 
 /**
@@ -50,7 +50,7 @@ public class GeneratorRookTest extends AbstractTestCase {
         MOVE_GENERATOR.setup(FenParser.parse(FEN_START));
 
         // There should be no moves in this position
-        List<Move> moves = MOVE_GENERATOR.getAllRookMoves();
+        List<Integer> moves = MOVE_GENERATOR.getAllRookMoves();
         assertEquals(0, moves.size());
     }
 

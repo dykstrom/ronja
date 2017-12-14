@@ -17,20 +17,21 @@
 
 package se.dykstrom.ronja.common.book;
 
-import se.dykstrom.ronja.common.model.Position;
-import se.dykstrom.ronja.common.parser.IllegalMoveException;
-import se.dykstrom.ronja.common.parser.MoveParser;
+import static java.util.stream.Collectors.toSet;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 import java.util.logging.Logger;
 
-import static java.util.stream.Collectors.toSet;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.parser.IllegalMoveException;
+import se.dykstrom.ronja.common.parser.MoveParser;
 
 /**
  * A class for parsing the Ronja opening book file. The opening book file should

@@ -17,18 +17,21 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import org.junit.Test;
-import se.dykstrom.ronja.common.model.Color;
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Piece;
-import se.dykstrom.ronja.common.model.Square;
-import se.dykstrom.ronja.common.parser.FenParser;
-import se.dykstrom.ronja.test.AbstractTestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static se.dykstrom.ronja.common.model.Piece.BISHOP;
+import static se.dykstrom.ronja.common.model.Piece.PAWN;
+import static se.dykstrom.ronja.common.model.Piece.ROOK;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+import se.dykstrom.ronja.common.model.Color;
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Square;
+import se.dykstrom.ronja.common.parser.FenParser;
+import se.dykstrom.ronja.test.AbstractTestCase;
 
 /**
  * This class is for testing bishop moves with the generator classes using JUnit.
@@ -43,7 +46,7 @@ public class GeneratorBishopTest extends AbstractTestCase {
 
     private static final AttackGenerator ATTACK_GENERATOR = new AttackGenerator();
 
-    private List<Move> moves;
+    private List<Integer> moves;
 
     // ------------------------------------------------------------------------
 
@@ -69,11 +72,11 @@ public class GeneratorBishopTest extends AbstractTestCase {
         // There should be 5 moves: Be2, Bd3, Bc4, Bb5, Ba6
         moves = MOVE_GENERATOR.getAllBishopMoves();
         assertEquals(5, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.F1, Square.E2, null, false, false)));
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.F1, Square.D3, null, false, false)));
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.F1, Square.C4, null, false, false)));
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.F1, Square.B5, null, false, false)));
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.F1, Square.A6, null, false, false)));
+        assertTrue(moves.contains(Move.create(BISHOP, Square.F1, Square.E2)));
+        assertTrue(moves.contains(Move.create(BISHOP, Square.F1, Square.D3)));
+        assertTrue(moves.contains(Move.create(BISHOP, Square.F1, Square.C4)));
+        assertTrue(moves.contains(Move.create(BISHOP, Square.F1, Square.B5)));
+        assertTrue(moves.contains(Move.create(BISHOP, Square.F1, Square.A6)));
     }
 
     /**
@@ -86,11 +89,11 @@ public class GeneratorBishopTest extends AbstractTestCase {
         // There should be 5 moves: Be7, Bd6, Bc5, Bb4, Ba3
         moves = MOVE_GENERATOR.getAllBishopMoves();
         assertEquals(5, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.F8, Square.E7, null, false, false)));
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.F8, Square.D6, null, false, false)));
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.F8, Square.C5, null, false, false)));
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.F8, Square.B4, null, false, false)));
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.F8, Square.A3, null, false, false)));
+        assertTrue(moves.contains(Move.create(BISHOP, Square.F8, Square.E7)));
+        assertTrue(moves.contains(Move.create(BISHOP, Square.F8, Square.D6)));
+        assertTrue(moves.contains(Move.create(BISHOP, Square.F8, Square.C5)));
+        assertTrue(moves.contains(Move.create(BISHOP, Square.F8, Square.B4)));
+        assertTrue(moves.contains(Move.create(BISHOP, Square.F8, Square.A3)));
     }
 
     /**
@@ -115,9 +118,9 @@ public class GeneratorBishopTest extends AbstractTestCase {
         // There should be 3 moves: Bxb4, Bb2, Bxc1
         moves = MOVE_GENERATOR.getAllBishopMoves();
         assertEquals(3, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.A3, Square.B4, null, false, false)));
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.A3, Square.B2, null, false, false)));
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.A3, Square.C1, null, false, false)));
+        assertTrue(moves.contains(Move.createCapture(BISHOP, Square.A3, Square.B4, PAWN)));
+        assertTrue(moves.contains(Move.create(BISHOP, Square.A3, Square.B2)));
+        assertTrue(moves.contains(Move.createCapture(BISHOP, Square.A3, Square.C1, BISHOP)));
     }
 
     /**
@@ -166,11 +169,11 @@ public class GeneratorBishopTest extends AbstractTestCase {
         // There should be 5 moves: Bxa8, Bb7, Bxb5, Bxd7, Bd5
         moves = MOVE_GENERATOR.getAllBishopMoves();
         assertEquals(5, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.C6, Square.A8, null, false, false)));
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.C6, Square.B7, null, false, false)));
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.C6, Square.B5, null, false, false)));
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.C6, Square.D7, null, false, false)));
-        assertTrue(moves.contains(Move.of(Piece.BISHOP, Square.C6, Square.D5, null, false, false)));
+        assertTrue(moves.contains(Move.createCapture(BISHOP, Square.C6, Square.A8, ROOK)));
+        assertTrue(moves.contains(Move.create(BISHOP, Square.C6, Square.B7)));
+        assertTrue(moves.contains(Move.createCapture(BISHOP, Square.C6, Square.B5, PAWN)));
+        assertTrue(moves.contains(Move.createCapture(BISHOP, Square.C6, Square.D7, BISHOP)));
+        assertTrue(moves.contains(Move.create(BISHOP, Square.C6, Square.D5)));
     }
 
     // ------------------------------------------------------------------------
