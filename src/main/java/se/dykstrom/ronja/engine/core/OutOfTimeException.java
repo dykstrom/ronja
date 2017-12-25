@@ -23,17 +23,5 @@ package se.dykstrom.ronja.engine.core;
  * @author Johan Dykstrom
  */
 class OutOfTimeException extends RuntimeException {
-
-    private final Integer move;
-
-    OutOfTimeException(Integer move) {
-        this.move = move;
-    }
-
-    /**
-     * Returns the move included with this exception.
-     */
-    public Integer getMove() {
-        return move;
-    }
+    // Empty
 }

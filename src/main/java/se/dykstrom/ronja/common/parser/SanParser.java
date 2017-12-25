@@ -17,21 +17,17 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import static java.util.stream.Collectors.toSet;
-import static se.dykstrom.ronja.common.model.Board.getFile;
-import static se.dykstrom.ronja.common.model.Board.getFileChar;
-import static se.dykstrom.ronja.common.model.Board.getRank;
+import se.dykstrom.ronja.common.model.*;
+import se.dykstrom.ronja.engine.core.FullMoveGenerator;
+import se.dykstrom.ronja.engine.utils.PositionUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
-import java.util.stream.StreamSupport;
 
-import se.dykstrom.ronja.common.model.*;
-import se.dykstrom.ronja.engine.core.FullMoveGenerator;
-import se.dykstrom.ronja.engine.core.MoveGenerator;
-import se.dykstrom.ronja.engine.utils.PositionUtils;
+import static se.dykstrom.ronja.common.model.Board.*;
 
 /**
  * A class that can parse and format moves specified in Standard Algebraic Notation (SAN).
@@ -42,7 +38,7 @@ public class SanParser extends AbstractMoveParser {
 
     private static final Logger TLOG = Logger.getLogger(SanParser.class.getName());
 
-    private static final MoveGenerator MOVE_GENERATOR = new FullMoveGenerator();
+    private static final FullMoveGenerator MOVE_GENERATOR = new FullMoveGenerator();
 
     /**
      * Returns {@code true} if the given string of characters is a syntactically
@@ -287,13 +283,15 @@ public class SanParser extends AbstractMoveParser {
      * @return All possible from squares.
      */
     static Set<Long> getAllFromSquares(int piece, long toSquare, Position position) {
-        Iterable<Integer> iterable = () -> MOVE_GENERATOR.iterator(position);
-        return StreamSupport.stream(iterable.spliterator(), false)
-                .filter(move -> Move.getPiece(move) == piece)
-                .filter(move -> Move.getTo(move) == toSquare)
-                .mapToLong(Move::getFrom)
-                .boxed()
-                .collect(toSet());
+        Set<Long> squares = new HashSet<>();
+        int numberOfMoves = MOVE_GENERATOR.generateMoves(position, 0);
+        for (int moveIndex = 0; moveIndex < numberOfMoves; moveIndex++) {
+            int move = MOVE_GENERATOR.moves[0][moveIndex];
+            if (Move.getPiece(move) == piece && Move.getTo(move) == toSquare) {
+                squares.add(Move.getFrom(move));
+            }
+        }
+        return squares;
     }
 
     /**

@@ -17,13 +17,12 @@
 
 package se.dykstrom.ronja.engine.core;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThat;
 import static se.dykstrom.ronja.common.model.Piece.BISHOP;
 import static se.dykstrom.ronja.common.model.Piece.PAWN;
 import static se.dykstrom.ronja.common.model.Piece.ROOK;
-
-import java.util.List;
 
 import org.junit.Test;
 
@@ -46,8 +45,6 @@ public class GeneratorBishopTest extends AbstractTestCase {
 
     private static final AttackGenerator ATTACK_GENERATOR = new AttackGenerator();
 
-    private List<Integer> moves;
-
     // ------------------------------------------------------------------------
 
     /**
@@ -55,11 +52,11 @@ public class GeneratorBishopTest extends AbstractTestCase {
      */
     @Test
     public void testPositionStart() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_START));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_START), 0);
 
         // There should be no moves in this position
-        moves = MOVE_GENERATOR.getAllBishopMoves();
-        assertEquals(0, moves.size());
+        MOVE_GENERATOR.generateBishopMoves();
+        assertThat(MOVE_GENERATOR.getMoveIndex(), is(0));
     }
 
     /**
@@ -67,16 +64,16 @@ public class GeneratorBishopTest extends AbstractTestCase {
      */
     @Test
     public void testPosition0() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5), 0);
 
         // There should be 5 moves: Be2, Bd3, Bc4, Bb5, Ba6
-        moves = MOVE_GENERATOR.getAllBishopMoves();
-        assertEquals(5, moves.size());
-        assertTrue(moves.contains(Move.create(BISHOP, Square.F1, Square.E2)));
-        assertTrue(moves.contains(Move.create(BISHOP, Square.F1, Square.D3)));
-        assertTrue(moves.contains(Move.create(BISHOP, Square.F1, Square.C4)));
-        assertTrue(moves.contains(Move.create(BISHOP, Square.F1, Square.B5)));
-        assertTrue(moves.contains(Move.create(BISHOP, Square.F1, Square.A6)));
+        MOVE_GENERATOR.generateBishopMoves();
+        assertThat(MOVE_GENERATOR.getMoveIndex(), is(5));
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(BISHOP, Square.F1, Square.E2),
+                                             Move.create(BISHOP, Square.F1, Square.D3), 
+                                             Move.create(BISHOP, Square.F1, Square.C4), 
+                                             Move.create(BISHOP, Square.F1, Square.B5),
+                                             Move.create(BISHOP, Square.F1, Square.A6));
     }
 
     /**
@@ -84,16 +81,16 @@ public class GeneratorBishopTest extends AbstractTestCase {
      */
     @Test
     public void testPosition1() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5_BC4));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5_BC4), 0);
 
         // There should be 5 moves: Be7, Bd6, Bc5, Bb4, Ba3
-        moves = MOVE_GENERATOR.getAllBishopMoves();
-        assertEquals(5, moves.size());
-        assertTrue(moves.contains(Move.create(BISHOP, Square.F8, Square.E7)));
-        assertTrue(moves.contains(Move.create(BISHOP, Square.F8, Square.D6)));
-        assertTrue(moves.contains(Move.create(BISHOP, Square.F8, Square.C5)));
-        assertTrue(moves.contains(Move.create(BISHOP, Square.F8, Square.B4)));
-        assertTrue(moves.contains(Move.create(BISHOP, Square.F8, Square.A3)));
+        MOVE_GENERATOR.generateBishopMoves();
+        assertThat(MOVE_GENERATOR.getMoveIndex(), is(5));
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(BISHOP, Square.F8, Square.E7), 
+                                             Move.create(BISHOP, Square.F8, Square.D6), 
+                                             Move.create(BISHOP, Square.F8, Square.C5), 
+                                             Move.create(BISHOP, Square.F8, Square.B4), 
+                                             Move.create(BISHOP, Square.F8, Square.A3));
     }
 
     /**
@@ -101,11 +98,11 @@ public class GeneratorBishopTest extends AbstractTestCase {
      */
     @Test
     public void testPosition2() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5_BC4_BA3));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5_BC4_BA3), 0);
 
         // There should be 9 moves: Ba6, Bb5, Bb3, Bd5, Be6, Bxf7, Bd3, Be2, Bf1
-        moves = MOVE_GENERATOR.getAllBishopMoves();
-        assertEquals(9, moves.size());
+        MOVE_GENERATOR.generateBishopMoves();
+        assertThat(MOVE_GENERATOR.getMoveIndex(), is(9));
     }
 
     /**
@@ -113,14 +110,14 @@ public class GeneratorBishopTest extends AbstractTestCase {
      */
     @Test
     public void testPosition3() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5_BC4_BA3_B4));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5_BC4_BA3_B4), 0);
 
         // There should be 3 moves: Bxb4, Bb2, Bxc1
-        moves = MOVE_GENERATOR.getAllBishopMoves();
-        assertEquals(3, moves.size());
-        assertTrue(moves.contains(Move.createCapture(BISHOP, Square.A3, Square.B4, PAWN)));
-        assertTrue(moves.contains(Move.create(BISHOP, Square.A3, Square.B2)));
-        assertTrue(moves.contains(Move.createCapture(BISHOP, Square.A3, Square.C1, BISHOP)));
+        MOVE_GENERATOR.generateBishopMoves();
+        assertThat(MOVE_GENERATOR.getMoveIndex(), is(3));
+        assertGeneratedMoves(MOVE_GENERATOR, Move.createCapture(BISHOP, Square.A3, Square.B4, PAWN), 
+                                             Move.create(BISHOP, Square.A3, Square.B2), 
+                                             Move.createCapture(BISHOP, Square.A3, Square.C1, BISHOP));
     }
 
     /**
@@ -128,11 +125,11 @@ public class GeneratorBishopTest extends AbstractTestCase {
      */
     @Test
     public void testPositionEndGame1() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_END_GAME_1));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_END_GAME_1), 0);
 
         // There should be 13 moves: Ba8, Bb7, Bc6, Ba2, Bb3, Bc4, Be6, Bf7, Bg8, Be4, Bf3, Bg2, Bh1
-        moves = MOVE_GENERATOR.getAllBishopMoves();
-        assertEquals(13, moves.size());
+        MOVE_GENERATOR.generateBishopMoves();
+        assertThat(MOVE_GENERATOR.getMoveIndex(), is(13));
     }
 
     /**
@@ -140,11 +137,11 @@ public class GeneratorBishopTest extends AbstractTestCase {
      */
     @Test
     public void testPositionEndGame2() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_END_GAME_2));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_END_GAME_2), 0);
 
         // There should be 13 moves: Bb8, Bc7, Bd6, Ba1, Bb2, Bc3, Bd4, Bf6, Bg7, Bh8, Bf4, Bg3, Bh2
-        moves = MOVE_GENERATOR.getAllBishopMoves();
-        assertEquals(13, moves.size());
+        MOVE_GENERATOR.generateBishopMoves();
+        assertThat(MOVE_GENERATOR.getMoveIndex(), is(13));
     }
 
     /**
@@ -152,11 +149,11 @@ public class GeneratorBishopTest extends AbstractTestCase {
      */
     @Test
     public void testOpening0() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_OPENING_0));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_OPENING_0), 0);
 
         // There should be 12 moves: Ba6, Ba4, Bxc6, Bc4, Bd3, Be2, Bf1, Bd2, Be3, Bf4, Bg5, Bh6
-        moves = MOVE_GENERATOR.getAllBishopMoves();
-        assertEquals(12, moves.size());
+        MOVE_GENERATOR.generateBishopMoves();
+        assertThat(MOVE_GENERATOR.getMoveIndex(), is(12));
     }
 
     /**
@@ -164,16 +161,16 @@ public class GeneratorBishopTest extends AbstractTestCase {
      */
     @Test
     public void testCaptureInCorner() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_CAPTURE_IN_CORNER));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_CAPTURE_IN_CORNER), 0);
 
         // There should be 5 moves: Bxa8, Bb7, Bxb5, Bxd7, Bd5
-        moves = MOVE_GENERATOR.getAllBishopMoves();
-        assertEquals(5, moves.size());
-        assertTrue(moves.contains(Move.createCapture(BISHOP, Square.C6, Square.A8, ROOK)));
-        assertTrue(moves.contains(Move.create(BISHOP, Square.C6, Square.B7)));
-        assertTrue(moves.contains(Move.createCapture(BISHOP, Square.C6, Square.B5, PAWN)));
-        assertTrue(moves.contains(Move.createCapture(BISHOP, Square.C6, Square.D7, BISHOP)));
-        assertTrue(moves.contains(Move.create(BISHOP, Square.C6, Square.D5)));
+        MOVE_GENERATOR.generateBishopMoves();
+        assertThat(MOVE_GENERATOR.getMoveIndex(), is(5));
+        assertGeneratedMoves(MOVE_GENERATOR, Move.createCapture(BISHOP, Square.C6, Square.A8, ROOK),
+                                             Move.create(BISHOP, Square.C6, Square.B7),
+                                             Move.createCapture(BISHOP, Square.C6, Square.B5, PAWN),
+                                             Move.createCapture(BISHOP, Square.C6, Square.D7, BISHOP),
+                                             Move.create(BISHOP, Square.C6, Square.D5));
     }
 
     // ------------------------------------------------------------------------

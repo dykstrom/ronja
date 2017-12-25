@@ -17,18 +17,9 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
-import static org.hamcrest.CoreMatchers.both;
-import static org.hamcrest.CoreMatchers.hasItems;
-import static org.junit.Assert.*;
-import static se.dykstrom.ronja.engine.time.TimeControlType.CLASSIC;
-import static se.dykstrom.ronja.engine.time.TimeControlType.INCREMENTAL;
-import static se.dykstrom.ronja.engine.time.TimeControlType.SECONDS_PER_MOVE;
-import static se.dykstrom.ronja.test.TestUtils.assertContainsRegex;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.*;
 import se.dykstrom.ronja.common.parser.FenParser;
@@ -38,6 +29,12 @@ import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.test.AbstractTestCase;
 import se.dykstrom.ronja.test.ListResponse;
 import se.dykstrom.ronja.test.SizeMatcher;
+
+import static org.hamcrest.CoreMatchers.both;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.junit.Assert.*;
+import static se.dykstrom.ronja.engine.time.TimeControlType.*;
+import static se.dykstrom.ronja.test.TestUtils.assertContainsRegex;
 
 /**
  * This class is for testing interface {@code Command} and its implementations using JUnit.

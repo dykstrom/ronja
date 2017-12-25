@@ -17,17 +17,14 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static se.dykstrom.ronja.common.model.Piece.*;
-
 import org.junit.Test;
-
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.test.AbstractTestCase;
+
+import static org.junit.Assert.*;
+import static se.dykstrom.ronja.common.model.Piece.*;
 
 /**
  * This class is for testing class {@code CanParser} using JUnit.
@@ -120,7 +117,6 @@ public class CanParserTest extends AbstractTestCase {
     @Test
     public void testParsePromotion() throws Exception {
         Position position = FenParser.parse(FEN_WP_E7F8);
-        // TODO: Verify that this really is a capture.
         assertEquals(Move.createCapturePromotion(Square.E7, Square.F8, BISHOP, BISHOP), CanParser.parse("e7f8b", position));
         assertEquals(Move.createCapturePromotion(Square.E7, Square.F8, BISHOP, ROOK), CanParser.parse("e7f8r", position));
 

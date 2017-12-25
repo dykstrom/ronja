@@ -17,13 +17,13 @@
 
 package se.dykstrom.ronja.engine.ui;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import se.dykstrom.ronja.engine.utils.AppConfig;
-import se.dykstrom.ronja.test.AbstractTestCase;
-import se.dykstrom.ronja.test.TestUtils;
+import static java.util.regex.Pattern.quote;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+import static se.dykstrom.ronja.test.TestUtils.assertContainsRegex;
+import static se.dykstrom.ronja.test.TestUtils.containsRegex;
+import static se.dykstrom.ronja.test.TestUtils.waitForSupplier;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,9 +37,14 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import static java.util.regex.Pattern.quote;
-import static org.junit.Assert.*;
-import static se.dykstrom.ronja.test.TestUtils.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import se.dykstrom.ronja.engine.utils.AppConfig;
+import se.dykstrom.ronja.test.AbstractTestCase;
+import se.dykstrom.ronja.test.TestUtils;
 
 /**
  * This class is for integration tests related to the XBoard protocol (Chess Engine Communication Protocol).
@@ -113,6 +118,9 @@ public class XBoardProtocolIT extends AbstractTestCase {
                 fail("Failed to start engine: " + process.exitValue());
             }
         }
+        
+        // Let the engine generate initial output
+        Thread.sleep(100);
 
         // Discard initial input from the engine
         discardAllInput();
@@ -543,7 +551,7 @@ public class XBoardProtocolIT extends AbstractTestCase {
             Thread.sleep(10);
         }
         while (reader.ready()) {
-            Thread.sleep(20);
+            Thread.sleep(100);
             list.add(reader.readLine());
         }
 

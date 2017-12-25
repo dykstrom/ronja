@@ -17,15 +17,17 @@
 
 package se.dykstrom.ronja.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import org.apache.commons.lang3.ArrayUtils;
+import se.dykstrom.ronja.common.model.*;
+import se.dykstrom.ronja.common.parser.IllegalMoveException;
+import se.dykstrom.ronja.common.parser.MoveParser;
+import se.dykstrom.ronja.engine.core.FullMoveGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import se.dykstrom.ronja.common.model.*;
-import se.dykstrom.ronja.common.parser.IllegalMoveException;
-import se.dykstrom.ronja.common.parser.MoveParser;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.*;
 
 /**
  * An abstract base test case for all {@code se.dykstrom.ronja} test cases.
@@ -201,6 +203,23 @@ public abstract class AbstractTestCase {
     protected static void assertPiece(Position position, long square, Color color, int piece) {
         assertEquals(piece, position.getPiece(square));
         assertEquals(color, position.getColor(square));
+    }
+
+    /**
+     * Asserts that the move generator has generated at least the given moves.
+     * There may be other moves as well, but those are not checked.
+     * 
+     * @param moveGenerator The move generator to check.
+     * @param expectedMoves The moves to check.
+     */
+    protected static void assertGeneratedMoves(FullMoveGenerator moveGenerator, int... expectedMoves) {
+        int moveIndex = moveGenerator.getMoveIndex();
+        int[][] actualMoves = moveGenerator.moves;
+        
+        List<Integer> expectedMoveList = asList(ArrayUtils.toObject(expectedMoves));
+        List<Integer> actualMoveList = asList(ArrayUtils.toObject(actualMoves[0])).subList(0, moveIndex);
+
+        assertTrue(actualMoveList.containsAll(expectedMoveList));
     }
 
     /**

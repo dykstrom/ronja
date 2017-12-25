@@ -17,13 +17,10 @@
 
 package se.dykstrom.ronja.engine.utils;
 
-import java.util.Iterator;
-
 import se.dykstrom.ronja.common.model.Board;
 import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Position;
-import se.dykstrom.ronja.engine.core.MoveGenerator;
-import se.dykstrom.ronja.engine.core.StatefulMoveGenerator;
+import se.dykstrom.ronja.engine.core.FullMoveGenerator;
 
 /**
  * Utility methods related to class {@link Position}.
@@ -32,7 +29,7 @@ import se.dykstrom.ronja.engine.core.StatefulMoveGenerator;
  */
 public final class PositionUtils {
 
-    private static final MoveGenerator MOVE_GENERATOR = new StatefulMoveGenerator();
+    private static final FullMoveGenerator MOVE_GENERATOR = new FullMoveGenerator();
 
     private PositionUtils() { }
 
@@ -63,9 +60,9 @@ public final class PositionUtils {
         }
 
         // If we can find a move out of check, it is not checkmate
-        Iterator<Integer> iterator = MOVE_GENERATOR.iterator(position);
-        while (iterator.hasNext()) {
-            int move = iterator.next();
+        int numberOfMoves = MOVE_GENERATOR.generateMoves(position, 0);
+        for (int moveIndex = 0; moveIndex < numberOfMoves; moveIndex++) {
+            int move = MOVE_GENERATOR.moves[0][moveIndex];
             if (!position.withMove(move).isCheck(color)) {
                 return false;
             }
@@ -115,9 +112,9 @@ public final class PositionUtils {
         }
 
         // If we find a move that is not check, it is not stalemate
-        Iterator<Integer> iterator = MOVE_GENERATOR.iterator(position);
-        while (iterator.hasNext()) {
-            int move = iterator.next();
+        int numberOfMoves = MOVE_GENERATOR.generateMoves(position, 0);
+        for (int moveIndex = 0; moveIndex < numberOfMoves; moveIndex++) {
+            int move = MOVE_GENERATOR.moves[0][moveIndex];
             if (!position.withMove(move).isCheck(color)) {
                 return false;
             }

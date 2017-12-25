@@ -17,19 +17,18 @@
 
 package se.dykstrom.ronja.engine.core;
 
+import org.junit.Before;
+import org.junit.Test;
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Square;
+import se.dykstrom.ronja.test.AbstractTestCase;
+
+import java.text.ParseException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static se.dykstrom.ronja.common.model.Piece.*;
 import static se.dykstrom.ronja.common.parser.FenParser.parse;
-
-import java.text.ParseException;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Square;
-import se.dykstrom.ronja.test.AbstractTestCase;
 
 /**
  * This class is for testing class {@code AlphaBetaFinder} using JUnit.
@@ -206,7 +205,7 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
 
     @Test
     public void testFindBestMoveWithinTime() throws Exception {
-        assertEquals(Move.createCapture(KNIGHT, Square.B5, Square.C7, PAWN), findBestMoveWithTime(FEN_FORK_0, 1000));
+        assertEquals(Move.createCapture(KNIGHT, Square.B5, Square.C7, PAWN), findBestMoveWithTime(FEN_FORK_0, 500));
     }
 
     // -----------------------------------------------------------------------

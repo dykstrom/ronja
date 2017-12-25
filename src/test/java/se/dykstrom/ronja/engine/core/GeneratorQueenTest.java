@@ -17,22 +17,15 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static se.dykstrom.ronja.common.model.Piece.BISHOP;
-import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
-import static se.dykstrom.ronja.common.model.Piece.PAWN;
-import static se.dykstrom.ronja.common.model.Piece.QUEEN;
-
-import java.util.List;
-
 import org.junit.Test;
-
 import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
+
+import static org.junit.Assert.assertEquals;
+import static se.dykstrom.ronja.common.model.Piece.*;
 
 /**
  * This class is for testing queen moves with the generator classes using JUnit.
@@ -47,8 +40,6 @@ public class GeneratorQueenTest extends AbstractTestCase {
 
     private static final AttackGenerator ATTACK_GENERATOR = new AttackGenerator();
 
-    private List<Integer> moves;
-
     // ------------------------------------------------------------------------
 
     /**
@@ -56,11 +47,11 @@ public class GeneratorQueenTest extends AbstractTestCase {
      */
     @Test
     public void testPositionStart() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_START));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_START), 0);
 
         // There should be no moves in this position
-        moves = MOVE_GENERATOR.getAllQueenMoves();
-        assertEquals(0, moves.size());
+        MOVE_GENERATOR.generateQueenMoves();
+        assertEquals(0, MOVE_GENERATOR.getMoveIndex());
     }
 
     /**
@@ -68,15 +59,15 @@ public class GeneratorQueenTest extends AbstractTestCase {
      */
     @Test
     public void testPosition0() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5), 0);
 
         // There should be 4 moves: Qe2, Qf3, Qg4, Qh5
-        moves = MOVE_GENERATOR.getAllQueenMoves();
-        assertEquals(4, moves.size());
-        assertTrue(moves.contains(Move.create(QUEEN, Square.D1, Square.E2)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.D1, Square.F3)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.D1, Square.G4)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.D1, Square.H5)));
+        MOVE_GENERATOR.generateQueenMoves();
+        assertEquals(4, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(QUEEN, Square.D1, Square.E2),
+                             Move.create(QUEEN, Square.D1, Square.F3),
+                             Move.create(QUEEN, Square.D1, Square.G4),
+                             Move.create(QUEEN, Square.D1, Square.H5));
     }
 
     /**
@@ -84,15 +75,15 @@ public class GeneratorQueenTest extends AbstractTestCase {
      */
     @Test
     public void testPosition1() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5_BC4));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5_BC4), 0);
 
         // There should be 4 moves: Qe7, Qf6, Qg5, Qh4
-        moves = MOVE_GENERATOR.getAllQueenMoves();
-        assertEquals(4, moves.size());
-        assertTrue(moves.contains(Move.create(QUEEN, Square.D8, Square.E7)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.D8, Square.F6)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.D8, Square.G5)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.D8, Square.H4)));
+        MOVE_GENERATOR.generateQueenMoves();
+        assertEquals(4, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(QUEEN, Square.D8, Square.E7),
+                             Move.create(QUEEN, Square.D8, Square.F6),
+                             Move.create(QUEEN, Square.D8, Square.G5),
+                             Move.create(QUEEN, Square.D8, Square.H4));
     }
 
     /**
@@ -100,17 +91,17 @@ public class GeneratorQueenTest extends AbstractTestCase {
      */
     @Test
     public void testPosition2() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5_QG4_QH4));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5_QG4_QH4), 0);
 
         // There should be 14 moves, including Qd1, Qg3, Qh3, Qxh4, Qxg7, Qxd7
-        moves = MOVE_GENERATOR.getAllQueenMoves();
-        assertEquals(14, moves.size());
-        assertTrue(moves.contains(Move.create(QUEEN, Square.G4, Square.D1)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.G4, Square.G3)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.G4, Square.H3)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.G4, Square.H4, QUEEN)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.G4, Square.G7, PAWN)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.G4, Square.D7, PAWN)));
+        MOVE_GENERATOR.generateQueenMoves();
+        assertEquals(14, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(QUEEN, Square.G4, Square.D1),
+                             Move.create(QUEEN, Square.G4, Square.G3),
+                             Move.create(QUEEN, Square.G4, Square.H3),
+                             Move.createCapture(QUEEN, Square.G4, Square.H4, QUEEN),
+                             Move.createCapture(QUEEN, Square.G4, Square.G7, PAWN),
+                             Move.createCapture(QUEEN, Square.G4, Square.D7, PAWN));
     }
 
     /**
@@ -118,17 +109,17 @@ public class GeneratorQueenTest extends AbstractTestCase {
      */
     @Test
     public void testPosition3() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5_QG4_QH4_NF3));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_E4_E5_QG4_QH4_NF3), 0);
 
         // There should be 11 moves, including Qxh2, Qh3, Qxf2, Qg3, Qxg4, Qh6
-        moves = MOVE_GENERATOR.getAllQueenMoves();
-        assertEquals(11, moves.size());
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.H4, Square.H2, PAWN)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.H4, Square.H3)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.H4, Square.F2, PAWN)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.H4, Square.G3)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.H4, Square.G4, QUEEN)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.H4, Square.H6)));
+        MOVE_GENERATOR.generateQueenMoves();
+        assertEquals(11, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.createCapture(QUEEN, Square.H4, Square.H2, PAWN),
+                             Move.create(QUEEN, Square.H4, Square.H3),
+                             Move.createCapture(QUEEN, Square.H4, Square.F2, PAWN),
+                             Move.create(QUEEN, Square.H4, Square.G3),
+                             Move.createCapture(QUEEN, Square.H4, Square.G4, QUEEN),
+                             Move.create(QUEEN, Square.H4, Square.H6));
     }
 
     /**
@@ -136,17 +127,17 @@ public class GeneratorQueenTest extends AbstractTestCase {
      */
     @Test
     public void testQueenInCorner() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_QUEEN_IN_CORNER));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_QUEEN_IN_CORNER), 0);
 
         // There should be 21 moves, including Qa1, Qg1, Qa8, Qg7, Qh8, Qh2
-        moves = MOVE_GENERATOR.getAllQueenMoves();
-        assertEquals(21, moves.size());
-        assertTrue(moves.contains(Move.create(QUEEN, Square.H1, Square.A1)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.H1, Square.G1)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.H1, Square.A8)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.H1, Square.G2)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.H1, Square.H8)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.H1, Square.H2)));
+        MOVE_GENERATOR.generateQueenMoves();
+        assertEquals(21, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(QUEEN, Square.H1, Square.A1),
+                             Move.create(QUEEN, Square.H1, Square.G1),
+                             Move.create(QUEEN, Square.H1, Square.A8),
+                             Move.create(QUEEN, Square.H1, Square.G2),
+                             Move.create(QUEEN, Square.H1, Square.H8),
+                             Move.create(QUEEN, Square.H1, Square.H2));
     }
 
     /**
@@ -154,19 +145,19 @@ public class GeneratorQueenTest extends AbstractTestCase {
      */
     @Test
     public void testEightCaptures() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_EIGHT_CAPTURES));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_EIGHT_CAPTURES), 0);
 
         // There should be 8 moves: Qxb1, Qxc1, Qxd1+, Qxd2+, Qxd3, Qxc3, Qxb3, Qxb2
-        moves = MOVE_GENERATOR.getAllQueenMoves();
-        assertEquals(8, moves.size());
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.C2, Square.B1, KNIGHT)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.C2, Square.C1, BISHOP)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.C2, Square.D1, QUEEN)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.C2, Square.D2, PAWN)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.C2, Square.D3, KNIGHT)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.C2, Square.C3, PAWN)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.C2, Square.B3, BISHOP)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.C2, Square.B2, PAWN)));
+        MOVE_GENERATOR.generateQueenMoves();
+        assertEquals(8, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.createCapture(QUEEN, Square.C2, Square.B1, KNIGHT),
+                             Move.createCapture(QUEEN, Square.C2, Square.C1, BISHOP),
+                             Move.createCapture(QUEEN, Square.C2, Square.D1, QUEEN),
+                             Move.createCapture(QUEEN, Square.C2, Square.D2, PAWN),
+                             Move.createCapture(QUEEN, Square.C2, Square.D3, KNIGHT),
+                             Move.createCapture(QUEEN, Square.C2, Square.C3, PAWN),
+                             Move.createCapture(QUEEN, Square.C2, Square.B3, BISHOP),
+                             Move.createCapture(QUEEN, Square.C2, Square.B2, PAWN));
     }
 
     /**
@@ -174,17 +165,17 @@ public class GeneratorQueenTest extends AbstractTestCase {
      */
     @Test
     public void testTwoQueens() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_TWO_QUEENS));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_TWO_QUEENS), 0);
 
         // There should be 38 moves, including Qcf6, Qff6, Qf1#, Qxg3+, Qxe4, Qa8
-        moves = MOVE_GENERATOR.getAllQueenMoves();
-        assertEquals(38, moves.size());
-        assertTrue(moves.contains(Move.create(QUEEN, Square.C6, Square.F6)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.F3, Square.F6)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.F3, Square.F1)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.F3, Square.G3, PAWN)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.C6, Square.E4, PAWN)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.C6, Square.A8)));
+        MOVE_GENERATOR.generateQueenMoves();
+        assertEquals(38, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(QUEEN, Square.C6, Square.F6),
+                             Move.create(QUEEN, Square.F3, Square.F6),
+                             Move.create(QUEEN, Square.F3, Square.F1),
+                             Move.createCapture(QUEEN, Square.F3, Square.G3, PAWN),
+                             Move.createCapture(QUEEN, Square.C6, Square.E4, PAWN),
+                             Move.create(QUEEN, Square.C6, Square.A8));
     }
 
     /**
@@ -192,17 +183,17 @@ public class GeneratorQueenTest extends AbstractTestCase {
      */
     @Test
     public void testPositionEndGame0() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_END_GAME_0));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_END_GAME_0), 0);
 
         // There should be 8 moves, including Qc6, Qc8, Qe8, Qxf5, Qd8, Qxf7
-        moves = MOVE_GENERATOR.getAllQueenMoves();
-        assertEquals(8, moves.size());
-        assertTrue(moves.contains(Move.create(QUEEN, Square.D7, Square.C6)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.D7, Square.C8)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.D7, Square.E8)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.D7, Square.F5, PAWN)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.D7, Square.D8)));
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.D7, Square.F7, BISHOP)));
+        MOVE_GENERATOR.generateQueenMoves();
+        assertEquals(8, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(QUEEN, Square.D7, Square.C6),
+                             Move.create(QUEEN, Square.D7, Square.C8),
+                             Move.create(QUEEN, Square.D7, Square.E8),
+                             Move.createCapture(QUEEN, Square.D7, Square.F5, PAWN),
+                             Move.create(QUEEN, Square.D7, Square.D8),
+                             Move.createCapture(QUEEN, Square.D7, Square.F7, BISHOP));
     }
 
     /**
@@ -210,17 +201,17 @@ public class GeneratorQueenTest extends AbstractTestCase {
      */
     @Test
     public void testCheckMate0() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_CHECKMATE_0));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_CHECKMATE_0), 0);
 
         // There should be 17 moves, including Qxa2, Qa6, Qc8, Qe7, Qh6, Qh3
-        moves = MOVE_GENERATOR.getAllQueenMoves();
-        assertEquals(17, moves.size());
-        assertTrue(moves.contains(Move.createCapture(QUEEN, Square.E6, Square.A2, PAWN)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.E6, Square.A6)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.E6, Square.C8)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.E6, Square.E7)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.E6, Square.H6)));
-        assertTrue(moves.contains(Move.create(QUEEN, Square.E6, Square.H3)));
+        MOVE_GENERATOR.generateQueenMoves();
+        assertEquals(17, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.createCapture(QUEEN, Square.E6, Square.A2, PAWN),
+                             Move.create(QUEEN, Square.E6, Square.A6),
+                             Move.create(QUEEN, Square.E6, Square.C8),
+                             Move.create(QUEEN, Square.E6, Square.E7),
+                             Move.create(QUEEN, Square.E6, Square.H6),
+                             Move.create(QUEEN, Square.E6, Square.H3));
     }
 
     // ------------------------------------------------------------------------

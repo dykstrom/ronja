@@ -17,22 +17,19 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static se.dykstrom.ronja.common.model.Piece.*;
-import static se.dykstrom.ronja.common.parser.FenParser.parse;
-import static se.dykstrom.ronja.common.parser.SanParser.*;
+import org.junit.Test;
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Square;
+import se.dykstrom.ronja.test.AbstractTestCase;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Test;
-
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Square;
-import se.dykstrom.ronja.test.AbstractTestCase;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.*;
+import static se.dykstrom.ronja.common.model.Piece.*;
+import static se.dykstrom.ronja.common.parser.FenParser.parse;
+import static se.dykstrom.ronja.common.parser.SanParser.*;
 
 /**
  * This class is for testing class {@code SanParser} using JUnit.
@@ -140,8 +137,6 @@ public class SanParserTest extends AbstractTestCase {
 
     @Test
     public void testFormatPawnCapture() throws Exception {
-        // TODO: Find out what we are actually capturing here.
-
         assertEquals("exd5", format(parse(FEN_PC_E4D5), Move.createCapture(PAWN, Square.E4, Square.D5, PAWN)));
         // The pawn of d5 can take on e4 or c4
         assertEquals("dxe4", format(parse(FEN_PC_D5E4_D5C4), Move.createCapture(PAWN, Square.D5, Square.E4, PAWN)));
@@ -179,39 +174,35 @@ public class SanParserTest extends AbstractTestCase {
 
     @Test
     public void testFormatPieceCapture() throws Exception {
-        // TODO: Find out what we are actually capturing here.
-        
         assertEquals("Nxe4", format(parse(FEN_MIDDLE_GAME_1), Move.createCapture(KNIGHT, Square.F6, Square.E4, PAWN)));
-        assertEquals("Bxa8", format(parse(FEN_MIDDLE_GAME_1), Move.createCapture(BISHOP, Square.B7, Square.A8, PAWN)));
-        assertEquals("Rxf7", format(parse(FEN_END_GAME_0), Move.createCapture(ROOK, Square.F8, Square.F7, PAWN)));
-        assertEquals("Qxf7", format(parse(FEN_END_GAME_0), Move.createCapture(QUEEN, Square.D7, Square.F7, PAWN)));
-        assertEquals("Kxb8", format(parse(FEN_DRAW_2_1), Move.createCapture(KING, Square.A7, Square.B8, PAWN)));
-
+        assertEquals("Bxa8", format(parse(FEN_MIDDLE_GAME_1), Move.createCapture(BISHOP, Square.B7, Square.A8, ROOK)));
+        assertEquals("Rxf7", format(parse(FEN_END_GAME_0), Move.createCapture(ROOK, Square.F8, Square.F7, BISHOP)));
+        assertEquals("Qxf7", format(parse(FEN_END_GAME_0), Move.createCapture(QUEEN, Square.D7, Square.F7, BISHOP)));
+        assertEquals("Kxb8", format(parse(FEN_DRAW_2_1), Move.createCapture(KING, Square.A7, Square.B8, QUEEN)));
         assertEquals("Qcxe4", format(parse(FEN_TWO_QUEENS), Move.createCapture(QUEEN, Square.C6, Square.E4, PAWN)));
         assertEquals("Qfxe4", format(parse(FEN_TWO_QUEENS), Move.createCapture(QUEEN, Square.F3, Square.E4, PAWN)));
-        assertEquals("N5xd6", format(parse(FEN_MANY_CAPTURES), Move.createCapture(KNIGHT, Square.B5, Square.D6, PAWN)));
-        assertEquals("N7xd6", format(parse(FEN_MANY_CAPTURES), Move.createCapture(KNIGHT, Square.B7, Square.D6, PAWN)));
-        assertEquals("Ncxd6", format(parse(FEN_MANY_CAPTURES), Move.createCapture(KNIGHT, Square.C4, Square.D6, PAWN)));
+        assertEquals("N5xd6", format(parse(FEN_MANY_CAPTURES), Move.createCapture(KNIGHT, Square.B5, Square.D6, ROOK)));
+        assertEquals("Ncxd6", format(parse(FEN_MANY_CAPTURES), Move.createCapture(KNIGHT, Square.C4, Square.D6, ROOK)));
+        assertEquals("N7xd6", format(parse(FEN_MANY_CAPTURES), Move.createCapture(KNIGHT, Square.B7, Square.D6, ROOK)));
     }
 
     @Test
     public void testFormatCheck() throws Exception {
         // Check by piece move
         assertEquals("Qf1+", format(parse(FEN_TWO_QUEENS), Move.create(QUEEN, Square.F3, Square.F1)));
-        // TODO: Find out what we are actually capturing here.
-        assertEquals("Raxd6+", format(parse(FEN_MANY_CAPTURES), Move.createCapture(ROOK, Square.A6, Square.D6, PAWN)));
-        assertEquals("R1xd6+", format(parse(FEN_MANY_CAPTURES), Move.createCapture(ROOK, Square.D1, Square.D6, PAWN)));
-        assertEquals("R8xd6+", format(parse(FEN_MANY_CAPTURES), Move.createCapture(ROOK, Square.D8, Square.D6, PAWN)));
+        assertEquals("Raxd6+", format(parse(FEN_MANY_CAPTURES), Move.createCapture(ROOK, Square.A6, Square.D6, ROOK)));
+        assertEquals("R1xd6+", format(parse(FEN_MANY_CAPTURES), Move.createCapture(ROOK, Square.D1, Square.D6, ROOK)));
+        assertEquals("R8xd6+", format(parse(FEN_MANY_CAPTURES), Move.createCapture(ROOK, Square.D8, Square.D6, ROOK)));
         assertEquals("Bf4+", format(parse(FEN_DRAW_2_2), Move.create(BISHOP, Square.D2, Square.F4)));
 
         // Check mate by piece move
         assertEquals("Ba3#", format(parse(FEN_CHECKMATE_3_2), Move.create(BISHOP, Square.B4, Square.A3)));
         assertEquals("Nf7#", format(parse(FEN_CHECKMATE_2_8), Move.create(KNIGHT, Square.H6, Square.F7)));
-        assertEquals("Rxc1#", format(parse(FEN_CHECKMATE_1_2), Move.createCapture(ROOK, Square.A1, Square.C1, PAWN)));
+        assertEquals("Rxc1#", format(parse(FEN_CHECKMATE_1_2), Move.createCapture(ROOK, Square.A1, Square.C1, BISHOP)));
 
         // Check by pawn move that promotes to queen
         assertEquals("b8=Q+", format(parse(FEN_DRAW_2_0), Move.createPromotion(Square.B7, Square.B8, QUEEN)));
-        assertEquals("exf8=Q+", format(parse(FEN_WP_E7F8), Move.createCapturePromotion(Square.E7, Square.F8, PAWN, QUEEN)));
+        assertEquals("exf8=Q+", format(parse(FEN_WP_E7F8), Move.createCapturePromotion(Square.E7, Square.F8, BISHOP, QUEEN)));
     }
 
     @Test
