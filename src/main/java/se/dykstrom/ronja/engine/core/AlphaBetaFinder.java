@@ -84,6 +84,7 @@ public class AlphaBetaFinder extends AbstractFinder {
                 remainingTime = maxTime - usedTime;
                 estimatedTime = TimeUtils.estimateTimeForNextDepth(searchTimes);
                 if (DEBUG) TLOG.fine("Estimated = time " + estimatedTime + ", remaining time = " + remainingTime);
+                sort(fullMoveGenerator, 0, numberOfMoves, bestMove);
                 maxDepth++;
             } while (estimatedTime < remainingTime);
         } catch (OutOfTimeException exception) {
@@ -226,8 +227,7 @@ public class AlphaBetaFinder extends AbstractFinder {
             // because the opponent will not select this branch
             if (score >= beta) {
                 if (DEBUG)
-                    TLOG.finest(
-                            leave(position, depth) + ", score = " + beta + " (beta cut-off for score " + score + ")");
+                    TLOG.finest(leave(position, depth) + ", score = " + beta + " (beta cut-off for score " + score + ")");
                 return beta;
             }
 
@@ -238,8 +238,22 @@ public class AlphaBetaFinder extends AbstractFinder {
             }
         }
 
-        if (DEBUG)
-            TLOG.finest(leave(position, depth) + ", score = " + alpha + ", best move = " + bestMove);
+        if (DEBUG) TLOG.finest(leave(position, depth) + ", score = " + alpha + ", best move = " + bestMove);
         return alpha;
+    }
+
+    /**
+     * Sorts the moves on the given depth.
+     */
+    private void sort(FullMoveGenerator moveGenerator, int depth, int numberOfMoves, int bestMove) {
+        SortUtils.sort(moveGenerator.moves[depth], numberOfMoves, (x, y) -> {
+            if (x == bestMove) {
+                return -1;
+            } else if (y == bestMove) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
     }
 }

@@ -17,22 +17,19 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static se.dykstrom.ronja.common.model.Piece.KING;
-import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
-import static se.dykstrom.ronja.common.model.Piece.QUEEN;
-
-import java.text.ParseException;
-
 import org.junit.Ignore;
 import org.junit.Test;
-
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Piece;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
+
+import java.text.ParseException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static se.dykstrom.ronja.common.model.Piece.*;
 
 /**
  * This class is for testing the different {@code Finder} classes using JUnit.
@@ -131,7 +128,7 @@ public class SlowFinderTest extends AbstractTestCase {
         assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_0, 5));
         assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 5));
         long stop = System.currentTimeMillis();
-        System.out.println("Finished after " + ((stop - start) / 1000.0) + " seconds");
+        System.out.println("Finished test after " + ((stop - start) / 1000.0) + " seconds");
     }
 
     /**
