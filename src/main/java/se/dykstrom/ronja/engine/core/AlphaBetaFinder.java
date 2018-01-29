@@ -214,6 +214,8 @@ public class AlphaBetaFinder extends AbstractFinder {
 
         // For all possible moves
         int numberOfMoves = fullMoveGenerator.generateMoves(position, depth);
+        sort(fullMoveGenerator, depth, numberOfMoves);
+
         for (int moveIndex = 0; moveIndex < numberOfMoves; moveIndex++) {
             int move = fullMoveGenerator.moves[depth][moveIndex];
 
@@ -243,7 +245,7 @@ public class AlphaBetaFinder extends AbstractFinder {
     }
 
     /**
-     * Sorts the moves on the given depth.
+     * Sorts the moves on the given depth, taking into account the previous best move.
      */
     private void sort(FullMoveGenerator moveGenerator, int depth, int numberOfMoves, int bestMove) {
         SortUtils.sort(moveGenerator.moves[depth], numberOfMoves, (x, y) -> {
@@ -256,4 +258,24 @@ public class AlphaBetaFinder extends AbstractFinder {
             }
         });
     }
+
+    /**
+     * Sorts the moves on the given depth.
+     */
+    private void sort(FullMoveGenerator moveGenerator, int depth, int numberOfMoves) {
+        SortUtils.sort(moveGenerator.moves[depth], numberOfMoves, MOVE_COMPARATOR);
+    }
+
+    private static final SortUtils.IntComparator MOVE_COMPARATOR = (x, y) -> {
+        boolean isCaptureX = Move.isCapture(x);
+        boolean isCaptureY = Move.isCapture(y);
+
+        if (isCaptureX && !isCaptureY) {
+            return -1;
+        }
+        if (!isCaptureX && isCaptureY) {
+            return 1;
+        }
+        return 0;
+    };
 }

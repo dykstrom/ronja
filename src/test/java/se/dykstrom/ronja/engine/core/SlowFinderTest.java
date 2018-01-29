@@ -120,7 +120,7 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_Profiler() throws Exception {
-        int waitTime = 5000;
+        int waitTime = 1000;
         System.out.println("Waiting " + (waitTime / 1000) + " seconds...");
         Thread.sleep(waitTime);
         System.out.println("Starting test...");

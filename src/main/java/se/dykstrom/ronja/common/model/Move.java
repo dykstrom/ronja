@@ -48,6 +48,9 @@ public class Move {
     private static final int CAPTURED_OFFSET = 15;
     private static final int PROMOTED_OFFSET = 18;
 
+    private static final int CAPTURED_PIECE_MASK = PIECE_MASK << CAPTURED_OFFSET;
+    private static final int PROMOTED_PIECE_MASK = PIECE_MASK << PROMOTED_OFFSET;
+
     /**
      * Creates a new move with the given piece moving from square from to square to.
      */
@@ -132,14 +135,14 @@ public class Move {
      * Returns true if the given move is a capture move.
      */
     public static boolean isCapture(int move) {
-        return getCaptured(move) != 0;
+        return (move & CAPTURED_PIECE_MASK) != 0;
     }
     
     /**
      * Returns true if the given move is a promotion move.
      */
     public static boolean isPromotion(int move) {
-        return getPromoted(move) != 0;
+        return (move & PROMOTED_PIECE_MASK) != 0;
     }
     
     /**
