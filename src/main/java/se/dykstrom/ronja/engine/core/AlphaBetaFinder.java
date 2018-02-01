@@ -69,13 +69,14 @@ public class AlphaBetaFinder extends AbstractFinder {
         long remainingTime = maxTime;
         long estimatedTime;
         int bestMove = 0;
-        int maxDepth = 1;
+        int maxDepth = 0;
 
         // Find all possible moves
         int numberOfMoves = fullMoveGenerator.generateMoves(position, 0);
 
         try {
             do {
+                maxDepth++;
                 long startTimeForDepth = System.currentTimeMillis();
                 bestMove = findBestMove(position, maxDepth, numberOfMoves, remainingTime);
                 if (DEBUG) TLOG.fine("Best move at depth " + maxDepth + " is " + bestMove);
@@ -85,7 +86,6 @@ public class AlphaBetaFinder extends AbstractFinder {
                 estimatedTime = TimeUtils.estimateTimeForNextDepth(searchTimes);
                 if (DEBUG) TLOG.fine("Estimated = time " + estimatedTime + ", remaining time = " + remainingTime);
                 sort(fullMoveGenerator, 0, numberOfMoves, bestMove);
-                maxDepth++;
             } while (estimatedTime < remainingTime);
         } catch (OutOfTimeException exception) {
             if (DEBUG) TLOG.fine("Aborted search with max depth " + maxDepth + " because time is up");
@@ -253,9 +253,8 @@ public class AlphaBetaFinder extends AbstractFinder {
                 return -1;
             } else if (y == bestMove) {
                 return 1;
-            } else {
-                return 0;
             }
+            return Integer.compare(y, x);
         });
     }
 
@@ -263,19 +262,6 @@ public class AlphaBetaFinder extends AbstractFinder {
      * Sorts the moves on the given depth.
      */
     private void sort(FullMoveGenerator moveGenerator, int depth, int numberOfMoves) {
-        SortUtils.sort(moveGenerator.moves[depth], numberOfMoves, MOVE_COMPARATOR);
+        SortUtils.sort(moveGenerator.moves[depth], numberOfMoves);
     }
-
-    private static final SortUtils.IntComparator MOVE_COMPARATOR = (x, y) -> {
-        boolean isCaptureX = Move.isCapture(x);
-        boolean isCaptureY = Move.isCapture(y);
-
-        if (isCaptureX && !isCaptureY) {
-            return -1;
-        }
-        if (!isCaptureX && isCaptureY) {
-            return 1;
-        }
-        return 0;
-    };
 }

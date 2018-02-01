@@ -17,15 +17,15 @@
 
 package se.dykstrom.ronja.common.model;
 
-import static se.dykstrom.ronja.common.model.Piece.*;
+import se.dykstrom.ronja.common.parser.IllegalMoveException;
+import se.dykstrom.ronja.common.parser.MoveParser;
+import se.dykstrom.ronja.engine.core.AttackGenerator;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import se.dykstrom.ronja.common.parser.IllegalMoveException;
-import se.dykstrom.ronja.common.parser.MoveParser;
-import se.dykstrom.ronja.engine.core.AttackGenerator;
+import static se.dykstrom.ronja.common.model.Piece.*;
 
 /**
  * Represents a chess position, including the move number, the active color,
@@ -217,7 +217,7 @@ public class Position {
         long to = Move.getTo(move);
 
         int fromPiece = Move.getPiece(move);
-        int toPiece = getPiece(to);
+        int toPiece = getPiece(to); // TODO: Use Move.getCaptured(move)?
 
         long white = this.white;
         long black = this.black;

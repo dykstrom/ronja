@@ -70,4 +70,25 @@ public final class SortUtils {
             array[dataIndex] = data;
         }
     }
+
+    /**
+     * Sorts the first part of the given array into descending order. The number of elements to
+     * actually sort is given by {@code number}, which must be less than or equal to the array size.
+     *
+     * @implNote The sorting algorithm used is insert sort. This may be changed in future versions.
+     *
+     * @param array The array to sort.
+     * @param number The number of elements to sort in the array.
+     */
+    public static void sort(int[] array, int number) {
+        for (int index = 1; index < number; index++) {
+            int data = array[index];
+            int dataIndex = index;
+            while (dataIndex > 0 && data > array[dataIndex - 1]) {
+                array[dataIndex] = array[dataIndex - 1];
+                dataIndex--;
+            }
+            array[dataIndex] = data;
+        }
+    }
 }

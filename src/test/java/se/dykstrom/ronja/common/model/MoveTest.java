@@ -17,13 +17,12 @@
 
 package se.dykstrom.ronja.common.model;
 
+import org.junit.Test;
+import se.dykstrom.ronja.test.AbstractTestCase;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static se.dykstrom.ronja.common.model.Piece.*;
-
-import org.junit.Test;
-
-import se.dykstrom.ronja.test.AbstractTestCase;
 
 /**
  * This class is for testing class {@code Move} using JUnit.

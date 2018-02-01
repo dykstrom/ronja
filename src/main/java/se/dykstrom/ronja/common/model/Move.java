@@ -29,10 +29,13 @@ import static se.dykstrom.ronja.common.model.Square.indexToId;
  * 00-05 - to square
  * 06-11 - from square
  * 12-14 - moved piece
- * 15-17 - captured piece
- * 18-22 - promoted piece
- * 21    - castle flag
- * 22    - en passant flag
+ * 15    - castle flag
+ * 16    - en passant flag
+ * 17-19 - promoted piece
+ * 20-22 - captured piece
+ *
+ * Note that the bits must be stored in this order, because the move sorting depends
+ * on more promising moves like captures being greater than less promising moves.
  *
  * @author Johan Dykstrom
  */
@@ -40,13 +43,13 @@ public class Move {
 
     private static final int PIECE_MASK = 0x07;
     private static final int SQUARE_MASK = 0x3f;
-    private static final int CASTLE_MASK = 0x01 << 21;
-    private static final int ENPASSANT_MASK = 0x01 << 22;
+    private static final int CASTLE_MASK = 0x01 << 15;
+    private static final int ENPASSANT_MASK = 0x01 << 16;
 
     private static final int FROM_OFFSET = 6;
     private static final int MOVED_OFFSET = 12;
-    private static final int CAPTURED_OFFSET = 15;
-    private static final int PROMOTED_OFFSET = 18;
+    private static final int PROMOTED_OFFSET = 17;
+    private static final int CAPTURED_OFFSET = 20;
 
     private static final int CAPTURED_PIECE_MASK = PIECE_MASK << CAPTURED_OFFSET;
     private static final int PROMOTED_PIECE_MASK = PIECE_MASK << PROMOTED_OFFSET;
@@ -170,7 +173,7 @@ public class Move {
         builder.append(Square.idToName(getFrom(move)));
         builder.append(Square.idToName(getTo(move)));
         if (isPromotion(move)) {
-            builder.append(" -> ").append(Piece.toSymbol(getPromoted(move)));
+            builder.append("->").append(Piece.toSymbol(getPromoted(move)));
         } else if (isCastling(move)) {
             builder.append(", castling");
         } else if (isEnPassant(move)) {

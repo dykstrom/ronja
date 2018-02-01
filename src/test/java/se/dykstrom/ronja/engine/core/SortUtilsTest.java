@@ -99,6 +99,19 @@ public class SortUtilsTest {
     }
 
     @Test
+    public void shouldSortArrayDescending() {
+        // Given
+        int[] array = {2, 1, 5, 3, 2};
+        int[] expected = {5, 3, 2, 2, 1};
+
+        // When
+        SortUtils.sort(array, array.length);
+
+        // Then
+        assertArrayEquals(expected, array);
+    }
+
+    @Test
     public void shouldLongArray() {
         // Given
         int[] array = new int[100];
@@ -127,6 +140,19 @@ public class SortUtilsTest {
 
         // When
         SortUtils.sort(array, 3, NATURAL_ORDER_COMPARATOR);
+
+        // Then
+        assertArrayEquals(expected, array);
+    }
+
+    @Test
+    public void shouldSortPartOfArrayDescending() {
+        // Given
+        int[] array = {2, 1, 5, 3, 2};
+        int[] expected = {5, 2, 1, 3, 2};
+
+        // When
+        SortUtils.sort(array, 3);
 
         // Then
         assertArrayEquals(expected, array);
