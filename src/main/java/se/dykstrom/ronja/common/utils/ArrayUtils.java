@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Johan Dykstrom
+ * Copyright (C) 2017 Johan Dykstrom
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,23 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.dykstrom.ronja.engine.core;
+package se.dykstrom.ronja.common.utils;
 
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Position;
-
-import java.util.Iterator;
+import java.util.List;
 
 /**
- * Interface to be implemented by all move generators.
+ * Utility methods related to arrays.
+ *
+ * @author Johan Dykstrom
  */
-public interface MoveGenerator {
+public final class ArrayUtils {
+
+    private ArrayUtils() { }
+
     /**
-     * Returns an iterator that can be used to iterate over all possible pseudo moves for the given {@code position}.
-     * The moves may be pre-generated, or lazily on demand.
-     *
-     * @param position The position for which to generate moves.
-     * @return The iterator.
+     * Converts the given list of Integer objects to an array of ints.
      */
-    Iterator<Move> iterator(Position position);
+    public static int[] toArray(List<Integer> list) {
+        return list.stream().mapToInt(element -> element).toArray();
+    }
 }

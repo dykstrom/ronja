@@ -17,175 +17,170 @@
 
 package se.dykstrom.ronja.common.model;
 
-import se.dykstrom.ronja.engine.utils.FastList;
-
-import java.util.List;
+import static se.dykstrom.ronja.common.model.Square.idToIndex;
+import static se.dykstrom.ronja.common.model.Square.indexToId;
 
 /**
- * This class represents a single move in a chess game.
+ * The Move class provides functions for creating and manipulating a single move.
+ * The actual move is represented by an integer.
+ *
+ * The bits of the integer Move type are organized like this:
+ *
+ * 00-05 - to square
+ * 06-11 - from square
+ * 12-14 - moved piece
+ * 15    - castle flag
+ * 16    - en passant flag
+ * 17-19 - promoted piece
+ * 20-22 - captured piece
+ *
+ * Note that the bits must be stored in this order, because the move sorting depends
+ * on more promising moves like captures being greater than less promising moves.
  *
  * @author Johan Dykstrom
  */
 public class Move {
 
-    /** The piece that is moved in this move. */
-    private final Piece piece;
+    private static final int PIECE_MASK = 0x07;
+    private static final int SQUARE_MASK = 0x3f;
+    private static final int CASTLE_MASK = 0x01 << 15;
+    private static final int ENPASSANT_MASK = 0x01 << 16;
 
-    /** The piece the pawn is promoted to if this is a promotion move. */
-    private final Piece promoted;
+    private static final int FROM_OFFSET = 6;
+    private static final int MOVED_OFFSET = 12;
+    private static final int PROMOTED_OFFSET = 17;
+    private static final int CAPTURED_OFFSET = 20;
 
-    /** The ID of the 'from' square. */
-    private final long from;
-
-    /** The ID of the 'to' square. */
-    private final long to;
-
-    /** True if this is a castling move. */
-    private final boolean isCastling;
-
-    /** True if this is an 'en passant' move. */
-    private final boolean isEnPassant;
-
-    private Move(Piece piece, long from, long to, Piece promoted, boolean isCastling, boolean isEnPassant) {
-        this.piece = piece;
-        this.from = from;
-        this.to = to;
-        this.promoted = promoted;
-        this.isCastling = isCastling;
-        this.isEnPassant = isEnPassant;
-    }
+    private static final int CAPTURED_PIECE_MASK = PIECE_MASK << CAPTURED_OFFSET;
+    private static final int PROMOTED_PIECE_MASK = PIECE_MASK << PROMOTED_OFFSET;
 
     /**
-     * Creates a new {@code Move} of the given arguments.
-     *
-     * @param piece The piece to move.
-     * @param from The 'from' square.
-     * @param to The 'to' square.
-     * @param promoted The piece that the pawn is promoted to, or {@code null} if no promotion.
-     * @param isCastling True if this is a castling move.
-     * @param isEnPassant True if this is an 'en passant' move.
-     * @return The created move.
+     * Creates a new move with the given piece moving from square from to square to.
      */
-    public static Move of(Piece piece, long from, long to, Piece promoted, boolean isCastling, boolean isEnPassant) {
-        return new Move(piece, from, to, promoted, isCastling, isEnPassant);
+    public static int create(int piece, long from, long to) {
+        return (piece << MOVED_OFFSET) | (idToIndex(from) << FROM_OFFSET) | idToIndex(to);
     }
 
     /**
-     * Creates a number of new {@code Move}s of the given arguments. All moves start at square {@code from},
-     * but they end at different 'to' squares, as defined by list {@code tos}.
-     *
-     * @param piece The piece to move.
-     * @param from The 'from' square.
-     * @param tos A list of 'to' squares.
-     * @param promoted If this is a promotion move, this is the piece that the pawn is promoted to. Otherwise {@code null}.
-     * @param isCastling True if this is a castling move.
-     * @param isEnPassant True if this is an 'en passant' move.
-     * @return A list of created moves.
+     * Creates a new move with the given piece moving from square from to square to, 
+     * capturing another piece.
      */
-    public static List<Move> of(Piece piece, long from, List<Long> tos, Piece promoted, boolean isCastling, boolean isEnPassant) {
-        int size = tos.size();
-        Move[] moves = new Move[size];
-        for (int i = 0; i < size; i++) {
-            moves[i] = Move.of(piece, from, tos.get(i), promoted, isCastling, isEnPassant);
-        }
-        return new FastList<>(moves);
+    public static int createCapture(int piece, long from, long to, int captured) {
+        return (piece << MOVED_OFFSET) | (idToIndex(from) << FROM_OFFSET) | idToIndex(to) | (captured << CAPTURED_OFFSET);
     }
 
     /**
-	 * Returns the piece moved in this move. If this move is a isCastling move,
-	 * {@code Piece.King} will be returned.
-	 */
-	public Piece getPiece() {
-		return piece;
-	}
-
-	/**
-	 * Returns the ID of the 'from' square.
-	 */
-	public long getFrom() {
-		return from;
-	}
-
-	/**
-	 * Returns the ID of the 'to' square.
-	 */
-	public long getTo() {
-		return to;
-	}
-
-	/**
-	 * If this is a promotion move, return the piece that the pawn was promoted
-	 * to, otherwise return {@code null}.
-	 */
-	public Piece getPromoted() {
-		return promoted;
-	}
-
-	/**
-	 * Returns true if this is a promotion move, and false otherwise.
-	 */
-	public boolean isPromotion() {
-		return (promoted != null);
-	}
-
-	/**
-	 * Returns true if this is a castling move, and false otherwise.
-	 */
-	public boolean isCastling() {
-		return isCastling;
-	}
-
-	/**
-	 * Returns true if this is an 'en passant' move, and false otherwise.
-	 */
-	public boolean isEnPassant() {
-		return isEnPassant;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-
-		builder.append("[");
-		builder.append(getPiece());
-		builder.append(" ");
-		builder.append(Square.idToName(from));
-		builder.append(Square.idToName(to));
-		if (isCastling()) {
-			builder.append(", castling");
-		} else if (isPromotion()) {
-			builder.append(", promotion -> ").append(promoted);
-		} else if (isEnPassant()) {
-			builder.append(", en passant");
-		}
-		builder.append("]");
-
-		return builder.toString();
-	}
-
-    @Override
-    public int hashCode() {
-        int result = piece.hashCode();
-        result = 31 * result + (promoted != null ? promoted.hashCode() : 0);
-        result = 31 * result + (int) (from ^ (from >>> 32));
-        result = 31 * result + (int) (to ^ (to >>> 32));
-        result = 31 * result + (isCastling ? 1 : 0);
-        result = 31 * result + (isEnPassant ? 1 : 0);
-        return result;
+     * Creates a new pawn move from square from to square to, promoting to another piece.
+     */
+    public static int createPromotion(long from, long to, int promoted) {
+        return (Piece.PAWN << MOVED_OFFSET) | (idToIndex(from) << FROM_OFFSET) | idToIndex(to) | (promoted << PROMOTED_OFFSET);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Move) {
-            Move that = (Move) obj;
-            return ((this.from == that.from) &&
-                    (this.to == that.to) &&
-                    (this.piece == that.piece) &&
-                    (this.promoted == that.promoted) &&
-                    (this.isCastling == that.isCastling) &&
-                    (this.isEnPassant == that.isEnPassant));
-        } else {
-            return false;
+    /**
+     * Creates a new pawn move from square from to square to, capturing another piece, 
+     * and promoting to yet another piece.
+     */
+    public static int createCapturePromotion(long from, long to, int captured, int promoted) {
+        return (Piece.PAWN << MOVED_OFFSET) | (idToIndex(from) << FROM_OFFSET) | idToIndex(to) | (captured << CAPTURED_OFFSET) | (promoted << PROMOTED_OFFSET);
+    }
+
+    /**
+     * Creates a new 'en passant' move with the pawn moving from square from to square to,
+     * capturing the another pawn.
+     */
+    public static int createEnPassant(long from, long to) {
+        return (Piece.PAWN << MOVED_OFFSET) | (idToIndex(from) << FROM_OFFSET) | idToIndex(to) | (Piece.PAWN << CAPTURED_OFFSET) | ENPASSANT_MASK;
+    }
+
+    /**
+     * Creates a new castling move with the king moving from square from to square to.
+     */
+    public static int createCastling(long from, long to) {
+        return (Piece.KING << MOVED_OFFSET) | (idToIndex(from) << FROM_OFFSET) | idToIndex(to) | CASTLE_MASK;
+    }
+
+    /**
+     * Returns the piece that moved.
+     */
+    public static int getPiece(int move) {
+        return (move >> MOVED_OFFSET) & PIECE_MASK;
+    }
+    
+    /**
+     * Returns the square moved from.
+     */
+    public static long getFrom(int move) {
+        return indexToId((move >> FROM_OFFSET) & SQUARE_MASK);
+    }
+    
+    /**
+     * Returns the square moved to.
+     */
+    public static long getTo(int move) {
+        return indexToId(move & SQUARE_MASK);
+    }
+
+    /**
+     * Returns the captured piece, or 0 if no piece captured.
+     */
+    public static int getCaptured(int move) {
+        return (move >> CAPTURED_OFFSET) & PIECE_MASK;
+    }
+
+    /**
+     * Returns the promoted piece, or 0 if no piece promoted.
+     */
+    public static int getPromoted(int move) {
+        return (move >> PROMOTED_OFFSET) & PIECE_MASK;
+    }
+    
+    /**
+     * Returns true if the given move is a capture move.
+     */
+    public static boolean isCapture(int move) {
+        return (move & CAPTURED_PIECE_MASK) != 0;
+    }
+    
+    /**
+     * Returns true if the given move is a promotion move.
+     */
+    public static boolean isPromotion(int move) {
+        return (move & PROMOTED_PIECE_MASK) != 0;
+    }
+    
+    /**
+     * Returns true if the given move is a castling move.
+     */
+    public static boolean isCastling(int move) {
+        return (move & CASTLE_MASK) != 0;
+    }
+    
+    /**
+     * Returns true if the given move is an 'en passant' move.
+     */
+    public static boolean isEnPassant(int move) {
+        return (move & ENPASSANT_MASK) != 0;
+    }
+
+    /**
+     * Returns a string representation of the given move.
+     */
+    public static String toString(int move) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("[");
+        builder.append(Piece.toSymbol(getPiece(move)));
+        builder.append(Square.idToName(getFrom(move)));
+        builder.append(Square.idToName(getTo(move)));
+        if (isPromotion(move)) {
+            builder.append("->").append(Piece.toSymbol(getPromoted(move)));
+        } else if (isCastling(move)) {
+            builder.append(", castling");
+        } else if (isEnPassant(move)) {
+            builder.append(", en passant");
         }
+        builder.append("]");
+
+        return builder.toString();
     }
 }

@@ -19,7 +19,6 @@ package se.dykstrom.ronja.engine.ui.command;
 
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Game;
-import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.SanParser;
 import se.dykstrom.ronja.engine.core.AlphaBetaFinder;
@@ -48,12 +47,11 @@ public class HintCommand extends AbstractCommand {
         OpeningBook book = game.getBook();
         Position position = game.getPosition();
         if (!PositionUtils.isGameOver(position)) {
-            Move move = book.findBestMove(position);
-            if (move == null) {
-                // Limit the search depth to 3 in this case
-                move = FINDER.findBestMove(position, 3);
+            int move = book.findBestMove(position);
+            if (move == 0) {
+                move = FINDER.findBestMove(position, 3); // Limit the search depth in this case
             }
-            response.write("Hint: " + SanParser.format(move, position));
+            response.write("Hint: " + SanParser.format(position, move));
         }
     }
 }

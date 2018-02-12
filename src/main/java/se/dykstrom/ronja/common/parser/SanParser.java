@@ -19,16 +19,14 @@ package se.dykstrom.ronja.common.parser;
 
 import se.dykstrom.ronja.common.model.*;
 import se.dykstrom.ronja.engine.core.FullMoveGenerator;
-import se.dykstrom.ronja.engine.core.MoveGenerator;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
-import java.util.stream.StreamSupport;
 
-import static java.util.stream.Collectors.toSet;
 import static se.dykstrom.ronja.common.model.Board.*;
 
 /**
@@ -40,7 +38,7 @@ public class SanParser extends AbstractMoveParser {
 
     private static final Logger TLOG = Logger.getLogger(SanParser.class.getName());
 
-    private static final MoveGenerator MOVE_GENERATOR = new FullMoveGenerator();
+    private static final FullMoveGenerator MOVE_GENERATOR = new FullMoveGenerator();
 
     /**
      * Returns {@code true} if the given string of characters is a syntactically
@@ -51,9 +49,9 @@ public class SanParser extends AbstractMoveParser {
      */
     public static boolean isMove(String move) {
         return move.matches("[BKNRQ][a-h]?[1-8]?[x]?[a-h][1-8][+#]?") ||   // Piece move
-               move.matches("([a-h][x])?[a-h][2-7][+#]?") ||            // Pawn move
-               move.matches("([a-h][x])?[a-h][18][=][BNRQ][+#]?") ||    // Promotion
-               move.matches("O-O(-O)?[+#]?");                           // Castling
+               move.matches("([a-h][x])?[a-h][2-7][+#]?") ||               // Pawn move
+               move.matches("([a-h][x])?[a-h][18][=][BNRQ][+#]?") ||       // Promotion
+               move.matches("O-O(-O)?[+#]?");                              // Castling
     }
 
     // -----------------------------------------------------------------------
@@ -66,17 +64,18 @@ public class SanParser extends AbstractMoveParser {
 	 * TODO: - Finding the from square
 	 *       - Nbc3 (the case where two pieces can move to the same square)
 	 *       - exd5 (pawn captures)
-	 *       - En passant captures
-	 *       - Verify checks and check mates
 	 *
 	 * @param move The move in SAN format.
 	 * @param position The position when the move is made.
+	 * @return The parsed move.
 	 * @throws IllegalMoveException If the given string cannot be parsed as a legal move in SAN format.
 	 */
-    public static Move parse(String move, Position position) throws IllegalMoveException {
+    public static int parse(String move, Position position) throws IllegalMoveException {
 		TLOG.finest("move: " + move + " position: \n" + position);
-        long from = 0, to = 0;
-        Piece promoted = null;
+        long from = 0;
+        long to = 0;
+        int promotedPiece = 0;
+        int capturedPiece = 0;
 
 		if (isKingSideCastling(move)) {
             switch (position.getActiveColor()) {
@@ -136,49 +135,46 @@ public class SanParser extends AbstractMoveParser {
 
 			// If capture, verify that there is a piece to capture
 			if (capture) {
-				Piece capturedPiece = position.getPiece(to);
-				Color capturedColor = position.getColor(to);
-
-				// The to square must contain a piece,
-				// it must not be the king,
-				// and it must be of the opposite color
-				// TODO: En passant captures
-				if ((capturedPiece == null) ||
-					(capturedPiece == Piece.KING) ||
-					(capturedColor == position.getActiveColor())) {
-					throw new IllegalMoveException("invalid capture");
-				}
+			    if (to == position.getEnPassantSquare()) {
+			        // 'En passant' capture
+                    capturedPiece = Piece.PAWN;
+			    } else {
+			        // Normal capture
+    				capturedPiece = position.getPiece(to);
+    				
+    				// The to square must contain a piece,
+    				// it must not be the king,
+    				// and it must be of the opposite color
+    				if ((capturedPiece == 0) ||
+    					(capturedPiece == Piece.KING) ||
+    					(position.getColor(to) == position.getActiveColor())) {
+    					throw new IllegalMoveException("invalid capture");
+    				}
+			    }
 			}
 
-			// TODO: Remove '+' - not used?
-			if (move.endsWith("+")) {
-				move = move.substring(0, move.length() - 1);
-				// TODO: Verify that there is a check
-			}
-
-			// TODO: Remove '#' - not used?
-			if (move.endsWith("#")) {
-				move = move.substring(0, move.length() - 1);
-				// TODO: Verify that there is a check mate
-			}
+            // Remove check and check mate symbols
+            if (move.endsWith("+") || move.endsWith("#")) {
+                move = move.substring(0, move.length() - 1);
+            }
 
 			// Get from square
 			// TODO: Get from square
 
 			// Promotion
 			if (move.contains("=")) {
-                promoted = getPromotionPiece(position, from, move.charAt(move.indexOf("=") + 1));
+                promotedPiece = getPromotionPiece(position, from, move.charAt(move.indexOf("=") + 1));
 			}
 		}
 
-        Piece piece = position.getPiece(from);
-        boolean isCastling = isCastling(position, from, to);
-        boolean isEnPassant = isEnPassant(position, from, to);
+        int piece = position.getPiece(from);
+        boolean isCastling = isCastling(piece, from, to);
+        boolean isEnPassant = isEnPassant(piece, to, position);
 
         validate(position, from, to, isCastling);
 
         // Create the new move
-        return Move.of(piece, from, to, promoted, isCastling, isEnPassant);
+        return create(piece, from, to, capturedPiece, promotedPiece, isCastling, isEnPassant);
 	}
 
     private static boolean isQueenSideCastling(String move) {
@@ -192,19 +188,19 @@ public class SanParser extends AbstractMoveParser {
     // -----------------------------------------------------------------------
     // Formatting:
     // -----------------------------------------------------------------------
-
+    
     /**
-     * Formats the given list of moves in SAN format in the context of the given start position.
+     * Formats the given array of moves in SAN format in the context of the given start position.
      *
-     * @param moves The list of moves to format.
      * @param startPosition The position of the first move.
+     * @param moves The moves to format.
      * @return The formatted moves.
      */
-    public static List<String> format(List<Move> moves, Position startPosition) {
-        List<String> formattedMoves = new ArrayList<>(moves.size());
+    public static List<String> format(Position startPosition, int... moves) {
+        List<String> formattedMoves = new ArrayList<>(moves.length);
         Position position = startPosition;
-        for (Move move : moves) {
-            formattedMoves.add(format(move, position));
+        for (int move : moves) {
+            formattedMoves.add(format(position, move));
             position = position.withMove(move);
         }
         return formattedMoves;
@@ -212,30 +208,30 @@ public class SanParser extends AbstractMoveParser {
 
     /**
      * Formats the given move in SAN format in the context of the given position.
-     *
-     * @param move The move to format.
+     * 
      * @param position The current position.
+     * @param move The move to format.
      * @return The formatted move.
      */
-    public static String format(Move move, Position position) {
-        if (move.isCastling()) {
+    public static String format(Position position, int move) {
+        if (Move.isCastling(move)) {
             return formatCastlingMove(move);
-        } else if (move.getPiece() == Piece.PAWN) {
+        } else if (Move.getPiece(move) == Piece.PAWN) {
             return formatPawnMove(move, position);
         } else {
             return formatPieceMove(move, position);
         }
     }
 
-    private static String formatCastlingMove(Move move) {
-        if (move.getTo() == Square.G1 || move.getTo() == Square.G8) {
+    private static String formatCastlingMove(int move) {
+        if (Move.getTo(move) == Square.G1 || Move.getTo(move) == Square.G8) {
             return "O-O";
         } else {
             return "O-O-O";
         }
     }
 
-    private static String formatPawnMove(Move move, Position position) {
+    private static String formatPawnMove(int move, Position position) {
         String fromFile = formatFromFile(move, position);
         String capture = formatCapture(move, position);
         String toSquare = formatToSquare(move);
@@ -244,8 +240,8 @@ public class SanParser extends AbstractMoveParser {
         return fromFile + capture + toSquare + promotion + check;
     }
 
-    private static String formatPieceMove(Move move, Position position) {
-        String piece = Character.toString(move.getPiece().getSymbol());
+    private static String formatPieceMove(int move, Position position) {
+        String piece = Character.toString(Piece.toSymbol(Move.getPiece(move)));
         String fromFileOrRank = fileOrRank(move, position);
         String capture = formatCapture(move, position);
         String toSquare = formatToSquare(move);
@@ -257,14 +253,14 @@ public class SanParser extends AbstractMoveParser {
      * Formats the file or rank specifier for a piece move. This is used when more than one piece of this type
      * can move to the to square.
      */
-    private static String fileOrRank(Move move, Position position) {
+    private static String fileOrRank(int move, Position position) {
         // Find all squares that a piece of this type could have started from to end up at this to square
-        Set<Long> allFromSquares = getAllFromSquares(move.getPiece(), move.getTo(), position);
+        Set<Long> allFromSquares = getAllFromSquares(Move.getPiece(move), Move.getTo(move), position);
 
         // If there is more than one legal from square, that is, more than one piece that could move to this to square,
         // we must specify the file or rank of the real from square
         if (allFromSquares.size() > 1) {
-            long fromSquare = move.getFrom();
+            long fromSquare = Move.getFrom(move);
             if (isFileUnique(fromSquare, allFromSquares)) {
                 return Character.toString(getFileChar(fromSquare));
             } else if (isRankUnique(fromSquare, allFromSquares)) {
@@ -286,13 +282,16 @@ public class SanParser extends AbstractMoveParser {
      * @param position The current position.
      * @return All possible from squares.
      */
-    static Set<Long> getAllFromSquares(Piece piece, long toSquare, Position position) {
-        Iterable<Move> iterable = () -> MOVE_GENERATOR.iterator(position);
-        return StreamSupport.stream(iterable.spliterator(), false)
-                .filter(move -> move.getPiece() == piece)
-                .filter(move -> move.getTo() == toSquare)
-                .map(Move::getFrom)
-                .collect(toSet());
+    static Set<Long> getAllFromSquares(int piece, long toSquare, Position position) {
+        Set<Long> squares = new HashSet<>();
+        int numberOfMoves = MOVE_GENERATOR.generateMoves(position, 0);
+        for (int moveIndex = 0; moveIndex < numberOfMoves; moveIndex++) {
+            int move = MOVE_GENERATOR.moves[0][moveIndex];
+            if (Move.getPiece(move) == piece && Move.getTo(move) == toSquare) {
+                squares.add(Move.getFrom(move));
+            }
+        }
+        return squares;
     }
 
     /**
@@ -321,27 +320,27 @@ public class SanParser extends AbstractMoveParser {
      * Formats the from file for a pawn move. Returns the from file for capture moves,
      * or an empty string for normal moves.
      */
-    private static String formatFromFile(Move move, Position position) {
-        return isCapture(move, position) ? Character.toString(getFileChar(move.getFrom())) : "";
+    private static String formatFromFile(int move, Position position) {
+        return Move.isCapture(move) ? Character.toString(getFileChar(Move.getFrom(move))) : "";
     }
 
-    private static String formatCapture(Move move, Position position) {
-        return isCapture(move, position) ? "x" : "";
+    private static String formatCapture(int move, Position position) {
+        return Move.isCapture(move) ? "x" : "";
     }
 
-    private static String formatToSquare(Move move) {
-        return Square.idToName(move.getTo());
+    private static String formatToSquare(int move) {
+        return Square.idToName(Move.getTo(move));
     }
 
-    private static String formatPromotion(Move move) {
-        if (move.isPromotion()) {
-            return "=" + Character.toString(move.getPromoted().getSymbol());
+    private static String formatPromotion(int move) {
+        if (Move.isPromotion(move)) {
+            return "=" + Character.toString(Piece.toSymbol(Move.getPromoted(move)));
         } else {
             return "";
         }
     }
 
-    private static String formatCheck(Move move, Position position) {
+    private static String formatCheck(int move, Position position) {
         Position newPosition = position.withMove(move);
         if (PositionUtils.isCheckMate(newPosition)) {
             return "#";
@@ -349,12 +348,5 @@ public class SanParser extends AbstractMoveParser {
             return "+";
         }
         return "";
-    }
-
-    /**
-     * Returns {@code true} if the given move is a capture.
-     */
-    private static boolean isCapture(Move move, Position position) {
-        return position.getPiece(move.getTo()) != null || move.isEnPassant();
     }
 }

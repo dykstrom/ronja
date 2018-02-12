@@ -17,13 +17,14 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
-import se.dykstrom.ronja.common.model.Game;
-import se.dykstrom.ronja.engine.ui.io.Response;
+import static se.dykstrom.ronja.common.parser.SanParser.format;
+import static se.dykstrom.ronja.common.utils.ArrayUtils.toArray;
 
 import java.util.Iterator;
 import java.util.List;
 
-import static se.dykstrom.ronja.common.parser.SanParser.format;
+import se.dykstrom.ronja.common.model.Game;
+import se.dykstrom.ronja.engine.ui.io.Response;
 
 public class MovesCommand extends AbstractCommand {
 
@@ -40,7 +41,7 @@ public class MovesCommand extends AbstractCommand {
         response.write("      White   Black");
 
         int moveNumber = game.getStartMoveNumber();
-        List<String> formattedMoves = format(game.getMoves(), game.getStartPosition());
+        List<String> formattedMoves = format(game.getStartPosition(), toArray(game.getMoves()));
         if (!game.getStartPosition().isWhiteMove() && !formattedMoves.isEmpty()) {
             formattedMoves.add(0, "");
         }

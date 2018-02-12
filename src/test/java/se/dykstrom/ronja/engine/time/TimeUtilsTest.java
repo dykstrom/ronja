@@ -18,15 +18,11 @@
 package se.dykstrom.ronja.engine.time;
 
 import org.junit.Test;
-import se.dykstrom.ronja.common.book.OpeningBook;
-import se.dykstrom.ronja.common.model.Game;
 
 import java.text.ParseException;
 
 import static org.junit.Assert.assertEquals;
-import static se.dykstrom.ronja.engine.time.TimeControlType.CLASSIC;
-import static se.dykstrom.ronja.engine.time.TimeControlType.INCREMENTAL;
-import static se.dykstrom.ronja.engine.time.TimeControlType.SECONDS_PER_MOVE;
+import static se.dykstrom.ronja.engine.time.TimeControlType.*;
 import static se.dykstrom.ronja.engine.time.TimeUtils.*;
 
 /**
@@ -45,14 +41,6 @@ public class TimeUtilsTest {
     private static final TimeControl TC_40_25_0 = new TimeControl(40, 25 * 60 * 1000, 0, CLASSIC);
 
     private static final TimeControl TC_0_0_30 = new TimeControl(0, 0, 30 * 1000, SECONDS_PER_MOVE);
-
-    private static final long FIVE_MINUTES = 5 * 60 * 1000;
-    private static final long TEN_MINUTES = 10 * 60 * 1000;
-    private static final long THIRTY_MINUTES = 30 * 60 * 1000;
-    private static final long FIVE_SECONDS = 5 * 1000;
-    private static final long THIRTY_SECONDS = 30 * 1000;
-
-    private final Game game = new Game(OpeningBook.DEFAULT);
 
     @Test
     public void testFormatTime() {
@@ -95,60 +83,6 @@ public class TimeUtilsTest {
     @Test(expected = ParseException.class)
     public void testParseStText_TwoArguments() throws Exception {
         parseStText("40 5");
-    }
-
-    @Test
-    public void testUpdateTimeDataAfterMoveClassic() throws Exception {
-        int usedTime = 1000;
-
-        game.setTimeControl(TC_40_5_0);
-        game.setTimeData(TimeData.from(TC_40_5_0));
-
-        updateTimeDataAfterMove(game, usedTime);
-
-        assertEquals(39, game.getTimeData().getNumberOfMoves());
-        assertEquals(FIVE_MINUTES - usedTime, game.getTimeData().getRemainingTime());
-    }
-
-    @Test
-    public void testUpdateTimeDataAfterMoveClassicPassedTimeControl() throws Exception {
-        int usedTime = 1000;
-
-        game.setTimeControl(TC_40_5_0);
-        game.setTimeData(TimeData.from(TC_40_5_0).withNumberOfMoves(1));
-
-        updateTimeDataAfterMove(game, usedTime);
-
-        // Expect that there are now 40 new moves to make
-        assertEquals(40, game.getTimeData().getNumberOfMoves());
-        // Expect to have the original 5 minutes, plus 5 new minutes minus used time
-        assertEquals(TEN_MINUTES - usedTime, game.getTimeData().getRemainingTime());
-    }
-
-    @Test
-    public void testUpdateTimeDataAfterMoveIncremental() throws Exception {
-        int usedTime = 1000;
-
-        game.setTimeControl(TC_0_30_5);
-        game.setTimeData(TimeData.from(TC_0_30_5));
-
-        updateTimeDataAfterMove(game, usedTime);
-
-        assertEquals(0, game.getTimeData().getNumberOfMoves());
-        assertEquals(THIRTY_MINUTES + FIVE_SECONDS - usedTime, game.getTimeData().getRemainingTime());
-    }
-
-    @Test
-    public void testUpdateTimeDataAfterMoveSecondsPerMove() throws Exception {
-        int usedTime = 1000;
-
-        game.setTimeControl(TC_0_0_30);
-        game.setTimeData(TimeData.from(TC_0_0_30));
-
-        updateTimeDataAfterMove(game, usedTime);
-
-        assertEquals(0, game.getTimeData().getNumberOfMoves());
-        assertEquals(THIRTY_SECONDS, game.getTimeData().getRemainingTime());
     }
 
     @Test

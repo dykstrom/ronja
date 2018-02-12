@@ -17,10 +17,7 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import se.dykstrom.ronja.common.model.Piece;
-import se.dykstrom.ronja.common.model.Square;
-import se.dykstrom.ronja.common.model.Color;
-import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.model.*;
 
 /**
  * An abstract base class for different move parsers.
@@ -39,8 +36,8 @@ abstract class AbstractMoveParser {
      * @return The promotion piece.
      * @throws IllegalMoveException If this move does not represent a promotion move by a pawn.
      */
-    static Piece getPromotionPiece(Position position, long from, char symbol) throws IllegalMoveException {
-        Piece piece = position.getPiece(from);
+    static int getPromotionPiece(Position position, long from, char symbol) throws IllegalMoveException {
+        int piece = position.getPiece(from);
         if (piece != Piece.PAWN) {
             throw new IllegalMoveException("the piece on square " + Square.idToName(from) + " is a " + piece);
         }
@@ -54,17 +51,17 @@ abstract class AbstractMoveParser {
     /**
      * Returns {@code true} if the move from {@code from} to {@code to} is a castling move.
      */
-    static boolean isCastling(Position position, long from, long to) {
-        return (position.getPiece(from) == Piece.KING) &&
+    static boolean isCastling(int piece, long from, long to) {
+        return (piece == Piece.KING) &&
                 (((from == Square.E1) && (to == Square.G1)) || ((from == Square.E1) && (to == Square.C1)) ||
                  ((from == Square.E8) && (to == Square.G8)) || ((from == Square.E8) && (to == Square.C8)));
     }
 
     /**
-     * Returns {@code true} if the move from {@code from} to {@code to} is an 'en passant' move.
+     * Returns {@code true} if the move with {@code piece} to {@code to} is an 'en passant' move.
      */
-    static boolean isEnPassant(Position position, long from, long to) {
-        return (position.getPiece(from) == Piece.PAWN) && (position.getEnPassantSquare() == to);
+    static boolean isEnPassant(int piece, long to, Position position) {
+        return (piece == Piece.PAWN) && (position.getEnPassantSquare() == to);
     }
 
     /**
@@ -75,7 +72,7 @@ abstract class AbstractMoveParser {
     static void validate(Position position, long from, long to, boolean isCastling) throws IllegalMoveException {
         Color color = position.getActiveColor();
 
-        if (position.getPiece(from) == null || position.getColor(from) != color) {
+        if (position.getPiece(from) == 0 || position.getColor(from) != color) {
             throw new IllegalMoveException("no " + color.toString().toLowerCase() + " piece on " + Square.idToName(from));
         }
         if (color == position.getColor(to)) {
@@ -93,6 +90,29 @@ abstract class AbstractMoveParser {
                 if (!position.isQueenSideCastlingAllowed(color)) {
                     throw new IllegalMoveException("queen-side castling not allowed");
                 }
+            }
+        }
+    }
+
+    /**
+     * Creates a new move from the given arguments.
+     */
+    static int create(int piece, long from, long to, int captured, int promoted, boolean isCastling, boolean isEnPassant) {
+        if (isCastling) {
+            return Move.createCastling(from, to);
+        } else if (isEnPassant) {
+            return Move.createEnPassant(from, to);
+        } else if (promoted != 0) {
+            if (captured != 0) {
+                return Move.createCapturePromotion(from, to, captured, promoted);
+            } else {
+                return Move.createPromotion(from, to, promoted);
+            }
+        } else {
+            if (captured != 0) {
+                return Move.createCapture(piece, from, to, captured);
+            } else {
+                return Move.create(piece, from, to);
             }
         }
     }

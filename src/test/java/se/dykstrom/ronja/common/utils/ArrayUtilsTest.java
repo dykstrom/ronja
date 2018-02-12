@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Johan Dykstrom
+ * Copyright (C) 2017 Johan Dykstrom
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,28 +15,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.dykstrom.ronja.engine.core;
+package se.dykstrom.ronja.common.utils;
+
+import static org.junit.Assert.assertArrayEquals;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.Test;
-import se.dykstrom.ronja.common.model.Position;
+
+import se.dykstrom.ronja.test.AbstractTestCase;
 
 /**
- * This class is for testing class {@code StatefulMoveGenerator} using JUnit.
+ * This class is for testing class {@code ArrayUtils} using JUnit.
  *
  * @author Johan Dykstrom
- * @see StatefulMoveGenerator
+ * @see ArrayUtils
  */
-public class StatefulMoveGeneratorTest extends AbstractMoveGeneratorTestCase {
+public class ArrayUtilsTest extends AbstractTestCase {
 
-    private static final MoveGenerator MOVE_GENERATOR = new StatefulMoveGenerator();
-
-    /**
-     * Tests that iterating over all moves using the iterator of this class, and getting them
-     * using method {@link FullMoveGenerator#getMoves(Position)} of class {@code FullMoveGenerator}
-     * yields the same result.
-     */
     @Test
-    public void testIterator() throws Exception {
-        baseTestIterator(MOVE_GENERATOR);
+    public void shouldConvertEmptyList() throws Exception {
+        assertArrayEquals(new int[0], ArrayUtils.toArray(Collections.emptyList()));
+    }
+
+    @Test
+    public void shouldConvertList() throws Exception {
+        assertArrayEquals(new int[] {1, 2, 3}, ArrayUtils.toArray(Arrays.asList(1, 2, 3)));
     }
 }

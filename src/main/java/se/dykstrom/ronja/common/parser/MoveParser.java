@@ -17,7 +17,6 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Position;
 
 /**
@@ -34,9 +33,10 @@ public class MoveParser extends AbstractMoveParser {
      *
      * @param move A string of characters representing the move.
      * @param position The position when the move is made.
+     * @return The parsed move.
      * @throws IllegalMoveException If the given string does not represent a legal move in the given position.
      */
-	public static Move parse(String move, Position position) throws IllegalMoveException {
+	public static int parse(String move, Position position) throws IllegalMoveException {
         if (CanParser.isMove(move)) {
             return CanParser.parse(move, position);
         } else if (SanParser.isMove(move)) {

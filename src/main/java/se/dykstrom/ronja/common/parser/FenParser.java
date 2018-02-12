@@ -17,10 +17,13 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import se.dykstrom.ronja.common.model.*;
-import se.dykstrom.ronja.engine.core.AttackGenerator;
+import static se.dykstrom.ronja.common.model.Piece.KING;
+import static se.dykstrom.ronja.common.model.Piece.QUEEN;
 
 import java.text.ParseException;
+
+import se.dykstrom.ronja.common.model.*;
+import se.dykstrom.ronja.engine.core.AttackGenerator;
 
 /**
  * A class that can parse and format positions specified in Forsyth-Edwards Notation (FEN).
@@ -92,16 +95,16 @@ public class FenParser {
         int noOfEmptyInARow = 0;
 
         for (Long square : Board.getSquaresInRank(r)) {
-            Piece piece = position.getPiece(square);
+            int piece = position.getPiece(square);
             Color color = position.getColor(square);
-            if (piece == null) {
+            if (piece == 0) {
                 noOfEmptyInARow++;
             } else {
                 if (noOfEmptyInARow != 0) {
                     builder.append(noOfEmptyInARow);
                     noOfEmptyInARow = 0;
                 }
-                builder.append(piece.getSymbol(color));
+                builder.append(Piece.toSymbol(piece, color));
             }
         }
         if (noOfEmptyInARow != 0) {
@@ -249,7 +252,7 @@ public class FenParser {
             } else {
                 int numberOfEmptyInARow = Integer.parseInt(s);
                 while (numberOfEmptyInARow-- > 0) {
-                    position = withPieceAndColor(null, null, f, r, position);
+                    position = withPieceAndColor(0, null, f, r, position);
                     f++;
                 }
             }
@@ -260,7 +263,7 @@ public class FenParser {
     /**
      * Returns an updated position, with the given {@code piece} and {@code color} at file {@code f} and rank {@code r}.
      */
-    private static Position withPieceAndColor(Piece piece, Color color, int f, int r, Position position) {
+    private static Position withPieceAndColor(int piece, Color color, int f, int r, Position position) {
         return position.withPieceAndColor(Board.getSquareId(f, r), piece, color);
     }
 
@@ -275,10 +278,10 @@ public class FenParser {
      * Parses the castling availability sub string.
      */
     private static Position parseCastlingAvailability(String s, Position position) {
-        return position.withKingSideCastlingAllowed(Color.WHITE, s.indexOf(Piece.KING.getSymbol(Color.WHITE)) != -1)
-                       .withKingSideCastlingAllowed(Color.BLACK, s.indexOf(Piece.KING.getSymbol(Color.BLACK)) != -1)
-                       .withQueenSideCastlingAllowed(Color.WHITE, s.indexOf(Piece.QUEEN.getSymbol(Color.WHITE)) != -1)
-                       .withQueenSideCastlingAllowed(Color.BLACK, s.indexOf(Piece.QUEEN.getSymbol(Color.BLACK)) != -1);
+        return position.withKingSideCastlingAllowed(Color.WHITE, s.indexOf(Piece.toSymbol(KING, Color.WHITE)) != -1)
+                       .withKingSideCastlingAllowed(Color.BLACK, s.indexOf(Piece.toSymbol(KING, Color.BLACK)) != -1)
+                       .withQueenSideCastlingAllowed(Color.WHITE, s.indexOf(Piece.toSymbol(QUEEN, Color.WHITE)) != -1)
+                       .withQueenSideCastlingAllowed(Color.BLACK, s.indexOf(Piece.toSymbol(QUEEN, Color.BLACK)) != -1);
     }
 
     /**

@@ -17,14 +17,15 @@
 
 package se.dykstrom.ronja.test;
 
+import java.lang.reflect.Array;
+import java.util.stream.StreamSupport;
+
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
-import java.util.stream.StreamSupport;
-
 /**
- * A matcher that matches on the size of a collection. The type of the elements does not matter.
+ * A matcher that matches on the size of a collection or array. The type of the elements does not matter.
  *
  * @author Johan Dykstrom
  */
@@ -38,7 +39,7 @@ public class SizeMatcher<T> extends BaseMatcher<T> {
 
     @Override
     public void describeTo(Description description) {
-        description.appendText("a collection of size " + size);
+        description.appendText("a collection or array of size " + size);
     }
 
     @Override
@@ -46,15 +47,17 @@ public class SizeMatcher<T> extends BaseMatcher<T> {
         if (obj instanceof Iterable<?>) {
             Iterable<?> iterable = (Iterable<?>) obj;
             return StreamSupport.stream(iterable.spliterator(), false).count() == this.size;
+        } else if (obj.getClass().isArray()) {
+            return Array.getLength(obj) == this.size;
         }
         return false;
     }
 
     /**
-     * Returns a matcher that matches every collection of the given size.
+     * Returns a matcher that matches every collection or array of the given size.
      *
      * @param size The size to match.
-     * @return A matcher that matches every collection of the given size.
+     * @return A matcher that matches every collection or array of the given size.
      */
     public static <T> Matcher<T> hasSize(long size) {
         return new SizeMatcher<>(size);

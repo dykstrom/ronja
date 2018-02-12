@@ -19,7 +19,6 @@ package se.dykstrom.ronja.engine.ui.command;
 
 import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Game;
-import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.CanParser;
 import se.dykstrom.ronja.common.parser.IllegalMoveException;
@@ -60,10 +59,10 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
             checkActiveColor(game);
 
             // Try to find a move in the opening book
-            Move move = game.getBook().findBestMove(position);
+            int move = game.getBook().findBestMove(position);
 
             // If no book move found, use Finder to find best move
-            if (move == null) {
+            if (move == 0) {
                 long availableTime = TimeUtils.calculateTimeForNextMove(game.getTimeControl(), game.getTimeData());
                 move = FINDER.findBestMoveWithinTime(position, availableTime);
                 TLOG.fine("Engine move: " + formatForLogging(move, position));
@@ -88,7 +87,7 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
 
             long stopTime = System.currentTimeMillis();
             long usedTime = stopTime - startTime + 50; // Add 50 ms as a safety margin
-            TimeUtils.updateTimeDataAfterMove(game, usedTime);
+            game.updateTimeDataAfterMove(usedTime);
         }
     }
 
@@ -109,8 +108,8 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
     /**
      * Formats the given move for logging.
      */
-    String formatForLogging(Move move, Position position) {
-        return position.getFullMoveNumber() + (position.isWhiteMove() ? ". " : "... ") + SanParser.format(move, position);
+    String formatForLogging(int move, Position position) {
+        return position.getFullMoveNumber() + (position.isWhiteMove() ? ". " : "... ") + SanParser.format(position, move);
     }
 
     /**

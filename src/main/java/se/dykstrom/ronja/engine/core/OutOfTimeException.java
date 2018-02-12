@@ -17,25 +17,11 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import se.dykstrom.ronja.common.model.Move;
-
 /**
  * Thrown when a search must be aborted because we are out of time.
  *
  * @author Johan Dykstrom
  */
 class OutOfTimeException extends RuntimeException {
-
-    private final Move Move;
-
-    OutOfTimeException(Move move) {
-        this.Move = move;
-    }
-
-    /**
-     * Returns the move included with this exception.
-     */
-    public Move getMove() {
-        return Move;
-    }
+    // Empty
 }

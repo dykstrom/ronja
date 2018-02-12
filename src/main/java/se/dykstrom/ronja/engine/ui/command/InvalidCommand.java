@@ -30,6 +30,7 @@ public class InvalidCommand extends AbstractCommand {
         this.message = message;
     }
 
+    @Override
     public void execute() {
         response.write("Error (" + message + "): " + getArgs());
     }

@@ -20,6 +20,7 @@ package se.dykstrom.ronja.common.model;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.parser.IllegalMoveException;
 import se.dykstrom.ronja.engine.time.TimeControl;
+import se.dykstrom.ronja.engine.time.TimeControlType;
 import se.dykstrom.ronja.engine.time.TimeData;
 
 import java.time.LocalDateTime;
@@ -48,7 +49,7 @@ public class Game {
     private Color engineColor;
 
     /** All moves made in this game. */
-    private List<Move> moves;
+    private List<Integer> moves;
 
     /** The name of the opponent as set by the "name" command.*/
     private String opponent;
@@ -105,7 +106,7 @@ public class Game {
     /**
      * Makes the given move, and updates game data accordingly.
      */
-    public void makeMove(Move move) throws IllegalMoveException {
+    public void makeMove(int move) throws IllegalMoveException {
         Position newPosition = position.withMove(move);
 
         // If the user is in check after his move
@@ -115,6 +116,33 @@ public class Game {
 
         position = newPosition;
         moves.add(move);
+    }
+
+    /**
+     * Updates the time data in the game after a move, taking into account the {@code usedTime},
+     * and the type of the time control.
+     *
+     * @param usedTime The time used for this move in milliseconds.
+     */
+    public void updateTimeDataAfterMove(long usedTime) {
+        TimeControl timeControl = getTimeControl();
+        if (timeControl.getType() == TimeControlType.SECONDS_PER_MOVE) {
+            setTimeData(TimeData.from(timeControl));
+        } else if (timeControl.getType() == CLASSIC) {
+            TimeData timeData = getTimeData();
+            long remainingTime = timeData.getRemainingTime() - usedTime;
+            long numberOfMoves = timeData.getNumberOfMoves() - 1;
+            // If we have reached the time control, reset number of moves and add time
+            if (numberOfMoves == 0) {
+                numberOfMoves = timeControl.getNumberOfMoves();
+                remainingTime += timeControl.getBaseTime();
+            }
+            setTimeData(timeData.withRemainingTime(remainingTime).withNumberOfMoves(numberOfMoves));
+        } else { // TimeControlType.INCREMENTAL
+            TimeData timeData = getTimeData();
+            long remainingTime = timeData.getRemainingTime() - usedTime + timeControl.getIncrement();
+            setTimeData(timeData.withRemainingTime(remainingTime));
+        }
     }
 
     /**
@@ -136,14 +164,14 @@ public class Game {
     /**
      * Sets the list of moves.
      */
-    public void setMoves(List<Move> moves) {
+    public void setMoves(List<Integer> moves) {
         this.moves = moves;
     }
 
     /**
      * Returns the list of moves made so far in this game.
      */
-    public List<Move> getMoves() {
+    public List<Integer> getMoves() {
         return moves;
     }
 

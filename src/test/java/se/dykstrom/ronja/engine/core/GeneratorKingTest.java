@@ -18,15 +18,16 @@
 package se.dykstrom.ronja.engine.core;
 
 import org.junit.Test;
-import se.dykstrom.ronja.common.model.*;
+import se.dykstrom.ronja.common.model.Color;
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static se.dykstrom.ronja.common.model.Piece.KING;
 
 /**
  * This class is for testing king moves with the generator classes using JUnit.
@@ -50,11 +51,11 @@ public class GeneratorKingTest extends AbstractTestCase {
      */
     @Test
     public void testPositionStart() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_START));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_START), 0);
 
         // There should be no moves in this position
-        List<Move> moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(0, moves.size());
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(0, MOVE_GENERATOR.getMoveIndex());
     }
 
     /**
@@ -63,14 +64,14 @@ public class GeneratorKingTest extends AbstractTestCase {
     @Test
     public void testKSCastlingWhiteOk() throws Exception {
         // WHITE
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_WKC_OK));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_WKC_OK), 0);
 
         // There should be three moves
-        List<Move> moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(3, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.E2, null, false, false))); // Ke2
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.F1, null, false, false))); // Kf1
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.G1, null, true, false)));  // O-O
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(3, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.E2), // Ke2
+                                             Move.create(KING, Square.E1, Square.F1), // Kf1
+                                             Move.createCastling(Square.E1, Square.G1));  // O-O
     }
 
     /**
@@ -78,15 +79,15 @@ public class GeneratorKingTest extends AbstractTestCase {
      */
     @Test
     public void testKSCastlingBlackOk() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_BKC_OK));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_BKC_OK), 0);
 
         // There should be four moves
-        List<Move> moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(4, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.D7, null, false, false))); // Kd7
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.E7, null, false, false))); // Ke7
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.F8, null, false, false))); // Kf8
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.G8, null, true, false)));  // O-O
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(4, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.D7), // Kd7
+                                             Move.create(KING, Square.E8, Square.E7), // Ke7
+                                             Move.create(KING, Square.E8, Square.F8), // Kf8
+                                             Move.createCastling(Square.E8, Square.G8));  // O-O
     }
 
     /**
@@ -95,23 +96,23 @@ public class GeneratorKingTest extends AbstractTestCase {
     @Test
 	public void testKSCastlingNokKing() throws Exception {
         // WHITE
-        MOVE_GENERATOR.setup(position = FenParser.parse(FEN_WKC_NOK_K));
+        MOVE_GENERATOR.setup(position = FenParser.parse(FEN_WKC_NOK_K), 0);
 
 		// There should only be two moves
-        List<Move> moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(2, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.E2, null, false, false))); // Ke2
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.F1, null, false, false))); // Kf1
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(2, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.E2), // Ke2
+                                             Move.create(KING, Square.E1, Square.F1)); // Kf1
 
         // BLACK
         // TODO: Create position FEN_BKC_NOK_K for this.
-        MOVE_GENERATOR.setup(position.withMove(MoveParser.parse("e1f1", position)));
+        MOVE_GENERATOR.setup(position.withMove(MoveParser.parse("e1f1", position)), 0);
 
 		// There should only be two moves
-        moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(2, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.E7, null, false, false))); // Ke7
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.F8, null, false, false))); // Kf8
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(2, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.E7), // Ke7
+                                             Move.create(KING, Square.E8, Square.F8)); // Kf8
     }
 
     // TODO: Also test that it is NOK to castle when the rook has been taken.
@@ -122,23 +123,23 @@ public class GeneratorKingTest extends AbstractTestCase {
     @Test
 	public void testKSCastlingNokPiece() throws Exception {
         // WHITE
-        MOVE_GENERATOR.setup(position = FenParser.parse(FEN_WKC_NOK_P));
+        MOVE_GENERATOR.setup(position = FenParser.parse(FEN_WKC_NOK_P), 0);
 
 		// There should only be two moves
-        List<Move> moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(2, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.E2, null, false, false))); // Ke2
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.F1, null, false, false))); // Kf1
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(2, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.E2), // Ke2
+                                             Move.create(KING, Square.E1, Square.F1)); // Kf1
 
         // BLACK
         // TODO: Create position FEN_BKC_NOK_P for this.
-        MOVE_GENERATOR.setup(position.withMove(MoveParser.parse("e1f1", position)));
+        MOVE_GENERATOR.setup(position.withMove(MoveParser.parse("e1f1", position)), 0);
 
 		// There should only be two moves
-        moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(2, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.E7, null, false, false))); // Ke7
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.F8, null, false, false))); // Kf8
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(2, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.E7), // Ke7
+                                             Move.create(KING, Square.E8, Square.F8)); // Kf8
     }
 
     /**
@@ -146,12 +147,12 @@ public class GeneratorKingTest extends AbstractTestCase {
      */
     @Test
     public void testKSCastlingWhiteNokCheck() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_WKC_NOK_C));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_WKC_NOK_C), 0);
 
         // There should be one move: Ke2, but not Kf1 or O-O (e1g1)
-        List<Move> moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(1, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.E2, null, false, false))); // Ke2
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(1, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.E2)); // Ke2
     }
 
     // TODO: Also test that it is NOK to castle when the king is checked.
@@ -161,11 +162,11 @@ public class GeneratorKingTest extends AbstractTestCase {
      */
     @Test
     public void testKSCastlingBlackNokCheck() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_BKC_NOK_C));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_BKC_NOK_C), 0);
 
         // There should be no moves: Ke7, Kf8, and O-O (e8g8) all leave the king in check
-        List<Move> moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(0, moves.size());
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(0, MOVE_GENERATOR.getMoveIndex());
     }
 
     /**
@@ -173,13 +174,13 @@ public class GeneratorKingTest extends AbstractTestCase {
      */
     @Test
     public void testQSCastlingWhiteOk() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_WQC_OK));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_WQC_OK), 0);
 
         // There should be two moves
-        List<Move> moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(2, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.D1, null, false, false))); // Kd1
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.C1, null, true, false)));  // O-O-O
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(2, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.D1), // Kd1
+                                             Move.createCastling(Square.E1, Square.C1));  // O-O-O
     }
 
     /**
@@ -187,14 +188,14 @@ public class GeneratorKingTest extends AbstractTestCase {
      */
     @Test
     public void testQSCastlingBlackOk() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_BQC_OK));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_BQC_OK), 0);
 
         // There should be three moves
-        List<Move> moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(3, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.D7, null, false, false))); // Kd7
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.D8, null, false, false))); // Kd8
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.C8, null, true, false)));  // O-O-O
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(3, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.D7), // Kd7
+                                             Move.create(KING, Square.E8, Square.D8), // Kd8
+                                             Move.createCastling(Square.E8, Square.C8));  // O-O-O
     }
 
     /**
@@ -202,14 +203,14 @@ public class GeneratorKingTest extends AbstractTestCase {
      */
     @Test
     public void testQSCastlingWhiteOkCheck() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_WQC_OK_C_B1));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_WQC_OK_C_B1), 0);
 
         // There should be three moves: Kd1 and Ke2, and O-O-O (e1c1)
-        List<Move> moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(3, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.D1, null, false, false))); // Kd1
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.E2, null, false, false))); // Ke2
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.C1, null, true, false))); // O-O-O
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(3, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.D1), // Kd1
+                                             Move.create(KING, Square.E1, Square.E2), // Ke2
+                                             Move.createCastling(Square.E1, Square.C1)); // O-O-O
     }
 
     /**
@@ -217,14 +218,14 @@ public class GeneratorKingTest extends AbstractTestCase {
      */
     @Test
     public void testQSCastlingBlackOkCheck() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_BQC_OK_C_B8));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_BQC_OK_C_B8), 0);
 
         // There should be three moves: Kd7 and Kd8, and O-O-O (e8c8)
-        List<Move> moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(3, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.D7, null, false, false))); // Kd7
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.D8, null, false, false))); // Kd8
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.C8, null, true, false))); // O-O-O
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(3, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.D7), // Kd7
+                                             Move.create(KING, Square.E8, Square.D8), // Kd8
+                                             Move.createCastling(Square.E8, Square.C8)); // O-O-O
     }
 
     /**
@@ -233,21 +234,21 @@ public class GeneratorKingTest extends AbstractTestCase {
     @Test
 	public void testQSCastlingNokKing() throws Exception {
         // WHITE
-        MOVE_GENERATOR.setup(position = FenParser.parse(FEN_WQC_NOK_K));
+        MOVE_GENERATOR.setup(position = FenParser.parse(FEN_WQC_NOK_K), 0);
 
 		// There should only be one move
-        List<Move> moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(1, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.D1, null, false, false))); // Kd1
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(1, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.D1)); // Kd1
 
         // BLACK
         // TODO: Create position FEN_BQC_NOK_K for this.
-        MOVE_GENERATOR.setup(position.withMove(MoveParser.parse("e1d1", position)));
+        MOVE_GENERATOR.setup(position.withMove(MoveParser.parse("e1d1", position)), 0);
 
 		// There should only be one move
-        moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(1, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.D8, null, false, false))); // Kd8
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(1, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.D8)); // Kd8
     }
 
     /**
@@ -256,21 +257,21 @@ public class GeneratorKingTest extends AbstractTestCase {
     @Test
 	public void testQSCastlingNokPiece() throws Exception {
         // WHITE
-        MOVE_GENERATOR.setup(position = FenParser.parse(FEN_WQC_NOK_P));
+        MOVE_GENERATOR.setup(position = FenParser.parse(FEN_WQC_NOK_P), 0);
 
 		// There should only be one move
-        List<Move> moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(1, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.D1, null, false, false))); // Kd1
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(1, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.D1)); // Kd1
 
         // BLACK
         // TODO: Create position FEN_BQC_NOK_P for this.
-        MOVE_GENERATOR.setup(position.withMove(MoveParser.parse("e1d1", position)));
+        MOVE_GENERATOR.setup(position.withMove(MoveParser.parse("e1d1", position)), 0);
 
 		// There should only be one move
-        moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(1, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.D8, null, false, false))); // Kd8
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(1, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.D8)); // Kd8
     }
 
     /**
@@ -279,13 +280,13 @@ public class GeneratorKingTest extends AbstractTestCase {
      */
     @Test
     public void testQSCastlingWhiteNokCheck() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_WQC_NOK_C_C1));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_WQC_NOK_C_C1), 0);
 
         // There should only be two moves: Kd1 and Ke2, but not O-O-O (e1c1)
-        List<Move> moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(2, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.D1, null, false, false))); // Kd1
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E1, Square.E2, null, false, false))); // Ke2
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(2, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.D1), // Kd1
+                                             Move.create(KING, Square.E1, Square.E2)); // Ke2
     }
 
     /**
@@ -294,12 +295,12 @@ public class GeneratorKingTest extends AbstractTestCase {
      */
     @Test
     public void testQSCastlingBlackNokCheck() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_BQC_NOK_C_C8));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_BQC_NOK_C_C8), 0);
 
         // There should only be one move: Kd8, but not Kd7 or O-O-O (e8c8)
-        List<Move> moves = MOVE_GENERATOR.getAllKingMoves();
-        assertEquals(1, moves.size());
-        assertTrue(moves.contains(Move.of(Piece.KING, Square.E8, Square.D8, null, false, false))); // Kd8
+        MOVE_GENERATOR.generateKingMoves();
+        assertEquals(1, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.D8)); // Kd8
     }
 
     // -----------------------------------------------------------------------

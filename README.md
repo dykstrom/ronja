@@ -7,7 +7,7 @@ An XBoard/WinBoard chess engine written in Java.
 Ronja is a chess engine. It provides  only a simple, character based user 
 interface. It is highly recommended that you run it from a chess GUI like 
 [XBoard/WinBoard](https://www.gnu.org/software/xboard) or
-[Arena](http://www.playwitharena.com/). You will also need
+[Arena](http://www.playwitharena.com). You will also need
 Java 8 installed to run Ronja. The Java runtime can be downloaded
 from [Oracle](https://java.com/download).
 
@@ -43,16 +43,15 @@ In the next dialog, set the type of the engine to Winboard. That's it!
 
 ## Description
 
-Ronja is my first try to write a chess engine. It is written entirely 
-in Java, and has its own opening book. It implements some of the
-commonly seen features of chess engines:
+Ronja is written entirely in Java, and has its own opening book. It 
+implements a few of the commonly seen features of chess engines:
 
-* Incremental move generation
 * Iterative deepening
 * Alpha-beta pruning
+* Move ordering
 
 Ronja is designed in an object-oriented way, with classes representing 
-moves, positions, and other entities. This probably slows the engine
-down, and so may be changed in the future.
+positions, and other entities. This makes the engine rather slow, and
+so may be changed in the future.
 
 [![Build Status](https://travis-ci.org/dykstrom/ronja.svg?branch=master)](https://travis-ci.org/dykstrom/ronja)

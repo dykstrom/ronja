@@ -17,20 +17,25 @@
 
 package se.dykstrom.ronja.common.book;
 
-import org.junit.Assert;
-import org.junit.Test;
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Position;
-import se.dykstrom.ronja.test.AbstractTestCase;
+import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.both;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static se.dykstrom.ronja.common.parser.FenParser.parse;
+import static se.dykstrom.ronja.test.SizeMatcher.hasSize;
 
 import java.text.ParseException;
 import java.util.*;
 
-import static java.util.stream.Collectors.toList;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-import static se.dykstrom.ronja.common.parser.FenParser.parse;
-import static se.dykstrom.ronja.test.SizeMatcher.hasSize;
+import org.apache.commons.lang3.ArrayUtils;
+import org.junit.Test;
+
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.test.AbstractTestCase;
 
 /**
  * This class is for testing class {@code OpeningBook} using JUnit.
@@ -138,12 +143,12 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 30);
         List<BookMove> bookMoves = Arrays.asList(bookMove0, bookMove1, bookMove2);
 
-        Assert.assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 0));
-        Assert.assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 29));
-        Assert.assertEquals(MOVE_D2D4, OpeningBook.findMoveInList(bookMoves, 30));
-        Assert.assertEquals(MOVE_D2D4, OpeningBook.findMoveInList(bookMoves, 69));
-        Assert.assertEquals(MOVE_C2C4, OpeningBook.findMoveInList(bookMoves, 70));
-        Assert.assertEquals(MOVE_C2C4, OpeningBook.findMoveInList(bookMoves, 99));
+        assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 0));
+        assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 29));
+        assertEquals(MOVE_D2D4, OpeningBook.findMoveInList(bookMoves, 30));
+        assertEquals(MOVE_D2D4, OpeningBook.findMoveInList(bookMoves, 69));
+        assertEquals(MOVE_C2C4, OpeningBook.findMoveInList(bookMoves, 70));
+        assertEquals(MOVE_C2C4, OpeningBook.findMoveInList(bookMoves, 99));
     }
 
     @Test
@@ -151,9 +156,9 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 100);
         List<BookMove> bookMoves = Collections.singletonList(bookMove0);
 
-        Assert.assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 0));
-        Assert.assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 17));
-        Assert.assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 99));
+        assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 0));
+        assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 17));
+        assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 99));
     }
 
     @Test
@@ -163,9 +168,9 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 0);
         List<BookMove> bookMoves = Arrays.asList(bookMove0, bookMove1, bookMove2);
 
-        assertNull(OpeningBook.findMoveInList(bookMoves, 0));
-        assertNull(OpeningBook.findMoveInList(bookMoves, 49));
-        assertNull(OpeningBook.findMoveInList(bookMoves, 99));
+        assertEquals(0, OpeningBook.findMoveInList(bookMoves, 0));
+        assertEquals(0, OpeningBook.findMoveInList(bookMoves, 49));
+        assertEquals(0, OpeningBook.findMoveInList(bookMoves, 99));
     }
 
     @Test
@@ -173,9 +178,9 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 0);
         List<BookMove> bookMoves = Collections.singletonList(bookMove0);
 
-        assertNull(OpeningBook.findMoveInList(bookMoves, 0));
-        assertNull(OpeningBook.findMoveInList(bookMoves, 49));
-        assertNull(OpeningBook.findMoveInList(bookMoves, 99));
+        assertEquals(0, OpeningBook.findMoveInList(bookMoves, 0));
+        assertEquals(0, OpeningBook.findMoveInList(bookMoves, 49));
+        assertEquals(0, OpeningBook.findMoveInList(bookMoves, 99));
     }
 
     @Test
@@ -187,12 +192,12 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMove4 = new BookMove(MOVE_C7C5, 30);
         List<BookMove> bookMoves = Arrays.asList(bookMove0, bookMove1, bookMove2, bookMove3, bookMove4);
 
-        Assert.assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 0));
-        Assert.assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 29));
-        Assert.assertEquals(MOVE_C2C4, OpeningBook.findMoveInList(bookMoves, 30));
-        Assert.assertEquals(MOVE_C2C4, OpeningBook.findMoveInList(bookMoves, 69));
-        Assert.assertEquals(MOVE_C7C5, OpeningBook.findMoveInList(bookMoves, 70));
-        Assert.assertEquals(MOVE_C7C5, OpeningBook.findMoveInList(bookMoves, 99));
+        assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 0));
+        assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 29));
+        assertEquals(MOVE_C2C4, OpeningBook.findMoveInList(bookMoves, 30));
+        assertEquals(MOVE_C2C4, OpeningBook.findMoveInList(bookMoves, 69));
+        assertEquals(MOVE_C7C5, OpeningBook.findMoveInList(bookMoves, 70));
+        assertEquals(MOVE_C7C5, OpeningBook.findMoveInList(bookMoves, 99));
     }
 
     @Test
@@ -204,30 +209,34 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMove4 = new BookMove(MOVE_C7C5, 1);
         List<BookMove> bookMoves = Arrays.asList(bookMove0, bookMove1, bookMove2, bookMove3, bookMove4);
 
-        Assert.assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 0));
-        Assert.assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 29));
-        Assert.assertEquals(MOVE_D2D4, OpeningBook.findMoveInList(bookMoves, 30));
-        Assert.assertEquals(MOVE_C2C4, OpeningBook.findMoveInList(bookMoves, 31));
-        Assert.assertEquals(MOVE_E7E5, OpeningBook.findMoveInList(bookMoves, 32));
-        Assert.assertEquals(MOVE_E7E5, OpeningBook.findMoveInList(bookMoves, 98));
-        Assert.assertEquals(MOVE_C7C5, OpeningBook.findMoveInList(bookMoves, 99));
+        assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 0));
+        assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 29));
+        assertEquals(MOVE_D2D4, OpeningBook.findMoveInList(bookMoves, 30));
+        assertEquals(MOVE_C2C4, OpeningBook.findMoveInList(bookMoves, 31));
+        assertEquals(MOVE_E7E5, OpeningBook.findMoveInList(bookMoves, 32));
+        assertEquals(MOVE_E7E5, OpeningBook.findMoveInList(bookMoves, 98));
+        assertEquals(MOVE_C7C5, OpeningBook.findMoveInList(bookMoves, 99));
     }
 
     @Test
     public void testFindBestMove() throws Exception {
         OpeningBook book = OpeningBook.DEFAULT;
-        assertThat(book.findBestMove(parse(FEN_START)), anyOf(equalTo(MOVE_E2E4), equalTo(MOVE_D2D4)));
-        assertThat(book.findBestMove(parse(FEN_E4)), equalTo(MOVE_E7E5));
-        assertNull(book.findBestMove(parse(FEN_E4_C5)));
-        assertNull(book.findBestMove(parse(FEN_SCHOLARS_MATE)));
+        assertThat(book.findBestMove(parse(FEN_START)), anyOf(is(MOVE_E2E4), is(MOVE_D2D4)));
+        assertThat(book.findBestMove(parse(FEN_E4)), is(MOVE_E7E5));
+        assertEquals(0, book.findBestMove(parse(FEN_E4_C5)));
+        assertEquals(0, book.findBestMove(parse(FEN_SCHOLARS_MATE)));
     }
 
     @Test
     public void testFindAllMoves() throws Exception {
         OpeningBook book = OpeningBook.DEFAULT;
 
-        assertThat(findAllMoves(book, FEN_START), both(hasItems(MOVE_E2E4, MOVE_D2D4)).and(hasSize(2)));
-        assertThat(findAllMoves(book, FEN_E4), both(hasItems(MOVE_E7E5)).and(hasSize(1)));
+        Integer[] moves = ArrayUtils.toObject(findAllMoves(book, FEN_START));
+        assertThat(moves, hasSize(2));
+        assertThat(moves, both(hasItemInArray(MOVE_E2E4)).and(hasItemInArray(MOVE_D2D4)));
+        moves = ArrayUtils.toObject(findAllMoves(book, FEN_E4));
+        assertThat(moves, hasSize(1));
+        assertThat(moves, hasItemInArray(MOVE_E7E5));
 
         assertNull(book.findAllMoves(parse(FEN_E4_C5)));
         assertNull(book.findAllMoves(parse(FEN_SCHOLARS_MATE)));
@@ -236,8 +245,8 @@ public class OpeningBookTest extends AbstractTestCase {
     /**
      * Finds all book moves in the position identified by {@code fen} and returns those as normal moves.
      */
-    private List<Move> findAllMoves(OpeningBook book, String fen) throws ParseException {
-        return book.findAllMoves(parse(fen)).stream().map(BookMove::getMove).collect(toList());
+    private int[] findAllMoves(OpeningBook book, String fen) throws ParseException {
+        return book.findAllMoves(parse(fen)).stream().map(BookMove::getMove).mapToInt(move -> move).toArray();
     }
 
     /**

@@ -17,17 +17,17 @@
 
 package se.dykstrom.ronja.common.book;
 
-import se.dykstrom.ronja.common.parser.IllegalMoveException;
+import static java.util.Collections.singletonList;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+
+import java.util.*;
+
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Piece;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.model.Square;
-
-import java.util.*;
-
-import static java.util.Collections.singletonList;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
+import se.dykstrom.ronja.common.parser.IllegalMoveException;
 
 /**
  * A chess game opening book, that reads its opening moves from a file that is
@@ -55,10 +55,10 @@ public class OpeningBook {
         positions = new HashMap<>();
 
         // Add some simple moves to the empty opening book
-        Move e2e4 = Move.of(Piece.PAWN, Square.E2, Square.E4, null, false, false);
-        Move e7e5 = Move.of(Piece.PAWN, Square.E7, Square.E5, null, false, false);
-        Move d2d4 = Move.of(Piece.PAWN, Square.D2, Square.D4, null, false, false);
-        Move d7d5 = Move.of(Piece.PAWN, Square.D7, Square.D5, null, false, false);
+        int e2e4 = Move.create(Piece.PAWN, Square.E2, Square.E4);
+        int e7e5 = Move.create(Piece.PAWN, Square.E7, Square.E5);
+        int d2d4 = Move.create(Piece.PAWN, Square.D2, Square.D4);
+        int d7d5 = Move.create(Piece.PAWN, Square.D7, Square.D5);
         try {
             positions.put(Position.START, Arrays.asList(new BookMove(e2e4, 50), new BookMove(d2d4, 50)));
             positions.put(Position.of(new String[]{"e2e4"}), singletonList(new BookMove(e7e5, 100)));
@@ -162,12 +162,12 @@ public class OpeningBook {
      * @param position A chess game position.
      * @return One of the possible moves found, or {@code null} if no move was found.
      */
-    public Move findBestMove(Position position) {
+    public int findBestMove(Position position) {
         List<BookMove> moves = positions.get(position);
 
         // If no book moves are known for this position
         if (moves == null) {
-            return null;
+            return 0;
         }
 
         // Make a random decision on which move to make
@@ -184,9 +184,9 @@ public class OpeningBook {
      * @param value A value between 0 and 99 (inclusive).
      * @return The chosen move, or {@code null} if no move was found.
      */
-    public static Move findMoveInList(final List<BookMove> moves, final int value) {
+    public static int findMoveInList(final List<BookMove> moves, final int value) {
         if (moves.isEmpty()) {
-            return null;
+            return 0;
         } else if (value < moves.get(0).getWeight()) {
             return moves.get(0).getMove();
         } else {

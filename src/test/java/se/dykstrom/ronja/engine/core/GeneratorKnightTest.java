@@ -20,17 +20,14 @@ package se.dykstrom.ronja.engine.core;
 import org.junit.Test;
 import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Piece;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import java.util.List;
-
-import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static se.dykstrom.ronja.test.SizeMatcher.hasSize;
+import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
 
 /**
  * This class is for testing knight moves with the generator classes using JUnit.
@@ -52,17 +49,17 @@ public class GeneratorKnightTest extends AbstractTestCase {
      */
     @Test
     public void testPositionStart() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_START));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_START), 0);
 
-        List<Move> moves = MOVE_GENERATOR.getAllKnightMoves();
-        assertThat(moves, hasSize(4));
-        assertThat(moves, hasItems(Move.of(Piece.KNIGHT, Square.B1, Square.A3, null, false, false),
-                                   Move.of(Piece.KNIGHT, Square.B1, Square.C3, null, false, false),
-                                   Move.of(Piece.KNIGHT, Square.G1, Square.F3, null, false, false),
-                                   Move.of(Piece.KNIGHT, Square.G1, Square.H3, null, false, false)));
+        MOVE_GENERATOR.generateKnightMoves();
+        assertThat(MOVE_GENERATOR.getMoveIndex(), is(4));
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KNIGHT, Square.B1, Square.A3),
+                                             Move.create(KNIGHT, Square.B1, Square.C3),
+                                             Move.create(KNIGHT, Square.G1, Square.F3),
+                                             Move.create(KNIGHT, Square.G1, Square.H3));
     }
 
-    // TODO: Add more tests for class MoveGenerator.
+    // TODO: Add more tests for class FullMoveGenerator.
 
     // -----------------------------------------------------------------------
 

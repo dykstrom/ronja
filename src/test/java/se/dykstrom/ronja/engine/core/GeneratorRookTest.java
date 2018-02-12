@@ -19,15 +19,13 @@ package se.dykstrom.ronja.engine.core;
 
 import org.junit.Test;
 import se.dykstrom.ronja.common.model.Color;
-import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import java.util.List;
-
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.assertThat;
 
 /**
  * This class is for testing rook moves with the generator classes using JUnit.
@@ -47,14 +45,14 @@ public class GeneratorRookTest extends AbstractTestCase {
      */
     @Test
     public void testPositionStart() throws Exception {
-        MOVE_GENERATOR.setup(FenParser.parse(FEN_START));
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_START), 0);
 
         // There should be no moves in this position
-        List<Move> moves = MOVE_GENERATOR.getAllRookMoves();
-        assertEquals(0, moves.size());
+        MOVE_GENERATOR.generateRookMoves();
+        assertThat(MOVE_GENERATOR.getMoveIndex(), is(0));
     }
 
-    // TODO: Add more tests for class MoveGenerator.
+    // TODO: Add more tests for class FullMoveGenerator.
 
     // ------------------------------------------------------------------------
 
