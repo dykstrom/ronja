@@ -43,16 +43,15 @@ In the next dialog, set the type of the engine to Winboard. That's it!
 
 ## Description
 
-Ronja is my first try to write a chess engine. It is written entirely 
-in Java, and has its own opening book. It implements some of the
-commonly seen features of chess engines:
+Ronja is written entirely in Java, and has its own opening book. It 
+implements a few of the commonly seen features of chess engines:
 
-* Incremental move generation
 * Iterative deepening
 * Alpha-beta pruning
+* Move ordering
 
 Ronja is designed in an object-oriented way, with classes representing 
-moves, positions, and other entities. This probably slows the engine
-down, and so may be changed in the future.
+positions, and other entities. This makes the engine rather slow, and
+so may be changed in the future.
 
 [![Build Status](https://travis-ci.org/dykstrom/ronja.svg?branch=master)](https://travis-ci.org/dykstrom/ronja)
