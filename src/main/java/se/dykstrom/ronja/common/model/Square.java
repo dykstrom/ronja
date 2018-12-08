@@ -95,7 +95,6 @@ public class Square {
     public static final long E8 = 1L << 60L;
     public static final long F8 = 1L << 61L;
     public static final long G8 = 1L << 62L;
-    @SuppressWarnings("NumericOverflow")
     public static final long H8 = 1L << 63L;
 
     private static final String SQUARES =

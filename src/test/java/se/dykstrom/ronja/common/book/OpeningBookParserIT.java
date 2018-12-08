@@ -17,25 +17,22 @@
 
 package se.dykstrom.ronja.common.book;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static se.dykstrom.ronja.test.SizeMatcher.hasSize;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.text.ParseException;
-import java.util.List;
-
-import org.junit.BeforeClass;
 import org.junit.Test;
-
+import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.CanParser;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 import se.dykstrom.ronja.test.TestUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.util.List;
+
+import static org.junit.Assert.*;
+import static se.dykstrom.ronja.test.SizeMatcher.hasSize;
 
 /**
  * This class is for integration testing class {@code OpeningBookParser} using JUnit.
@@ -45,23 +42,14 @@ import se.dykstrom.ronja.test.TestUtils;
  */
 public class OpeningBookParserIT extends AbstractTestCase {
 
-    private static File bookFile;
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-        bookFile = TestUtils.createBookFile();
-    }
-
-    // ------------------------------------------------------------------------
-
     @Test
-    public void testOpeningBookParser_ValidFile() throws Exception {
-        OpeningBook book = OpeningBookParser.parse(bookFile);
+    public void shouldParseValidFile() throws Exception {
+        OpeningBook book = OpeningBookParser.parse(TestUtils.createBookFile());
         assertEquals(4, book.size());
 
         List<BookMove> moves = book.findAllMoves(FenParser.parse(FEN_START));
         assertEquals(1, moves.size());
-        assertEquals("e2e4", CanParser.format(moves.get(0).getMove()));
+        assertEquals(MOVE_E2E4, moves.get(0).getMove());
 
         moves = book.findAllMoves(FenParser.parse(FEN_E4));
         assertThat(moves, hasSize(2));
@@ -74,96 +62,69 @@ public class OpeningBookParserIT extends AbstractTestCase {
     }
 
     @Test(expected = ParseException.class)
-    public void testOpeningBookParser_InvalidFile_MissingTag() throws Exception {
-        File file = File.createTempFile("ronja_tag_", ".xml");
+    public void shouldNotParseSyntaxError() throws Exception {
+        File file = File.createTempFile("ronja_syntax_", ".csv");
         file.deleteOnExit();
 
-        try (PrintStream out = new PrintStream(file, "ISO-8859-1")) {
-            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
-            out.println("<move can='' weight='' name='Initial position'>");
-            out.println("  <move can='e2e4' weight='100'>");
-            out.println("    <move can='e7e6' weight='100'/>");
-            out.println("</move>");
+        try (PrintStream out = new PrintStream(file, StandardCharsets.UTF_8)) {
+            out.println("foo");
         }
 
-        OpeningBook book = OpeningBookParser.parse(file);
-        assertNull(book);
+        OpeningBookParser.parse(file);
     }
 
     @Test
-    public void testOpeningBookParser_InvalidFile_MissingAttribute() throws Exception {
-        File file = File.createTempFile("ronja_attribute_", ".xml");
+    public void shouldNotIncludeInvalidMove() throws Exception {
+        // Given
+        File file = File.createTempFile("ronja_move_", ".csv");
         file.deleteOnExit();
 
-        try (PrintStream out = new PrintStream(file, "ISO-8859-1")) {
-            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
-            out.println("<move can='' weight='' name='Initial position'>");
-            out.println("  <move weight='100'>"); // Missing can
-            out.println("    <move can='e7e6' weight='100'/>");
-            out.println("  </move>");
-            out.println("  <move can='d2d4' weight='100'/>");
-            out.println("</move>");
+        try (PrintStream out = new PrintStream(file, StandardCharsets.UTF_8)) {
+            out.println(";foo/100;Initial position");
         }
 
+        // When
         OpeningBook book = OpeningBookParser.parse(file);
-        assertEquals(1, book.size()); // Initial position
+
+        // Then
+        assertEquals(1, book.size());
+        assertEquals(0, book.findAllMoves(Position.START).size());
     }
 
     @Test
-    public void testOpeningBookParser_InvalidFile_InvalidMove() throws Exception {
-        File file = File.createTempFile("ronja_move_", ".xml");
+    public void shouldNotIncludeInvalidWeight() throws Exception {
+        // Given
+        File file = File.createTempFile("ronja_weight_", ".csv");
         file.deleteOnExit();
 
-        try (PrintStream out = new PrintStream(file, "ISO-8859-1")) {
-            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
-            out.println("<move can='' weight='' name='Initial position'>");
-            out.println("  <move can='e2e4' weight='100'>");
-            out.println("    <move can='e6d6' weight='100'/>"); // Invalid move
-            out.println("  </move>");
-            out.println("  <move can='d2d4' weight='100'/>");
-            out.println("</move>");
+        try (PrintStream out = new PrintStream(file, StandardCharsets.UTF_8)) {
+            out.println(";e2e4/foo;Initial position");
         }
 
+        // When
         OpeningBook book = OpeningBookParser.parse(file);
-        assertEquals(2, book.size()); // Initial position and position after e2e4
-    }
 
-    @Test(expected = ParseException.class)
-    public void testOpeningBookParser_InvalidFile_InvalidWeight() throws Exception {
-        File file = File.createTempFile("ronja_tag_", ".xml");
-        file.deleteOnExit();
-
-        try (PrintStream out = new PrintStream(file, "ISO-8859-1")) {
-            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
-            out.println("<move can='' weight='' name='Initial position'>");
-            out.println("  <move can='e2e4' weight='foo'>"); // Invalid weight
-            out.println("    <move can='e7e6' weight='100'/>");
-            out.println("  </move>");
-            out.println("</move>");
-        }
-
-        OpeningBook book = OpeningBookParser.parse(file);
-        assertNull(book);
+        // Then
+        assertEquals(1, book.size());
+        assertEquals(0, book.findAllMoves(Position.START).size());
     }
 
     @Test
-    public void testOpeningBookParser_EmptyFile() throws Exception {
-        File file = File.createTempFile("ronja_empty_", ".xml");
+    public void shouldParseEmptyFile() throws Exception {
+        // Given
+        File file = File.createTempFile("ronja_empty_", ".csv");
         file.deleteOnExit();
 
-        try (PrintStream out = new PrintStream(file, "ISO-8859-1")) {
-            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
-            out.println("<move can='' weight='' name='Initial position'>");
-            out.println("</move>");
-        }
-
+        // When
         OpeningBook book = OpeningBookParser.parse(file);
+
+        // Then
         assertEquals(0, book.size());
     }
 
     @Test(expected = IOException.class)
-    public void testOpeningBookParser_NoFile() throws Exception {
-        OpeningBook book = OpeningBookParser.parse(new File("foo.xml"));
+    public void shouldThrowExceptionWhenMissingFile() throws Exception {
+        OpeningBook book = OpeningBookParser.parse(new File("does_not_exist.csv"));
         assertNull(book);
     }
 }

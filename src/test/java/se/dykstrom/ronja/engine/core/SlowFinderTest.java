@@ -71,7 +71,7 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_DrawInFive() throws Exception {
-        Integer actual = findBestMoveWithDepth(FEN_DRAW_2_0, 5);
+        int actual = findBestMoveWithDepth(FEN_DRAW_2_0, 5);
         assertEquals(Piece.PAWN, Move.getPiece(actual));
         assertEquals(Square.B7, Move.getFrom(actual));
         assertEquals(Square.B8, Move.getTo(actual));

@@ -35,12 +35,12 @@ import se.dykstrom.ronja.test.AbstractTestCase;
 public class ArrayUtilsTest extends AbstractTestCase {
 
     @Test
-    public void shouldConvertEmptyList() throws Exception {
+    public void shouldConvertEmptyList() {
         assertArrayEquals(new int[0], ArrayUtils.toArray(Collections.emptyList()));
     }
 
     @Test
-    public void shouldConvertList() throws Exception {
+    public void shouldConvertList() {
         assertArrayEquals(new int[] {1, 2, 3}, ArrayUtils.toArray(Arrays.asList(1, 2, 3)));
     }
 }

@@ -17,22 +17,19 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import static org.hamcrest.CoreMatchers.both;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import org.junit.Test;
-
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.test.AbstractTestCase;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * This class is for testing class {@code PgnParser} using JUnit.
@@ -44,7 +41,7 @@ public class PgnParserTest extends AbstractTestCase {
 
     private static final LocalDateTime DATE = LocalDateTime.of(2016, 2, 18, 14, 31, 0);
 
-    private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DF = DateTimeFormatter.ISO_LOCAL_DATE;
     private static final DateTimeFormatter TF = DateTimeFormatter.ofPattern("HH:mm");
 
     private final Game game = new Game(OpeningBook.DEFAULT);
