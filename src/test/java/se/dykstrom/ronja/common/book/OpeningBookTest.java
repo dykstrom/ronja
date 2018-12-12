@@ -46,7 +46,7 @@ import se.dykstrom.ronja.test.AbstractTestCase;
 public class OpeningBookTest extends AbstractTestCase {
 
     @Test
-    public void testConvertWeightsToPercent() throws Exception {
+    public void testConvertWeightsToPercent() {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 100);
         BookMove bookMove1 = new BookMove(MOVE_D2D4, 50);
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 50);
@@ -57,7 +57,7 @@ public class OpeningBookTest extends AbstractTestCase {
     }
 
     @Test
-    public void testConvertWeightsToPercent_SingleMove() throws Exception {
+    public void testConvertWeightsToPercent_SingleMove() {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 30);
         List<BookMove> bookMoves = new ArrayList<>(Collections.singletonList(bookMove0));
 
@@ -66,7 +66,7 @@ public class OpeningBookTest extends AbstractTestCase {
     }
 
     @Test
-    public void testConvertWeightsToPercent_TotalAlready100() throws Exception {
+    public void testConvertWeightsToPercent_TotalAlready100() {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 30);
         BookMove bookMove1 = new BookMove(MOVE_D2D4, 40);
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 30);
@@ -77,7 +77,7 @@ public class OpeningBookTest extends AbstractTestCase {
     }
 
     @Test
-    public void testConvertWeightsToPercent_RoundingError() throws Exception {
+    public void testConvertWeightsToPercent_RoundingError() {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 100);
         BookMove bookMove1 = new BookMove(MOVE_D2D4, 100);
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 100);
@@ -88,7 +88,7 @@ public class OpeningBookTest extends AbstractTestCase {
     }
 
     @Test
-    public void testConvertWeightsToPercent_SmallWeights() throws Exception {
+    public void testConvertWeightsToPercent_SmallWeights() {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 100);
         BookMove bookMove1 = new BookMove(MOVE_D2D4, 1);
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 1);
@@ -99,7 +99,7 @@ public class OpeningBookTest extends AbstractTestCase {
     }
 
     @Test
-    public void testConvertWeightsToPercent_SomeWeights0() throws Exception {
+    public void testConvertWeightsToPercent_SomeWeights0() {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 0);
         BookMove bookMove1 = new BookMove(MOVE_D2D4, 140);
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 40);
@@ -137,7 +137,7 @@ public class OpeningBookTest extends AbstractTestCase {
     }
 
     @Test
-    public void testFindMoveInList() throws Exception {
+    public void testFindMoveInList() {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 30);
         BookMove bookMove1 = new BookMove(MOVE_D2D4, 40);
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 30);
@@ -152,7 +152,7 @@ public class OpeningBookTest extends AbstractTestCase {
     }
 
     @Test
-    public void testFindMoveInList_SingleMove() throws Exception {
+    public void testFindMoveInList_SingleMove() {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 100);
         List<BookMove> bookMoves = Collections.singletonList(bookMove0);
 
@@ -162,7 +162,7 @@ public class OpeningBookTest extends AbstractTestCase {
     }
 
     @Test
-    public void testFindMoveInList_AllMoves0() throws Exception {
+    public void testFindMoveInList_AllMoves0() {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 0);
         BookMove bookMove1 = new BookMove(MOVE_D2D4, 0);
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 0);
@@ -174,7 +174,7 @@ public class OpeningBookTest extends AbstractTestCase {
     }
 
     @Test
-    public void testFindMoveInList_SingleMove0() throws Exception {
+    public void testFindMoveInList_SingleMove0() {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 0);
         List<BookMove> bookMoves = Collections.singletonList(bookMove0);
 
@@ -184,7 +184,7 @@ public class OpeningBookTest extends AbstractTestCase {
     }
 
     @Test
-    public void testFindMoveInList_SomeMoves0() throws Exception {
+    public void testFindMoveInList_SomeMoves0() {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 30);
         BookMove bookMove1 = new BookMove(MOVE_D2D4, 0);
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 40);
@@ -201,7 +201,7 @@ public class OpeningBookTest extends AbstractTestCase {
     }
 
     @Test
-    public void testFindMoveInList_SmallWeights() throws Exception {
+    public void testFindMoveInList_SmallWeights() {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 30);
         BookMove bookMove1 = new BookMove(MOVE_D2D4, 1);
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 1);

@@ -17,8 +17,6 @@
 
 package se.dykstrom.ronja.common.model;
 
-import java.util.List;
-
 /**
  * Contains constants and methods related to the chess board.
  *
@@ -37,15 +35,26 @@ public class Board {
     public static final long FILE_H = Square.H1 + Square.H2 + Square.H3 + Square.H4 + Square.H5 + Square.H6 + Square.H7 + Square.H8;
 
     /** Rank constants. */
-    public static final long RANK_1 = Square.A1 +  Square.B1 + Square.C1 + Square.D1 + Square.E1 + Square.F1 + Square.G1 + Square.H1;
-    public static final long RANK_2 = Square.A2 +  Square.B2 + Square.C2 + Square.D2 + Square.E2 + Square.F2 + Square.G2 + Square.H2;
-    public static final long RANK_3 = Square.A3 +  Square.B3 + Square.C3 + Square.D3 + Square.E3 + Square.F3 + Square.G3 + Square.H3;
-    public static final long RANK_4 = Square.A4 +  Square.B4 + Square.C4 + Square.D4 + Square.E4 + Square.F4 + Square.G4 + Square.H4;
-    public static final long RANK_5 = Square.A5 +  Square.B5 + Square.C5 + Square.D5 + Square.E5 + Square.F5 + Square.G5 + Square.H5;
-    public static final long RANK_6 = Square.A6 +  Square.B6 + Square.C6 + Square.D6 + Square.E6 + Square.F6 + Square.G6 + Square.H6;
-    public static final long RANK_7 = Square.A7 +  Square.B7 + Square.C7 + Square.D7 + Square.E7 + Square.F7 + Square.G7 + Square.H7;
-    public static final long RANK_8 = Square.A8 +  Square.B8 + Square.C8 + Square.D8 + Square.E8 + Square.F8 + Square.G8 + Square.H8;
+    public static final long RANK_1 = Square.A1 + Square.B1 + Square.C1 + Square.D1 + Square.E1 + Square.F1 + Square.G1 + Square.H1;
+    public static final long RANK_2 = Square.A2 + Square.B2 + Square.C2 + Square.D2 + Square.E2 + Square.F2 + Square.G2 + Square.H2;
+    public static final long RANK_3 = Square.A3 + Square.B3 + Square.C3 + Square.D3 + Square.E3 + Square.F3 + Square.G3 + Square.H3;
+    public static final long RANK_4 = Square.A4 + Square.B4 + Square.C4 + Square.D4 + Square.E4 + Square.F4 + Square.G4 + Square.H4;
+    public static final long RANK_5 = Square.A5 + Square.B5 + Square.C5 + Square.D5 + Square.E5 + Square.F5 + Square.G5 + Square.H5;
+    public static final long RANK_6 = Square.A6 + Square.B6 + Square.C6 + Square.D6 + Square.E6 + Square.F6 + Square.G6 + Square.H6;
+    public static final long RANK_7 = Square.A7 + Square.B7 + Square.C7 + Square.D7 + Square.E7 + Square.F7 + Square.G7 + Square.H7;
+    public static final long RANK_8 = Square.A8 + Square.B8 + Square.C8 + Square.D8 + Square.E8 + Square.F8 + Square.G8 + Square.H8;
 
+    private static final long[][] RANKS = {
+            {Square.A1, Square.B1, Square.C1, Square.D1, Square.E1, Square.F1, Square.G1, Square.H1},
+            {Square.A2, Square.B2, Square.C2, Square.D2, Square.E2, Square.F2, Square.G2, Square.H2},
+            {Square.A3, Square.B3, Square.C3, Square.D3, Square.E3, Square.F3, Square.G3, Square.H3},
+            {Square.A4, Square.B4, Square.C4, Square.D4, Square.E4, Square.F4, Square.G4, Square.H4},
+            {Square.A5, Square.B5, Square.C5, Square.D5, Square.E5, Square.F5, Square.G5, Square.H5},
+            {Square.A6, Square.B6, Square.C6, Square.D6, Square.E6, Square.F6, Square.G6, Square.H6},
+            {Square.A7, Square.B7, Square.C7, Square.D7, Square.E7, Square.F7, Square.G7, Square.H7},
+            {Square.A8, Square.B8, Square.C8, Square.D8, Square.E8, Square.F8, Square.G8, Square.H8}
+    };
+    
     /**
      * Returns the file (a = 1, b = 2, ..., h = 8) of the given square.
      */
@@ -71,33 +80,14 @@ public class Board {
      * Returns the square ID at the given file and rank.
      */
     public static long getSquareId(int file, int rank) {
-        return getSquaresInRank(rank).get(file - 1);
+        return getSquaresInRank(rank)[file - 1];
     }
 
     /**
-     * Returns a list of all squares that belong to the given rank (1-8).
+     * Returns an array of all squares that belong to the given rank (1-8).
      */
-    public static List<Long> getSquaresInRank(int rank) {
-        switch (rank) {
-        case 1:
-            return Square.bitboardToIds(RANK_1);
-        case 2:
-            return Square.bitboardToIds(RANK_2);
-        case 3:
-            return Square.bitboardToIds(RANK_3);
-        case 4:
-            return Square.bitboardToIds(RANK_4);
-        case 5:
-            return Square.bitboardToIds(RANK_5);
-        case 6:
-            return Square.bitboardToIds(RANK_6);
-        case 7:
-            return Square.bitboardToIds(RANK_7);
-        case 8:
-            return Square.bitboardToIds(RANK_8);
-        default:
-            throw new IllegalArgumentException("invalid rank: " + rank);
-        }
+    public static long[] getSquaresInRank(int rank) {
+        return RANKS[rank - 1];
     }
 
     /**

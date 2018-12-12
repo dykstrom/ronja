@@ -120,13 +120,17 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_Profiler() throws Exception {
-        int waitTime = 1000;
+        int waitTime = 15000;
         System.out.println("Waiting " + (waitTime / 1000) + " seconds...");
         Thread.sleep(waitTime);
         System.out.println("Starting test...");
         long start = System.currentTimeMillis();
-        assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_0, 5));
-        assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 5));
+        assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_0, 6));
+        System.out.println("Finished step 1");
+        assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 6));
+        System.out.println("Finished step 2");
+        assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_2, 6));
+        System.out.println("Finished step 3");
         long stop = System.currentTimeMillis();
         System.out.println("Finished test after " + ((stop - start) / 1000.0) + " seconds");
     }
@@ -136,5 +140,22 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     private int findBestMoveWithDepth(String fen, int maxDepth) throws ParseException {
         return finder.findBestMove(FenParser.parse(fen), maxDepth);
+    }
+
+    public static void main(String[] args) throws Exception {
+        SlowFinderTest test = new SlowFinderTest();
+        int waitTime = 1000;
+        System.out.println("Waiting " + (waitTime / 1000) + " seconds...");
+        Thread.sleep(waitTime);
+        System.out.println("Starting test...");
+        long start = System.currentTimeMillis();
+        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_0, 6));
+        System.out.println("Finished step 1");
+        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 6));
+        System.out.println("Finished step 2");
+        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_2, 6));
+        System.out.println("Finished step 3");
+        long stop = System.currentTimeMillis();
+        System.out.println("Finished test after " + ((stop - start) / 1000.0) + " seconds");
     }
 }

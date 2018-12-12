@@ -17,8 +17,8 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.parser.SanParser;
 import se.dykstrom.ronja.engine.time.TimeUtils;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
 
@@ -79,7 +79,7 @@ public class AlphaBetaFinder extends AbstractFinder {
                 maxDepth++;
                 long startTimeForDepth = System.currentTimeMillis();
                 bestMove = findBestMove(position, maxDepth, numberOfMoves, remainingTime);
-                if (DEBUG) TLOG.fine("Best move at depth " + maxDepth + " is " + bestMove);
+                if (DEBUG) TLOG.fine("Best move at depth " + maxDepth + " is " + formatMove(position, bestMove));
                 searchTimes.add(System.currentTimeMillis() - startTimeForDepth);
                 long usedTime = System.currentTimeMillis() - startTime;
                 remainingTime = maxTime - usedTime;
@@ -101,7 +101,7 @@ public class AlphaBetaFinder extends AbstractFinder {
     @Override
     public int findBestMove(Position position, int maxDepth) {
         int numberOfMoves = fullMoveGenerator.generateMoves(position, 0);
-        return findBestMove(position, maxDepth, numberOfMoves, 10000);
+        return findBestMove(position, maxDepth, numberOfMoves, 50000);
     }
 
     /**
@@ -134,14 +134,14 @@ public class AlphaBetaFinder extends AbstractFinder {
 
             // If this move is the best yet
             if (score > alpha) {
-                if (DEBUG) TLOG.finest(stay(position, 0) + ", score = " + score + ", new best move = " + move);
+                if (DEBUG) TLOG.finest(stay(position, 0) + ", score = " + score + ", new best move = " + formatMove(position, move));
                 bestMove = move;
                 alpha = score;
             }
         }
 
-        if (DEBUG) TLOG.finest(leave(position, 0) + ", score = " + alpha + ", best move = " + bestMove);
-        TLOG.fine("Returning best move " + Move.toString(bestMove) + " with score " + alpha + " for max depth " + maxDepth);
+        if (DEBUG) TLOG.finest(leave(position, 0) + ", score = " + alpha + ", best move = " + formatMove(position, bestMove));
+        TLOG.fine("Returning best move " + formatMove(position, bestMove) + " with score " + alpha + " for max depth " + maxDepth);
         return bestMove;
     }
 
@@ -240,7 +240,7 @@ public class AlphaBetaFinder extends AbstractFinder {
             }
         }
 
-        if (DEBUG) TLOG.finest(leave(position, depth) + ", score = " + alpha + ", best move = " + bestMove);
+        if (DEBUG) TLOG.finest(leave(position, depth) + ", score = " + alpha + ", best move = " + formatMove(position, bestMove));
         return alpha;
     }
 
@@ -263,5 +263,12 @@ public class AlphaBetaFinder extends AbstractFinder {
      */
     private void sort(FullMoveGenerator moveGenerator, int depth, int numberOfMoves) {
         SortUtils.sort(moveGenerator.moves[depth], numberOfMoves);
+    }
+
+    /**
+     * Formats the given move.
+     */
+    private String formatMove(Position position, int move) {
+        return SanParser.format(position, move);
     }
 }

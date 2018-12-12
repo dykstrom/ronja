@@ -17,23 +17,19 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.junit.Test;
-
 import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Piece;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
 
 /**
  * This class is for testing pawn moves with the generator classes using JUnit.
@@ -47,8 +43,6 @@ public class GeneratorPawnTest extends AbstractTestCase {
     private static final FullMoveGenerator MOVE_GENERATOR = new FullMoveGenerator();
 
     private static final AttackGenerator ATTACK_GENERATOR = new AttackGenerator();
-
-    private List<Long> squares;
 
     // ------------------------------------------------------------------------
 
@@ -72,13 +66,12 @@ public class GeneratorPawnTest extends AbstractTestCase {
         MOVE_GENERATOR.setup(FenParser.parse(FEN_WEP_E5D6), 0);
 
         // There should be no normal pawn moves
-        squares = MOVE_GENERATOR.getNormalPawnMoves(Square.E5);
-        assertEquals(0, squares.size());
+        int count = MOVE_GENERATOR.getNormalPawnMoves(Square.E5);
+        assertEquals(0, count);
 
         // There should be one 'en passant' move: exd6 e.p.
-        squares = MOVE_GENERATOR.getEnPassantPawnMoves(Square.E5);
-        assertEquals(1, squares.size());
-        assertEquals(Square.D6, squares.get(0).longValue());
+        long square = MOVE_GENERATOR.getEnPassantPawnMove(Square.E5);
+        assertEquals(Square.D6, square);
     }
 
     /**
@@ -89,14 +82,13 @@ public class GeneratorPawnTest extends AbstractTestCase {
         MOVE_GENERATOR.setup(FenParser.parse(FEN_BEP_D4C3), 0);
 
         // There should be one normal move: d3
-        squares = MOVE_GENERATOR.getNormalPawnMoves(Square.D4);
-        assertEquals(1, squares.size());
-        assertEquals(Square.D3, squares.get(0).longValue());
+        int count = MOVE_GENERATOR.getNormalPawnMoves(Square.D4);
+        assertEquals(1, count);
+        // We cannot check the move, because it is stored in a private field
 
         // There should be one 'en passant' move: dxc3 e.p.
-        squares = MOVE_GENERATOR.getEnPassantPawnMoves(Square.D4);
-        assertEquals(1, squares.size());
-        assertEquals(Square.C3, squares.get(0).longValue());
+        long square = MOVE_GENERATOR.getEnPassantPawnMove(Square.D4);
+        assertEquals(Square.C3, square);
     }
 
 	/**

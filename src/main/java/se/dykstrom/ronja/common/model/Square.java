@@ -109,22 +109,30 @@ public class Square {
 
     // ------------------------------------------------------------------------
 
+    public static final int MAX_SQUARES = 64;
+
+    public static final long[] SQUARE_IDS = new long[MAX_SQUARES];
+
     /**
-     * Returns a list of square IDs representing the squares that are occupied in the given bitboard.
-     * <p>
-     * Example: bitboardToIds(Square.A1 | Square.B1) returns [Square.A1, Square.B1].
+     * Stores the square IDs of the occupied squares in the given bitboard in the array {@link #SQUARE_IDS},
+     * and returns the number of square IDs found in the bitboard.
+     *
+     * Example: bitboardToIds(Square.A1 | Square.B1) will store [Square.A1, Square.B1] in the array, and return 2.
+     *
+     * @param bitboard The bitboard to split into square IDs.
+     * @return The number of square IDs found in the bitboard.
      */
-    public static List<Long> bitboardToIds(long bitboard) {
-        List<Long> result = new ArrayList<>();
+    public static int bitboardToIds(long bitboard) {
+        int count = 0;
 
         for (long b = bitboard; b != 0;) {
             int index = Long.numberOfTrailingZeros(b);
             long id = 1L << index;
-            result.add(id);
+            SQUARE_IDS[count++] = id;
             b &= ~id;
         }
 
-        return result;
+        return count;
     }
 
     // ------------------------------------------------------------------------

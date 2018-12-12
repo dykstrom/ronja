@@ -75,7 +75,7 @@ public class PgnParserTest extends AbstractTestCase {
     }
 
     @Test
-    public void testFormat_NewGame() throws Exception {
+    public void testFormat_NewGame() {
         LocalDateTime now = LocalDateTime.now();
         String contents = PgnParser.format(game);
         assertThat(contents, both(containsString("[Event \"Chess Game\"]"))
@@ -141,7 +141,7 @@ public class PgnParserTest extends AbstractTestCase {
     }
 
     @Test
-    public void testGetShortResult() throws Exception {
+    public void testGetShortResult() {
         assertEquals("*", PgnParser.getShortResult(game));
         game.setResult("1-0");
         assertEquals("1-0", PgnParser.getShortResult(game));

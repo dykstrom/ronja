@@ -69,7 +69,7 @@ public class CanParserTest extends AbstractTestCase {
     // -----------------------------------------------------------------------
 
     @Test
-    public void testFormatSimple() throws Exception {
+    public void testFormatSimple() {
         assertEquals("a7a5", CanParser.format(Move.create(PAWN, Square.A7, Square.A5)));
         assertEquals("d5c4", CanParser.format(Move.createCapture(PAWN, Square.D5, Square.C4, QUEEN)));
         assertEquals("f6e4", CanParser.format(Move.create(KNIGHT, Square.F6, Square.E4)));
@@ -77,7 +77,7 @@ public class CanParserTest extends AbstractTestCase {
     }
 
     @Test
-    public void testFormatPromotion() throws Exception {
+    public void testFormatPromotion() {
         assertEquals("e7f8b", CanParser.format(Move.createPromotion(Square.E7, Square.F8, BISHOP)));
         assertEquals("e7f8r", CanParser.format(Move.createPromotion(Square.E7, Square.F8, ROOK)));
         assertEquals("a2a1n", CanParser.format(Move.createPromotion(Square.A2, Square.A1, KNIGHT)));
@@ -85,7 +85,7 @@ public class CanParserTest extends AbstractTestCase {
     }
 
     @Test
-    public void testFormatCastling() throws Exception {
+    public void testFormatCastling() {
         assertEquals("e1g1", CanParser.format(Move.createCastling(Square.E1, Square.G1)));
         assertEquals("e1f1", CanParser.format(Move.createCastling(Square.E1, Square.F1)));
         assertEquals("e8g8", CanParser.format(Move.createCastling(Square.E8, Square.G8)));
@@ -93,7 +93,7 @@ public class CanParserTest extends AbstractTestCase {
     }
 
     @Test
-    public void testFormatEnPassant() throws Exception {
+    public void testFormatEnPassant() {
         assertEquals("e5d6", CanParser.format(Move.createEnPassant(Square.E5, Square.D6)));
         assertEquals("d2d4", CanParser.format(Move.createEnPassant(Square.D2, Square.D4)));
         assertEquals("d4c3", CanParser.format(Move.createEnPassant(Square.D4, Square.C3)));
