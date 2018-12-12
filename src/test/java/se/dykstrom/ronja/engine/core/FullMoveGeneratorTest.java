@@ -116,7 +116,6 @@ public class FullMoveGeneratorTest extends AbstractTestCase {
      * Asserts that the list of actual moves contains the same moves as the array of expected moves.
      *
      * @param expectedMoves An array of expected moves, in CAN format.
-     * @param actualMoves The list of actual moves to check.
      */
     private void assertMoves(String[] expectedMoves) {
         int moveIndex = MOVE_GENERATOR.getMoveIndex();

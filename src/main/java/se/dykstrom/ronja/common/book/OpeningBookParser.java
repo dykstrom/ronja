@@ -17,42 +17,26 @@
 
 package se.dykstrom.ronja.common.book;
 
-import static java.util.stream.Collectors.toSet;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.*;
-import java.util.logging.Logger;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.IllegalMoveException;
 import se.dykstrom.ronja.common.parser.MoveParser;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.text.ParseException;
+import java.util.*;
+import java.util.logging.Logger;
+
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
+
 /**
- * A class for parsing the Ronja opening book file. The opening book file should
- * be an XML file containing a tree of 'move' elements that represent the moves
- * in the different opening lines. The moves are specified in coordinate
- * algebraic notation, and are associated with a weight. A move with weight 0
- * will never be played, but it can still have sub moves in the opening line
- * tree. This is an example of an opening book file:
- *
- * <?xml version="1.0" encoding="ISO-8859-1"?>
- *
- * <move can="" weight="">
- *     <move can="e2e4" weight="100" name="King's Pawn Opening">
- *         <move can="e7e5" weight="100">
- *             <move can="g1f3" weight="100"/>
- *         </move>
- *         <move can="e7e6" weight="100">
- *             <move can="d2d4" weight="100"/>
- *         </move>
- *     </move>
- * </move>
+ * A class for parsing the Ronja opening book file. The opening book file is a CSV file
+ * containing one line for each opening line. Each line contains three fields separated
+ * by semicolons: a number of moves leading to a position, a book move and its weight,
+ * and a comment describing the position after the book move.
  *
  * @author Johan Dykstrom
  */
@@ -60,40 +44,28 @@ public class OpeningBookParser {
 
     private static final Logger TLOG = Logger.getLogger(OpeningBookParser.class.getName());
 
-    /** Positions and corresponding moves. */
-    private static Map<Position, List<BookMove>> positions;
-
-    // ------------------------------------------------------------------------
-
     /**
      * Loads the opening book file.
      *
      * @param file The opening book file.
      * @return The opening book.
-     * @throws ParseException If the opening book file cannot be loaded.
+     * @throws IOException If the opening book file cannot be read.
      * @throws ParseException If the opening book file cannot be parsed.
      */
     public static OpeningBook parse(File file) throws IOException, ParseException {
-        positions = new HashMap<>();
+        Map<Position, List<BookMove>> positions;
 
         long start = System.currentTimeMillis();
         try {
-            JAXBContext context = JAXBContext.newInstance(XmlBookMove.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            XmlBookMove topMove = (XmlBookMove) unmarshaller.unmarshal(file);
-            for (XmlBookMove move : topMove.getSubMoves()) {
-                parseMove(new LinkedList<>(), move);
-            }
-        } catch (JAXBException e) {
-            TLOG.severe("Failed to load file '" + file.getName() + "': " + e);
-            if (e.getLinkedException() instanceof IOException) {
-                throw (IOException) e.getLinkedException();
-            } else {
-                throw new ParseException("Failed to load file '" + file.getName() + "'", 0);
-            }
-        } catch (NumberFormatException e) {
-            TLOG.severe("Failed to load file '" + file.getName() + "': " + e);
-            throw new ParseException("Failed to load file '" + file.getName() + "'", 0);
+            // Read all lines and remove empty lines and comments
+            List<String> lines = Files.lines(file.toPath())
+                    .map(String::trim)
+                    .filter(line -> !line.isEmpty() && !line.startsWith("#"))
+                    .collect(toList());
+            positions = parseLines(lines);
+        } catch (IOException e) {
+            TLOG.severe("Failed to open file '" + file.getName() + "': " + e);
+            throw e;
         }
         long stop = System.currentTimeMillis();
         TLOG.info("Loaded opening book in " + (stop - start) + " ms");
@@ -106,51 +78,51 @@ public class OpeningBookParser {
     }
 
     /**
-     * Parses a move, adds it to the opening book as a possible move in the
-     * current position, and parses all sub moves recursively. If the given
-     * move is invalid, this move and all of its sub moves are ignored, but
-     * the rest of the opening book is still read.
+     * Parses all non-empty lines that were read from the opening book file.
      *
-     * @param moves The list of moves made so far in this opening line.
-     * @param xmlMove An XML move read from the opening book file.
+     * @param lines The opening lines to parse.
+     * @return A map of positions and book moves.
      */
-    private static void parseMove(LinkedList<String> moves, XmlBookMove xmlMove) {
-        // Get attribute values
-        String move = xmlMove.getCan();
-        int weight = xmlMove.getWeight();
+    static Map<Position, List<BookMove>> parseLines(List<String> lines) throws ParseException {
+        Map<Position, List<BookMove>> positions = new HashMap<>();
 
-        // Add this move to the opening book
-        try {
-            add(moves, move, weight);
-        } catch (IllegalMoveException ime) {
-            TLOG.warning("Illegal move [" + move + ", " + weight + "] in opening line " + moves + ": " + ime);
-            return;
+        for (String line : lines) {
+            String[] fields = line.split(";", -1);
+            if (fields.length != 3) {
+                throw new ParseException("Syntax error on line '" + line + "'", 0);
+            }
+
+            String[] moves = fields[0].trim().split(" ");
+            String bookMove = fields[1].trim();
+            // Ignore the comment field
+
+            // Create book position from available moves
+            Position position;
+            try {
+                if (moves.length == 1 && moves[0].isBlank()) {
+                    position = Position.START;
+                } else {
+                    position = Position.of(asList(moves));
+                }
+            } catch (IllegalMoveException e) {
+                TLOG.warning("Illegal move in opening line " + Arrays.toString(moves) + ": " + e);
+                continue;
+            }
+
+            // Get/create the list of possible moves for this position
+            List<BookMove> list = positions.computeIfAbsent(position, key -> new ArrayList<>());
+
+            // Create book move and add to list
+            try {
+                String[] moveAndWeight = bookMove.split(("/"));
+                list.add(new BookMove(MoveParser.parse(moveAndWeight[0], position), Integer.parseInt(moveAndWeight[1])));
+            } catch (IllegalMoveException e) {
+                TLOG.warning("Illegal move in opening line " + Arrays.toString(moves) + ": " + bookMove);
+            } catch (NumberFormatException e) {
+                TLOG.warning("Illegal weight in opening line " + Arrays.toString(moves) + ": " + bookMove);
+            }
         }
 
-        // If we could add this move OK, continue to parse each sub move recursively
-        moves.addLast(move);
-        for (XmlBookMove subMove : xmlMove.getSubMoves()) {
-            parseMove(moves, subMove);
-        }
-        moves.removeLast();
-    }
-
-    /**
-     * Adds the supplied move as a possible move in the current position.
-     *
-     * @param moves The list of moves made so far in this opening line.
-     * @param move The move to add, in coordinate algebraic notation.
-     * @param weight The weight of the move in this position.
-     * @throws IllegalMoveException If any of the moves in the move list, or the new move, is illegal.
-     */
-    private static void add(List<String> moves, String move, int weight) throws IllegalMoveException {
-        // Set up a new position
-        Position position = Position.of(moves);
-
-        // Get the list of possible moves for this position
-        List<BookMove> list = positions.computeIfAbsent(position, key -> new ArrayList<>());
-
-        // Create the new move and add it to the list
-        list.add(new BookMove(MoveParser.parse(move, position), weight));
+        return positions;
     }
 }

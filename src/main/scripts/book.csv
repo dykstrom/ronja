@@ -1,0 +1,1354 @@
+# Copyright (C) 2018 Johan Dykstrom
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;a2a3/0;A00 Anderssen Opening
+a2a3;e7e5/100;
+
+;a2a4/0;A00 Ware Opening
+a2a4;e7e5/100;
+
+;b1a3/0;A00 Durkin's Attack
+b1a3;e7e5/100;
+
+;b1c3/0;A00 Dunst Opening
+b1c3;d7d5/100;
+
+;b2b3/0;A01 Nimzovich-Larsen Attack
+b2b3;e7e5/100;
+
+;b2b4/0;A00 Sokolsky Opening
+b2b4;e7e5/100;
+
+;c2c3/0;A00 Saragossa Opening
+c2c3;d7d5/100;
+
+;c2c4/0;A10 English Opening
+c2c4;g8f6/100;A15 English Opening, Anglo-Indian Defence
+c2c4 g8f6;b1c3/100;
+c2c4 g8f6 b1c3;g7g6/100;
+c2c4 g8f6 b1c3;e7e6/100;
+c2c4;e7e5/100;A20 English Opening
+c2c4 e7e5;b1c3/100;
+c2c4 e7e5 b1c3;g8f6/100;
+c2c4 e7e5 b1c3;b8c6/100;
+
+;d2d3/0;A00 Mieses Opening
+d2d3;d7d5/100;
+
+;d2d4/50;A40 Queen's Pawn Opening
+d2d4;d7d5/100;D00 Queen's Pawn Game
+d2d4 d7d5;c2c4/100;D06 Queen's Gambit
+d2d4 d7d5 c2c4;e7e6/100;D30 Queen's Gambit Declined
+d2d4 d7d5 c2c4 e7e6;g1f3/100;
+d2d4 d7d5 c2c4 e7e6 g1f3;g8f6/100;
+d2d4 d7d5 c2c4 e7e6 g1f3 g8f6;b1c3/100;
+d2d4 d7d5 c2c4 e7e6;b1c3/100;
+d2d4 d7d5 c2c4 e7e6 b1c3;g8f6/100;
+d2d4 d7d5 c2c4 e7e6 b1c3 g8f6;c1g5/100;
+d2d4 d7d5 c2c4 e7e6 b1c3;c7c6/100;
+d2d4 d7d5 c2c4 e7e6 b1c3 c7c6;g1f3/100;
+d2d4 d7d5 c2c4;c7c6/100;D10 Queen's Gambit Declined, Slav Defence
+d2d4 d7d5 c2c4 c7c6;g1f3/100;
+d2d4 d7d5 c2c4 c7c6 g1f3;g8f6/100;
+d2d4 d7d5 c2c4 c7c6 g1f3 g8f6;b1c3/100;
+d2d4 d7d5 c2c4 c7c6;b1c3/50;
+d2d4 d7d5 c2c4 c7c6 b1c3;g8f6/100;
+d2d4 d7d5 c2c4 c7c6 b1c3 g8f6;g1f3/100;
+d2d4 d7d5 c2c4 c7c6 b1c3 g8f6;e2e3/100;
+d2d4 d7d5 c2c4;d5c4/50;D20 Queen's Gambit Accepted
+d2d4 d7d5 c2c4 d5c4;g1f3/100;
+d2d4 d7d5 c2c4 d5c4 g1f3;g8f6/100;
+d2d4 d7d5 c2c4 d5c4 g1f3 g8f6;e2e3/100;
+d2d4 d7d5 c2c4 d5c4 g1f3 g8f6 e2e3;e7e6/100;
+d2d4 d7d5 c2c4 d5c4 g1f3 g8f6 e2e3 e7e6;f1c4/100;
+d2d4 d7d5;g1f3/100;
+d2d4 d7d5 g1f3;g8f6/100;
+d2d4 d7d5 g1f3 g8f6;c2c4/100;
+d2d4;g8f6/100;A45 Queen's Pawn Game
+d2d4 g8f6;c2c4/100;
+d2d4 g8f6 c2c4;e7e6/150;
+d2d4 g8f6 c2c4 e7e6;b1c3/100;
+d2d4 g8f6 c2c4 e7e6 b1c3;f8b4/100;E20 Nimzo-Indian Defence
+d2d4 g8f6 c2c4 e7e6 b1c3 f8b4;e2e3/100;
+d2d4 g8f6 c2c4 e7e6 b1c3 f8b4;d1c2/100;E32 Nimzo-Indian, Classical Variation
+d2d4 g8f6 c2c4 e7e6;g1f3/100;
+d2d4 g8f6 c2c4 e7e6 g1f3;b7b6/42;E12 Queen's Indian Defence
+d2d4 g8f6 c2c4 e7e6 g1f3 b7b6;g2g3/100;E15 Queen's Indian, 4.g3
+d2d4 g8f6 c2c4 e7e6 g1f3 b7b6 g2g3;c8a6/100;
+d2d4 g8f6 c2c4 e7e6 g1f3 b7b6 g2g3 c8a6;b2b3/100;
+d2d4 g8f6 c2c4 e7e6 g1f3 b7b6 g2g3;c8b7/100;
+d2d4 g8f6 c2c4 e7e6 g1f3 b7b6 g2g3 c8b7;f1g2/100;
+d2d4 g8f6 c2c4 e7e6 g1f3;d7d5/23;
+d2d4 g8f6 c2c4 e7e6 g1f3 d7d5;b1c3/100;
+d2d4 g8f6 c2c4 e7e6 g1f3;f8b4/18;E11 Bogo-Indian Defence
+d2d4 g8f6 c2c4 e7e6 g1f3 f8b4;c1d2/100;
+d2d4 g8f6 c2c4 e7e6 g1f3;c7c5/11;
+d2d4 g8f6 c2c4 e7e6 g1f3 c7c5;d4d5/100;
+d2d4 g8f6 c2c4;g7g6/150;E60 King's Indian Defence
+d2d4 g8f6 c2c4 g7g6;b1c3/100;
+d2d4 g8f6 c2c4 g7g6 b1c3;f8g7/88;
+d2d4 g8f6 c2c4 g7g6 b1c3 f8g7;e2e4/100;E70 King's Indian, 4.e4
+d2d4 g8f6 c2c4 g7g6 b1c3 f8g7 e2e4;d7d6/100;
+d2d4 g8f6 c2c4 g7g6 b1c3 f8g7 e2e4 d7d6;g1f3/100;
+d2d4 g8f6 c2c4 g7g6 b1c3 f8g7 e2e4 d7d6 g1f3;e8g8/100;
+d2d4 g8f6 c2c4 g7g6 b1c3 f8g7 e2e4 d7d6;f2f3/100;E80 King's Indian, Saemisch Variation
+d2d4 g8f6 c2c4 g7g6 b1c3 f8g7 e2e4 d7d6 f2f3;e8g8/100;
+d2d4 g8f6 c2c4 g7g6 b1c3 f8g7 e2e4 d7d6;g1f3/100;
+d2d4 g8f6 c2c4 g7g6 b1c3 f8g7 e2e4 d7d6 g1f3;e8g8/100;
+d2d4 g8f6 c2c4 g7g6 b1c3;d7d5/37;D80 Gruenfeld Defence
+d2d4 g8f6 c2c4 g7g6 b1c3 d7d5;c4d5/100;
+d2d4 g8f6 c2c4 g7g6 b1c3 d7d5 c4d5;f6d5/100;D85 Gruenfeld, Exchange Variation
+d2d4 g8f6 c2c4 g7g6 b1c3 d7d5 c4d5 f6d5;e2e4/100;
+d2d4 g8f6 c2c4 g7g6 b1c3 d7d5;g1f3/100;D90 Gruenfeld, Three Knights Variation
+d2d4 g8f6 c2c4;c7c5/50;A56 Benoni Defence
+d2d4 g8f6 c2c4 c7c5;d4d5/100;
+d2d4 g8f6;g1f3/100;
+d2d4 g8f6 g1f3;g7g6/100;A48 King's Indian, East Indian Defence
+d2d4 g8f6 g1f3 g7g6;c2c4/100;E60 King's Indian, 3.Nf3
+d2d4 g8f6 g1f3 g7g6 c2c4;f8g7/100;
+d2d4 g8f6 g1f3 g7g6 c2c4 f8g7;b1c3/100;
+d2d4 g8f6 g1f3 g7g6 c2c4 f8g7;g2g3/100;
+d2d4 g8f6 g1f3;e7e6/100;
+d2d4 g8f6 g1f3 e7e6;c2c4/100;
+d2d4 g8f6 g1f3 e7e6 c2c4;b7b6/100;E12 Queen's Indian Defence
+d2d4;e7e6/50;A40 Queen's Pawn Game
+d2d4 e7e6;c2c4/100;
+d2d4 e7e6;g1f3/100;
+d2d4 e7e6;e2e4/100;C00 French Defence
+d2d4 e7e6 e2e4;d7d5/100;
+d2d4;f7f5/10;A80 Dutch
+d2d4 f7f5;g2g3/110;
+d2d4 f7f5 g2g3;g8f6/100;
+d2d4 f7f5 g2g3 g8f6;f1g2/100;
+d2d4 f7f5;c2c4/80;
+d2d4 f7f5 c2c4;g8f6/100;
+d2d4 f7f5 c2c4 g8f6;b1c3/100;
+d2d4 f7f5;g1f3/60;
+d2d4 f7f5 g1f3;g8f6/100;
+d2d4 f7f5 g1f3 g8f6;g2g3/100;
+d2d4;g7g6/0;A40 Modern Defence
+d2d4 g7g6;c2c4/100;
+d2d4 g7g6 c2c4;f8g7/100;
+d2d4 g7g6 c2c4 f8g7;b1c3/100;
+d2d4 g7g6 c2c4 f8g7 b1c3;d7d6/100;
+d2d4 g7g6 c2c4 f8g7 b1c3 d7d6;e2e4/100;
+d2d4;d7d6/0;A41 Queen's Pawn Game
+d2d4 d7d6;g1f3/100;
+d2d4 d7d6;c2c4/100;A41 Old Indian Defence
+d2d4 d7d6 c2c4;e7e5/100;
+d2d4 d7d6 c2c4 e7e5;g1f3/100;
+d2d4 d7d6 c2c4 e7e5;d4e5/50;
+d2d4 d7d6;e2e4/100;
+d2d4 d7d6 e2e4;g8f6/100;
+d2d4 d7d6 e2e4 g8f6;b1c3/100;B07 Pirc Defence
+d2d4 d7d6 e2e4;g7g6/100;
+d2d4 d7d6 e2e4 g7g6;b1c3/100;
+d2d4;c7c5/0;A43 Old Benoni Defence
+d2d4 c7c5;d4d5/100;
+
+;e2e3/0;A00 Van't Kruijs Opening
+e2e3;e7e5/100;
+e2e3 e7e5;d2d4/100;
+e2e3 e7e5 d2d4;e5d4/100;
+e2e3 e7e5;c2c4/100;
+e2e3 e7e5 c2c4;g8f6/100;
+e2e3;d7d5/100;
+e2e3 d7d5;b2b3/100;
+e2e3 d7d5 b2b3;g8f6/100;
+e2e3 d7d5;c2c4/100;
+e2e3 d7d5 c2c4;g8f6/100;
+
+;e2e4/100;B00 King's Pawn Opening
+e2e4;e7e5/100;C20 King's Pawn Game
+e2e4 e7e5;g1f3/100;C40 King's Knight Opening
+e2e4 e7e5 g1f3;b8c6/100;Queen's Knight Variation
+e2e4 e7e5 g1f3 b8c6;f1b5/100;C60 Ruy Lopez
+e2e4 e7e5 g1f3 b8c6 f1b5;a7a6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6;b5a4/100;C70 Ruy Lopez
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4;g8f6/100;C77 Ruy Lopez, Morphy Defence
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6;e1g1/100;C78 Ruy Lopez, 5.O-O
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1;f8e7/40;C84 Ruy Lopez, Closed Defence
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7;f1e1/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1;b7b5/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5;a4b3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3;e8g8/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8;h2h3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1;b7b5/10;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 b7b5;a4b3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1;f6e4/7;C80 Ruy Lopez, Open Defence
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f6e4;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f6e4 d2d4;b7b5/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f6e4 d2d4 b7b5;a4b3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6;d2d3/0;C77 Ruy Lopez, Anderssen Variation
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 d2d3;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 d2d3 d7d6;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 d2d3;b7b5/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 d2d3 b7b5;a4b3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4;d7d6/0;C71 Ruy Lopez, Modern Steinitz Defence
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 d7d6;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 d7d6 c2c3;c8d7/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 d7d6 c2c3 c8d7;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 d7d6 c2c3 c8d7;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 d7d6;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 d7d6 e1g1;c8d7/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 d7d6 e1g1 c8d7;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 d7d6;a4c6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 d7d6 a4c6;b7c6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 d7d6 a4c6 b7c6;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4;b7b5/0;C70 Ruy Lopez, Caro Variation
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 b7b5;a4b3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 b7b5 a4b3;g8f6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 b7b5 a4b3 g8f6;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 b7b5 a4b3;c6a5/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 b7b5 a4b3 c6a5;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6;b5c6/100;C68 Ruy Lopez, Exchange Variation
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6;d7c6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1;f7f6/100;C69 Ruy Lopez, Exchange, Gligoric Variation
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f7f6;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f7f6 d2d4;e5d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f7f6 d2d4 e5d4;f3d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f7f6 d2d4 e5d4 f3d4;c6c5/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f7f6 d2d4 e5d4 f3d4 c6c5;d4b3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f7f6 d2d4;c8g4/50;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f7f6 d2d4 c8g4;d4e5/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f7f6 d2d4 c8g4 d4e5;d8d1/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f7f6 d2d4 c8g4 d4e5 d8d1;f1d1/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f7f6 d2d4 c8g4 d4e5 d8d1 f1d1;f6e5/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f7f6 d2d4 c8g4;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f7f6 d2d4 c8g4 c2c3;f8d6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f7f6 d2d4 c8g4 c2c3 f8d6;c1e3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f7f6 d2d4 c8g4 c2c3 f8d6 c1e3;g8e7/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f7f6 d2d4 c8g4 c2c3 f8d6 c1e3;d8e7/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1;c8g4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 c8g4;h2h3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1;d8d6/50;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 d8d6;b1a3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 d8d6;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1;f8d6/50;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 e1g1 f8d6;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6;b1c3/30;C68 Ruy Lopez, Exchange, Keres Variation
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 b1c3;f7f6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 b1c3 f7f6;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 b1c3;f8d6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 b1c3 f8d6;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6;d2d4/30;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 d2d4;e5d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 d2d4 e5d4;d1d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 d2d4 e5d4 d1d4;d8d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6 d2d4 e5d4 d1d4 d8d4;f3d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5;g8f6/15;C65 Ruy Lopez, Berlin Defence
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6;e1g1/100;C65 Ruy Lopez, Berlin Defence, 4.O-O
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1;f6e4/100;C67 Ruy Lopez, Berlin Defence, Open Variation
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f6e4;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f6e4 d2d4;e4d6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f6e4 d2d4 e4d6;b5c6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f6e4;f1e1/20;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f6e4 f1e1;e4d6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f6e4 f1e1 e4d6;f3e5/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6;d2d3/30;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3 d7d6;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3 d7d6 c2c3;g7g6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3 d7d6 c2c3;f8e7/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3 d7d6 c2c3;c8d7/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3 d7d6;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3 d7d6 e1g1;g7g6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3 d7d6 e1g1;f8e7/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3 d7d6 e1g1;c8d7/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3;f8c5/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3 f8c5;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3 f8c5 c2c3;e8g8/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3 f8c5;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3 f8c5 e1g1;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3 f8c5;b5c6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 d2d3 f8c5 b5c6;d7c6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5;f7f5/5;C63 Ruy Lopez, Schliemann Defence
+e2e4 e7e5 g1f3 b8c6 f1b5 f7f5;b1c3/100;C63 Ruy Lopez, Schliemann Defence, Berger Variation
+e2e4 e7e5 g1f3 b8c6 f1b5 f7f5 b1c3;f5e4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 f7f5 b1c3 f5e4;c3e4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 f7f5 b1c3 f5e4 c3e4;d7d5/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 f7f5 b1c3 f5e4 c3e4 d7d5;f3e5/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 f7f5 b1c3 f5e4 c3e4;g8f6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 f7f5 b1c3 f5e4 c3e4 g8f6;d1e2/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 f7f5 b1c3 f5e4 c3e4 g8f6;e4f6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 f7f5;d2d3/50;
+e2e4 e7e5 g1f3 b8c6 f1b5 f7f5 d2d3;f5e4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 f7f5 d2d3 f5e4;d3e4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 f7f5 d2d3 f5e4 d3e4;g8f6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 f7f5 d2d3 f5e4 d3e4 g8f6;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1b5;d7d6/0;C62 Ruy Lopez, Old Steinitz Defence
+e2e4 e7e5 g1f3 b8c6 f1b5 d7d6;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 d7d6 d2d4;c8d7/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 d7d6 d2d4 c8d7;b1c3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 d7d6 d2d4 c8d7;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 d7d6 d2d4;e5d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 d7d6 d2d4 e5d4;f3d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 d7d6;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 d7d6 e1g1;c8d7/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 d7d6 e1g1 c8d7;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 d7d6 e1g1;g8f6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 d7d6 e1g1 g8f6;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 d7d6 e1g1 g8f6;f1e1/100;
+e2e4 e7e5 g1f3 b8c6 f1b5;f8c5/0;C64 Ruy Lopez, Classical Defence
+e2e4 e7e5 g1f3 b8c6 f1b5 f8c5;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 f8c5 e1g1;c6d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 f8c5 e1g1 c6d4;f3d4/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 f8c5 e1g1;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 f8c5 e1g1 d7d6;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 f1b5 f8c5 e1g1;g8f6/100;C65 Ruy Lopez, Berlin Defence, Beverwijk Variation
+e2e4 e7e5 g1f3 b8c6 f1b5 f8c5 e1g1 g8f6;c2c3/100;
+e2e4 e7e5 g1f3 b8c6;f1c4/100;C50 Italian Game
+e2e4 e7e5 g1f3 b8c6 f1c4;f8c5/100;C50 Giuoco Piano
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3;g8f6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 g8f6;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 g8f6 d2d4;e5d4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 g8f6 d2d4 e5d4;c3d4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 g8f6 d2d4 e5d4;e4e5/50;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 g8f6;d2d3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 g8f6 d2d3;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 g8f6 d2d3 d7d6;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 g8f6 d2d3;a7a6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 g8f6 d2d3 a7a6;c4b3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3;d7d6/10;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 d7d6;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 d7d6 d2d4;e5d4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 d7d6 d2d4 e5d4;c3d4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3;d8e7/10;C53 Giuoco Piano, Close Variation
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 d8e7;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 d8e7 e1g1;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 d8e7 e1g1 d7d6;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5;d2d3/50;C50 Giuoco Pianissimo
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3;g8f6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 c2c3;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 c2c3 d7d6;c4b3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 c2c3 d7d6;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 c2c3;a7a6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 c2c3 a7a6;c4b3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 c2c3 a7a6;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 c2c3;e8g8/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 c2c3 e8g8;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6;b1c3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 b1c3;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 b1c3 d7d6;c1g5/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 b1c3;h7h6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 b1c3 h7h6;c1e3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 b1c3 h7h6;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 b1c3;e8g8/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 b1c3 e8g8;c1g5/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 e1g1;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 e1g1 d7d6;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 e1g1;e8g8/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 e1g1 e8g8;c1g5/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6;c1g5/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 c1g5;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 c1g5 d7d6;h2h3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 c1g5 d7d6;b1c3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 c1g5;h7h6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6 c1g5 h7h6;g5h4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 d7d6;b1c3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 d7d6 b1c3;c8g4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 d7d6 b1c3 c8g4;h2h3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5;e1g1/50;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1;g8f6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6;d2d3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3;e8g8/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 e8g8;c1g5/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6;b1c3/50;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 b1c3;e8g8/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 b1c3 e8g8;d2d3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 b1c3;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 b1c3 d7d6;d2d3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 b1c3 d7d6;h2h3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6;d2d4/50;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d4;c5d4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d4 c5d4;f3d4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d4;e5d4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d4 e5d4;e4e5/100;
+e2e4 e7e5 g1f3 b8c6 f1c4;g8f6/100;C55 Two Knights Defence
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6;d2d3/100;C55 Two Knights Defence (Modern Bishop's Opening)
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 d2d3;f8e7/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 d2d3 f8e7;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 d2d3 f8e7 e1g1;e8g8/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 d2d3 f8e7 e1g1 e8g8;f1e1/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 d2d3;f8c5/100;C50 Giuoco Pianissimo
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 d2d3;h7h6/50;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 d2d3 h7h6;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 d2d3 h7h6 e1g1;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 d2d3 h7h6 e1g1 d7d6;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6;f3g5/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 f3g5;d7d5/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 f3g5 d7d5;e4d5/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 f3g5 d7d5 e4d5;c6a5/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 f3g5 d7d5 e4d5 c6a5;c4b5/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 f3g5 d7d5 e4d5;f6d5/50;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 f3g5 d7d5 e4d5 f6d5;g5f7/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6;b1c3/100;C46 Four Knights, Italian Variation
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 b1c3;f8c5/100;C50 Giuoco Piano, Four Knights Variation
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 b1c3;f6e4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 b1c3 f6e4;c3e4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 b1c3 f6e4 c3e4;d7d5/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 b1c3 f6e4 c3e4 d7d5;c4d5/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 b1c3 f6e4 c3e4 d7d5;c4d3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 b1c3 f6e4;c4f7/50;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 b1c3 f6e4 c4f7;e8f7/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 b1c3 f6e4 c4f7 e8f7;c3e4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 d2d4;e5d4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 d2d4 e5d4;e4e5/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 d2d4 e5d4;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1c4;f8e7/0;C50 Hungarian Defence
+e2e4 e7e5 g1f3 b8c6 f1c4 f8e7;d2d4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8e7 d2d4;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8e7 d2d4 d7d6;d4e5/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8e7 d2d4;e5d4/100;C44 Scotch Gambit, Benima Defence
+e2e4 e7e5 g1f3 b8c6 f1c4 f8e7 d2d4 e5d4;f3d4/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8e7 d2d4 e5d4;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8e7;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8e7 e1g1;g8f6/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8e7 e1g1 g8f6;d2d3/100;
+e2e4 e7e5 g1f3 b8c6 f1c4 f8e7 e1g1 g8f6;b1c3/100;
+e2e4 e7e5 g1f3 b8c6;d2d4/30;C44 Scotch Opening
+e2e4 e7e5 g1f3 b8c6 d2d4;e5d4/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4;f3d4/100;C45 Scotch game
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4;f8c5/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 f8c5;c1e3/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 f8c5 c1e3;d8f6/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 f8c5 c1e3 d8f6;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 f8c5;d4c6/50;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 f8c5 d4c6;d8f6/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 f8c5 d4c6 d8f6;d1d2/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 f8c5 d4c6;b7c6/25;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 f8c5 d4c6 b7c6;f1d3/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 f8c5;d4b3/50;C45 Scotch, Potter Variation
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 f8c5 d4b3;c5b6/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 f8c5 d4b3 c5b6;b1c3/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4;g8f6/100;C45 Scotch, Schmidt Variation
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 g8f6;d4c6/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 g8f6 d4c6;b7c6/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 g8f6 d4c6 b7c6;e4e5/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 g8f6;b1c3/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 g8f6 b1c3;f8b4/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 g8f6 b1c3 f8b4;d4c6/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4;c6d4/50;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 c6d4;d1d4/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 c6d4 d1d4;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 c6d4 d1d4 d7d6;b1c3/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 c6d4 d1d4 d7d6;f1c4/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 c6d4 d1d4;g8f6/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 c6d4 d1d4 g8f6;b1c3/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 c6d4 d1d4 g8f6;e4e5/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 c6d4 d1d4 g8f6;c1g5/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4;f1c4/30;C44 Scotch Gambit
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f1c4;g8f6/100;C44 Scotch Gambit, Dubois-Reti Defence
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f1c4 g8f6;e4e5/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f1c4 g8f6 e4e5;d7d5/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f1c4 g8f6 e4e5 d7d5;c4b5/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f1c4 g8f6;e1g1/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f1c4 g8f6 e1g1;f6e4/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f1c4 g8f6 e1g1 f6e4;f1e1/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f1c4;f8c5/50;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f1c4 f8c5;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f1c4 f8c5 c2c3;g8f6/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f1c4 f8c5 c2c3 g8f6;c3d4/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f1c4 f8c5;e1g1/50;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f1c4 f8c5 e1g1;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f1c4 f8c5 e1g1 d7d6;c2c3/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4;c2c3/10;C44 Scotch, Goering Gambit
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 c2c3;d4c3/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 c2c3 d4c3;f1c4/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 c2c3 d4c3 f1c4;d7d6/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 c2c3 d4c3 f1c4 d7d6;b1c3/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 c2c3 d4c3;b1c3/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 c2c3 d4c3 b1c3;f8b4/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 c2c3 d4c3 b1c3 f8b4;f1c4/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 c2c3;d7d5/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 c2c3 d7d5;e4d5/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 c2c3 d7d5 e4d5;d8d5/100;
+e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 c2c3 d7d5 e4d5 d8d5;c3d4/100;
+e2e4 e7e5 g1f3 b8c6;b1c3/30;C46 Three Knights Game
+e2e4 e7e5 g1f3;g8f6/10;C42 Petrov's Defence
+e2e4 e7e5 g1f3 g8f6;f3e5/100;
+e2e4 e7e5 g1f3 g8f6 f3e5;d7d6/100;
+e2e4 e7e5 g1f3 g8f6 f3e5 d7d6;e5f3/100;
+e2e4 e7e5 g1f3 g8f6 f3e5 d7d6 e5f3;f6e4/100;
+e2e4 e7e5 g1f3 g8f6 f3e5 d7d6 e5f3 f6e4;d2d4/100;C42 Petrov, Classical Attack
+e2e4 e7e5 g1f3 g8f6 f3e5 d7d6 e5f3 f6e4 d2d4;d6d5/100;
+e2e4 e7e5 g1f3 g8f6 f3e5 d7d6 e5f3 f6e4 d2d4 d6d5;f1d3/100;
+e2e4 e7e5 g1f3 g8f6 f3e5;d8e7/0;
+e2e4 e7e5 g1f3 g8f6 f3e5 d8e7;e5f3/100;
+e2e4 e7e5 g1f3 g8f6 f3e5 d8e7 e5f3;f6e4/100;
+e2e4 e7e5 g1f3 g8f6 f3e5 d8e7 e5f3 f6e4;f1e2/100;
+e2e4 e7e5 g1f3 g8f6 f3e5 d8e7 e5f3 f6e4;d1e2/100;
+e2e4 e7e5 g1f3 g8f6 f3e5 d8e7;d2d4/100;
+e2e4 e7e5 g1f3 g8f6 f3e5 d8e7 d2d4;d7d6/100;
+e2e4 e7e5 g1f3 g8f6 f3e5 d8e7 d2d4 d7d6;e5f3/100;
+e2e4 e7e5 g1f3 g8f6 f3e5;f6e4/0;C42 Petrov, Damiano Variation
+e2e4 e7e5 g1f3 g8f6 f3e5 f6e4;d1e2/100;
+e2e4 e7e5 g1f3 g8f6 f3e5 f6e4 d1e2;d8e7/100;
+e2e4 e7e5 g1f3 g8f6 f3e5 f6e4 d1e2 d8e7;e2e4/100;
+e2e4 e7e5 g1f3 g8f6;b1c3/50;C42 Petrov Three Knights Game
+e2e4 e7e5 g1f3;d7d6/0;C41 Philidor's Defence
+e2e4 e7e5 g1f3 d7d6;d2d4/100;
+e2e4 e7e5 g1f3 d7d6 d2d4;e5d4/100;C41 Philidor, Exchange Variation
+e2e4 e7e5 g1f3 d7d6 d2d4 e5d4;f3d4/100;
+e2e4 e7e5 g1f3 d7d6 d2d4;g8f6/50;C41 Philidor, Nimzovich Variation
+e2e4 e7e5 g1f3 d7d6 d2d4 g8f6;b1c3/100;
+e2e4 e7e5 g1f3 d7d6 d2d4 g8f6;d4e5/100;
+e2e4 e7e5 g1f3 d7d6 d2d4;b8d7/50;C41 Philidor, Hanham Variation
+e2e4 e7e5 g1f3 d7d6 d2d4 b8d7;f1c4/100;
+e2e4 e7e5;b1c3/10;C25 Vienna Game
+e2e4 e7e5 b1c3;g8f6/100;C26 Vienna, Falkbeer Variation
+e2e4 e7e5 b1c3 g8f6;f2f4/100;
+e2e4 e7e5 b1c3 g8f6 f2f4;d7d5/100;C29 Vienna Gambit
+e2e4 e7e5 b1c3 g8f6 f2f4 d7d5;f4e5/100;
+e2e4 e7e5 b1c3 g8f6 f2f4 d7d5 f4e5;f6e4/100;
+e2e4 e7e5 b1c3 g8f6 f2f4 d7d5 f4e5 f6e4;g1f3/100;
+e2e4 e7e5 b1c3 g8f6;f1c4/100;C26 Vienna Game
+e2e4 e7e5 b1c3 g8f6 f1c4;b8c6/100;
+e2e4 e7e5 b1c3 g8f6 f1c4 b8c6;d2d3/100;
+e2e4 e7e5 b1c3 g8f6 f1c4 b8c6 d2d3;f8b4/100;
+e2e4 e7e5 b1c3 g8f6 f1c4 b8c6 d2d3 f8b4;g1e2/100;
+e2e4 e7e5 b1c3 g8f6 f1c4;f8c5/100;
+e2e4 e7e5 b1c3 g8f6 f1c4 f8c5;d2d3/100;
+e2e4 e7e5 b1c3 g8f6 f1c4 f8c5 d2d3;d7d6/100;
+e2e4 e7e5 b1c3 g8f6 f1c4 f8c5 d2d3 d7d6;f2f4/100;
+e2e4 e7e5 b1c3 g8f6;g1f3/100;C42 Petrov Three Knights Game
+e2e4 e7e5 b1c3 g8f6 g1f3;b8c6/100;C46 Four Knights Game
+e2e4 e7e5 b1c3 g8f6 g1f3;f8b4/100;
+e2e4 e7e5 b1c3 g8f6 g1f3 f8b4;f3e5/100;
+e2e4 e7e5 b1c3 g8f6 g1f3 f8b4 f3e5;e8g8/100;
+e2e4 e7e5 b1c3 g8f6 g1f3 f8b4 f3e5 e8g8;f1e2/100;
+e2e4 e7e5 b1c3 g8f6 g1f3 f8b4;f1c4/100;
+e2e4 e7e5 b1c3 g8f6 g1f3 f8b4 f1c4;e8g8/100;
+e2e4 e7e5 b1c3 g8f6 g1f3 f8b4 f1c4 e8g8;e1g1/100;
+e2e4 e7e5 b1c3 g8f6;g2g3/100;C26 Vienna, Paulsen-Mieses Variation
+e2e4 e7e5 b1c3 g8f6 g2g3;d7d5/100;
+e2e4 e7e5 b1c3 g8f6 g2g3 d7d5;e4d5/100;
+e2e4 e7e5 b1c3 g8f6 g2g3 d7d5 e4d5;f6d5/100;
+e2e4 e7e5 b1c3 g8f6 g2g3 d7d5 e4d5 f6d5;f1g2/100;
+e2e4 e7e5 b1c3 g8f6 g2g3;f8c5/100;
+e2e4 e7e5 b1c3 g8f6 g2g3 f8c5;f1g2/100;
+e2e4 e7e5 b1c3 g8f6 g2g3 f8c5 f1g2;d7d6/100;
+e2e4 e7e5 b1c3 g8f6 g2g3 f8c5 f1g2 d7d6;g1e2/100;
+e2e4 e7e5 b1c3 g8f6 g2g3 f8c5 f1g2;b8c6/100;
+e2e4 e7e5 b1c3 g8f6 g2g3 f8c5 f1g2 b8c6;g1e2/100;
+e2e4 e7e5 b1c3 g8f6 g2g3 f8c5 f1g2;e8g8/100;
+e2e4 e7e5 b1c3 g8f6 g2g3 f8c5 f1g2 e8g8;g1e2/100;
+e2e4 e7e5 b1c3;b8c6/50;C25 Vienna Game, Max Lange Defence
+e2e4 e7e5 b1c3 b8c6;f1c4/100;
+e2e4 e7e5 b1c3 b8c6 f1c4;g8f6/150;C28 Vienna Game
+e2e4 e7e5 b1c3 b8c6 f1c4 g8f6;d2d3/100;
+e2e4 e7e5 b1c3 b8c6 f1c4 g8f6 d2d3;f8b4/100;
+e2e4 e7e5 b1c3 b8c6 f1c4 g8f6 d2d3 f8b4;g1e2/100;
+e2e4 e7e5 b1c3 b8c6 f1c4 g8f6 d2d3;c6a5/100;
+e2e4 e7e5 b1c3 b8c6 f1c4 g8f6 d2d3 c6a5;g1e2/100;
+e2e4 e7e5 b1c3 b8c6 f1c4 g8f6 d2d3;f8c5/100;
+e2e4 e7e5 b1c3 b8c6 f1c4 g8f6 d2d3 f8c5;f2f4/100;
+e2e4 e7e5 b1c3 b8c6 f1c4;f8c5/50;
+e2e4 e7e5 b1c3 b8c6 f1c4 f8c5;d1g4/100;
+e2e4 e7e5 b1c3 b8c6 f1c4 f8c5 d1g4;g7g6/100;
+e2e4 e7e5 b1c3 b8c6 f1c4 f8c5;d2d3/100;
+e2e4 e7e5 b1c3 b8c6 f1c4 f8c5 d2d3;d7d6/100;
+e2e4 e7e5 b1c3 b8c6;f2f4/50;C25 Vienna Gambit
+e2e4 e7e5 b1c3 b8c6 f2f4;e5f4/100;
+e2e4 e7e5 b1c3 b8c6 f2f4 e5f4;g1f3/100;
+e2e4 e7e5 b1c3 b8c6;g2g3/50;C25 Vienna, Paulsen Variation
+e2e4 e7e5 b1c3 b8c6 g2g3;f8c5/100;
+e2e4 e7e5 b1c3 b8c6 g2g3 f8c5;f1g2/100;
+e2e4 e7e5 b1c3 b8c6 g2g3;g8f6/100;
+e2e4 e7e5 b1c3 b8c6 g2g3 g8f6;f1g2/100;
+e2e4 e7e5 b1c3 b8c6;g1f3/50;C46 Three knights Game
+e2e4 e7e5 b1c3 b8c6 g1f3;g8f6/100;C46 Four knights Game
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6;f1b5/100;C48 Four Knights, Spanish Variation
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 f1b5;f8b4/100;C49 Four Knights, Double Ruy Lopez
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 f1b5 f8b4;e1g1/100;
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 f1b5 f8b4 e1g1;e8g8/100;
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 f1b5 f8b4 e1g1 e8g8;d2d3/100;
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 f1b5;c6d4/100;C48 Four Knights, Rubinstein Counter-gambit
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 f1b5 c6d4;b5a4/100;
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 f1b5 c6d4 b5a4;f8c5/100;
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 f1b5 c6d4 b5a4 f8c5;f3e5/100;
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 f1b5 c6d4;f3d4/100;
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 f1b5 c6d4 f3d4;e5d4/100;
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 f1b5 c6d4 f3d4 e5d4;e4e5/100;
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6;d2d4/100;C47 Four Knights, Scotch Variation
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 d2d4;e5d4/100;
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 d2d4 e5d4;f3d4/100;
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 d2d4 e5d4 f3d4;f8b4/100;
+e2e4 e7e5 b1c3 b8c6 g1f3 g8f6 d2d4 e5d4 f3d4 f8b4;d4c6/100;
+e2e4 e7e5;f2f4/10;C30 King's Gambit
+e2e4 e7e5 f2f4;e5f4/100;C33 King's Gambit Accepted
+e2e4 e7e5 f2f4 e5f4;g1f3/100;King's Knight Gambit
+e2e4 e7e5 f2f4 e5f4 g1f3;g7g5/100;
+e2e4 e7e5 f2f4 e5f4 g1f3 g7g5;h2h4/100;
+e2e4 e7e5 f2f4 e5f4 g1f3 g7g5;f1c4/100;
+e2e4 e7e5 f2f4 e5f4 g1f3;d7d5/50;C36 King's Gambit Accepted, Abbazia Defence
+e2e4 e7e5 f2f4 e5f4 g1f3 d7d5;e4d5/100;
+e2e4 e7e5 f2f4 e5f4 g1f3;d7d6/50;C34 King's Gambit Accepted, Fischer Defence
+e2e4 e7e5 f2f4 e5f4 g1f3 d7d6;d2d4/100;
+e2e4 e7e5 f2f4 e5f4 g1f3 d7d6;f1c4/100;
+e2e4 e7e5 f2f4 e5f4;f1c4/100;King's Bishop Gambit
+e2e4 e7e5 f2f4 e5f4 f1c4;g8f6/100;C33 King's Gambit Accepted, Bishop's Gambit, Cozio Defence
+e2e4 e7e5 f2f4 e5f4 f1c4 g8f6;b1c3/100;C33 King's Gambit Accepted, Bishop's Gambit, Bogolyubov Variation
+e2e4 e7e5 f2f4 e5f4 f1c4 g8f6 b1c3;c7c6/100;
+e2e4 e7e5 f2f4 e5f4 f1c4 g8f6 b1c3 c7c6;c4b3/100;
+e2e4 e7e5 f2f4 e5f4 f1c4 g8f6 b1c3 c7c6;d2d4/100;
+e2e4 e7e5 f2f4 e5f4 f1c4;d8h4/100;
+e2e4 e7e5 f2f4 e5f4 f1c4 d8h4;e1f1/100;
+e2e4 e7e5 f2f4 e5f4 f1c4 d8h4 e1f1;d7d6/100;
+e2e4 e7e5 f2f4 e5f4 f1c4 d8h4 e1f1 d7d6;g1f3/100;
+e2e4 e7e5 f2f4 e5f4 f1c4 d8h4 e1f1 d7d6;b1c3/100;
+e2e4 e7e5 f2f4 e5f4 f1c4;d7d5/100;C33 King's Gambit Accepted, Bishop's Gambit, Bledow Variation
+e2e4 e7e5 f2f4 e5f4 f1c4 d7d5;c4d5/100;
+e2e4 e7e5 f2f4 e5f4 f1c4 d7d5;e4d5/100;
+e2e4 e7e5 f2f4;f8c5/30;C30 King's Gambit Declined, Classical Variation
+e2e4 e7e5 f2f4 f8c5;g1f3/100;
+e2e4 e7e5 f2f4 f8c5 g1f3;d7d6/100;
+e2e4 e7e5 f2f4 f8c5 g1f3 d7d6;c2c3/100;
+e2e4 e7e5 f2f4 f8c5 g1f3 d7d6;f1c4/100;
+e2e4 e7e5 f2f4 f8c5 g1f3 d7d6;b1c3/100;
+e2e4 e7e5 f2f4;d7d5/30;C31 King's Gambit Declined, Falkbeer Counter-gambit
+e2e4 e7e5 f2f4 d7d5;e4d5/100;
+e2e4 e7e5 f2f4 d7d5 e4d5;e5e4/100;
+e2e4 e7e5 f2f4 d7d5 e4d5 e5e4;d2d3/100;
+e2e4 e7e5 f2f4 d7d5 e4d5 e5e4;b1c3/50;
+e2e4 e7e5 f2f4 d7d5 e4d5;e5f4/50;
+e2e4 e7e5 f2f4 d7d5 e4d5 e5f4;g1f3/100;
+e2e4 e7e5 f2f4 d7d5 e4d5;c7c6/50;C31 King's Gambit Declined, Nimzovich Counter-gambit
+e2e4 e7e5 f2f4 d7d5 e4d5 c7c6;b1c3/100;
+e2e4 e7e5 f2f4;d7d6/0;
+e2e4 e7e5 f2f4 d7d6;g1f3/100;
+e2e4 e7e5 f2f4 d7d6 g1f3;b8c6/100;
+e2e4 e7e5 f2f4 d7d6 g1f3 b8c6;f1c4/100;
+e2e4 e7e5 f2f4;b8c6/0;
+e2e4 e7e5 f2f4 b8c6;g1f3/100;
+e2e4 e7e5 f2f4 b8c6 g1f3;d7d6/100;
+e2e4 e7e5 f2f4 b8c6 g1f3 d7d6;f1c4/100;
+e2e4 e7e5;f1c4/0;C23 Bishop's Opening
+e2e4 e7e5 f1c4;g8f6/100;C24 Bishop's Opening, Berlin Defence
+e2e4 e7e5 f1c4 g8f6;d2d3/100;
+e2e4 e7e5 f1c4 g8f6 d2d3;b8c6/100;
+e2e4 e7e5 f1c4 g8f6 d2d3 b8c6;g1f3/100;C55 Two Knights Defence (Modern Bishop's Opening)
+e2e4 e7e5 f1c4 g8f6 d2d3 b8c6 g1f3;f8e7/100;
+e2e4 e7e5 f1c4 g8f6 d2d3 b8c6 g1f3;f8c5/100;C50 Giuoco Pianissimo
+e2e4 e7e5 f1c4 g8f6 d2d3 b8c6;b1c3/100;
+e2e4 e7e5 f1c4 g8f6 d2d3 b8c6 b1c3;f8b4/100;
+e2e4 e7e5 f1c4 g8f6 d2d3 b8c6 b1c3;c6a5/100;
+e2e4 e7e5 f1c4 g8f6 d2d3 b8c6 b1c3;f8c5/100;
+e2e4 e7e5;d2d4/0;
+e2e4 e7e5 d2d4;e5d4/100;C21 Centre Game
+e2e4 e7e5 d2d4 e5d4;d1d4/100;
+e2e4 e7e5 d2d4 e5d4 d1d4;b8c6/100;
+e2e4;e7e6/100;C00 French Defence
+e2e4 e7e6;d2d4/100;
+e2e4 e7e6 d2d4;d7d5/100;
+e2e4 e7e6 d2d4 d7d5;b1c3/75;C10 French Defence, Main Line
+e2e4 e7e6 d2d4 d7d5 b1c3;f8b4/100;C15 French, Winawer Variation
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4;e4e5/100;C17 French, Winawer, Advance Variation
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5;c7c5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5;a2a3/100;C17 French, Winawer, Advance, 5. a3
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3;b4c3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3;b2c3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3;d8c7/100;French, Winawer, 6... c7
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7;d1g4/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4;f7f5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4 f7f5;g4g3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4 f7f5 g4g3;b8c6/100;French, Winawer, Moskalenko Variation
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4 f7f5 g4g3 b8c6;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4 f7f5 g4g3 b8c6 g1f3;c5d4/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4 f7f5 g4g3 b8c6 g1f3 c5d4;c3d4/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4 f7f5 g4g3 b8c6 g1f3 c5d4 c3d4;g8e7/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4 f7f5 g4g3 b8c6 g1f3 c5d4 c3d4 g8e7;c1d2/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4 f7f5 g4g3 b8c6 g1f3 c5d4 c3d4 g8e7 c1d2;e8g8/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4 f7f5 g4g3 b8c6;f1e3/0;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4 f7f5 g4g3 b8c6 f1e3;c7a5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4 f7f5 g4g3 b8c6 f1e3 c7a5;c1d2/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4 f7f5 g4g3 b8c6 f1e3 c7a5 c1d2;g7g6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4 f7f5 g4g3;c5d4/50;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4 f7f5 g4g3 c5d4;c3d4/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 d8c7 d1g4 f7f5 g4g3 c5d4 c3d4;g8e7/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3;g8e7/50;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3;d8a5/50;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3;b4a5/10;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4a5;b2b4/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4a5 b2b4;c5d4/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5;c1d2/10;C17 French, Winawer, Advance, Bogolyubov Variation
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 c1d2;g8e7/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 c1d2 g8e7;c3b5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 c1d2 g8e7 c3b5;b4d2/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 c1d2 g8e7;a2a3/50;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 c1d2 g8e7 a2a3;b4c3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 c1d2;c5d4/50;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 c1d2 c5d4;c3b5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 c1d2 c5d4 c3b5;b4c5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 c1d2;b8c6/50;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 c1d2 b8c6;c3b5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 c1d2 b8c6 c3b5;b4d2/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5;d1g4/10;C17 French, Winawer, Advance, Russian Variation
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 d1g4;g8e7/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 d1g4 g8e7;d4c5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 d1g4 g8e7 d4c5;b8c6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5;g8e7/0;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 g8e7;a2a3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4;c1d2/0;
+e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 c1d2;d5e4/100;
+e2e4 e7e6 d2d4 d7d5 b1c3;g8f6/100;C11 French Defence, Classical Variation
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6;e4e5/100;C11 French, Steinitz Variation
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5;f6d7/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7;f2f4/80;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 f2f4;c7c5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 f2f4 c7c5;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 f2f4 c7c5 g1f3;b8c6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 f2f4 c7c5 g1f3 b8c6;c1e3/100;C11 French, Steinitz, Boleslavsky variation
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 f2f4 c7c5 g1f3 b8c6 c1e3;c5d4/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 f2f4 c7c5 g1f3 b8c6 c1e3 c5d4;f3d4/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 f2f4 c7c5 g1f3 b8c6 c1e3 c5d4 f3d4;f8c5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 f2f4 c7c5 g1f3 b8c6 c1e3;a7a6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 f2f4 c7c5 g1f3 b8c6 c1e3 a7a6;d1d2/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 f2f4 c7c5 g1f3 b8c6 c1e3 a7a6 d1d2;b7b5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7;c3e2/10;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 c3e2;c7c5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 c3e2 c7c5;c2c3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 c3e2 c7c5 c2c3;b8c6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7;g1f3/10;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 g1f3;c7c5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 g1f3 c7c5;d4c5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 e4e5 f6d7 g1f3 c7c5 d4c5;b8c6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6;c1g5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5;f8e7/70;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 f8e7;e4e5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 f8e7 e4e5;f6d7/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 f8e7 e4e5 f6d7;g5e7/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 f8e7 e4e5 f6d7 g5e7;d8e7/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 f8e7 e4e5 f6d7;h2h4/100;French, Alekhine-Chatard Attack
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 f8e7 e4e5 f6d7 h2h4;e7g5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 f8e7 e4e5 f6d7 h2h4 e7g5;h4g5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 f8e7 e4e5 f6d7 h2h4 e7g5 h4g5;d8g5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5;d5e4/60;C11 French, Burn Variation
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 d5e4;c3e4/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 d5e4 c3e4;f8e7/45;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 d5e4 c3e4 f8e7;g5f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 d5e4 c3e4 f8e7 g5f6;e7f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 d5e4 c3e4 f8e7 g5f6;g7f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 d5e4 c3e4;b8d7/15;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 d5e4 c3e4 b8d7;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 d5e4 c3e4 b8d7 g1f3;h7h6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5;f8b4/50;C12 French, MacCutcheon Variation
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 f8b4;e4e5/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 f8b4 e4e5;h7h6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 g8f6 c1g5 f8b4 e4e5 h7h6;g5d2/100;
+e2e4 e7e6 d2d4 d7d5 b1c3;d5e4/50;C10 French, Rubinstein Variation
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4;c3e4/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4;b8d7/70;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 b8d7;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 b8d7 g1f3;g8f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 b8d7 g1f3 g8f6;e4f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 b8d7 g1f3 g8f6 e4f6;d7f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 b8d7 g1f3 g8f6;c1g5/50;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 b8d7 g1f3 g8f6 c1g5;f8e7/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 b8d7 g1f3 g8f6 c1g5 f8e7;e4f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 b8d7 g1f3 g8f6 c1g5 f8e7 e4f6;e7f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 b8d7 g1f3 g8f6;f1d3/50;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 b8d7 g1f3 g8f6 f1d3;f6e4/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4;c8d7/35;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 c8d7;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 c8d7 g1f3;d7c6/100;C10 French, Fort Knox Variation
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 c8d7 g1f3 d7c6;f1d3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 c8d7 g1f3 d7c6 f1d3;b8d7/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 c8d7 g1f3 d7c6 f1d3 b8d7;e1g1/200;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 c8d7 g1f3 d7c6 f1d3 b8d7 e1g1;g8f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 c8d7 g1f3 d7c6 f1d3 b8d7;d1e2/50;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 c8d7 g1f3 d7c6 f1d3 b8d7 d1e2;g8f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4;g8f6/15;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6;e4f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 e4f6;d8f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 e4f6 d8f6;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 e4f6;g7f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 e4f6 g7f6;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6;c1g5/50;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5;f8e7/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 f8e7;g5f6/40;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 f8e7 g5f6;e7f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 f8e7 g5f6;g7f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 f8e7;e4f6/10;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 f8e7 e4f6;e7f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 f8e7 e4f6 e7f6;g5f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 f8e7 e4f6 e7f6 g5f6;d8f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5;b8d7/50;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 b8d7;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 b8d7 g1f3;h7h6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 b8d7 g1f3 h7h6;e4f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 b8d7 g1f3 h7h6 e4f6;d7f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 b8d7 g1f3;f8e7/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 b8d7 g1f3 f8e7;e4f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 b8d7 g1f3 f8e7 e4f6;d7f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 b8d7 g1f3 f8e7 e4f6;e7f6/50;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 b8d7;e4f6/50;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 b8d7 e4f6;d7f6/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 c1g5 b8d7 e4f6 d7f6;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6;f1d3/25;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 f1d3;b8d7/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 f1d3 b8d7;d1e2/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 f1d3 b8d7;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 f1d3;f8e7/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 f1d3 f8e7;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 f1d3;f6e4/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 d5e4 c3e4 g8f6 f1d3 f6e4;d3e4/100;
+e2e4 e7e6 d2d4 d7d5 b1c3;b8c6/0;
+e2e4 e7e6 d2d4 d7d5 b1c3 b8c6;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1c3 b8c6;e4e5/50;
+e2e4 e7e6 d2d4 d7d5;b1d2/50;C03 French Defence, Tarrasch Variation
+e2e4 e7e6 d2d4 d7d5 b1d2;g8f6/220;C05 French, Tarrasch, Closed Variation
+e2e4 e7e6 d2d4 d7d5 b1d2 g8f6;e4e5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 g8f6 e4e5;f6d7/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 g8f6 e4e5 f6d7;f1d3/110;
+e2e4 e7e6 d2d4 d7d5 b1d2 g8f6 e4e5 f6d7 f1d3;c7c5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 g8f6 e4e5 f6d7 f1d3 c7c5;c2c3/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 g8f6 e4e5 f6d7;c2c3/40;
+e2e4 e7e6 d2d4 d7d5 b1d2 g8f6 e4e5 f6d7 c2c3;c7c5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 g8f6 e4e5 f6d7 c2c3 c7c5;f1d3/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 g8f6 e4e5 f6d7 c2c3 c7c5;f2f4/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 g8f6 e4e5 f6d7;f2f4/40;
+e2e4 e7e6 d2d4 d7d5 b1d2 g8f6 e4e5 f6d7 f2f4;c7c5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 g8f6 e4e5 f6d7 f2f4 c7c5;c2c3/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 g8f6;f1d3/0;
+e2e4 e7e6 d2d4 d7d5 b1d2 g8f6 f1d3;c7c5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2;c7c5/140;C07 French, Tarrasch, Open Variation
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5;e4d5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 e4d5;e6d5/100;C08 French, Tarrasch, Open, 4.ed ed
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 e4d5 e6d5;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 e4d5 e6d5 g1f3;b8c6/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 e4d5 e6d5 g1f3;g8f6/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 e4d5 e6d5;f1b5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 e4d5 e6d5 f1b5;b8c6/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 e4d5 e6d5 f1b5;c8d7/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 e4d5;d8d5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 e4d5 d8d5;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 e4d5 d8d5 g1f3;c5d4/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 e4d5 d8d5 g1f3 c5d4;f1c4/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 e4d5 d8d5 g1f3 c5d4 f1c4;d5d6/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5;g1f3/50;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3;b8c6/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3 b8c6;e4d5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3 b8c6 e4d5;e6d5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3 b8c6;f1b5/50;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3 b8c6 f1b5;a7a6/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3 b8c6 f1b5;c5d4/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3;c5d4/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3 c5d4;e4d5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3 c5d4 e4d5;d8d5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3 c5d4;f3d4/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3 c5d4 f3d4;b8c6/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3;g8f6/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3 g8f6;e4d5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3 g8f6 e4d5;e6d5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3 g8f6;e4e5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 c7c5 g1f3 g8f6 e4e5;f6d7/100;
+e2e4 e7e6 d2d4 d7d5 b1d2;d5e4/60;C10 French, Rubinstein Variation
+e2e4 e7e6 d2d4 d7d5 b1d2 d5e4;d2e4/100;
+e2e4 e7e6 d2d4 d7d5 b1d2;b8c6/0;C03 French, Tarrasch, Guimard Variation
+e2e4 e7e6 d2d4 d7d5 b1d2 b8c6;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 b8c6 g1f3;g8f6/100;C04 French, Tarrasch, Guimard Main Line
+e2e4 e7e6 d2d4 d7d5 b1d2 b8c6 g1f3 g8f6;e4e5/100;
+e2e4 e7e6 d2d4 d7d5 b1d2;f8e7/0;
+e2e4 e7e6 d2d4 d7d5 b1d2 f8e7;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 b1d2 f8e7;f1d3/100;
+e2e4 e7e6 d2d4 d7d5 b1d2;a7a6/0;
+e2e4 e7e6 d2d4 d7d5 b1d2 a7a6;g1f3/100;
+e2e4 e7e6 d2d4 d7d5;e4e5/30;French Defence, Advance Variation
+e2e4 e7e6 d2d4 d7d5 e4e5;c7c5/100;
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5;c2c3/100;
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3;b8c6/100;
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3 b8c6;g1f3/100;C02 French, Advance, Paulsen Attack
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3 b8c6 g1f3;d8b6/100;
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3 b8c6 g1f3;c8d7/50;C02 French, Advance, Euwe Variation
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3 b8c6;c1e3/0;
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3 b8c6 c1e3;d8b6/100;
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3 b8c6;f1b5/0;
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3 b8c6 f1b5;d8b6/100;
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3 b8c6 f1b5;c8d7/100;
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3;d8b6/10;
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3 d8b6;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3 d8b6 g1f3;b8c6/100;
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3 d8b6 g1f3;c8d7/100;
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5;g1f3/0;C02 French, Advance, Nimzovich System
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 g1f3;b8c6/100;
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5;d4c5/0;C02 French, Advance, Steinitz Variation
+e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 d4c5;f8c5/100;
+e2e4 e7e6 d2d4 d7d5;e4d5/20;C01 French, Exchange Variation
+e2e4 e7e6 d2d4 d7d5 e4d5;e6d5/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5;f1d3/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 f1d3;f8d6/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 f1d3 f8d6;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 f1d3 f8d6 g1f3;g8e7/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 f1d3 f8d6 g1f3;g8f6/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 f1d3 f8d6;g1e2/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 f1d3 f8d6 g1e2;g8e7/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 f1d3;b8c6/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 f1d3 b8c6;c2c3/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 f1d3 b8c6 c2c3;f8d6/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5;g1f3/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 g1f3;f8d6/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 g1f3 f8d6;f1d3/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 g1f3 f8d6 f1d3;g8e7/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 g1f3 f8d6;c2c4/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 g1f3 f8d6 c2c4;c7c6/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 g1f3;g8f6/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 g1f3 g8f6;f1d3/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 g1f3 g8f6 f1d3;f8d6/100;
+e2e4 e7e6 d2d4 d7d5 e4d5 e6d5 g1f3 g8f6 f1d3;f8e7/100;
+e2e4 e7e6 d2d4 d7d5;f1d3/0;C00 French, Schlechter Variation
+e2e4 e7e6 d2d4 d7d5 f1d3;d5e4/100;
+e2e4 e7e6 d2d4 d7d5 f1d3 d5e4;d3e4/100;
+e2e4 e7e6 d2d4 d7d5 f1d3 d5e4 d3e4;g8f6/100;
+e2e4 e7e6 d2d4 d7d5;c1e3/0;C00 French, Alapin Variation
+e2e4 e7e6 d2d4 d7d5 c1e3;d5e4/100;
+e2e4 e7e6;d2d3/0;C00 French, King's Indian Attack
+e2e4 e7e6 d2d3;d7d5/100;
+e2e4 e7e6 d2d3 d7d5;b1d2/100;
+e2e4 e7e6 d2d3 d7d5 b1d2;g8f6/100;
+e2e4 e7e6 d2d3 d7d5 b1d2 g8f6;g1f3/100;
+e2e4 e7e6 d2d3 d7d5 b1d2 g8f6 g1f3;c7c5/100;
+e2e4 e7e6 d2d3 d7d5 b1d2 g8f6;g2g3/100;
+e2e4 e7e6 d2d3 d7d5 b1d2 g8f6 g2g3;d5e4/100;
+e2e4 e7e6 d2d3 d7d5 b1d2 g8f6 g2g3;c7c5/100;
+e2e4 e7e6 d2d3 d7d5 b1d2;c7c5/100;
+e2e4 e7e6 d2d3 d7d5 b1d2 c7c5;g1f3/100;
+e2e4 e7e6 d2d3 d7d5 b1d2 c7c5 g1f3;b8c6/100;
+e2e4 e7e6 d2d3 d7d5 b1d2 c7c5;g2g3/100;
+e2e4 e7e6 d2d3 d7d5 b1d2 c7c5 g2g3;b8c6/100;
+e2e4 e7e6;g1f3/0;
+e2e4 e7e6 g1f3;d7d5/100;
+e2e4 e7e6 g1f3 d7d5;b1c3/100;C00 French, Two knights Variation
+e2e4 e7e6 g1f3 d7d5 b1c3;g8f6/100;
+e2e4 e7e6 g1f3 d7d5 b1c3 g8f6;e4e5/100;
+e2e4 e7e6 g1f3 d7d5 b1c3 g8f6 e4e5;f6d7/100;
+e2e4 e7e6 g1f3 d7d5 b1c3 g8f6 e4e5 f6d7;d2d4/100;
+e2e4 e7e6 g1f3 d7d5 b1c3 g8f6 e4e5 f6d7 d2d4;c7c5/100;
+e2e4 e7e6 g1f3 d7d5;e4e5/100;
+e2e4 e7e6 g1f3 d7d5 e4e5;c7c5/100;
+e2e4 e7e6 g1f3 d7d5 e4e5 c7c5;b2b4/100;C00 French, Wing Gambit
+e2e4 e7e6 g1f3 d7d5 e4e5 c7c5 b2b4;c5b4/100;
+e2e4 e7e6 g1f3 d7d5 e4e5 c7c5 b2b4 c5b4;a2a3/100;
+e2e4 e7e6 g1f3 d7d5 e4e5 c7c5 b2b4 c5b4 a2a3;b8c6/100;
+e2e4 e7e6 g1f3 d7d5 e4e5 c7c5 b2b4 c5b4 a2a3;b4a3/100;
+e2e4 e7e6 g1f3 d7d5 e4e5 c7c5 b2b4 c5b4;d2d4/100;
+e2e4 e7e6 g1f3 d7d5 e4e5 c7c5 b2b4 c5b4 d2d4;b8c6/100;
+e2e4 e7e6 g1f3 d7d5;e4d5/100;
+e2e4 e7e6 g1f3 d7d5 e4d5;e6d5/100;
+e2e4 e7e6 g1f3 d7d5 e4d5 e6d5;d2d4/100;
+e2e4 e7e6 g1f3 d7d5 e4d5 e6d5 d2d4;f8d6/300;
+e2e4 e7e6 g1f3 d7d5 e4d5 e6d5 d2d4 f8d6;f1d3/100;
+e2e4 e7e6 g1f3 d7d5 e4d5 e6d5 d2d4 f8d6 f1d3;g8e7/100;
+e2e4 e7e6 g1f3 d7d5 e4d5 e6d5 d2d4 f8d6;c2c4/100;
+e2e4 e7e6 g1f3 d7d5 e4d5 e6d5 d2d4 f8d6 c2c4;c7c6/100;
+e2e4 e7e6 g1f3 d7d5 e4d5 e6d5 d2d4;g8f6/300;
+e2e4 e7e6 g1f3 d7d5 e4d5 e6d5 d2d4 g8f6;f1d3/100;
+e2e4 e7e6 g1f3 d7d5 e4d5 e6d5 d2d4 g8f6 f1d3;f8d6/100;
+e2e4 e7e6 g1f3 d7d5 e4d5 e6d5 d2d4;c8g4/100;
+e2e4 e7e6 g1f3 d7d5 e4d5 e6d5 d2d4 c8g4;f1e2/100;
+e2e4 e7e6 g1f3 d7d5 e4d5 e6d5 d2d4 c8g4 f1e2;f8d6/100;
+e2e4 e7e6 g1f3 d7d5 e4d5 e6d5 d2d4 c8g4;h2h3/100;
+e2e4 e7e6 g1f3 d7d5 e4d5 e6d5 d2d4 c8g4 h2h3;g4h5/100;
+e2e4 e7e6;d1e2/0;C00 French, Chigorin Variation
+e2e4 e7e6 d1e2;c7c5/100;
+e2e4 e7e6 d1e2 c7c5;g1f3/100;
+e2e4 e7e6 d1e2 c7c5 g1f3;b8c6/100;
+e2e4 e7e6 d1e2 c7c5;g2g3/100;
+e2e4 e7e6 d1e2 c7c5 g2g3;b8c6/100;
+e2e4 e7e6 d1e2 c7c5;f2f4/100;
+e2e4 e7e6 d1e2 c7c5 f2f4;b8c6/100;
+e2e4 e7e6;b1c3/0;
+e2e4 e7e6 b1c3;d7d5/100;
+e2e4;c7c5/100;B20 Sicilian Defence
+e2e4 c7c5;g1f3/100;B27 Sicilian Defence, King's Knight Variation
+e2e4 c7c5 g1f3;d7d6/200;
+e2e4 c7c5 g1f3 d7d6;d2d4/100;
+e2e4 c7c5 g1f3 d7d6 d2d4;c5d4/100;
+e2e4 c7c5 g1f3 d7d6 d2d4 c5d4;f3d4/100;
+e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4;g8f6/100;
+e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6;b1c3/100;
+e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3;a7a6/80;B90 Sicilian, Najdorf
+e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6;f1e2/100;
+e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6;c1g5/100;
+e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6;f1e3/100;
+e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6;f1c4/100;
+e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3;g7g6/30;B70 Sicilian, Dragon Variation
+e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 g7g6;c1e3/100;
+e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3;b8c6/20;
+e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 b8c6;c1g5/100;
+e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 b8c6;f1c4/100;
+e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 b8c6;f1e2/100;
+e2e4 c7c5 g1f3;b8c6/150;
+e2e4 c7c5 g1f3 b8c6;d2d4/100;
+e2e4 c7c5 g1f3 b8c6 d2d4;c5d4/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4;f3d4/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4;g8f6/50;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g8f6;b1c3/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g8f6 b1c3;e7e5/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g8f6 b1c3 e7e5;d4b5/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g8f6 b1c3;d7d6/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g8f6 b1c3 d7d6;c1g5/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g8f6 b1c3 d7d6;f1c4/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g8f6 b1c3 d7d6;f1e2/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4;g7g6/20;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g7g6;b1c3/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g7g6 b1c3;f8g7/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g7g6 b1c3 f8g7;c1e3/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g7g6;c2c4/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g7g6 c2c4;f8g7/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g7g6 c2c4 f8g7;c1e3/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g7g6 c2c4;g8f6/50;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g7g6 c2c4 g8f6;b1c3/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4;e7e5/10;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 e7e5;d4b5/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 e7e5 d4b5;d7d6/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 e7e5 d4b5 d7d6;b1c3/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 e7e5 d4b5 d7d6;c2c4/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 e7e5 d4b5;a7a6/100;
+e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 e7e5 d4b5 a7a6;b5d6/100;
+e2e4 c7c5 g1f3 b8c6;f1b5/100;B30 Sicilian, Nimzovich-Rossolimo Attack (Without ...d6)
+e2e4 c7c5 g1f3 b8c6 f1b5;g7g6/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6;e1g1/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 e1g1;f8g7/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 e1g1 f8g7;c2c3/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 e1g1 f8g7 c2c3;g8f6/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 e1g1 f8g7 c2c3 g8f6;f1e1/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 e1g1 f8g7;f1e1/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 e1g1 f8g7 f1e1;g8f6/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 e1g1 f8g7 f1e1 g8f6;e4e5/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 e1g1 f8g7 f1e1 g8f6;c2c3/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 e1g1 f8g7 f1e1;e7e5/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 e1g1 f8g7 f1e1 e7e5;b5c6/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6;b5c6/50;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 b5c6;d7c6/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 b5c6 d7c6;d2d3/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 b5c6 d7c6 d2d3;f8g7/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 b5c6 d7c6 d2d3 f8g7;h2h3/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 b5c6;b7c6/50;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 b5c6 b7c6;e1g1/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 b5c6 b7c6 e1g1;f8g7/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 g7g6 b5c6 b7c6 e1g1 f8g7;f1e1/100;
+e2e4 c7c5 g1f3 b8c6 f1b5;e7e6/50;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6;e1g1/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6 e1g1;g8e7/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6 e1g1 g8e7;f1e1/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6 e1g1 g8e7 f1e1;a7a6/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6 e1g1 g8e7 f1e1 a7a6;b5f1/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6 e1g1 g8e7 f1e1 a7a6;b5c6/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6 e1g1 g8e7;c2c3/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6 e1g1 g8e7 c2c3;a7a6/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6 e1g1 g8e7 c2c3 a7a6;b5a4/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6;b5c6/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6 b5c6;b7c6/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6 b5c6 b7c6;d2d3/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6 b5c6 b7c6 d2d3;g8e7/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6 b5c6 b7c6 d2d3 g8e7;d1e2/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6 b5c6 b7c6;e1g1/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6 b5c6 b7c6 e1g1;g8e7/100;
+e2e4 c7c5 g1f3 b8c6 f1b5 e7e6 b5c6 b7c6 e1g1 g8e7;d2d3/100;
+e2e4 c7c5 g1f3 b8c6;b1c3/100;
+e2e4 c7c5 g1f3 b8c6 b1c3;g7g6/100;
+e2e4 c7c5 g1f3 b8c6 b1c3 g7g6;d2d4/100;
+e2e4 c7c5 g1f3 b8c6 b1c3 g7g6 d2d4;c5d4/100;
+e2e4 c7c5 g1f3 b8c6 b1c3 g7g6 d2d4 c5d4;f3d4/100;
+e2e4 c7c5 g1f3 b8c6 b1c3 g7g6 d2d4 c5d4 f3d4;f8g7/100;
+e2e4 c7c5 g1f3 b8c6 b1c3 g7g6 d2d4 c5d4 f3d4 f8g7;c1e3/100;
+e2e4 c7c5 g1f3 b8c6 b1c3;d7d6/100;
+e2e4 c7c5 g1f3 b8c6 b1c3 d7d6;d2d4/100;
+e2e4 c7c5 g1f3 b8c6 b1c3 d7d6 d2d4;c5d4/100;
+e2e4 c7c5 g1f3 b8c6 b1c3 d7d6 d2d4 c5d4;f3d4/100;
+e2e4 c7c5 g1f3 b8c6 b1c3;e7e6/100;
+e2e4 c7c5 g1f3 b8c6 b1c3 e7e6;d2d4/100;
+e2e4 c7c5 g1f3 b8c6 b1c3 e7e6 d2d4;c5d4/100;
+e2e4 c7c5 g1f3 b8c6 b1c3 e7e6 d2d4 c5d4;f3d4/100;
+e2e4 c7c5 g1f3;e7e6/100;
+e2e4 c7c5 g1f3 e7e6;d2d4/100;
+e2e4 c7c5 g1f3 e7e6 d2d4;c5d4/100;
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4;f3d4/100;
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4;a7a6/100;B41 Sicilian, Kan Variation
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 a7a6;f1d3/100;
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 a7a6;b1c3/100;
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4;g8f6/100;B40 Sicilian, Anderssen Variation
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 g8f6;b1c3/100;
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4;b8c6/100;
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 b8c6;b1c3/100;B45 Sicilian, Taimanov Variation
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 b8c6 b1c3;d8c7/100;B47 Sicilian, Taimanov (Bastrikov) Variation
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 b8c6 b1c3 d8c7;f1e2/100;
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 b8c6 b1c3 d8c7;c1e3/100;
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 b8c6 b1c3;a7a6/100;
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 b8c6 b1c3 a7a6;f1e2/100;
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 b8c6 b1c3 a7a6;c1e3/100;
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 b8c6 b1c3;d7d6/100;
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 b8c6 b1c3 d7d6;f1e2/100;
+e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 b8c6 b1c3 d7d6;c1e3/100;
+e2e4 c7c5;c2c3/50;B22 Sicilian Defence, Alapin Variation
+e2e4 c7c5 c2c3;d7d5/100;
+e2e4 c7c5 c2c3 d7d5;e4d5/100;
+e2e4 c7c5 c2c3 d7d5 e4d5;d8d5/100;
+e2e4 c7c5 c2c3 d7d5 e4d5 d8d5;d2d4/100;
+e2e4 c7c5 c2c3 d7d5 e4d5 d8d5 d2d4;g8f6/100;
+e2e4 c7c5 c2c3 d7d5 e4d5 d8d5 d2d4 g8f6;g1f3/100;
+e2e4 c7c5 c2c3 d7d5 e4d5 d8d5 d2d4 g8f6 g1f3;c8g4/100;
+e2e4 c7c5 c2c3 d7d5 e4d5 d8d5 d2d4 g8f6 g1f3 c8g4;f1e2/100;
+e2e4 c7c5 c2c3 d7d5 e4d5 d8d5 d2d4 g8f6 g1f3;e7e6/50;
+e2e4 c7c5 c2c3 d7d5 e4d5 d8d5 d2d4 g8f6 g1f3 e7e6;f1e2/100;
+e2e4 c7c5 c2c3 d7d5 e4d5 d8d5 d2d4;b8c6/50;
+e2e4 c7c5 c2c3 d7d5 e4d5 d8d5 d2d4 b8c6;g1f3/100;
+e2e4 c7c5 c2c3 d7d5 e4d5 d8d5 d2d4 b8c6 g1f3;c8g4/100;
+e2e4 c7c5 c2c3 d7d5 e4d5 d8d5 d2d4 b8c6 g1f3 c8g4;f1e2/100;
+e2e4 c7c5 c2c3;g8f6/100;
+e2e4 c7c5 c2c3 g8f6;e4e5/100;
+e2e4 c7c5 c2c3 g8f6 e4e5;f6d5/100;
+e2e4 c7c5 c2c3 g8f6 e4e5 f6d5;d2d4/100;
+e2e4 c7c5 c2c3 g8f6 e4e5 f6d5 d2d4;c5d4/100;
+e2e4 c7c5 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4;g1f3/100;
+e2e4 c7c5 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4 g1f3;b8c6/100;
+e2e4 c7c5 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4 g1f3 b8c6;c3d4/100;
+e2e4 c7c5 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4 g1f3 b8c6;f1c4/100;
+e2e4 c7c5 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4 g1f3;e7e6/100;
+e2e4 c7c5 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4 g1f3 e7e6;c3d4/100;
+e2e4 c7c5 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4;c3d4/50;
+e2e4 c7c5 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4 c3d4;d7d6/100;
+e2e4 c7c5 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4 c3d4 d7d6;g1f3/100;
+e2e4 c7c5 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4 c3d4;e7e6/100;
+e2e4 c7c5 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4 c3d4 e7e6;g1f3/100;
+e2e4 c7c5 c2c3 g8f6 e4e5 f6d5 d2d4 c5d4 c3d4 e7e6;b1c3/100;
+e2e4 c7c5 c2c3;e7e6/50;
+e2e4 c7c5 c2c3 e7e6;d2d4/100;
+e2e4 c7c5 c2c3 e7e6 d2d4;d7d5/100;
+e2e4 c7c5 c2c3 e7e6 d2d4 d7d5;e4e5/100;
+e2e4 c7c5 c2c3 e7e6 d2d4 d7d5;e4d5/100;
+e2e4 c7c5 c2c3;d7d6/50;
+e2e4 c7c5 c2c3 d7d6;d2d4/100;
+e2e4 c7c5 c2c3 d7d6 d2d4;g8f6/100;
+e2e4 c7c5 c2c3 d7d6 d2d4 g8f6;f1d3/100;
+e2e4 c7c5 c2c3 d7d6 d2d4;c5d4/100;
+e2e4 c7c5 c2c3 d7d6 d2d4 c5d4;c3d4/100;
+e2e4 c7c5;b1c3/50;B23 Sicilian Defence, Closed
+e2e4 c7c5 b1c3;b8c6/100;
+e2e4 c7c5 b1c3 b8c6;g2g3/100;
+e2e4 c7c5 b1c3 b8c6 g2g3;g7g6/100;
+e2e4 c7c5 b1c3 b8c6 g2g3 g7g6;f1g2/100;
+e2e4 c7c5 b1c3 b8c6 g2g3 g7g6 f1g2;f8g7/100;
+e2e4 c7c5 b1c3 b8c6 g2g3 g7g6 f1g2 f8g7;d2d3/100;
+e2e4 c7c5 b1c3 b8c6;f2f4/100;B21 Sicilian, Grand Prix Attack
+e2e4 c7c5 b1c3 b8c6 f2f4;g7g6/100;
+e2e4 c7c5 b1c3 b8c6 f2f4 g7g6;g1f3/100;
+e2e4 c7c5 b1c3 b8c6 f2f4;e7e6/50;
+e2e4 c7c5 b1c3 b8c6 f2f4 e7e6;g1f3/100;
+e2e4 c7c5 b1c3;e7e6/20;
+e2e4 c7c5 b1c3 e7e6;g2g3/100;
+e2e4 c7c5 b1c3 e7e6 g2g3;d7d5/100;
+e2e4 c7c5 b1c3 e7e6 g2g3 d7d5;e4d5/100;
+e2e4 c7c5 b1c3 e7e6 g2g3;b8c6/100;
+e2e4 c7c5 b1c3 e7e6 g2g3 b8c6;f1g2/100;
+e2e4 c7c5 b1c3 e7e6;g1f3/100;
+e2e4 c7c5 b1c3 e7e6 g1f3;a7a6/100;
+e2e4 c7c5 b1c3 e7e6 g1f3 a7a6;d2d4/100;
+e2e4 c7c5 b1c3 e7e6 g1f3;b8c6/100;
+e2e4 c7c5 b1c3 e7e6 g1f3 b8c6;d2d4/100;
+e2e4 c7c5 b1c3 e7e6;f2f4/100;
+e2e4 c7c5 b1c3 e7e6 f2f4;d7d5/100;
+e2e4 c7c5 b1c3 e7e6 f2f4 d7d5;g1f3/100;
+e2e4 c7c5 b1c3 e7e6 f2f4;b8c6/100;
+e2e4 c7c5 b1c3 e7e6 f2f4 b8c6;g1f3/100;
+e2e4 c7c5 b1c3;d7d6/20;
+e2e4 c7c5 b1c3 d7d6;g2g3/100;
+e2e4 c7c5 b1c3 d7d6 g2g3;b8c6/100;
+e2e4 c7c5 b1c3 d7d6 g2g3 b8c6;f1g2/100;
+e2e4 c7c5 b1c3 d7d6;f2f4/100;
+e2e4 c7c5 b1c3 d7d6 f2f4;b8c6/100;
+e2e4 c7c5 b1c3 d7d6 f2f4 b8c6;g1f3/100;
+e2e4 c7c5;d2d4/0;B21 Sicilian, Smith-Morra Gambit
+e2e4 c7c5 d2d4;c5d4/100;
+e2e4 c7c5;f2f4/0;B21 Sicilian, Grand Prix Attack
+e2e4 c7c5 f2f4;b8c6/100;
+e2e4 c7c5;d2d3/0;
+e2e4 c7c5 d2d3;b8c6/100;
+e2e4 c7c5;b2b3/0;
+e2e4 c7c5 b2b3;b8c6/100;
+e2e4 c7c5;c2c4/0;
+e2e4 c7c5 c2c4;b8c6/100;
+e2e4;c7c6/30;B10 Caro-Kann Defence
+e2e4 c7c6;d2d4/100;
+e2e4 c7c6 d2d4;d7d5/100;
+e2e4 c7c6 d2d4 d7d5;b1c3/27;B15 Caro-Kann Defence, Traditional
+e2e4 c7c6 d2d4 d7d5 b1c3;d5e4/100;
+e2e4 c7c6 d2d4 d7d5 b1c3 d5e4;c3e4/100;
+e2e4 c7c6 d2d4 d7d5;e4d5/25;B13 Caro-Kann, Exchange Variation
+e2e4 c7c6 d2d4 d7d5 e4d5;c6d5/100;
+e2e4 c7c6 d2d4 d7d5 e4d5 c6d5;c2c4/100;B13 Caro-Kann, Panov-Botvinnik Attack
+e2e4 c7c6 d2d4 d7d5 e4d5 c6d5 c2c4;g8f6/100;
+e2e4 c7c6 d2d4 d7d5 e4d5 c6d5 c2c4 g8f6;b1c3/100;
+e2e4 c7c6 d2d4 d7d5 e4d5 c6d5;f1d3/50;
+e2e4 c7c6 d2d4 d7d5 e4d5 c6d5 f1d3;b8c6/100;
+e2e4 c7c6 d2d4 d7d5 e4d5 c6d5 f1d3 b8c6;c2c3/100;
+e2e4 c7c6 d2d4 d7d5;e4e5/22;B12 Caro-Kann, Advance Variation
+e2e4 c7c6 d2d4 d7d5 e4e5;c8f5/100;
+e2e4 c7c6 d2d4 d7d5 e4e5 c8f5;g1f3/100;
+e2e4 c7c6 d2d4 d7d5 e4e5 c8f5 g1f3;e7e6/100;
+e2e4 c7c6 d2d4 d7d5 e4e5 c8f5 g1f3 e7e6;f1e2/100;
+e2e4 c7c6 d2d4 d7d5;b1d2/12;B12 Caro-Kann, 3.Nd2
+e2e4 c7c6 d2d4 d7d5 b1d2;d5e4/100;
+e2e4 c7c6 d2d4 d7d5 b1d2 d5e4;d2e4/100;
+e2e4;d7d6/0;B07 Pirc Defence
+e2e4 d7d6;d2d4/100;
+e2e4 d7d6 d2d4;g8f6/100;
+e2e4 d7d6 d2d4 g8f6;b1c3/100;
+e2e4 d7d6 d2d4 g8f6 b1c3;g7g6/100;
+e2e4 d7d6 d2d4 g8f6 b1c3 g7g6;f2f4/100;
+e2e4 d7d6 d2d4 g8f6 b1c3 g7g6 f2f4;f8g7/100;
+e2e4 d7d6 d2d4 g8f6 b1c3 g7g6 f2f4 f8g7;g1f3/100;
+e2e4 d7d6 d2d4 g8f6 b1c3 g7g6;g1f3/100;B08 Pirc, Classical (Two Knights) System
+e2e4 d7d6 d2d4 g8f6 b1c3 g7g6 g1f3;f8g7/100;
+e2e4 d7d6 d2d4 g8f6 b1c3 g7g6 g1f3 f8g7;f1e2/100;
+e2e4 d7d6 d2d4 g8f6;e4e5/0;
+e2e4 d7d6 d2d4 g8f6 e4e5;d6e5/100;
+e2e4 d7d6 d2d4 g8f6 e4e5 d6e5;d4e5/100;
+e2e4 d7d6 d2d4 g8f6 e4e5 d6e5 d4e5;d8d1/100;
+e2e4 d7d6 d2d4;g7g6/100;
+e2e4 d7d6 d2d4 g7g6;b1c3/100;
+e2e4;d7d5/0;B01 Scandinavian Defence
+e2e4 d7d5;e4d5/100;
+e2e4 d7d5 e4d5;d8d5/100;
+e2e4 d7d5 e4d5 d8d5;b1c3/100;
+e2e4 d7d5 e4d5 d8d5 b1c3;d5a5/100;
+e2e4 d7d5 e4d5 d8d5 b1c3 d5a5;d2d4/100;
+e2e4 d7d5 e4d5;g8f6/100;
+e2e4 d7d5 e4d5 g8f6;d2d4/100;
+e2e4 d7d5 e4d5 g8f6 d2d4;f6d5/100;
+e2e4 d7d5 e4d5 g8f6 d2d4 f6d5;c2c4/100;
+e2e4 d7d5 e4d5 g8f6 d2d4 f6d5;g1f3/100;
+e2e4;g7g6/0;B06 Robatsch (Modern) Defence
+e2e4 g7g6;d2d4/100;
+e2e4 g7g6 d2d4;f8g7/100;
+e2e4 g7g6 d2d4 f8g7;b1c3/100;
+e2e4;g8f6/0;B02 Alekhine's Defence
+e2e4 g8f6;e4e5/100;
+e2e4 g8f6 e4e5;f6d5/100;
+e2e4 g8f6 e4e5 f6d5;d2d4/100;
+e2e4;b8c6/0;B00 Nimzovich Defence
+e2e4 b8c6;g1f3/100;
+e2e4 b8c6;d2d4/100;
+e2e4;b7b6/0;B00 Owen Defence
+e2e4 b7b6;d2d4/100;
+e2e4;a7a6/0;B00 St. George Defence
+e2e4 a7a6;d2d4/100;
+
+;f2f3/0;A00 Gedult's Opening
+f2f3;e7e5/100;
+
+;f2f4/10;A02 Bird's Opening
+f2f4;d7d5/100;A02 Bird's Opening, Dutch Variation
+f2f4 d7d5;g1f3/100;Bird's Opening, Lasker Variation
+f2f4 d7d5 g1f3;g8f6/100;
+f2f4 d7d5 g1f3 g8f6;e2e3/100;
+f2f4 d7d5 g1f3 g8f6 e2e3;g7g6/100;
+f2f4 d7d5 g1f3 g8f6 e2e3;c7c5/100;
+f2f4 d7d5 g1f3 g8f6 e2e3;c8g4/100;
+f2f4 d7d5 g1f3 g8f6;g2g3/100;
+f2f4 d7d5 g1f3 g8f6 g2g3;g7g6/100;
+f2f4 d7d5 g1f3 g8f6 g2g3 g7g6;f1g2/100;
+f2f4 d7d5 g1f3;g7g6/50;
+f2f4 d7d5 g1f3 g7g6;e2e3/100;
+f2f4 d7d5 g1f3 g7g6 e2e3;f8g7/100;
+f2f4 d7d5 g1f3 g7g6 e2e3 f8g7;f1e2/100;
+f2f4 d7d5 g1f3 g7g6;g2g3/100;
+f2f4 d7d5 g1f3 g7g6 g2g3;f8g7/100;
+f2f4 d7d5 g1f3 g7g6 g2g3 f8g7;f1g2/100;
+f2f4;g8f6/100;A02 Bird's Opening
+f2f4 g8f6;g1f3/100;
+f2f4 g8f6 g1f3;g7g6/100;
+f2f4 g8f6 g1f3 g7g6;g2g3/100;
+f2f4 g8f6 g1f3 g7g6 g2g3;f8g7/100;
+f2f4 g8f6 g1f3 g7g6 g2g3 f8g7;f1g2/100;
+f2f4 g8f6 g1f3 g7g6;b2b3/100;
+f2f4 g8f6 g1f3 g7g6 b2b3;f8g7/100;
+f2f4;g7g6/50;
+f2f4 g7g6;g1f3/100;
+f2f4 g7g6 g1f3;f8g7/100;
+f2f4 g7g6 g1f3 f8g7;g2g3/100;
+f2f4 g7g6 g1f3 f8g7;e2e3/100;
+f2f4;e7e5/50;A02 Bird's Opening, From's Gambit
+f2f4 e7e5;f4e5/100;Bird's Opening, From's Gambit Accepted
+f2f4 e7e5 f4e5;d7d6/100;
+f2f4 e7e5 f4e5 d7d6;e5d6/100;
+f2f4 e7e5 f4e5 d7d6 e5d6;f8d6/100;
+f2f4 e7e5 f4e5 d7d6 e5d6 f8d6;g1f3/100;
+f2f4 e7e5 f4e5 d7d6;g1f3/0;
+f2f4 e7e5 f4e5 d7d6 g1f3;d6e5/100;
+f2f4 e7e5;e2e4/50;King's Gambit
+f2f4 e7e5 e2e4;e5f4/100;King's Gambit Accepted
+f2f4 e7e5 e2e4;f8c5/30;King's Gambit Declined, Classical Variation
+f2f4 e7e5 e2e4;d7d5/30;King's Gambit Declined, Falkbeer Counter-gambit
+f2f4;e7e6/0;
+f2f4 e7e6;g1f3/100;
+f2f4 e7e6 g1f3;d7d5/100;
+f2f4 e7e6 g1f3 d7d5;e2e3/100;
+f2f4 e7e6 g1f3 d7d5 e2e3;g8f6/100;
+f2f4 e7e6 g1f3 d7d5 e2e3 g8f6;b2b3/100;
+f2f4 e7e6 g1f3 d7d5 e2e3;c7c5/100;
+f2f4 e7e6 g1f3 d7d5 e2e3 c7c5;b2b3/100;
+
+;g1f3/0;A04 Reti Opening
+g1f3;g8f6/100;A05 Reti Opening
+g1f3 g8f6;c2c4/100;A15 English Opening
+g1f3 g8f6 c2c4;g7g6/100;
+g1f3 g8f6 c2c4;e7e6/100;
+g1f3 g8f6 c2c4;c7c5/100;
+g1f3 g8f6;g2g3/100;
+g1f3 g8f6 g2g3;g7g6/100;A05 Reti, King's Indian Attack
+g1f3 g8f6 g2g3 g7g6;f1g2/100;
+g1f3 g8f6 g2g3 g7g6 f1g2;f8g7/100;
+g1f3 g8f6 g2g3 g7g6 f1g2 f8g7;e1g1/100;
+g1f3 g8f6 g2g3 g7g6 f1g2 f8g7 e1g1;e8g8/100;
+g1f3 g8f6 g2g3 g7g6 f1g2 f8g7 e1g1 e8g8;c2c4/100;
+g1f3 g8f6 g2g3 g7g6 f1g2 f8g7 e1g1 e8g8;d2d3/100;
+g1f3 g8f6 g2g3 g7g6 f1g2 f8g7 e1g1 e8g8;d2d4/100;
+g1f3 g8f6 g2g3;d7d5/50;
+g1f3 g8f6 g2g3 d7d5;f1g2/100;
+g1f3 g8f6 g2g3 d7d5 f1g2;c7c6/100;
+g1f3 g8f6 g2g3 d7d5 f1g2 c7c6;e1g1/100;
+g1f3 g8f6 g2g3 d7d5 f1g2 c7c6 e1g1;c8g4/100;
+g1f3 g8f6 g2g3 d7d5 f1g2 c7c6 e1g1;c8f5/100;
+
+;g1h3/0;A00 Amar Opening
+g1h3;d7d5/100;
+
+;g2g3/0;A00 Benko's Opening
+g2g3;d7d5/100;
+g2g3 d7d5;f1g2/100;
+g2g3 d7d5 f1g2;g8f6/100;
+g2g3 d7d5 f1g2 g8f6;g1f3/100;
+g2g3 d7d5 f1g2 g8f6;d2d3/100;
+
+;g2g4/0;A00 Grob's Attack
+g2g4;d7d5/100;
+
+;h2h3/0;A00 Clemenz Opening
+h2h3;e7e5/100;
+
+;h2h4/0;A00 Desprez Opening
+h2h4;e7e5/100;

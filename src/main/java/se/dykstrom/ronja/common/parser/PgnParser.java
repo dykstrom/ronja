@@ -17,7 +17,10 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import static se.dykstrom.ronja.common.utils.ArrayUtils.toArray;
+import se.dykstrom.ronja.common.model.Color;
+import se.dykstrom.ronja.common.model.Game;
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.engine.utils.AppConfig;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -26,10 +29,7 @@ import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import se.dykstrom.ronja.common.model.Color;
-import se.dykstrom.ronja.common.model.Game;
-import se.dykstrom.ronja.common.model.Position;
-import se.dykstrom.ronja.engine.utils.AppConfig;
+import static se.dykstrom.ronja.common.utils.ArrayUtils.toArray;
 
 /**
  * A class that can parse and format files specified in Portable Game Notation (PGN).
@@ -38,8 +38,8 @@ import se.dykstrom.ronja.engine.utils.AppConfig;
  */
 public final class PgnParser {
 
-    private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private static final DateTimeFormatter TF = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private static final DateTimeFormatter DF = DateTimeFormatter.ISO_LOCAL_DATE;
+    private static final DateTimeFormatter TF = DateTimeFormatter.ofPattern("HH:mm");
 
     private static final String BACKSLASH_REPLACEMENT = Matcher.quoteReplacement("\\\\");
     private static final String QUOTE_REPLACEMENT = Matcher.quoteReplacement("\\\"");

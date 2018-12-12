@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +51,7 @@ public class AppConfigTest extends AbstractTestCase {
         File file = new File(TEMP_DIRECTORY, "ronja.properties");
         file.deleteOnExit();
 
-        try (PrintStream out = new PrintStream(file, "ISO-8859-1")) {
+        try (PrintStream out = new PrintStream(file, StandardCharsets.ISO_8859_1)) {
             out.println(AppConfig.PROPERTY_ENGINE_NAME + "=" + FILE_ENGINE_NAME);
         }
     }

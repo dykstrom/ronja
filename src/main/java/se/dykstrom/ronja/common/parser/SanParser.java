@@ -232,8 +232,8 @@ public class SanParser extends AbstractMoveParser {
     }
 
     private static String formatPawnMove(int move, Position position) {
-        String fromFile = formatFromFile(move, position);
-        String capture = formatCapture(move, position);
+        String fromFile = formatFromFile(move);
+        String capture = formatCapture(move);
         String toSquare = formatToSquare(move);
         String promotion = formatPromotion(move);
         String check = formatCheck(move, position);
@@ -243,7 +243,7 @@ public class SanParser extends AbstractMoveParser {
     private static String formatPieceMove(int move, Position position) {
         String piece = Character.toString(Piece.toSymbol(Move.getPiece(move)));
         String fromFileOrRank = fileOrRank(move, position);
-        String capture = formatCapture(move, position);
+        String capture = formatCapture(move);
         String toSquare = formatToSquare(move);
         String check = formatCheck(move, position);
         return piece + fromFileOrRank + capture + toSquare + check;
@@ -266,7 +266,7 @@ public class SanParser extends AbstractMoveParser {
             } else if (isRankUnique(fromSquare, allFromSquares)) {
                 return Integer.toString(getRank(fromSquare));
             } else {
-                return Character.toString(getFileChar(fromSquare)) + Integer.toString(getRank(fromSquare));
+                return Character.toString(getFileChar(fromSquare)) + getRank(fromSquare);
             }
         } else {
             return "";
@@ -320,11 +320,11 @@ public class SanParser extends AbstractMoveParser {
      * Formats the from file for a pawn move. Returns the from file for capture moves,
      * or an empty string for normal moves.
      */
-    private static String formatFromFile(int move, Position position) {
+    private static String formatFromFile(int move) {
         return Move.isCapture(move) ? Character.toString(getFileChar(Move.getFrom(move))) : "";
     }
 
-    private static String formatCapture(int move, Position position) {
+    private static String formatCapture(int move) {
         return Move.isCapture(move) ? "x" : "";
     }
 
@@ -334,7 +334,7 @@ public class SanParser extends AbstractMoveParser {
 
     private static String formatPromotion(int move) {
         if (Move.isPromotion(move)) {
-            return "=" + Character.toString(Piece.toSymbol(Move.getPromoted(move)));
+            return "=" + Piece.toSymbol(Move.getPromoted(move));
         } else {
             return "";
         }

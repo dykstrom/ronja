@@ -17,6 +17,8 @@
 
 package se.dykstrom.ronja.common.book;
 
+import java.util.Objects;
+
 /**
  * Represents an opening book move with the actual move, and its weight in the opening book.
  *
@@ -34,7 +36,7 @@ public class BookMove {
 
     @Override
     public String toString() {
-        return Integer.toString(move);
+        return move + "/" + weight;
     }
     
     public int getMove() {
@@ -53,5 +55,18 @@ public class BookMove {
      */
     public BookMove withWeight(int weight) {
         return new BookMove(move, weight);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookMove that = (BookMove) o;
+        return this.move == that.move && this.weight == that.weight;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(move, weight);
     }
 }

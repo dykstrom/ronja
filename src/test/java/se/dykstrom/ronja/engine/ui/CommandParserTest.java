@@ -17,19 +17,18 @@
 
 package se.dykstrom.ronja.engine.ui;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-
 import org.junit.Test;
-
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.command.*;
 import se.dykstrom.ronja.test.AbstractTestCase;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * This class is for testing class {@code CommandParser} using JUnit.
@@ -101,7 +100,7 @@ public class CommandParserTest extends AbstractTestCase {
     private void doTest(String commands, Class<?>[] classes, String[] args) throws Exception {
         assertEquals(classes.length, args.length);
 
-        InputStream in = new ByteArrayInputStream(commands.getBytes(Charset.forName("ISO-8859-1")));
+        InputStream in = new ByteArrayInputStream(commands.getBytes(StandardCharsets.ISO_8859_1));
         CommandParser commandParser = new CommandParser(in, System.out, game);
 
         for (int i = 0; i < classes.length; i++) {

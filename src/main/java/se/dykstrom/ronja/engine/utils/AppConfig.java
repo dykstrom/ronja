@@ -93,7 +93,7 @@ public class AppConfig {
             bookFilename = getStringProperty(PROPERTY_BOOK_FILE);
         }
         if (bookFilename == null) {
-            bookFilename = getString(PROPERTY_BOOK_FILE, "book.xml");
+            bookFilename = getString(PROPERTY_BOOK_FILE, "book.csv");
         }
         return bookFilename;
     }
