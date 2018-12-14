@@ -24,6 +24,8 @@ import se.dykstrom.ronja.test.AbstractTestCase;
 import java.util.*;
 
 import static org.junit.Assert.*;
+import static se.dykstrom.ronja.common.model.Square.SQUARE_IDS;
+import static se.dykstrom.ronja.common.model.Square.bitboardToIds;
 
 /**
  * This class is for testing class {@code Square} using JUnit.
@@ -33,21 +35,15 @@ import static org.junit.Assert.*;
  */
 public class SquareTest extends AbstractTestCase {
 
-    /**
-     * Tests the bitboardToIds method.
-     */
     @Test
-    public void testBitboardToIds() {
-        assertSquareIds(new String[]{}, Square.bitboardToIds(0L));
-        assertSquareIds(new String[]{"a1"}, Square.bitboardToIds(Square.A1));
-        assertSquareIds(new String[]{"a1", "a2"}, Square.bitboardToIds(Square.A1 | Square.A2));
-        assertSquareIds(new String[]{"a1", "a8", "h1", "h8"}, Square.bitboardToIds(Square.A1 | Square.A8 | Square.H1 | Square.H8));
-        assertSquareIds(new String[]{"d4", "e4", "d5", "e5"}, Square.bitboardToIds(Square.D4 | Square.E4 | Square.D5 | Square.E5));
+    public void shouldConvertBitboardToIds() {
+        assertSquareIds(new String[]{}, SQUARE_IDS, bitboardToIds(0L));
+        assertSquareIds(new String[]{"a1"}, SQUARE_IDS, bitboardToIds(Square.A1));
+        assertSquareIds(new String[]{"a1", "a2"}, SQUARE_IDS, bitboardToIds(Square.A1 | Square.A2));
+        assertSquareIds(new String[]{"a1", "a8", "h1", "h8"}, SQUARE_IDS, bitboardToIds(Square.A1 | Square.A8 | Square.H1 | Square.H8));
+        assertSquareIds(new String[]{"d4", "e4", "d5", "e5"}, SQUARE_IDS, bitboardToIds(Square.D4 | Square.E4 | Square.D5 | Square.E5));
     }
 
-    /**
-     * Tests the bitboardToIndices method.
-     */
     @Test
     public void testBitboardToIndices() {
         assertSquareIndices(new String[]{}, Square.bitboardToIndices(0L));
@@ -393,6 +389,20 @@ public class SquareTest extends AbstractTestCase {
     private static void assertSquareIds(String[] expectedNames, List<Long> actualIds) {
         long[] expected = Arrays.stream(expectedNames).mapToLong(Square::nameToId).sorted().toArray();
         long[] actual = actualIds.stream().mapToLong(n -> n).sorted().toArray();
+        assertArrayEquals(expected, actual);
+    }
+
+    /**
+     * Asserts that the squares defined by the names in {@code expectedNames} are the same as
+     * the squares defined by the IDs in {@code actualIds}.
+     *
+     * @param expectedNames An array of the expected square names, e.g. ["a1", "e4"].
+     * @param actualIds An array of the actual square IDs, e.g. [Square.A1, Square.E4].
+     * @param count The number of IDs in actualIds to check.
+     */
+    private static void assertSquareIds(String[] expectedNames, long[] actualIds, int count) {
+        long[] expected = Arrays.stream(expectedNames).mapToLong(Square::nameToId).sorted().toArray();
+        long[] actual = Arrays.stream(Arrays.copyOf(actualIds, count)).sorted().toArray();
         assertArrayEquals(expected, actual);
     }
 }

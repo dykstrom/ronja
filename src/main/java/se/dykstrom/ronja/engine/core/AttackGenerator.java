@@ -23,6 +23,8 @@ import se.dykstrom.ronja.common.model.Square;
 
 import java.util.List;
 
+import static se.dykstrom.ronja.common.model.Square.SQUARE_IDS;
+
 /**
  * A class used to find all squares that are attacked in a given position.
  *
@@ -124,11 +126,11 @@ public class AttackGenerator extends AbstractGenerator {
      * Returns a bitboard of all squares attacked by all my rooks.
      */
     public long getAllRookAttacks() {
-        List<Long> fromSquares = Square.bitboardToIds(position.rook & friend);
+        int count = Square.bitboardToIds(position.rook & friend);
 
         long squares = 0;
-        for (Long fromSquare : fromSquares) {
-            squares |= getStraightAttacks(fromSquare);
+        for (int i = 0; i < count; i++) {
+            squares |= getStraightAttacks(SQUARE_IDS[i]);
         }
         return squares;
     }
@@ -137,11 +139,11 @@ public class AttackGenerator extends AbstractGenerator {
      * Returns a bitboard of all squares attacked by all my bishops.
      */
     public long getAllBishopAttacks() {
-        List<Long> fromSquares = Square.bitboardToIds(position.bishop & friend);
+        int count = Square.bitboardToIds(position.bishop & friend);
 
         long squares = 0;
-        for (Long fromSquare : fromSquares) {
-            squares |= getDiagonalAttacks(fromSquare);
+        for (int i = 0; i < count; i++) {
+            squares |= getDiagonalAttacks(SQUARE_IDS[i]);
         }
         return squares;
     }
@@ -150,12 +152,12 @@ public class AttackGenerator extends AbstractGenerator {
      * Returns a bitboard of all squares attacked by all my queens.
      */
     public long getAllQueenAttacks() {
-        List<Long> fromSquares = Square.bitboardToIds(position.queen & friend);
+        int count = Square.bitboardToIds(position.queen & friend);
 
         long squares = 0;
-        for (Long fromSquare : fromSquares) {
-            squares |= getStraightAttacks(fromSquare);
-            squares |= getDiagonalAttacks(fromSquare);
+        for (int i = 0; i < count; i++) {
+            squares |= getStraightAttacks(SQUARE_IDS[i]);
+            squares |= getDiagonalAttacks(SQUARE_IDS[i]);
         }
         return squares;
     }

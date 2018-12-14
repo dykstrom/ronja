@@ -19,11 +19,11 @@ package se.dykstrom.ronja.engine.core;
 
 import se.dykstrom.ronja.common.model.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static se.dykstrom.ronja.common.model.Piece.*;
+import static se.dykstrom.ronja.common.model.Square.MAX_SQUARES;
+import static se.dykstrom.ronja.common.model.Square.SQUARE_IDS;
 
 /**
  * A class used to generate all possible pseudo moves for a certain position. A
@@ -42,7 +42,10 @@ public class FullMoveGenerator extends AbstractGenerator {
     public final int[][] moves = new int[MAX_POSITIONS][MAX_MOVES];
     private int positionIndex = 0;
     private int moveIndex = 0;
-    
+
+    /** Local array for storing square IDs. */
+    private final long[] squareIds = new long[MAX_SQUARES];
+
     /** The current position. */
     private Position position;
 
@@ -126,9 +129,10 @@ public class FullMoveGenerator extends AbstractGenerator {
     }
 
     /**
-     * Returns a list of all squares that a king on the square with index {@code fromIndex} can move to.
+     * Populates the array {@link Square#SQUARE_IDS} with all squares that a king on the square
+     * with index {@code fromIndex} can move to. Returns the number of such squares found.
      */
-    private List<Long> getNormalKingMoves(int fromIndex) {
+    private int getNormalKingMoves(int fromIndex) {
         // Get all possible to squares
         long to = KING_MOVES[fromIndex];
 
@@ -153,7 +157,8 @@ public class FullMoveGenerator extends AbstractGenerator {
     }
 
     /**
-     * Returns a list of all squares that a king on square {@code from} can move to by castling.
+     * Populates the array {@link Square#SQUARE_IDS} with all squares that a king on the square
+     * {@code from} can move to <i>by castling</i>. Returns the number of such squares found.
      *
      * The following things are checked:
      *
@@ -161,18 +166,18 @@ public class FullMoveGenerator extends AbstractGenerator {
      * - The squares that the king moves across are empty and not checked.
      * - The squares that the rook moves across are empty.
      */
-    private List<Long> getCastlingKingMoves(long from) {
-        List<Long> res = new ArrayList<>();
+    private int getCastlingKingMoves(long from) {
+        int count = 0;
 
         // White castling
         if (from == Square.E1) {
             if (position.isKingSideCastlingAllowed(Color.WHITE) && isRookOnStartSquare(Square.H1) &&
                 isPossibleToCastle(Square.F1 | Square.G1, Square.E1 | Square.F1 | Square.G1)) {
-                res.add(Square.G1);
+                SQUARE_IDS[count++] = Square.G1;
             }
             if (position.isQueenSideCastlingAllowed(Color.WHITE) && isRookOnStartSquare(Square.A1) &&
                 isPossibleToCastle(Square.B1 | Square.C1 | Square.D1, Square.C1 | Square.D1 | Square.E1)) {
-                res.add(Square.C1);
+                SQUARE_IDS[count++] = Square.C1;
             }
         }
 
@@ -180,69 +185,71 @@ public class FullMoveGenerator extends AbstractGenerator {
         else if (from == Square.E8) {
             if (position.isKingSideCastlingAllowed(Color.BLACK) && isRookOnStartSquare(Square.H8) &&
                 isPossibleToCastle(Square.F8 | Square.G8, Square.E8 | Square.F8 | Square.G8)) {
-                res.add(Square.G8);
+                SQUARE_IDS[count++] = Square.G8;
             }
             if (position.isQueenSideCastlingAllowed(Color.BLACK) && isRookOnStartSquare(Square.A8) &&
                 isPossibleToCastle(Square.B8 | Square.C8 | Square.D8, Square.C8 | Square.D8 | Square.E8)) {
-                res.add(Square.C8);
+                SQUARE_IDS[count++] = Square.C8;
             }
         }
 
-        return res;
+        return count;
     }
 
     /**
      * Generates all possible king moves for the side to move in the given position.
      */
-    public void generateKingMoves() {
+    void generateKingMoves() {
         // There is only one king
         long fromSquare = position.king & friend;
         int fromIndex = Square.idToIndex(fromSquare);
 
-        List<Long> toSquares = getNormalKingMoves(fromIndex);
-        for (Long toSquare : toSquares) {
-            createAndSaveMove(KING, fromSquare, toSquare);
+        int count = getNormalKingMoves(fromIndex);
+        for (int i = 0; i < count; i++) {
+            createAndSaveMove(KING, fromSquare, SQUARE_IDS[i]);
         }
 
-        toSquares = getCastlingKingMoves(fromSquare);
-        for (Long toSquare : toSquares) {
-            moves[positionIndex][moveIndex++] = Move.createCastling(fromSquare, toSquare);
+        count = getCastlingKingMoves(fromSquare);
+        for (int i = 0; i < count; i++) {
+            moves[positionIndex][moveIndex++] = Move.createCastling(fromSquare, SQUARE_IDS[i]);
         }
     }
 
     // ------------------------------------------------------------------------
 
     /**
-     * Returns a list of all squares that a knight on the square with index {@code fromIndex} can move to.
+     * Populates the array {@link Square#SQUARE_IDS} with all squares that a knight on the square
+     * with index {@code fromIndex} can move to. Returns the number of such squares found.
      *
      * The following things are checked:
      *
      * - The destination square is not blocked by a piece of my color.
      * - The move does not cross a border.
      */
-    private List<Long> getKnightMoves(int fromIndex) {
+    private int getKnightMoves(int fromIndex) {
         // Get all possible 'to' squares as a bitboard
         long to = KNIGHT_MOVES[fromIndex];
 
         // Filter out those that are legal to move to
         long legal = to & ~friend;
 
-        // Convert to list of 'to' squares
+        // Convert to array of 'to' squares
         return Square.bitboardToIds(legal);
     }
 
     /**
      * Generates all possible knight moves for the side to move in the given position.
      */
-    public void generateKnightMoves() {
+    void generateKnightMoves() {
         // Find all my knights
         List<Integer> fromIndices = Square.bitboardToIndices(position.knight & friend);
 
         // For each knight, find all of its 'to' squares
         for (Integer fromIndex : fromIndices) {
             long fromSquare = Square.indexToId(fromIndex);
-            List<Long> toSquares = getKnightMoves(fromIndex);
-            for (Long toSquare : toSquares) {
+            int count = getKnightMoves(fromIndex);
+            for (int i = 0; i < count; i++) {
+                long toSquare = SQUARE_IDS[i];
                 createAndSaveMove(KNIGHT, fromSquare, toSquare);
             }
         }
@@ -251,8 +258,9 @@ public class FullMoveGenerator extends AbstractGenerator {
     // ------------------------------------------------------------------------
 
     /**
-     * Returns a list of all squares that a pawn on square {@code from} can move to,
-     * except 'en passant' moves.
+     * Populates the array {@link #squareIds} with all squares that a pawn on the square
+     * {@code from} can move to, except 'en passant' moves. Returns the number of such
+     * squares found.
      *
      * The following things are checked:
      *
@@ -261,34 +269,34 @@ public class FullMoveGenerator extends AbstractGenerator {
      * - The origin square is the start position for two square moves.
      * - The move does not cross a border.
      */
-    public List<Long> getNormalPawnMoves(long from) {
+    int getNormalPawnMoves(long from) {
         boolean inEastBorder = (EAST_BORDER & from) != 0;
         boolean inWestBorder = (WEST_BORDER & from) != 0;
 
         // If the pawn is in start position
         boolean inStartPosition = isWhiteMove ? ((from & Board.RANK_2) != 0) : ((from & Board.RANK_7) != 0);
 
-        List<Long> res = new ArrayList<>();
+        int count = 0;
 
         // If white to move
         if (isWhiteMove) {
             // Straight moves
             if (isEmpty(Square.north(from))) {
-                res.add(Square.north(from));
+                squareIds[count++] = Square.north(from);
                 if (inStartPosition && isEmpty(Square.northNorth(from))) {
-                    res.add(Square.northNorth(from));
+                    squareIds[count++] = Square.northNorth(from);
                 }
             }
 
             // Captures
             if (!inWestBorder) {
                 if (isCapture(Square.northWest(from))) {
-                    res.add(Square.northWest(from));
+                    squareIds[count++] = Square.northWest(from);
                 }
             }
             if (!inEastBorder) {
                 if (isCapture(Square.northEast(from))) {
-                    res.add(Square.northEast(from));
+                    squareIds[count++] = Square.northEast(from);
                 }
             }
         }
@@ -297,44 +305,44 @@ public class FullMoveGenerator extends AbstractGenerator {
         else {
             // Straight moves
             if (isEmpty(Square.south(from))) {
-                res.add(Square.south(from));
+                squareIds[count++] = Square.south(from);
                 if (inStartPosition && isEmpty(Square.southSouth(from))) {
-                    res.add(Square.southSouth(from));
+                    squareIds[count++] = Square.southSouth(from);
                 }
             }
 
             // Captures
             if (!inWestBorder) {
                 if (isCapture(Square.southWest(from))) {
-                    res.add(Square.southWest(from));
+                    squareIds[count++] = Square.southWest(from);
                 }
             }
             if (!inEastBorder) {
                 if (isCapture(Square.southEast(from))) {
-                    res.add(Square.southEast(from));
+                    squareIds[count++] = Square.southEast(from);
                 }
             }
         }
 
-        return res;
+        return count;
     }
 
     /**
-     * Returns a list of all squares that a pawn on square {@code from} can move to with an 'en passant' move.
-     * This list either contains one move, or no moves at all.
+     * Returns the square that a pawn on square {@code from} can move to with an 'en passant' move.
+     * If there is no possible 'en passant' square, this method returns 0.
      *
      * The following things are checked:
      *
      * - The destination square is a possible e.p. square.
      */
-    public List<Long> getEnPassantPawnMoves(long from) {
+    long getEnPassantPawnMove(long from) {
         if (isWhiteMove) {
             // If 'en passant' target square is on 6th rank, and pawn is on 5th rank
             if (((enPassant & Board.RANK_6) != 0) && ((from & Board.RANK_5) != 0)) {
                 int fromFile = Board.getFile(from);
                 int enPassantFile = Board.getFile(enPassant);
                 if ((fromFile == (enPassantFile + 1)) || (fromFile == (enPassantFile - 1))) {
-                    return Collections.singletonList(enPassant);
+                    return enPassant;
                 }
             }
         } else {
@@ -343,25 +351,28 @@ public class FullMoveGenerator extends AbstractGenerator {
                 int fromFile = Board.getFile(from);
                 int enPassantFile = Board.getFile(enPassant);
                 if ((fromFile == (enPassantFile + 1)) || (fromFile == (enPassantFile - 1))) {
-                    return Collections.singletonList(enPassant);
+                    return enPassant;
                 }
             }
         }
 
-        return Collections.emptyList();
+        return 0;
     }
 
     /**
      * Generates all possible pawn moves for the side to move in the given position.
      */
-    public void generatePawnMoves() {
-        // Find all my pawns
-        List<Long> fromSquares = Square.bitboardToIds(position.pawn & friend);
+    void generatePawnMoves() {
+        // Find the squares of all of my pawns
+        int fromSquareCount = Square.bitboardToIds(position.pawn & friend);
 
         // For each pawn, find all of its 'to' squares
-        for (Long fromSquare : fromSquares) {
-            List<Long> toSquares = getNormalPawnMoves(fromSquare);
-            for (Long toSquare : toSquares) {
+        for (int fromSquareIdx = 0; fromSquareIdx < fromSquareCount; fromSquareIdx++) {
+            long fromSquare = SQUARE_IDS[fromSquareIdx];
+
+            int toSquareCount = getNormalPawnMoves(fromSquare);
+            for (int toSquareIdx = 0; toSquareIdx < toSquareCount; toSquareIdx++) {
+                long toSquare = squareIds[toSquareIdx];
                 if ((toSquare & (Board.RANK_1 | Board.RANK_8)) != 0) {
                     if (isCapture(toSquare)) {
                         int captured = position.getPiece(toSquare);
@@ -380,8 +391,8 @@ public class FullMoveGenerator extends AbstractGenerator {
                 }
             }
 
-            toSquares = getEnPassantPawnMoves(fromSquare);
-            for (Long toSquare : toSquares) {
+            long toSquare = getEnPassantPawnMove(fromSquare);
+            if (toSquare != 0) {
                 moves[positionIndex][moveIndex++] = Move.createEnPassant(fromSquare, toSquare);
             }
         }
@@ -392,15 +403,17 @@ public class FullMoveGenerator extends AbstractGenerator {
     /**
      * Generates all possible bishop moves for the side to move in the given position.
      */
-    public void generateBishopMoves() {
+    void generateBishopMoves() {
         // Find all my bishops
-        List<Long> fromSquares = Square.bitboardToIds(position.bishop & friend);
+        int fromSquareCount = Square.bitboardToIds(position.bishop & friend);
 
         // For each bishop, find all of its 'to' squares
-        for (Long fromSquare : fromSquares) {
-            List<Long> toSquares = getDiagonalMoves(fromSquare);
-            for (Long toSquare : toSquares) {
-                createAndSaveMove(BISHOP, fromSquare, toSquare);
+        for (int fromSquareIdx = 0; fromSquareIdx < fromSquareCount; fromSquareIdx++) {
+            long fromSquare = SQUARE_IDS[fromSquareIdx];
+
+            int toSquareCount = getDiagonalMoves(fromSquare);
+            for (int toSquareIdx = 0; toSquareIdx < toSquareCount; toSquareIdx++) {
+                createAndSaveMove(BISHOP, fromSquare, squareIds[toSquareIdx]);
             }
         }
     }
@@ -408,16 +421,21 @@ public class FullMoveGenerator extends AbstractGenerator {
     /**
      * Generates all possible queen moves for the side to move in the given position.
      */
-    public void generateQueenMoves() {
+    void generateQueenMoves() {
         // Find all my queens
-        List<Long> fromSquares = Square.bitboardToIds(position.queen & friend);
+        int fromSquareCount = Square.bitboardToIds(position.queen & friend);
 
         // For each queen, find all of its 'to' squares
-        for (Long fromSquare : fromSquares) {
-            List<Long> toSquares = getStraightMoves(fromSquare);
-            toSquares.addAll(getDiagonalMoves(fromSquare));
-            for (Long toSquare : toSquares) {
-                createAndSaveMove(QUEEN, fromSquare, toSquare);
+        for (int fromSquareIdx = 0; fromSquareIdx < fromSquareCount; fromSquareIdx++) {
+            long fromSquare = SQUARE_IDS[fromSquareIdx];
+
+            int toSquareCount = getDiagonalMoves(fromSquare);
+            for (int toSquareIdx = 0; toSquareIdx < toSquareCount; toSquareIdx++) {
+                createAndSaveMove(QUEEN, fromSquare, squareIds[toSquareIdx]);
+            }
+            toSquareCount = getStraightMoves(fromSquare);
+            for (int toSquareIdx = 0; toSquareIdx < toSquareCount; toSquareIdx++) {
+                createAndSaveMove(QUEEN, fromSquare, squareIds[toSquareIdx]);
             }
         }
     }
@@ -425,15 +443,17 @@ public class FullMoveGenerator extends AbstractGenerator {
     /**
      * Generates all possible rook moves for the side to move in the given position.
      */
-    public void generateRookMoves() {
+    void generateRookMoves() {
         // Find all my rooks
-        List<Long> fromSquares = Square.bitboardToIds(position.rook & friend);
+        int fromSquareCount = Square.bitboardToIds(position.rook & friend);
 
         // For each rook, find all of its 'to' squares
-        for (Long fromSquare : fromSquares) {
-            List<Long> toSquares = getStraightMoves(fromSquare);
-            for (Long toSquare : toSquares) {
-                createAndSaveMove(ROOK, fromSquare, toSquare);
+        for (int fromSquareIdx = 0; fromSquareIdx < fromSquareCount; fromSquareIdx++) {
+            long fromSquare = SQUARE_IDS[fromSquareIdx];
+
+            int toSquareCount = getStraightMoves(fromSquare);
+            for (int toSquareIdx = 0; toSquareIdx < toSquareCount; toSquareIdx++) {
+                createAndSaveMove(ROOK, fromSquare, squareIds[toSquareIdx]);
             }
         }
     }
@@ -455,20 +475,21 @@ public class FullMoveGenerator extends AbstractGenerator {
     }
 
     /**
-     * Returns the list of all squares that a piece on square {@code from} can move to in a straight line.
+     * Populates the array {@link #squareIds} with all squares that a piece on square
+     * {@code from} can move to straight. Returns the number of such squares found.
      *
      * The following things are checked:
      *
      * - The destination square is not blocked by a piece of my color.
      * - The move does not cross a border.
      */
-    private List<Long> getStraightMoves(long from) {
+    private int getStraightMoves(long from) {
         boolean inNorthBorder = (NORTH_BORDER & from) != 0;
         boolean inEastBorder = (EAST_BORDER & from) != 0;
         boolean inSouthBorder = (SOUTH_BORDER & from) != 0;
         boolean inWestBorder = (WEST_BORDER & from) != 0;
 
-        List<Long> res = new ArrayList<>();
+        int count = 0;
 
         long stop;
         long pos;
@@ -478,11 +499,11 @@ public class FullMoveGenerator extends AbstractGenerator {
             stop = NORTH_BORDER | occupied;
             pos = Square.north(from);
             while ((pos & stop) == 0) {
-                res.add(pos);
+                squareIds[count++] = pos;
                 pos = Square.north(pos);
             }
             if (!isBlocked(pos))
-                res.add(pos);
+                squareIds[count++] = pos;
         }
 
         // East
@@ -490,11 +511,11 @@ public class FullMoveGenerator extends AbstractGenerator {
             stop = EAST_BORDER | occupied;
             pos = Square.east(from);
             while ((pos & stop) == 0) {
-                res.add(pos);
+                squareIds[count++] = pos;
                 pos = Square.east(pos);
             }
             if (!isBlocked(pos))
-                res.add(pos);
+                squareIds[count++] = pos;
         }
 
         // South
@@ -502,11 +523,11 @@ public class FullMoveGenerator extends AbstractGenerator {
             stop = SOUTH_BORDER | occupied;
             pos = Square.south(from);
             while ((pos & stop) == 0) {
-                res.add(pos);
+                squareIds[count++] = pos;
                 pos = Square.south(pos);
             }
             if (!isBlocked(pos))
-                res.add(pos);
+                squareIds[count++] = pos;
         }
 
         // West
@@ -514,31 +535,32 @@ public class FullMoveGenerator extends AbstractGenerator {
             stop = WEST_BORDER | occupied;
             pos = Square.west(from);
             while ((pos & stop) == 0) {
-                res.add(pos);
+                squareIds[count++] = pos;
                 pos = Square.west(pos);
             }
             if (!isBlocked(pos))
-                res.add(pos);
+                squareIds[count++] = pos;
         }
 
-        return res;
+        return count;
     }
 
     /**
-     * Returns the list of all squares that a piece on square {@code from} can move to diagonally.
+     * Populates the array {@link #squareIds} with all squares that a piece on square
+     * {@code from} can move to diagonally. Returns the number of such squares found.
      *
      * The following things are checked:
      *
      * - The destination square is not blocked by a piece of my color.
      * - The move does not cross a border.
      */
-    private List<Long> getDiagonalMoves(long from) {
+    private int getDiagonalMoves(long from) {
         boolean inNorthBorder = (NORTH_BORDER & from) != 0;
         boolean inEastBorder = (EAST_BORDER & from) != 0;
         boolean inSouthBorder = (SOUTH_BORDER & from) != 0;
         boolean inWestBorder = (WEST_BORDER & from) != 0;
 
-        List<Long> res = new ArrayList<>();
+        int count = 0;
 
         long stop;
         long pos;
@@ -548,11 +570,11 @@ public class FullMoveGenerator extends AbstractGenerator {
             stop = NORTH_BORDER | EAST_BORDER | occupied;
             pos = Square.northEast(from);
             while ((pos & stop) == 0) {
-                res.add(pos);
+                squareIds[count++] = pos;
                 pos = Square.northEast(pos);
             }
             if (!isBlocked(pos)) {
-                res.add(pos);
+                squareIds[count++] = pos;
             }
         }
 
@@ -561,11 +583,11 @@ public class FullMoveGenerator extends AbstractGenerator {
             stop = SOUTH_BORDER | EAST_BORDER | occupied;
             pos = Square.southEast(from);
             while ((pos & stop) == 0) {
-                res.add(pos);
+                squareIds[count++] = pos;
                 pos = Square.southEast(pos);
             }
             if (!isBlocked(pos))
-                res.add(pos);
+                squareIds[count++] = pos;
         }
 
         // SW
@@ -573,11 +595,11 @@ public class FullMoveGenerator extends AbstractGenerator {
             stop = SOUTH_BORDER | WEST_BORDER | occupied;
             pos = Square.southWest(from);
             while ((pos & stop) == 0) {
-                res.add(pos);
+                squareIds[count++] = pos;
                 pos = Square.southWest(pos);
             }
             if (!isBlocked(pos))
-                res.add(pos);
+                squareIds[count++] = pos;
         }
 
         // NW
@@ -585,14 +607,14 @@ public class FullMoveGenerator extends AbstractGenerator {
             stop = NORTH_BORDER | WEST_BORDER | occupied;
             pos = Square.northWest(from);
             while ((pos & stop) == 0) {
-                res.add(pos);
+                squareIds[count++] = pos;
                 pos = Square.northWest(pos);
             }
             if (!isBlocked(pos))
-                res.add(pos);
+                squareIds[count++] = pos;
         }
 
-        return res;
+        return count;
     }
 
     // ------------------------------------------------------------------------

@@ -57,7 +57,7 @@ public class CommandTest extends AbstractTestCase {
     private final Game game = new Game(OpeningBook.DEFAULT);
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         AppConfig.setGameLogFilename(null);
         game.setTimeControl(TC_0_0_01);
         game.setTimeData(TD_0_0_01);
@@ -66,7 +66,7 @@ public class CommandTest extends AbstractTestCase {
     // ------------------------------------------------------------------------
 
     @Test
-    public void testBkCommand() throws Exception {
+    public void testBkCommand() {
         ListResponse response = new ListResponse();
         Command command = new BkCommand(null, response, game);
         command.execute();
@@ -85,7 +85,7 @@ public class CommandTest extends AbstractTestCase {
     }
 
     @Test
-    public void testHintCommand() throws Exception {
+    public void testHintCommand() {
         ListResponse response = new ListResponse();
         Command command = new HintCommand(null, response, game);
         command.execute();
@@ -94,14 +94,14 @@ public class CommandTest extends AbstractTestCase {
     }
 
     @Test
-    public void testForceCommand() throws Exception {
+    public void testForceCommand() {
         Command command = new ForceCommand(null, null, game);
         command.execute();
         assertTrue(game.getForceMode());
     }
 
     @Test
-    public void testNewCommand() throws Exception {
+    public void testNewCommand() {
         Command command = new NewCommand(null, null, game);
         command.execute();
         assertFalse(game.getForceMode());
@@ -178,7 +178,7 @@ public class CommandTest extends AbstractTestCase {
     }
 
     @Test
-    public void testGoCommand() throws Exception {
+    public void testGoCommand() {
         game.setTimeControl(TC_40_5_0);
         game.setTimeData(TD_40_5_0);
         ListResponse response = new ListResponse();
@@ -235,7 +235,7 @@ public class CommandTest extends AbstractTestCase {
     }
 
     @Test
-    public void testPlayOtherCommand() throws Exception {
+    public void testPlayOtherCommand() {
         ListResponse response = new ListResponse();
         Command command = new PlayOtherCommand(null, response, game);
         command.execute();

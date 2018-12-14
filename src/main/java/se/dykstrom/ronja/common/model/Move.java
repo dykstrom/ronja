@@ -161,26 +161,4 @@ public class Move {
     public static boolean isEnPassant(int move) {
         return (move & ENPASSANT_MASK) != 0;
     }
-
-    /**
-     * Returns a string representation of the given move.
-     */
-    public static String toString(int move) {
-        StringBuilder builder = new StringBuilder();
-
-        builder.append("[");
-        builder.append(Piece.toSymbol(getPiece(move)));
-        builder.append(Square.idToName(getFrom(move)));
-        builder.append(Square.idToName(getTo(move)));
-        if (isPromotion(move)) {
-            builder.append("->").append(Piece.toSymbol(getPromoted(move)));
-        } else if (isCastling(move)) {
-            builder.append(", castling");
-        } else if (isEnPassant(move)) {
-            builder.append(", en passant");
-        }
-        builder.append("]");
-
-        return builder.toString();
-    }
 }

@@ -42,7 +42,7 @@ public class CommandFactoryTest {
     // ------------------------------------------------------------------------
 
     @Test
-    public void testHintCommand() throws Exception {
+    public void testHintCommand() {
         Command command = CommandFactory.create(HintCommand.NAME, null, response, game);
         command.execute();
         assertEquals(1, response.getList().size());
@@ -50,7 +50,7 @@ public class CommandFactoryTest {
     }
 
     @Test
-    public void testNameCommand() throws Exception {
+    public void testNameCommand() {
         String opponent = "GNU Chess";
         Command command = CommandFactory.create(NameCommand.NAME, opponent, response, game);
         command.execute();
@@ -59,7 +59,7 @@ public class CommandFactoryTest {
     }
 
     @Test
-    public void testInvalidCommand() throws Exception {
+    public void testInvalidCommand() {
         Command command = CommandFactory.create("foo", null, response, game);
         assertTrue(command instanceof InvalidCommand);
         command.execute();
@@ -68,7 +68,7 @@ public class CommandFactoryTest {
     }
 
     @Test
-    public void testAllCommands() throws Exception {
+    public void testAllCommands() {
         assertTrue(CommandFactory.create(AcceptedCommand.NAME, "", response, game) instanceof AcceptedCommand);
         assertTrue(CommandFactory.create(BkCommand.NAME, "", response, game) instanceof BkCommand);
         assertTrue(CommandFactory.create(BoardCommand.NAME, "", response, game) instanceof BoardCommand);
