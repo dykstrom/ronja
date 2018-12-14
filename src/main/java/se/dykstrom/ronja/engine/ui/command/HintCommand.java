@@ -22,7 +22,6 @@ import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.SanParser;
 import se.dykstrom.ronja.engine.core.AlphaBetaFinder;
-import se.dykstrom.ronja.engine.core.Finder;
 import se.dykstrom.ronja.engine.ui.io.Response;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
 
@@ -34,8 +33,6 @@ import se.dykstrom.ronja.engine.utils.PositionUtils;
 public class HintCommand extends AbstractCommand {
 
     public static final String NAME = "hint";
-
-    private static final Finder FINDER = new AlphaBetaFinder();
 
     @SuppressWarnings("WeakerAccess")
     public HintCommand(String args, Response response, Game game) {
@@ -49,7 +46,8 @@ public class HintCommand extends AbstractCommand {
         if (!PositionUtils.isGameOver(position)) {
             int move = book.findBestMove(position);
             if (move == 0) {
-                move = FINDER.findBestMove(position, 3); // Limit the search depth in this case
+                var finder = new AlphaBetaFinder(game);
+                move = finder.findBestMove(position, 3); // Limit the search depth in this case
             }
             response.write("Hint: " + SanParser.format(position, move));
         }

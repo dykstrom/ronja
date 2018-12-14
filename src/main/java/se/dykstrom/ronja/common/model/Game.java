@@ -18,7 +18,6 @@
 package se.dykstrom.ronja.common.model;
 
 import se.dykstrom.ronja.common.book.OpeningBook;
-import se.dykstrom.ronja.common.parser.IllegalMoveException;
 import se.dykstrom.ronja.engine.time.TimeControl;
 import se.dykstrom.ronja.engine.time.TimeControlType;
 import se.dykstrom.ronja.engine.time.TimeData;
@@ -38,6 +37,9 @@ public class Game {
 
     /** Default time control is 40 moves in 2 minutes. */
     private static final TimeControl TWO_MINUTES = new TimeControl(40, 2 * 60 * 1000, 0, CLASSIC);
+
+    /** The maximum number of moves in a game. */
+    private static final int MAX_MOVES = 500;
 
     /** True if force mode is on. */
     private boolean force;
@@ -78,6 +80,12 @@ public class Game {
     /** Remaining time and moves for the engine. */
     private TimeData timeData;
 
+    /** All historic positions in this game. */
+    private final Position[] positions = new Position[MAX_MOVES];
+
+    /** Index to keep track of the number of stored positions. */
+    private int positionIndex;
+
     // ------------------------------------------------------------------------
 
     /**
@@ -95,7 +103,6 @@ public class Game {
         setForceMode(false);
         setPosition(Position.START);
         setEngineColor(Color.BLACK);
-        setMoves(new ArrayList<>());
         setOpponent(null);
         setResult("*");
         setStartTime(LocalDateTime.now());
@@ -104,18 +111,28 @@ public class Game {
     }
 
     /**
-     * Makes the given move, and updates game data accordingly.
+     * Makes the given move, updates game data, and returns the resulting position.
      */
-    public void makeMove(int move) throws IllegalMoveException {
-        Position newPosition = position.withMove(move);
-
-        // If the user is in check after his move
-        if (newPosition.isIllegalCheck()) {
-            throw new IllegalMoveException("in check after move");
-        }
-
-        position = newPosition;
+    public Position makeMove(int move) {
         moves.add(move);
+
+        position = position.withMove(move);
+        positions[positionIndex++] = position;
+
+        return position;
+    }
+
+    /**
+     * Unmakes the last move that was made, and updates game data.
+     */
+    public void unmakeMove() {
+        if (moves.isEmpty()) {
+            throw new IllegalStateException("no moves to unmake");
+        }
+        moves.remove(moves.size() - 1);
+
+        positionIndex--;
+        position = positions[positionIndex - 1];
     }
 
     /**
@@ -192,7 +209,15 @@ public class Game {
     }
 
     /**
-     * Sets the current position. Also sets the start position of the game to the given position.
+     * Returns the list of historical positions.
+     */
+    public Position[] getPositions() {
+        return positions;
+    }
+
+    /**
+     * Sets the current position and the start position of the game to the given position.
+     * Also resets the lists of historical positions and moves.
      *
      * @param position The position to set.
      */
@@ -200,6 +225,11 @@ public class Game {
         this.position = position;
         this.startPosition = position;
         this.startMoveNumber = position.getFullMoveNumber();
+
+        positions[0] = position;
+        positionIndex = 1;
+
+        setMoves(new ArrayList<>());
     }
 
     /**

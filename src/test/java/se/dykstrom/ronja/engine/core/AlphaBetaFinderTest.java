@@ -17,8 +17,9 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import org.junit.Before;
 import org.junit.Test;
+import se.dykstrom.ronja.common.book.OpeningBook;
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.test.AbstractTestCase;
@@ -39,13 +40,6 @@ import static se.dykstrom.ronja.common.parser.FenParser.parse;
 public class AlphaBetaFinderTest extends AbstractTestCase {
 
     private static final int MAX_DEPTH = 3;
-
-    private final AlphaBetaFinder finder = new AlphaBetaFinder();
-
-    @Before
-    public void setUp() {
-        finder.setMaxDepth(MAX_DEPTH);
-    }
 
     /**
      * Tests calling alphaBeta with depth = max depth. No moves are made, the given positions are just evaluated.
@@ -214,6 +208,7 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      * Calls findBestMoveWithinTime with the position specified by {@code fen} and the maximum search time.
      */
     private int findBestMoveWithTime(String fen, int maxTime) throws ParseException {
+        AlphaBetaFinder finder = setupFinder(fen);
         return finder.findBestMoveWithinTime(parse(fen), maxTime);
     }
 
@@ -221,6 +216,7 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      * Calls findBestMove with the position specified by {@code fen} and the maximum search depth.
      */
     private int findBestMoveWithDepth(String fen) throws ParseException {
+        AlphaBetaFinder finder = setupFinder(fen);
         return finder.findBestMove(parse(fen), MAX_DEPTH);
     }
 
@@ -228,6 +224,15 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      * Calls the alphaBeta method with the position specified by {@code fen} and the given depth.
      */
     private int alphaBeta(String fen, int maxDepth) throws ParseException {
+        AlphaBetaFinder finder = setupFinder(fen);
         return finder.alphaBeta(parse(fen), 0, maxDepth, AlphaBetaFinder.ALPHA_START, AlphaBetaFinder.BETA_START);
+    }
+
+    private AlphaBetaFinder setupFinder(String fen) throws ParseException {
+        Game game = new Game(OpeningBook.DEFAULT);
+        game.setPosition(parse(fen));
+        AlphaBetaFinder finder = new AlphaBetaFinder(game);
+        finder.setMaxDepth(MAX_DEPTH);
+        return finder;
     }
 }

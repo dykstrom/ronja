@@ -21,10 +21,8 @@ import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.CanParser;
-import se.dykstrom.ronja.common.parser.IllegalMoveException;
 import se.dykstrom.ronja.common.parser.SanParser;
 import se.dykstrom.ronja.engine.core.AlphaBetaFinder;
-import se.dykstrom.ronja.engine.core.Finder;
 import se.dykstrom.ronja.engine.time.TimeUtils;
 import se.dykstrom.ronja.engine.ui.io.Response;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
@@ -39,8 +37,6 @@ import java.util.logging.Logger;
 public abstract class AbstractMoveCommand extends AbstractCommand {
 
     private static final Logger TLOG = Logger.getLogger(AbstractMoveCommand.class.getName());
-
-    private static final Finder FINDER = new AlphaBetaFinder();
 
     AbstractMoveCommand(String args, Response response, Game game) {
         super(args, response, game);
@@ -63,19 +59,16 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
 
             // If no book move found, use Finder to find best move
             if (move == 0) {
-                long availableTime = TimeUtils.calculateTimeForNextMove(game.getTimeControl(), game.getTimeData());
-                move = FINDER.findBestMoveWithinTime(position, availableTime);
+                var availableTime = TimeUtils.calculateTimeForNextMove(game.getTimeControl(), game.getTimeData());
+                var finder = new AlphaBetaFinder(game);
+                move = finder.findBestMoveWithinTime(position, availableTime);
                 TLOG.fine("Engine move: " + formatForLogging(move, position));
             } else {
                 TLOG.fine("Engine move: " + formatForLogging(move, position) + " (book)");
             }
 
             // Make the move
-            try {
-                game.makeMove(move);
-            } catch (IllegalMoveException ime) {
-                TLOG.severe("Engine made an illegal move (" + CanParser.format(move) + "): " + ime.getMessage());
-            }
+            game.makeMove(move);
 
             // Reply to XBoard
             response.write("move " + CanParser.format(move));

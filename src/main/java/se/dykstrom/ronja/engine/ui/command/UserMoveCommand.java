@@ -17,14 +17,14 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
-import java.util.logging.Logger;
-
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.IllegalMoveException;
 import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.engine.ui.io.Response;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
+
+import java.util.logging.Logger;
 
 public class UserMoveCommand extends AbstractMoveCommand {
 
@@ -53,6 +53,12 @@ public class UserMoveCommand extends AbstractMoveCommand {
 
                 // Make the user's move
                 game.makeMove(move);
+
+                // If the user is in check after his move
+                if (game.getPosition().isIllegalCheck()) {
+                    game.unmakeMove();
+                    throw new IllegalMoveException("in check after move");
+                }
 
                 // If game is over notify user, otherwise make engine's move (in the new position)
                 if (PositionUtils.isGameOver(game.getPosition())) {

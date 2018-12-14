@@ -91,7 +91,9 @@ public final class PositionUtils {
             return "Insufficient mating material";
         }
 
-        // TODO: Three-fold repetition of position.
+        if (isDrawByThreefoldRepetition(position)) {
+            return "Threefold repetition";
+        }
 
         if (isDrawByStalemate(position)) {
             return "Stalemate";
@@ -120,6 +122,13 @@ public final class PositionUtils {
             }
         }
         return true;
+    }
+
+    /**
+     * Returns {@code true} if the given position is a draw by threefold repetition of position.
+     */
+    private static boolean isDrawByThreefoldRepetition(Position position) {
+        return false;
     }
 
     /**

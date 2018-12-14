@@ -18,11 +18,13 @@
 package se.dykstrom.ronja.engine.utils;
 
 import org.junit.Test;
+import se.dykstrom.ronja.common.book.OpeningBook;
+import se.dykstrom.ronja.common.model.Game;
+import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * This class is for testing class {@code PositionUtils} using JUnit.
@@ -51,6 +53,34 @@ public class PositionUtilsTest extends AbstractTestCase {
         assertFalse(PositionUtils.isDraw(FenParser.parse(FEN_DRAW_1_1)));
         assertTrue(PositionUtils.isDraw(FenParser.parse(FEN_DRAW_1_2)));
         assertTrue(PositionUtils.isDraw(FenParser.parse(FEN_ONE_BISHOP)));
+    }
+
+    @Test
+    public void testIsDrawByThreefoldRepetition() throws Exception {
+        // Set up game
+        Game game = new Game(OpeningBook.DEFAULT);
+        Position position = game.getPosition();
+
+        // Make moves to repeat position
+        game.makeMove(MOVE_G1F3);
+        assertNull(PositionUtils.getDrawType(position));
+        game.makeMove(MOVE_G8F6);
+        assertNull(PositionUtils.getDrawType(position));
+        game.makeMove(MOVE_F3G1);
+        assertNull(PositionUtils.getDrawType(position));
+        game.makeMove(MOVE_F6G8);
+        assertNull(PositionUtils.getDrawType(position));
+
+        game.makeMove(MOVE_G1F3);
+        assertNull(PositionUtils.getDrawType(position));
+        game.makeMove(MOVE_G8F6);
+        assertNull(PositionUtils.getDrawType(position));
+        game.makeMove(MOVE_F3G1);
+        assertNull(PositionUtils.getDrawType(position));
+        game.makeMove(MOVE_F6G8);
+
+        // Check for draw
+        assertEquals("Threefold repetition", PositionUtils.getDrawType(position));
     }
 
     @Test

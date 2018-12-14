@@ -19,10 +19,11 @@ package se.dykstrom.ronja.engine.core;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import se.dykstrom.ronja.common.book.OpeningBook;
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Piece;
 import se.dykstrom.ronja.common.model.Square;
-import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
 import java.text.ParseException;
@@ -30,6 +31,7 @@ import java.text.ParseException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static se.dykstrom.ronja.common.model.Piece.*;
+import static se.dykstrom.ronja.common.parser.FenParser.parse;
 
 /**
  * This class is for testing the different {@code Finder} classes using JUnit.
@@ -39,8 +41,6 @@ import static se.dykstrom.ronja.common.model.Piece.*;
  */
 @Ignore
 public class SlowFinderTest extends AbstractTestCase {
-
-    private final Finder finder = new AlphaBetaFinder();
 
     /**
      * Tests calling findBestMove with positions that result in mate in four moves.
@@ -120,42 +120,51 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_Profiler() throws Exception {
-        int waitTime = 15000;
+        var waitTime = 15000;
         System.out.println("Waiting " + (waitTime / 1000) + " seconds...");
         Thread.sleep(waitTime);
         System.out.println("Starting test...");
-        long start = System.currentTimeMillis();
+        var start = System.currentTimeMillis();
         assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_0, 6));
-        System.out.println("Finished step 1");
+        System.out.println("Finished step 0 after " + elapsedTime(start) + " seconds");
         assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 6));
-        System.out.println("Finished step 2");
+        System.out.println("Finished step 1 after " + elapsedTime(start) + " seconds");
         assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_2, 6));
-        System.out.println("Finished step 3");
-        long stop = System.currentTimeMillis();
-        System.out.println("Finished test after " + ((stop - start) / 1000.0) + " seconds");
+        System.out.println("Finished step 2 after " + elapsedTime(start) + " seconds");
+        System.out.println("Finished test after " + elapsedTime(start) + " seconds");
     }
 
     /**
      * Calls findBestMove with the position specified by {@code fen} and the given depth.
      */
     private int findBestMoveWithDepth(String fen, int maxDepth) throws ParseException {
-        return finder.findBestMove(FenParser.parse(fen), maxDepth);
+        var game = new Game(OpeningBook.DEFAULT);
+        game.setPosition(parse(fen));
+        var finder = new AlphaBetaFinder(game);
+        return finder.findBestMove(parse(fen), maxDepth);
     }
 
     public static void main(String[] args) throws Exception {
-        SlowFinderTest test = new SlowFinderTest();
-        int waitTime = 1000;
+        var test = new SlowFinderTest();
+        var waitTime = 1000;
         System.out.println("Waiting " + (waitTime / 1000) + " seconds...");
         Thread.sleep(waitTime);
         System.out.println("Starting test...");
-        long start = System.currentTimeMillis();
+        var start = System.currentTimeMillis();
         System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_0, 6));
-        System.out.println("Finished step 1");
-        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 6));
-        System.out.println("Finished step 2");
+        System.out.println("Finished step 0 after " + elapsedTime(start) + " seconds");
+        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 7));
+        System.out.println("Finished step 1 after " + elapsedTime(start) + " seconds");
         System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_2, 6));
-        System.out.println("Finished step 3");
-        long stop = System.currentTimeMillis();
-        System.out.println("Finished test after " + ((stop - start) / 1000.0) + " seconds");
+        System.out.println("Finished step 2 after " + elapsedTime(start) + " seconds");
+        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_3, 7));
+        System.out.println("Finished step 3 after " + elapsedTime(start) + " seconds");
+        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_4, 7));
+        System.out.println("Finished step 4 after " + elapsedTime(start) + " seconds");
+        System.out.println("Finished test after " + elapsedTime(start) + " seconds");
+    }
+
+    private static double elapsedTime(long start) {
+        return (System.currentTimeMillis() - start) / 1000.0;
     }
 }
