@@ -29,8 +29,6 @@ import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static se.dykstrom.ronja.common.utils.ArrayUtils.toArray;
-
 /**
  * A class that can parse and format files specified in Portable Game Notation (PGN).
  *
@@ -95,7 +93,7 @@ public final class PgnParser {
         StringBuilder line = new StringBuilder();
 
         int moveNumber = game.getStartMoveNumber();
-        Iterator<String> iterator = SanParser.format(game.getStartPosition(), toArray(game.getMoves())).iterator();
+        Iterator<String> iterator = SanParser.format(game.getStartPosition(), game.getMoves()).iterator();
         // If the game was setup, and the first move was by black, we need some special formatting
         if (!game.getStartPosition().isWhiteMove() && iterator.hasNext()) {
             line.append(String.format("%d... %s ", moveNumber++, iterator.next()));

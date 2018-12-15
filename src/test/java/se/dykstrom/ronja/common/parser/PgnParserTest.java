@@ -51,7 +51,7 @@ public class PgnParserTest extends AbstractTestCase {
         game.setEngineColor(Color.WHITE);
         game.setOpponent(opponent);
         game.setResult(result);
-        game.setMoves(toMoveList(MOVE_E4_C5_NF3));
+        game.setMoves(parseMoves(MOVE_E4_C5_NF3));
     }
 
     @Test

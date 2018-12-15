@@ -75,7 +75,7 @@ public class CommandTest extends AbstractTestCase {
     }
 
     @Test
-    public void testBkCommand_NoMoves() throws Exception {
+    public void testBkCommand_NoMoves() {
         game.makeMove(Move.create(Piece.PAWN, Square.A2, Square.A4));
         ListResponse response = new ListResponse();
         Command command = new BkCommand(null, response, game);

@@ -23,8 +23,7 @@ import se.dykstrom.ronja.engine.time.TimeControlType;
 import se.dykstrom.ronja.engine.time.TimeData;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import static se.dykstrom.ronja.engine.time.TimeControlType.CLASSIC;
 
@@ -51,7 +50,10 @@ public class Game {
     private Color engineColor;
 
     /** All moves made in this game. */
-    private List<Integer> moves;
+    private final int[] moves = new int[MAX_MOVES];
+
+    /** Index to keep track of the number of stored moves. */
+    private int moveIndex;
 
     /** The name of the opponent as set by the "name" command.*/
     private String opponent;
@@ -114,7 +116,7 @@ public class Game {
      * Makes the given move, updates game data, and returns the resulting position.
      */
     public Position makeMove(int move) {
-        moves.add(move);
+        moves[moveIndex++] = move;
 
         position = position.withMove(move);
         positions[positionIndex++] = position;
@@ -126,10 +128,10 @@ public class Game {
      * Unmakes the last move that was made, and updates game data.
      */
     public void unmakeMove() {
-        if (moves.isEmpty()) {
+        if (moveIndex == 0) {
             throw new IllegalStateException("no moves to unmake");
         }
-        moves.remove(moves.size() - 1);
+        moveIndex--;
 
         positionIndex--;
         position = positions[positionIndex - 1];
@@ -179,17 +181,18 @@ public class Game {
     }
 
     /**
-     * Sets the list of moves.
+     * Sets the array of historical moves.
      */
-    public void setMoves(List<Integer> moves) {
-        this.moves = moves;
+    public void setMoves(int[] moves) {
+        System.arraycopy(moves, 0, this.moves, 0, moves.length);
+        moveIndex = moves.length;
     }
 
     /**
-     * Returns the list of moves made so far in this game.
+     * Returns the array of historical moves.
      */
-    public List<Integer> getMoves() {
-        return moves;
+    public int[] getMoves() {
+        return Arrays.copyOf(moves, moveIndex);
     }
 
     /**
@@ -229,7 +232,7 @@ public class Game {
         positions[0] = position;
         positionIndex = 1;
 
-        setMoves(new ArrayList<>());
+        moveIndex = 0;
     }
 
     /**
@@ -267,13 +270,6 @@ public class Game {
      */
     public boolean getForceMode() {
         return force;
-    }
-
-    /**
-     * Sets the opening book.
-     */
-    public void setBook(OpeningBook book) {
-        this.book = book;
     }
 
     /**

@@ -23,7 +23,6 @@ import se.dykstrom.ronja.common.parser.IllegalMoveException;
 import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.engine.core.FullMoveGenerator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -230,20 +229,22 @@ public abstract class AbstractTestCase {
     }
 
     /**
-     * Converts an array of moves in string format to a list of real moves.
+     * Parses an array of move strings and returns an array of actual moves.
      * This method assumes that the moves are made from the start position.
      *
      * @param moves An array move moves in string format to convert.
-     * @return The list of converted moves.
+     * @return The array of converted moves.
      * @throws IllegalMoveException If there was an illegal move.
      */
-    protected static List<Integer> toMoveList(String[] moves) throws IllegalMoveException {
-        Position position = Position.START;
-        List<Integer> result = new ArrayList<>(moves.length);
-        for (String move : moves) {
-            result.add(MoveParser.parse(move, position));
-            position = position.withMove(result.get(result.size() - 1));
+    protected static int[] parseMoves(String[] moves) throws IllegalMoveException {
+        var result = new int[moves.length];
+        var position = Position.START;
+
+        for (int i = 0; i < moves.length; i++) {
+            result[i] = MoveParser.parse(moves[i], position);
+            position = position.withMove(result[i]);
         }
+
         return result;
     }
 }

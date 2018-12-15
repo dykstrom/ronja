@@ -56,7 +56,7 @@ public class PositionUtilsTest extends AbstractTestCase {
     }
 
     @Test
-    public void testIsDrawByThreefoldRepetition() throws Exception {
+    public void testIsDrawByThreefoldRepetition() {
         // Set up game
         Game game = new Game(OpeningBook.DEFAULT);
         Position position = game.getPosition();
