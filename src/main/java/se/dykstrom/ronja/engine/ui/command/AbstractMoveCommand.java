@@ -74,7 +74,7 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
             response.write("move " + CanParser.format(move));
 
             // Check game status after move (get new position)
-            if (PositionUtils.isGameOver(game.getPosition())) {
+            if (PositionUtils.isGameOver(game.getPosition(), game)) {
                 notifyUserGameOverOk();
             }
 
@@ -117,8 +117,8 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
             } else {
                 result = "1-0 {White mates}";
             }
-        } else if (PositionUtils.isDraw(position)) {
-            result = "1/2-1/2 {" + PositionUtils.getDrawType(position) + "}";
+        } else if (PositionUtils.isDraw(position, game)) {
+            result = "1/2-1/2 {" + PositionUtils.getDrawType(position, game) + "}";
         } else {
             result = "?";
         }
@@ -133,8 +133,10 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
         Position position = game.getPosition();
         if (PositionUtils.isCheckMate(position)) {
             response.write("Error (checkmate): " + command);
-        } else if (PositionUtils.isDraw(position)) {
-            response.write("Error (draw): " + command);
+        } else {
+            if (PositionUtils.isDraw(position, game)) {
+                response.write("Error (draw): " + command);
+            }
         }
     }
 }

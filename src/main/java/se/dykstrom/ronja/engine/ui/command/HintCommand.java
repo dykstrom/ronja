@@ -43,7 +43,7 @@ public class HintCommand extends AbstractCommand {
     public void execute() {
         OpeningBook book = game.getBook();
         Position position = game.getPosition();
-        if (!PositionUtils.isGameOver(position)) {
+        if (!PositionUtils.isGameOver(position, game)) {
             int move = book.findBestMove(position);
             if (move == 0) {
                 var finder = new AlphaBetaFinder(game);

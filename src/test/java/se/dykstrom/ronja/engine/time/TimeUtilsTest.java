@@ -22,6 +22,7 @@ import org.junit.Test;
 import java.text.ParseException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static se.dykstrom.ronja.engine.time.TimeControlType.*;
 import static se.dykstrom.ronja.engine.time.TimeUtils.*;
 
@@ -40,6 +41,7 @@ public class TimeUtilsTest {
     private static final TimeControl TC_40_2_30_0 = new TimeControl(40, 150 * 1000, 0, CLASSIC);
     private static final TimeControl TC_40_25_0 = new TimeControl(40, 25 * 60 * 1000, 0, CLASSIC);
 
+    private static final TimeControl TC_0_0_3 = new TimeControl(0, 0, 3 * 1000, SECONDS_PER_MOVE);
     private static final TimeControl TC_0_0_30 = new TimeControl(0, 0, 30 * 1000, SECONDS_PER_MOVE);
 
     @Test
@@ -87,18 +89,20 @@ public class TimeUtilsTest {
 
     @Test
     public void testCalculateTimeForNextMoveClassic() {
-        assertEquals(7500, calculateTimeForNextMove(TC_40_5_0, TimeData.from(TC_40_5_0)));
-        assertEquals(9000, calculateTimeForNextMove(TC_10_1_30_0, TimeData.from(TC_10_1_30_0)));
+        assertTrue(calculateTimeForNextMove(TC_40_5_0, TimeData.from(TC_40_5_0)) > 7500);
+        assertTrue(calculateTimeForNextMove(TC_10_1_30_0, TimeData.from(TC_10_1_30_0)) > 9000);
     }
 
     @Test
     public void testCalculateTimeForNextMoveIncremental() {
-        assertEquals(90000, calculateTimeForNextMove(TC_0_30_5, TimeData.from(TC_0_30_5)));
-        assertEquals(50, calculateTimeForNextMove(TC_0_30_5, TimeData.from(TC_0_30_5).withRemainingTime(1000)));
+        TimeData timeData = TimeData.from(TC_0_30_5);
+        assertEquals(95000, calculateTimeForNextMove(TC_0_30_5, timeData.withRemainingTime(30 * 60 * 1000 + 5 * 1000)));
+        assertEquals(5050, calculateTimeForNextMove(TC_0_30_5, timeData.withRemainingTime(1000 + 5 * 1000)));
     }
 
     @Test
     public void testCalculateTimeForNextMoveSecondsPerMove() {
-        assertEquals(29950, calculateTimeForNextMove(TC_0_0_30, TimeData.from(TC_0_0_30)));
+        assertEquals(2700, calculateTimeForNextMove(TC_0_0_3, TimeData.from(TC_0_0_3)));
+        assertEquals(29500, calculateTimeForNextMove(TC_0_0_30, TimeData.from(TC_0_0_30)));
     }
 }

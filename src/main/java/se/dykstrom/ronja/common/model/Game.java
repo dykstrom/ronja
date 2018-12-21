@@ -55,11 +55,17 @@ public class Game {
     /** Index to keep track of the number of stored moves. */
     private int moveIndex;
 
+    /** All historic positions in this game. */
+    public final Position[] positions = new Position[MAX_MOVES];
+
+    /** Index to keep track of the number of stored positions. */
+    public int positionIndex;
+
     /** The name of the opponent as set by the "name" command.*/
     private String opponent;
 
     /** A reference to the opening book used in this game. */
-    private OpeningBook book;
+    private final OpeningBook book;
 
     /** The game result, or {@code null} if the game has not yet ended. */
     private String result;
@@ -81,12 +87,6 @@ public class Game {
 
     /** Remaining time and moves for the engine. */
     private TimeData timeData;
-
-    /** All historic positions in this game. */
-    private final Position[] positions = new Position[MAX_MOVES];
-
-    /** Index to keep track of the number of stored positions. */
-    private int positionIndex;
 
     // ------------------------------------------------------------------------
 
@@ -209,13 +209,6 @@ public class Game {
      */
     public String getOpponent() {
         return opponent;
-    }
-
-    /**
-     * Returns the list of historical positions.
-     */
-    public Position[] getPositions() {
-        return positions;
     }
 
     /**

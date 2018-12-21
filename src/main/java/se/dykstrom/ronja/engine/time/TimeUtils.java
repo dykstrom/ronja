@@ -127,13 +127,21 @@ public final class TimeUtils {
     public static long calculateTimeForNextMove(TimeControl timeControl, TimeData timeData) {
         if (timeControl.getType() == TimeControlType.SECONDS_PER_MOVE) {
             // Use all available time minus a safety margin
-            return timeData.getRemainingTime() - 50;
+            // The safety margin is 10% of the time up to 500 ms
+            long margin = Math.min(timeData.getRemainingTime() / 10, 500);
+            return timeData.getRemainingTime() - margin;
         } else if (timeControl.getType() == TimeControlType.CLASSIC) {
-            // Divide remaining time evenly between remaining moves
-            return timeData.getRemainingTime() / timeData.getNumberOfMoves();
+            // Divide the remaining time between remaining moves,
+            // but allocate more time to moves early in the game
+            double partOfMovesLeft = 1.0 * timeData.getNumberOfMoves() / timeControl.getNumberOfMoves();
+            double factor = 0.6 * partOfMovesLeft + 0.7;
+            long evenlyDividedTime = timeData.getRemainingTime() / timeData.getNumberOfMoves();
+            return (long) (evenlyDividedTime * factor);
         } else { // TimeControlType.INCREMENTAL
-            // Always assume there are 20 moves left
-            return timeData.getRemainingTime() / 20;
+            // Remove increment that was added after last move to get remaining base time
+            long baseTime = timeData.getRemainingTime() - timeControl.getIncrement();
+            // Use a certain part of the base time, and add increment to that
+            return baseTime / 20 + timeControl.getIncrement();
         }
     }
 

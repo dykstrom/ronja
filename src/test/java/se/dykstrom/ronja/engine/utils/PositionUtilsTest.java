@@ -34,25 +34,29 @@ import static org.junit.Assert.*;
  */
 public class PositionUtilsTest extends AbstractTestCase {
 
+    private final Game game = new Game(OpeningBook.DEFAULT);
+
     @Test
     public void testIsGameOver() throws Exception {
-        assertFalse(PositionUtils.isGameOver(FenParser.parse(FEN_START)));
-        assertFalse(PositionUtils.isGameOver(FenParser.parse(FEN_END_GAME_0)));
-        assertFalse(PositionUtils.isGameOver(FenParser.parse(FEN_DRAW_1_1)));
-        assertFalse(PositionUtils.isGameOver(FenParser.parse(FEN_CHECKMATE_1_2)));
-        assertTrue(PositionUtils.isGameOver(FenParser.parse(FEN_DRAW_1_2)));
-        assertTrue(PositionUtils.isGameOver(FenParser.parse(FEN_CHECKMATE_1_3)));
-        assertTrue(PositionUtils.isGameOver(FenParser.parse(FEN_SCHOLARS_MATE)));
-        assertTrue(PositionUtils.isGameOver(FenParser.parse(FEN_ONE_BISHOP)));
+        assertFalse(PositionUtils.isGameOver(FenParser.parse(FEN_START), game));
+        assertFalse(PositionUtils.isGameOver(FenParser.parse(FEN_END_GAME_0), game));
+        assertFalse(PositionUtils.isGameOver(FenParser.parse(FEN_DRAW_1_1), game));
+        assertFalse(PositionUtils.isGameOver(FenParser.parse(FEN_CHECKMATE_1_2), game));
+
+        assertTrue(PositionUtils.isGameOver(FenParser.parse(FEN_DRAW_1_2), game));
+        assertTrue(PositionUtils.isGameOver(FenParser.parse(FEN_CHECKMATE_1_3), game));
+        assertTrue(PositionUtils.isGameOver(FenParser.parse(FEN_SCHOLARS_MATE), game));
+        assertTrue(PositionUtils.isGameOver(FenParser.parse(FEN_ONE_BISHOP), game));
     }
 
     @Test
     public void testIsDraw() throws Exception {
-        assertFalse(PositionUtils.isDraw(FenParser.parse(FEN_START)));
-        assertFalse(PositionUtils.isDraw(FenParser.parse(FEN_CHECKMATE_1_3)));
-        assertFalse(PositionUtils.isDraw(FenParser.parse(FEN_DRAW_1_1)));
-        assertTrue(PositionUtils.isDraw(FenParser.parse(FEN_DRAW_1_2)));
-        assertTrue(PositionUtils.isDraw(FenParser.parse(FEN_ONE_BISHOP)));
+        assertFalse(PositionUtils.isDraw(FenParser.parse(FEN_START), game));
+        assertFalse(PositionUtils.isDraw(FenParser.parse(FEN_CHECKMATE_1_3), game));
+        assertFalse(PositionUtils.isDraw(FenParser.parse(FEN_DRAW_1_1), game));
+
+        assertTrue(PositionUtils.isDraw(FenParser.parse(FEN_DRAW_1_2), game));
+        assertTrue(PositionUtils.isDraw(FenParser.parse(FEN_ONE_BISHOP), game));
     }
 
     @Test
@@ -63,24 +67,24 @@ public class PositionUtilsTest extends AbstractTestCase {
 
         // Make moves to repeat position
         game.makeMove(MOVE_G1F3);
-        assertNull(PositionUtils.getDrawType(position));
+        assertNull(PositionUtils.getDrawType(game.getPosition(), game));
         game.makeMove(MOVE_G8F6);
-        assertNull(PositionUtils.getDrawType(position));
+        assertNull(PositionUtils.getDrawType(game.getPosition(), game));
         game.makeMove(MOVE_F3G1);
-        assertNull(PositionUtils.getDrawType(position));
+        assertNull(PositionUtils.getDrawType(game.getPosition(), game));
         game.makeMove(MOVE_F6G8);
-        assertNull(PositionUtils.getDrawType(position));
+        assertNull(PositionUtils.getDrawType(game.getPosition(), game));
 
         game.makeMove(MOVE_G1F3);
-        assertNull(PositionUtils.getDrawType(position));
+        assertNull(PositionUtils.getDrawType(game.getPosition(), game));
         game.makeMove(MOVE_G8F6);
-        assertNull(PositionUtils.getDrawType(position));
+        assertNull(PositionUtils.getDrawType(game.getPosition(), game));
         game.makeMove(MOVE_F3G1);
-        assertNull(PositionUtils.getDrawType(position));
+        assertNull(PositionUtils.getDrawType(game.getPosition(), game));
         game.makeMove(MOVE_F6G8);
 
         // Check for draw
-        assertEquals("Threefold repetition", PositionUtils.getDrawType(position));
+        assertEquals("Threefold repetition", PositionUtils.getDrawType(position, game));
     }
 
     @Test

@@ -202,7 +202,7 @@ public class AlphaBetaFinder extends AbstractFinder {
             if (DEBUG) TLOG.finest(leave(position, depth) + ", score = " + Evaluator.CHECK_MATE_VALUE);
             return Evaluator.CHECK_MATE_VALUE;
         }
-        if (PositionUtils.isDraw(position)) {
+        if (PositionUtils.isDraw(position, game)) {
             if (DEBUG) TLOG.finest(leave(position, depth) + ", score = " + Evaluator.DRAW_VALUE);
             return Evaluator.DRAW_VALUE;
         }

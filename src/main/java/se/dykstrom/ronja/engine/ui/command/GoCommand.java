@@ -36,7 +36,7 @@ public class GoCommand extends AbstractMoveCommand {
 
     @Override
     public void execute() {
-        if (PositionUtils.isGameOver(game.getPosition())) {
+        if (PositionUtils.isGameOver(game.getPosition(), game)) {
             notifyUserGameOverError(NAME);
         } else {
             game.setForceMode(false);

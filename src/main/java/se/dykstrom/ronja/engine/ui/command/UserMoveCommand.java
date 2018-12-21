@@ -44,7 +44,7 @@ public class UserMoveCommand extends AbstractMoveCommand {
     public void execute() {
         Position position = game.getPosition();
 
-        if (PositionUtils.isGameOver(position)) {
+        if (PositionUtils.isGameOver(position, game)) {
             notifyUserGameOverError(NAME);
         } else {
             try {
@@ -61,7 +61,7 @@ public class UserMoveCommand extends AbstractMoveCommand {
                 }
 
                 // If game is over notify user, otherwise make engine's move (in the new position)
-                if (PositionUtils.isGameOver(game.getPosition())) {
+                if (PositionUtils.isGameOver(game.getPosition(), game)) {
                     notifyUserGameOverOk();
                 } else {
                     move();
