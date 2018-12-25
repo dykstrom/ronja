@@ -114,8 +114,7 @@ public class AlphaBetaFinder extends AbstractFinder {
 
     /**
      * Finds the best move in the given position, searching in the given list of
-     * moves. Searching is limited to the given max depth and the given max
-     * time.
+     * moves. Searching is limited to the given max depth and the given max time.
      */
     private int findBestMove(Position position, int maxDepth, int numberOfMoves, long maxTime) {
         setMaxDepth(maxDepth);

@@ -134,7 +134,7 @@ public final class TimeUtils {
             // Divide the remaining time between remaining moves,
             // but allocate more time to moves early in the game
             double partOfMovesLeft = 1.0 * timeData.getNumberOfMoves() / timeControl.getNumberOfMoves();
-            double factor = 0.6 * partOfMovesLeft + 0.7;
+            double factor = 0.2 * partOfMovesLeft + 0.9;
             long evenlyDividedTime = timeData.getRemainingTime() / timeData.getNumberOfMoves();
             return (long) (evenlyDividedTime * factor);
         } else { // TimeControlType.INCREMENTAL
