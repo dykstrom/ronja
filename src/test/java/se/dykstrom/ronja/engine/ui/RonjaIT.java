@@ -115,10 +115,11 @@ public class RonjaIT {
 
         // Assume there will be some input
         while (!reader.ready()) {
-            Thread.sleep(1000);
+            Thread.sleep(100);
         }
         while (reader.ready()) {
             list.add(reader.readLine());
+            Thread.sleep(100);
         }
 
         // Fail if we discover an exception

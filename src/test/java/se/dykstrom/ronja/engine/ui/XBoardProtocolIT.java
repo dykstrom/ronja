@@ -540,11 +540,11 @@ public class XBoardProtocolIT extends AbstractTestCase {
 
         // Assume there will be some input
         while (!reader.ready() && process.isAlive()) {
-            Thread.sleep(10);
+            Thread.sleep(100);
         }
         while (reader.ready()) {
-            Thread.sleep(100);
             list.add(reader.readLine());
+            Thread.sleep(100);
         }
 
         // Fail if we discover an exception
