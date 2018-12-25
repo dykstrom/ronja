@@ -18,14 +18,12 @@
 package se.dykstrom.ronja.common.model;
 
 import se.dykstrom.ronja.common.book.OpeningBook;
-import se.dykstrom.ronja.common.parser.IllegalMoveException;
 import se.dykstrom.ronja.engine.time.TimeControl;
 import se.dykstrom.ronja.engine.time.TimeControlType;
 import se.dykstrom.ronja.engine.time.TimeData;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import static se.dykstrom.ronja.engine.time.TimeControlType.CLASSIC;
 
@@ -39,6 +37,9 @@ public class Game {
     /** Default time control is 40 moves in 2 minutes. */
     private static final TimeControl TWO_MINUTES = new TimeControl(40, 2 * 60 * 1000, 0, CLASSIC);
 
+    /** The maximum number of moves in a game. */
+    private static final int MAX_MOVES = 500;
+
     /** True if force mode is on. */
     private boolean force;
 
@@ -49,13 +50,22 @@ public class Game {
     private Color engineColor;
 
     /** All moves made in this game. */
-    private List<Integer> moves;
+    private final int[] moves = new int[MAX_MOVES];
+
+    /** Index to keep track of the number of stored moves. */
+    private int moveIndex;
+
+    /** All historic positions in this game. */
+    public final Position[] positions = new Position[MAX_MOVES];
+
+    /** Index to keep track of the number of stored positions. */
+    public int positionIndex;
 
     /** The name of the opponent as set by the "name" command.*/
     private String opponent;
 
     /** A reference to the opening book used in this game. */
-    private OpeningBook book;
+    private final OpeningBook book;
 
     /** The game result, or {@code null} if the game has not yet ended. */
     private String result;
@@ -95,7 +105,6 @@ public class Game {
         setForceMode(false);
         setPosition(Position.START);
         setEngineColor(Color.BLACK);
-        setMoves(new ArrayList<>());
         setOpponent(null);
         setResult("*");
         setStartTime(LocalDateTime.now());
@@ -104,18 +113,28 @@ public class Game {
     }
 
     /**
-     * Makes the given move, and updates game data accordingly.
+     * Makes the given move, updates game data, and returns the resulting position.
      */
-    public void makeMove(int move) throws IllegalMoveException {
-        Position newPosition = position.withMove(move);
+    public Position makeMove(int move) {
+        moves[moveIndex++] = move;
 
-        // If the user is in check after his move
-        if (newPosition.isIllegalCheck()) {
-            throw new IllegalMoveException("in check after move");
+        position = position.withMove(move);
+        positions[positionIndex++] = position;
+
+        return position;
+    }
+
+    /**
+     * Unmakes the last move that was made, and updates game data.
+     */
+    public void unmakeMove() {
+        if (moveIndex == 0) {
+            throw new IllegalStateException("no moves to unmake");
         }
+        moveIndex--;
 
-        position = newPosition;
-        moves.add(move);
+        positionIndex--;
+        position = positions[positionIndex - 1];
     }
 
     /**
@@ -162,17 +181,18 @@ public class Game {
     }
 
     /**
-     * Sets the list of moves.
+     * Sets the array of historical moves.
      */
-    public void setMoves(List<Integer> moves) {
-        this.moves = moves;
+    public void setMoves(int[] moves) {
+        System.arraycopy(moves, 0, this.moves, 0, moves.length);
+        moveIndex = moves.length;
     }
 
     /**
-     * Returns the list of moves made so far in this game.
+     * Returns the array of historical moves.
      */
-    public List<Integer> getMoves() {
-        return moves;
+    public int[] getMoves() {
+        return Arrays.copyOf(moves, moveIndex);
     }
 
     /**
@@ -192,7 +212,8 @@ public class Game {
     }
 
     /**
-     * Sets the current position. Also sets the start position of the game to the given position.
+     * Sets the current position and the start position of the game to the given position.
+     * Also resets the lists of historical positions and moves.
      *
      * @param position The position to set.
      */
@@ -200,6 +221,11 @@ public class Game {
         this.position = position;
         this.startPosition = position;
         this.startMoveNumber = position.getFullMoveNumber();
+
+        positions[0] = position;
+        positionIndex = 1;
+
+        moveIndex = 0;
     }
 
     /**
@@ -237,13 +263,6 @@ public class Game {
      */
     public boolean getForceMode() {
         return force;
-    }
-
-    /**
-     * Sets the opening book.
-     */
-    public void setBook(OpeningBook book) {
-        this.book = book;
     }
 
     /**

@@ -726,6 +726,26 @@ public class Position {
         }
     }
 
+    /**
+     * Returns {@code true} if this position is equal to the given position if the full move number
+     * and half move clock are ignored.
+     *
+     * @param other The other position to compare with.
+     * @return True if the positions are equal.
+     */
+    public boolean equalTo(Position other) {
+        return ((flags == other.flags) &&
+                (enPassantSquare == other.enPassantSquare) &&
+                (white == other.white) &&
+                (black == other.black) &&
+                (bishop == other.bishop) &&
+                (king == other.king) &&
+                (knight == other.knight) &&
+                (pawn == other.pawn) &&
+                (queen == other.queen) &&
+                (rook == other.rook));
+    }
+
     @Override
     public String toString() {
         StringBuilder[] ranks = new StringBuilder[8];

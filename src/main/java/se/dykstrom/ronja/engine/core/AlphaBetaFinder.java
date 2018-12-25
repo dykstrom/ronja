@@ -17,6 +17,7 @@
 
 package se.dykstrom.ronja.engine.core;
 
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.SanParser;
 import se.dykstrom.ronja.engine.time.TimeUtils;
@@ -57,6 +58,13 @@ public class AlphaBetaFinder extends AbstractFinder {
 
     /** Used to generate moves. */
     private final FullMoveGenerator fullMoveGenerator = new FullMoveGenerator();
+
+    /** The current game. */
+    private final Game game;
+
+    public AlphaBetaFinder(Game game) {
+        this.game = game;
+    }
 
     @Override
     public int findBestMoveWithinTime(Position position, long maxTime) {
@@ -106,8 +114,7 @@ public class AlphaBetaFinder extends AbstractFinder {
 
     /**
      * Finds the best move in the given position, searching in the given list of
-     * moves. Searching is limited to the given max depth and the given max
-     * time.
+     * moves. Searching is limited to the given max depth and the given max time.
      */
     private int findBestMove(Position position, int maxDepth, int numberOfMoves, long maxTime) {
         setMaxDepth(maxDepth);
@@ -123,12 +130,16 @@ public class AlphaBetaFinder extends AbstractFinder {
             // Abort search if we realize we won't finish in time
             abortSearchIfOutOfTime(numberOfMoves, moveIndex, startTime, maxTime);
 
-            // Make the move
             int move = fullMoveGenerator.moves[0][moveIndex];
-            Position next = position.withMove(move);
+
+            // Make the move
+            Position next = game.makeMove(move);
 
             // Calculate the score for the move by searching deeper
             int score = -alphaBeta(next, move, 1, -beta, -alpha);
+
+            // Unmake the move again
+            game.unmakeMove();
 
             // No beta cut-off needed here
 
@@ -172,18 +183,11 @@ public class AlphaBetaFinder extends AbstractFinder {
      * {@code beta} are search results from already searched branches in the
      * tree.
      *
-     * @param position
-     *            The position to calculate the score for.
-     * @param lastMove
-     *            The last move made that led to this position.
-     * @param depth
-     *            The current search depth.
-     * @param alpha
-     *            The score of the best move found so far in any branch of the
-     *            tree.
-     * @param beta
-     *            The score of the best move for our opponent found so far in
-     *            any branch of the tree.
+     * @param position The position to calculate the score for.
+     * @param lastMove The last move made that led to this position.
+     * @param depth The current search depth.
+     * @param alpha The score of the best move found so far in any branch of the tree.
+     * @param beta The score of the best move for our opponent found so far in any branch of the tree.
      */
     int alphaBeta(Position position, int lastMove, int depth, int alpha, int beta) {
         if (DEBUG) TLOG.finest(enter(position, depth) + ", after " + lastMove + ", alpha = " + alpha + ", beta = " + beta);
@@ -197,7 +201,7 @@ public class AlphaBetaFinder extends AbstractFinder {
             if (DEBUG) TLOG.finest(leave(position, depth) + ", score = " + Evaluator.CHECK_MATE_VALUE);
             return Evaluator.CHECK_MATE_VALUE;
         }
-        if (PositionUtils.isDraw(position)) {
+        if (PositionUtils.isDraw(position, game)) {
             if (DEBUG) TLOG.finest(leave(position, depth) + ", score = " + Evaluator.DRAW_VALUE);
             return Evaluator.DRAW_VALUE;
         }
@@ -220,16 +224,18 @@ public class AlphaBetaFinder extends AbstractFinder {
             int move = fullMoveGenerator.moves[depth][moveIndex];
 
             // Make the move
-            Position next = position.withMove(move);
+            Position next = game.makeMove(move);
 
             // Calculate the score for the move by searching deeper
             int score = -alphaBeta(next, move, depth + 1, -beta, -alpha);
 
+            // Unmake the move again
+            game.unmakeMove();
+
             // If the score is too good, we cut off the search tree here,
             // because the opponent will not select this branch
             if (score >= beta) {
-                if (DEBUG)
-                    TLOG.finest(leave(position, depth) + ", score = " + beta + " (beta cut-off for score " + score + ")");
+                if (DEBUG) TLOG.finest(leave(position, depth) + ", score = " + beta + " (beta cut-off for score " + score + ")");
                 return beta;
             }
 

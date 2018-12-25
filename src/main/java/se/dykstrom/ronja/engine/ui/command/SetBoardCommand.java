@@ -24,7 +24,6 @@ import se.dykstrom.ronja.engine.ui.io.Response;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 
 public class SetBoardCommand extends AbstractCommand {
 
@@ -48,7 +47,6 @@ public class SetBoardCommand extends AbstractCommand {
                 response.write("tellusererror Not in force mode");
             } else {
                 game.setPosition(position);
-                game.setMoves(new ArrayList<>());
             }
         } catch (ParseException e) {
             response.write("tellusererror Illegal position");

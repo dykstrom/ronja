@@ -17,18 +17,14 @@
 
 package se.dykstrom.ronja.common.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static se.dykstrom.ronja.common.model.Piece.BISHOP;
-import static se.dykstrom.ronja.common.model.Piece.ROOK;
-
 import org.junit.Test;
-
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
+
+import static org.junit.Assert.*;
+import static se.dykstrom.ronja.common.model.Piece.BISHOP;
+import static se.dykstrom.ronja.common.model.Piece.ROOK;
 
 /**
  * This class is for testing class {@code Position} using JUnit.
@@ -141,20 +137,20 @@ public class PositionTest extends AbstractTestCase {
 		assertEquals(p2, p1);
 		p1 = p1.withMove(MoveParser.parse(e2e4, p1));
 		p2 = p2.withMove(MoveParser.parse(d2d4, p2));
-		assertFalse(p1.equals(p2));
-		assertFalse(p2.equals(p1));
+        assertNotEquals(p1, p2);
+        assertNotEquals(p2, p1);
 
 		p1 = p1.withMove(MoveParser.parse(e7e5, p1));
 		p2 = p2.withMove(MoveParser.parse(e7e5, p2));
-		assertFalse(p1.equals(p2));
-		assertFalse(p2.equals(p1));
+        assertNotEquals(p1, p2);
+        assertNotEquals(p2, p1);
 
 		p1 = p1.withMove(MoveParser.parse(d2d4, p1));
 		p2 = p2.withMove(MoveParser.parse(e2e4, p2));
 
 		// The positions look equal, but have different 'en passant' squares
-        assertFalse(p1.equals(p2));
-        assertFalse(p2.equals(p1));
+        assertNotEquals(p1, p2);
+        assertNotEquals(p2, p1);
 
         p1 = p1.withMove(MoveParser.parse(d7d5, p1));
         p2 = p2.withMove(MoveParser.parse(d7d5, p2));
@@ -191,8 +187,8 @@ public class PositionTest extends AbstractTestCase {
 		p2 = p2.withMove(MoveParser.parse(e2e4, p2));
 		p2 = p2.withMove(MoveParser.parse(e7e5, p2));
 
-		assertFalse(p1.equals(p2));
-		assertFalse(p2.equals(p1));
+        assertNotEquals(p1, p2);
+        assertNotEquals(p2, p1);
 	}
 
     @Test

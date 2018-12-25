@@ -19,6 +19,7 @@ package se.dykstrom.ronja.engine.utils;
 
 import se.dykstrom.ronja.common.model.Board;
 import se.dykstrom.ronja.common.model.Color;
+import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.engine.core.FullMoveGenerator;
 
@@ -44,8 +45,8 @@ public final class PositionUtils {
     /**
      * Returns {@code true} if the game is over, that is, if the given position is draw or checkmate.
      */
-    public static boolean isGameOver(Position position) {
-        return isCheckMate(position) || isDraw(position);
+    public static boolean isGameOver(Position position, Game game) {
+        return isCheckMate(position) || isDraw(position, game);
     }
 
     /**
@@ -74,15 +75,15 @@ public final class PositionUtils {
     /**
      * Returns {@code true} if the given position is a draw.
      */
-    public static boolean isDraw(Position position) {
-        return getDrawType(position) != null;
+    public static boolean isDraw(Position position, Game game) {
+        return getDrawType(position, game) != null;
     }
 
     /**
      * Returns a string describing the type of draw in the given position, or {@code null}
      * if the given position is not a draw at all.
      */
-    public static String getDrawType(Position position) {
+    public static String getDrawType(Position position, Game game) {
         if (isDrawByFiftyMoveRule(position)) {
             return "Fifty move rule";
         }
@@ -91,7 +92,9 @@ public final class PositionUtils {
             return "Insufficient mating material";
         }
 
-        // TODO: Three-fold repetition of position.
+        if (isDrawByThreefoldRepetition(position, game)) {
+            return "Threefold repetition";
+        }
 
         if (isDrawByStalemate(position)) {
             return "Stalemate";
@@ -120,6 +123,26 @@ public final class PositionUtils {
             }
         }
         return true;
+    }
+
+    /**
+     * Returns {@code true} if the given position is a draw by threefold repetition of position.
+     *
+     * @param position The position to check.
+     * @param game A reference to the current game that contains all positions that have occurred so far.
+     * @return True if a draw was found.
+     */
+    private static boolean isDrawByThreefoldRepetition(Position position, Game game) {
+        int count = 1;
+        int index = game.positionIndex - 2;
+        while (index >= 0 && count < 3) {
+            if (position.equalTo(game.positions[index])) {
+                count++;
+            }
+            index--;
+        }
+
+        return count >= 3;
     }
 
     /**

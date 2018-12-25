@@ -23,7 +23,6 @@ import se.dykstrom.ronja.common.parser.IllegalMoveException;
 import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.engine.core.FullMoveGenerator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -44,6 +43,9 @@ public abstract class AbstractTestCase {
     protected static final int MOVE_E7E6 = Move.create(Piece.PAWN, Square.E7, Square.E6);
     protected static final int MOVE_C7C5 = Move.create(Piece.PAWN, Square.C7, Square.C5);
     protected static final int MOVE_G1F3 = Move.create(Piece.KNIGHT, Square.G1, Square.F3);
+    protected static final int MOVE_F3G1 = Move.create(Piece.KNIGHT, Square.F3, Square.G1);
+    protected static final int MOVE_G8F6 = Move.create(Piece.KNIGHT, Square.G8, Square.F6);
+    protected static final int MOVE_F6G8 = Move.create(Piece.KNIGHT, Square.F6, Square.G8);
     protected static final int MOVE_E1G1 = Move.createCastling(Square.E1, Square.G1);
     protected static final int MOVE_E1C1 = Move.createCastling(Square.E1, Square.C1);
     protected static final int MOVE_E8G8 = Move.createCastling(Square.E8, Square.G8);
@@ -118,10 +120,14 @@ public abstract class AbstractTestCase {
 
     // Middle-game positions
     protected static final String FEN_MIDDLE_GAME_0     = "r3kb1r/pbpnqppp/1p2pn2/3p2B1/2PP4/2N1PN2/PPQ2PPP/2KR1B1R b kq - 3 8";
-    /* Danielsen-Gunnarsson, 2006 */
+    // Danielsen-Gunnarsson, 2006
     protected static final String FEN_MIDDLE_GAME_1     = "R4rk1/1bq2pbp/2n2np1/1pp1p3/2N1PP2/2P2NPP/1P4B1/2B1QRK1 b - - 0 16";
-    /** treeless_druid-volhouder, 2015 */
+    // treeless_druid-volhouder, 2015
     protected static final String FEN_MIDDLE_GAME_2     = "rn3qk1/pp4pb/1b3p1p/3p4/4nP2/1P2PNP1/PB1P2BP/2RQ1RK1 b - - 0 1";
+    // Anand-Carlsen, 2013
+    protected static final String FEN_MIDDLE_GAME_3     = "r3r1k1/2pn1pp1/1b1pqn1p/1p2p3/4P1NB/2PPN2P/1P3PP1/R2QR1K1 w - - 2 21";
+    // Carlsen-Anand, 2013
+    protected static final String FEN_MIDDLE_GAME_4     = "3qn1k1/1p1r1pp1/p1rPp2p/P7/2PR1P2/1P1R3P/3QN1P1/6K1 b - - 2 32";
 
     // End-game positions
     protected static final String FEN_END_GAME_0        = "5rn1/2pq1Bk1/3p1b1N/1p3P1Q/1P6/6P1/5P2/4R1K1 b - - 0 36";
@@ -223,20 +229,22 @@ public abstract class AbstractTestCase {
     }
 
     /**
-     * Converts an array of moves in string format to a list of real moves.
+     * Parses an array of move strings and returns an array of actual moves.
      * This method assumes that the moves are made from the start position.
      *
      * @param moves An array move moves in string format to convert.
-     * @return The list of converted moves.
+     * @return The array of converted moves.
      * @throws IllegalMoveException If there was an illegal move.
      */
-    protected static List<Integer> toMoveList(String[] moves) throws IllegalMoveException {
-        Position position = Position.START;
-        List<Integer> result = new ArrayList<>(moves.length);
-        for (String move : moves) {
-            result.add(MoveParser.parse(move, position));
-            position = position.withMove(result.get(result.size() - 1));
+    protected static int[] parseMoves(String[] moves) throws IllegalMoveException {
+        var result = new int[moves.length];
+        var position = Position.START;
+
+        for (int i = 0; i < moves.length; i++) {
+            result[i] = MoveParser.parse(moves[i], position);
+            position = position.withMove(result[i]);
         }
+
         return result;
     }
 }

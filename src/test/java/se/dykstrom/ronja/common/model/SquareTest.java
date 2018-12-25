@@ -384,19 +384,6 @@ public class SquareTest extends AbstractTestCase {
      * the squares defined by the IDs in {@code actualIds}.
      *
      * @param expectedNames An array of the expected square names, e.g. ["a1", "e4"].
-     * @param actualIds A list of the actual square IDs, e.g. [Square.A1, Square.E4].
-     */
-    private static void assertSquareIds(String[] expectedNames, List<Long> actualIds) {
-        long[] expected = Arrays.stream(expectedNames).mapToLong(Square::nameToId).sorted().toArray();
-        long[] actual = actualIds.stream().mapToLong(n -> n).sorted().toArray();
-        assertArrayEquals(expected, actual);
-    }
-
-    /**
-     * Asserts that the squares defined by the names in {@code expectedNames} are the same as
-     * the squares defined by the IDs in {@code actualIds}.
-     *
-     * @param expectedNames An array of the expected square names, e.g. ["a1", "e4"].
      * @param actualIds An array of the actual square IDs, e.g. [Square.A1, Square.E4].
      * @param count The number of IDs in actualIds to check.
      */
