@@ -28,6 +28,7 @@ import se.dykstrom.ronja.test.AbstractTestCase;
 
 import static org.junit.Assert.assertEquals;
 import static se.dykstrom.ronja.common.model.Piece.KING;
+import static se.dykstrom.ronja.common.model.Square.*;
 
 /**
  * This class is for testing king moves with the generator classes using JUnit.
@@ -69,9 +70,9 @@ public class GeneratorKingTest extends AbstractTestCase {
         // There should be three moves
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(3, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.E2), // Ke2
-                                             Move.create(KING, Square.E1, Square.F1), // Kf1
-                                             Move.createCastling(Square.E1, Square.G1));  // O-O
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E1_IDX, E2_IDX), // Ke2
+                                             Move.create(KING, E1_IDX, F1_IDX), // Kf1
+                                             Move.createCastling(E1_IDX, G1_IDX));  // O-O
     }
 
     /**
@@ -84,10 +85,10 @@ public class GeneratorKingTest extends AbstractTestCase {
         // There should be four moves
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(4, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.D7), // Kd7
-                                             Move.create(KING, Square.E8, Square.E7), // Ke7
-                                             Move.create(KING, Square.E8, Square.F8), // Kf8
-                                             Move.createCastling(Square.E8, Square.G8));  // O-O
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E8_IDX, D7_IDX), // Kd7
+                                             Move.create(KING, E8_IDX, E7_IDX), // Ke7
+                                             Move.create(KING, E8_IDX, F8_IDX), // Kf8
+                                             Move.createCastling(E8_IDX, G8_IDX));  // O-O
     }
 
     /**
@@ -101,8 +102,8 @@ public class GeneratorKingTest extends AbstractTestCase {
 		// There should only be two moves
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(2, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.E2), // Ke2
-                                             Move.create(KING, Square.E1, Square.F1)); // Kf1
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E1_IDX, E2_IDX), // Ke2
+                                             Move.create(KING, E1_IDX, F1_IDX)); // Kf1
 
         // BLACK
         // TODO: Create position FEN_BKC_NOK_K for this.
@@ -111,8 +112,8 @@ public class GeneratorKingTest extends AbstractTestCase {
 		// There should only be two moves
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(2, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.E7), // Ke7
-                                             Move.create(KING, Square.E8, Square.F8)); // Kf8
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E8_IDX, E7_IDX), // Ke7
+                                             Move.create(KING, E8_IDX, F8_IDX)); // Kf8
     }
 
     // TODO: Also test that it is NOK to castle when the rook has been taken.
@@ -128,8 +129,8 @@ public class GeneratorKingTest extends AbstractTestCase {
 		// There should only be two moves
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(2, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.E2), // Ke2
-                                             Move.create(KING, Square.E1, Square.F1)); // Kf1
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E1_IDX, E2_IDX), // Ke2
+                                             Move.create(KING, E1_IDX, F1_IDX)); // Kf1
 
         // BLACK
         // TODO: Create position FEN_BKC_NOK_P for this.
@@ -138,8 +139,8 @@ public class GeneratorKingTest extends AbstractTestCase {
 		// There should only be two moves
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(2, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.E7), // Ke7
-                                             Move.create(KING, Square.E8, Square.F8)); // Kf8
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E8_IDX, E7_IDX), // Ke7
+                                             Move.create(KING, E8_IDX, F8_IDX)); // Kf8
     }
 
     /**
@@ -152,7 +153,7 @@ public class GeneratorKingTest extends AbstractTestCase {
         // There should be one move: Ke2, but not Kf1 or O-O (e1g1)
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(1, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.E2)); // Ke2
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E1_IDX, E2_IDX)); // Ke2
     }
 
     // TODO: Also test that it is NOK to castle when the king is checked.
@@ -179,8 +180,8 @@ public class GeneratorKingTest extends AbstractTestCase {
         // There should be two moves
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(2, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.D1), // Kd1
-                                             Move.createCastling(Square.E1, Square.C1));  // O-O-O
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E1_IDX, D1_IDX), // Kd1
+                                             Move.createCastling(E1_IDX, C1_IDX));  // O-O-O
     }
 
     /**
@@ -193,9 +194,9 @@ public class GeneratorKingTest extends AbstractTestCase {
         // There should be three moves
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(3, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.D7), // Kd7
-                                             Move.create(KING, Square.E8, Square.D8), // Kd8
-                                             Move.createCastling(Square.E8, Square.C8));  // O-O-O
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E8_IDX, D7_IDX), // Kd7
+                                             Move.create(KING, E8_IDX, D8_IDX), // Kd8
+                                             Move.createCastling(E8_IDX, C8_IDX));  // O-O-O
     }
 
     /**
@@ -208,9 +209,9 @@ public class GeneratorKingTest extends AbstractTestCase {
         // There should be three moves: Kd1 and Ke2, and O-O-O (e1c1)
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(3, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.D1), // Kd1
-                                             Move.create(KING, Square.E1, Square.E2), // Ke2
-                                             Move.createCastling(Square.E1, Square.C1)); // O-O-O
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E1_IDX, D1_IDX), // Kd1
+                                             Move.create(KING, E1_IDX, E2_IDX), // Ke2
+                                             Move.createCastling(E1_IDX, C1_IDX)); // O-O-O
     }
 
     /**
@@ -223,9 +224,9 @@ public class GeneratorKingTest extends AbstractTestCase {
         // There should be three moves: Kd7 and Kd8, and O-O-O (e8c8)
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(3, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.D7), // Kd7
-                                             Move.create(KING, Square.E8, Square.D8), // Kd8
-                                             Move.createCastling(Square.E8, Square.C8)); // O-O-O
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E8_IDX, D7_IDX), // Kd7
+                                             Move.create(KING, E8_IDX, D8_IDX), // Kd8
+                                             Move.createCastling(E8_IDX, C8_IDX)); // O-O-O
     }
 
     /**
@@ -239,7 +240,7 @@ public class GeneratorKingTest extends AbstractTestCase {
 		// There should only be one move
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(1, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.D1)); // Kd1
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E1_IDX, D1_IDX)); // Kd1
 
         // BLACK
         // TODO: Create position FEN_BQC_NOK_K for this.
@@ -248,7 +249,7 @@ public class GeneratorKingTest extends AbstractTestCase {
 		// There should only be one move
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(1, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.D8)); // Kd8
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E8_IDX, D8_IDX)); // Kd8
     }
 
     /**
@@ -262,7 +263,7 @@ public class GeneratorKingTest extends AbstractTestCase {
 		// There should only be one move
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(1, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.D1)); // Kd1
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E1_IDX, D1_IDX)); // Kd1
 
         // BLACK
         // TODO: Create position FEN_BQC_NOK_P for this.
@@ -271,7 +272,7 @@ public class GeneratorKingTest extends AbstractTestCase {
 		// There should only be one move
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(1, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.D8)); // Kd8
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E8_IDX, D8_IDX)); // Kd8
     }
 
     /**
@@ -285,8 +286,8 @@ public class GeneratorKingTest extends AbstractTestCase {
         // There should only be two moves: Kd1 and Ke2, but not O-O-O (e1c1)
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(2, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E1, Square.D1), // Kd1
-                                             Move.create(KING, Square.E1, Square.E2)); // Ke2
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E1_IDX, D1_IDX), // Kd1
+                                             Move.create(KING, E1_IDX, E2_IDX)); // Ke2
     }
 
     /**
@@ -300,7 +301,7 @@ public class GeneratorKingTest extends AbstractTestCase {
         // There should only be one move: Kd8, but not Kd7 or O-O-O (e8c8)
         MOVE_GENERATOR.generateKingMoves();
         assertEquals(1, MOVE_GENERATOR.getMoveIndex());
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, Square.E8, Square.D8)); // Kd8
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KING, E8_IDX, D8_IDX)); // Kd8
     }
 
     // -----------------------------------------------------------------------

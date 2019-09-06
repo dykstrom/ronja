@@ -98,21 +98,23 @@ abstract class AbstractMoveParser {
      * Creates a new move from the given arguments.
      */
     static int create(int piece, long from, long to, int captured, int promoted, boolean isCastling, boolean isEnPassant) {
+        int fromIndex = Square.idToIndex(from);
+        int toIndex = Square.idToIndex(to);
         if (isCastling) {
-            return Move.createCastling(from, to);
+            return Move.createCastling(fromIndex, toIndex);
         } else if (isEnPassant) {
-            return Move.createEnPassant(from, to);
+            return Move.createEnPassant(fromIndex, toIndex);
         } else if (promoted != 0) {
             if (captured != 0) {
-                return Move.createCapturePromotion(from, to, captured, promoted);
+                return Move.createCapturePromotion(fromIndex, toIndex, captured, promoted);
             } else {
-                return Move.createPromotion(from, to, promoted);
+                return Move.createPromotion(fromIndex, toIndex, promoted);
             }
         } else {
             if (captured != 0) {
-                return Move.createCapture(piece, from, to, captured);
+                return Move.createCapture(piece, fromIndex, toIndex, captured);
             } else {
-                return Move.create(piece, from, to);
+                return Move.create(piece, fromIndex, toIndex);
             }
         }
     }

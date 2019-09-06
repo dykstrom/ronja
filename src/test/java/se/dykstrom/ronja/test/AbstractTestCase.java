@@ -27,6 +27,9 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
+import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
+import static se.dykstrom.ronja.common.model.Piece.PAWN;
+import static se.dykstrom.ronja.common.model.Square.*;
 
 /**
  * An abstract base test case for all {@code se.dykstrom.ronja} test cases.
@@ -36,20 +39,20 @@ import static org.junit.Assert.*;
 public abstract class AbstractTestCase {
 
     // Single moves
-    protected static final int MOVE_E2E4 = Move.create(Piece.PAWN, Square.E2, Square.E4);
-    protected static final int MOVE_D2D4 = Move.create(Piece.PAWN, Square.D2, Square.D4);
-    protected static final int MOVE_C2C4 = Move.create(Piece.PAWN, Square.C2, Square.C4);
-    protected static final int MOVE_E7E5 = Move.create(Piece.PAWN, Square.E7, Square.E5);
-    protected static final int MOVE_E7E6 = Move.create(Piece.PAWN, Square.E7, Square.E6);
-    protected static final int MOVE_C7C5 = Move.create(Piece.PAWN, Square.C7, Square.C5);
-    protected static final int MOVE_G1F3 = Move.create(Piece.KNIGHT, Square.G1, Square.F3);
-    protected static final int MOVE_F3G1 = Move.create(Piece.KNIGHT, Square.F3, Square.G1);
-    protected static final int MOVE_G8F6 = Move.create(Piece.KNIGHT, Square.G8, Square.F6);
-    protected static final int MOVE_F6G8 = Move.create(Piece.KNIGHT, Square.F6, Square.G8);
-    protected static final int MOVE_E1G1 = Move.createCastling(Square.E1, Square.G1);
-    protected static final int MOVE_E1C1 = Move.createCastling(Square.E1, Square.C1);
-    protected static final int MOVE_E8G8 = Move.createCastling(Square.E8, Square.G8);
-    protected static final int MOVE_E8C8 = Move.createCastling(Square.E8, Square.C8);
+    protected static final int MOVE_E2E4 = Move.create(PAWN, E2_IDX, E4_IDX);
+    protected static final int MOVE_D2D4 = Move.create(PAWN, D2_IDX, D4_IDX);
+    protected static final int MOVE_C2C4 = Move.create(PAWN, C2_IDX, C4_IDX);
+    protected static final int MOVE_E7E5 = Move.create(PAWN, E7_IDX, E5_IDX);
+    protected static final int MOVE_E7E6 = Move.create(PAWN, E7_IDX, E6_IDX);
+    protected static final int MOVE_C7C5 = Move.create(PAWN, C7_IDX, C5_IDX);
+    protected static final int MOVE_G1F3 = Move.create(KNIGHT, G1_IDX, F3_IDX);
+    protected static final int MOVE_F3G1 = Move.create(KNIGHT, F3_IDX, G1_IDX);
+    protected static final int MOVE_G8F6 = Move.create(KNIGHT, G8_IDX, F6_IDX);
+    protected static final int MOVE_F6G8 = Move.create(KNIGHT, F6_IDX, G8_IDX);
+    protected static final int MOVE_E1G1 = Move.createCastling(E1_IDX, G1_IDX);
+    protected static final int MOVE_E1C1 = Move.createCastling(E1_IDX, C1_IDX);
+    protected static final int MOVE_E8G8 = Move.createCastling(E8_IDX, G8_IDX);
+    protected static final int MOVE_E8C8 = Move.createCastling(E8_IDX, C8_IDX);
 
     // Move sequences
     protected static final String[] MOVE_START            = { };

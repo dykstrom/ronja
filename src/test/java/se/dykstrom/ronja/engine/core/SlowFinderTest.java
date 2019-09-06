@@ -20,10 +20,7 @@ package se.dykstrom.ronja.engine.core;
 import org.junit.Ignore;
 import org.junit.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
-import se.dykstrom.ronja.common.model.Game;
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Piece;
-import se.dykstrom.ronja.common.model.Square;
+import se.dykstrom.ronja.common.model.*;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
 import java.text.ParseException;
@@ -31,6 +28,7 @@ import java.text.ParseException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static se.dykstrom.ronja.common.model.Piece.*;
+import static se.dykstrom.ronja.common.model.Square.*;
 import static se.dykstrom.ronja.common.parser.FenParser.parse;
 
 /**
@@ -47,7 +45,7 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_MateInFour() throws Exception {
-        assertEquals(Move.create(KING, Square.G8, Square.H8), findBestMoveWithDepth(FEN_CHECKMATE_2_5, 5));
+        assertEquals(Move.create(KING, G8_IDX, G8_IDX), findBestMoveWithDepth(FEN_CHECKMATE_2_5, 5));
     }
 
     /**
@@ -55,7 +53,7 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_DrawInFour() throws Exception {
-        assertEquals(Move.createCapture(KING, Square.A7, Square.B8, QUEEN), findBestMoveWithDepth(FEN_DRAW_2_1, 5));
+        assertEquals(Move.createCapture(KING, A7_IDX, B8_IDX, QUEEN), findBestMoveWithDepth(FEN_DRAW_2_1, 5));
     }
 
     /**
@@ -63,7 +61,7 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_MateInFive() throws Exception {
-        assertEquals(Move.create(KNIGHT, Square.F7, Square.H6), findBestMoveWithDepth(FEN_CHECKMATE_2_4, 5));
+        assertEquals(Move.create(KNIGHT, F7_IDX, H6_IDX), findBestMoveWithDepth(FEN_CHECKMATE_2_4, 5));
     }
 
     /**
@@ -83,7 +81,7 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_MateInSix() throws Exception {
-        assertEquals(Move.create(KING, Square.H8, Square.G8), findBestMoveWithDepth(FEN_CHECKMATE_2_3, 6));
+        assertEquals(Move.create(KING, G8_IDX, G8_IDX), findBestMoveWithDepth(FEN_CHECKMATE_2_3, 6));
     }
 
     /**
@@ -120,22 +118,22 @@ public class SlowFinderTest extends AbstractTestCase {
      */
     @Test
     public void testFindBestMove_Profiler() throws Exception {
-        var waitTime = 15000;
+        var waitTime = 15_000;
         System.out.println("Waiting " + (waitTime / 1000) + " seconds...");
         Thread.sleep(waitTime);
         System.out.println("Starting test...");
-        var start = System.currentTimeMillis();
+        var start = System.nanoTime();
         assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_0, 6));
-        System.out.println("Finished step 0 after " + elapsedTime(start) + " seconds");
-        assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 6));
-        System.out.println("Finished step 1 after " + elapsedTime(start) + " seconds");
+        System.out.printf("Finished step 0 after %.3f seconds%n", elapsedTime(start));
+        assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 7));
+        System.out.printf("Finished step 1 after %.3f seconds%n", elapsedTime(start));
         assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_2, 6));
-        System.out.println("Finished step 2 after " + elapsedTime(start) + " seconds");
-        System.out.println("Finished test after " + elapsedTime(start) + " seconds");
+        System.out.printf("Finished step 2 after %.3f seconds%n", elapsedTime(start));
     }
 
     /**
-     * Calls findBestMove with the position specified by {@code fen} and the given depth.
+     * Calls {@link Finder#findBestMove(Position, int)} with the position specified by {@code fen}
+     * and the given {@code maxDepth}.
      */
     private int findBestMoveWithDepth(String fen, int maxDepth) throws ParseException {
         var game = new Game(OpeningBook.DEFAULT);
@@ -146,25 +144,23 @@ public class SlowFinderTest extends AbstractTestCase {
 
     public static void main(String[] args) throws Exception {
         var test = new SlowFinderTest();
-        var waitTime = 1000;
-        System.out.println("Waiting " + (waitTime / 1000) + " seconds...");
-        Thread.sleep(waitTime);
+        System.out.println("Warming up...");
+        test.findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 8);
         System.out.println("Starting test...");
-        var start = System.currentTimeMillis();
-        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_0, 6));
-        System.out.println("Finished step 0 after " + elapsedTime(start) + " seconds");
-        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 7));
-        System.out.println("Finished step 1 after " + elapsedTime(start) + " seconds");
+        var start = System.nanoTime();
+        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_0, 7));
+        System.out.printf("Finished step 0 after %.3f seconds%n", elapsedTime(start));
+        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 8));
+        System.out.printf("Finished step 1 after %.3f seconds%n", elapsedTime(start));
         System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_2, 6));
-        System.out.println("Finished step 2 after " + elapsedTime(start) + " seconds");
-        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_3, 7));
-        System.out.println("Finished step 3 after " + elapsedTime(start) + " seconds");
-        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_4, 7));
-        System.out.println("Finished step 4 after " + elapsedTime(start) + " seconds");
-        System.out.println("Finished test after " + elapsedTime(start) + " seconds");
+        System.out.printf("Finished step 2 after %.3f seconds%n", elapsedTime(start));
+        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_3, 8));
+        System.out.printf("Finished step 3 after %.3f seconds%n", elapsedTime(start));
+        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_4, 8));
+        System.out.printf("Finished step 4 after %.3f seconds%n", elapsedTime(start));
     }
 
     private static double elapsedTime(long start) {
-        return (System.currentTimeMillis() - start) / 1000.0;
+        return (System.nanoTime() - start) / 1_000_000_000.0;
     }
 }

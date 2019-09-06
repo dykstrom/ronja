@@ -33,6 +33,9 @@ import se.dykstrom.ronja.test.SizeMatcher;
 import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.junit.Assert.*;
+import static se.dykstrom.ronja.common.model.Piece.PAWN;
+import static se.dykstrom.ronja.common.model.Square.A2_IDX;
+import static se.dykstrom.ronja.common.model.Square.A4_IDX;
 import static se.dykstrom.ronja.engine.time.TimeControlType.*;
 import static se.dykstrom.ronja.test.TestUtils.assertContainsRegex;
 
@@ -76,7 +79,7 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testBkCommand_NoMoves() {
-        game.makeMove(Move.create(Piece.PAWN, Square.A2, Square.A4));
+        game.makeMove(Move.create(PAWN, A2_IDX, A4_IDX));
         ListResponse response = new ListResponse();
         Command command = new BkCommand(null, response, game);
         command.execute();

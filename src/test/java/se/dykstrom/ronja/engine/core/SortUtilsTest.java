@@ -19,13 +19,13 @@ package se.dykstrom.ronja.engine.core;
 
 import org.junit.Test;
 import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Square;
 
 import java.util.Arrays;
 import java.util.Random;
 
 import static org.junit.Assert.assertArrayEquals;
 import static se.dykstrom.ronja.common.model.Piece.PAWN;
+import static se.dykstrom.ronja.common.model.Square.*;
 import static se.dykstrom.ronja.engine.core.SortUtils.NATURAL_ORDER_COMPARATOR;
 
 /**
@@ -161,9 +161,9 @@ public class SortUtilsTest {
     @Test
     public void shouldSortArrayUsingMoveComparator() {
         // Given
-        int move0 = Move.create(PAWN, Square.E2, Square.E4);
-        int move1 = Move.createCapture(PAWN, Square.E2, Square.F3, PAWN);
-        int move2 = Move.create(PAWN, Square.D2, Square.D4);
+        int move0 = Move.create(PAWN, E2_IDX, E4_IDX);
+        int move1 = Move.createCapture(PAWN, E2_IDX, F3_IDX, PAWN);
+        int move2 = Move.create(PAWN, D2_IDX, D4_IDX);
 
         int[] array = {move0, move1, move2};
         int[] expected = {move1, move0, move2};

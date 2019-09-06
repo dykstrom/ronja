@@ -79,32 +79,44 @@ public class MoveTest extends AbstractTestCase {
     }
 
     private void createAndAssertNormalMove(int piece, long from, long to) {
-        int move = Move.create(piece, from, to);
+        int fromIndex = Square.idToIndex(from);
+        int toIndex = Square.idToIndex(to);
+        int move = Move.create(piece, fromIndex, toIndex);
         assertMove(move, piece, from, to, 0, 0, false, false);
     }
 
     private void createAndAssertCaptureMove(int piece, long from, long to, int captured) {
-        int move = Move.createCapture(piece, from, to, captured);
+        int fromIndex = Square.idToIndex(from);
+        int toIndex = Square.idToIndex(to);
+        int move = Move.createCapture(piece, fromIndex, toIndex, captured);
         assertMove(move, piece, from, to, captured, 0, false, false);
     }
 
     private void createAndAssertPromotionMove(int piece, long from, long to, int promoted) {
-        int move = Move.createPromotion(from, to, promoted);
+        int fromIndex = Square.idToIndex(from);
+        int toIndex = Square.idToIndex(to);
+        int move = Move.createPromotion(fromIndex, toIndex, promoted);
         assertMove(move, piece, from, to, 0, promoted, false, false);
     }
 
     private void createAndAssertCapturePromotionMove(int piece, long from, long to, int captured, int promoted) {
-        int move = Move.createCapturePromotion(from, to, captured, promoted);
+        int fromIndex = Square.idToIndex(from);
+        int toIndex = Square.idToIndex(to);
+        int move = Move.createCapturePromotion(fromIndex, toIndex, captured, promoted);
         assertMove(move, piece, from, to, captured, promoted, false, false);
     }
 
     private void createAndAssertCastlingMove(int piece, long from, long to) {
-        int move = Move.createCastling(from, to);
+        int fromIndex = Square.idToIndex(from);
+        int toIndex = Square.idToIndex(to);
+        int move = Move.createCastling(fromIndex, toIndex);
         assertMove(move, piece, from, to, 0, 0, true, false);
     }
 
     private void createAndAssertEnPassantMove(int piece, long from, long to, int captured) {
-        int move = Move.createEnPassant(from, to);
+        int fromIndex = Square.idToIndex(from);
+        int toIndex = Square.idToIndex(to);
+        int move = Move.createEnPassant(fromIndex, toIndex);
         assertMove(move, piece, from, to, captured, 0, false, true);
     }
 

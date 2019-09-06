@@ -24,8 +24,7 @@ import se.dykstrom.ronja.test.AbstractTestCase;
 import java.util.*;
 
 import static org.junit.Assert.*;
-import static se.dykstrom.ronja.common.model.Square.SQUARE_IDS;
-import static se.dykstrom.ronja.common.model.Square.bitboardToIds;
+import static se.dykstrom.ronja.common.model.Square.*;
 
 /**
  * This class is for testing class {@code Square} using JUnit.
@@ -46,13 +45,13 @@ public class SquareTest extends AbstractTestCase {
 
     @Test
     public void testBitboardToIndices() {
-        assertSquareIndices(new String[]{}, Square.bitboardToIndices(0L));
-        assertSquareIndices(new String[]{"a1"}, Square.bitboardToIndices(Square.A1));
-        assertSquareIndices(new String[]{"a1", "b1", "b8", "e4"}, Square.bitboardToIndices(Square.A1 | Square.B1 | Square.B8 | Square.E4));
-        assertSquareIndices(new String[]{"a1", "a8", "h1", "h8"}, Square.bitboardToIndices(Square.A1 | Square.A8 | Square.H1 | Square.H8));
-        assertSquareIndices(new String[]{"g2", "c7", "h8"}, Square.bitboardToIndices(Square.G2 | Square.C7 | Square.H8));
+        assertSquareIndices(new String[]{}, SQUARE_INDICES, bitboardToIndices(0L));
+        assertSquareIndices(new String[]{"a1"}, SQUARE_INDICES, bitboardToIndices(Square.A1));
+        assertSquareIndices(new String[]{"a1", "b1", "b8", "e4"}, SQUARE_INDICES, bitboardToIndices(Square.A1 | Square.B1 | Square.B8 | Square.E4));
+        assertSquareIndices(new String[]{"a1", "a8", "h1", "h8"}, SQUARE_INDICES, bitboardToIndices(Square.A1 | Square.A8 | Square.H1 | Square.H8));
+        assertSquareIndices(new String[]{"g2", "c7", "h8"}, SQUARE_INDICES, bitboardToIndices(Square.G2 | Square.C7 | Square.H8));
         assertSquareIndices(new String[]{"g2", "c7", "h8", "b2", "c2", "f5"},
-                Square.bitboardToIndices(Square.G2 | Square.C7 | Square.H8 | Square.B2 | Square.C2 | Square.F5));
+                SQUARE_INDICES, bitboardToIndices(Square.G2 | Square.C7 | Square.H8 | Square.B2 | Square.C2 | Square.F5));
     }
 
     @Test
@@ -63,11 +62,13 @@ public class SquareTest extends AbstractTestCase {
 		}
 
         // Check a subset of the squares
-        assertEquals(0, Square.idToIndex(Square.A1));
-        assertEquals(1, Square.idToIndex(Square.B1));
-        assertEquals(7, Square.idToIndex(Square.H1));
-        assertEquals(56, Square.idToIndex(Square.A8));
-        assertEquals(63, Square.idToIndex(Square.H8));
+        assertEquals(A1_IDX, Square.idToIndex(Square.A1));
+        assertEquals(B1_IDX, Square.idToIndex(Square.B1));
+        assertEquals(H1_IDX, Square.idToIndex(Square.H1));
+        assertEquals(F4_IDX, Square.idToIndex(Square.F4));
+        assertEquals(C7_IDX, Square.idToIndex(Square.C7));
+        assertEquals(A8_IDX, Square.idToIndex(Square.A8));
+        assertEquals(H8_IDX, Square.idToIndex(Square.H8));
 	}
 
     @Test
@@ -96,13 +97,15 @@ public class SquareTest extends AbstractTestCase {
         }
 
         // Check a subset of the squares
-        assertEquals("a1", Square.indexToName(0));
-        assertEquals("a8", Square.indexToName(56));
-        assertEquals("b1", Square.indexToName(1));
-        assertEquals("b8", Square.indexToName(57));
-        assertEquals("h1", Square.indexToName(7));
-        assertEquals("h7", Square.indexToName(55));
-        assertEquals("h8", Square.indexToName(63));
+        assertEquals("a1", Square.indexToName(A1_IDX));
+        assertEquals("a8", Square.indexToName(A8_IDX));
+        assertEquals("b1", Square.indexToName(B1_IDX));
+        assertEquals("b8", Square.indexToName(B8_IDX));
+        assertEquals("e3", Square.indexToName(E3_IDX));
+        assertEquals("f5", Square.indexToName(F5_IDX));
+        assertEquals("h1", Square.indexToName(H1_IDX));
+        assertEquals("h7", Square.indexToName(H7_IDX));
+        assertEquals("h8", Square.indexToName(H8_IDX));
     }
 
     @Test
@@ -371,11 +374,12 @@ public class SquareTest extends AbstractTestCase {
      * the squares defined by the indices in {@code actualIndices}.
      *
      * @param expectedNames An array of the expected square names, e.g. ["a1", "e4"].
-     * @param actualIndices A list of the actual square indices, e.g. [0, 28].
+     * @param actualIndices An array of the actual square indices, e.g. [0, 28].
+     * @param count The number of indices in actualIndices to check.
      */
-    private void assertSquareIndices(String[] expectedNames, List<Integer> actualIndices) {
+    private void assertSquareIndices(String[] expectedNames, int[] actualIndices, int count) {
         int[] expected = Arrays.stream(expectedNames).mapToInt(Square::nameToIndex).sorted().toArray();
-        int[] actual = actualIndices.stream().mapToInt(n -> n).sorted().toArray();
+        int[] actual = Arrays.stream(Arrays.copyOf(actualIndices, count)).sorted().toArray();
         assertArrayEquals(expected, actual);
     }
 

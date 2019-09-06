@@ -21,9 +21,7 @@ import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.model.Square;
 
-import java.util.List;
-
-import static se.dykstrom.ronja.common.model.Square.SQUARE_IDS;
+import static se.dykstrom.ronja.common.model.Square.*;
 
 /**
  * A class used to find all squares that are attacked in a given position.
@@ -44,7 +42,36 @@ public class AttackGenerator extends AbstractGenerator {
     /** Squares occupied by any piece in any color. */
     private long occupied;
 
+    /**
+     * 64 squares
+     * 256 possible variations of pieces on a rank
+     */
+    private final long[][] horizontalAttacks = new long[64][256];
+
     // ------------------------------------------------------------------------
+
+    public AttackGenerator() {
+        initHorizontalAttacks();
+    }
+
+    /**
+     * Initializes the array of cached horizontal attacks.
+     */
+    private void initHorizontalAttacks() {
+        for (int fromIndex = 0; fromIndex < 64; fromIndex++) {
+            int rank = fromIndex / 8;
+            long fromSquare = indexToId(fromIndex);
+
+            for (int rank_bits = 0; rank_bits < 256; rank_bits++) {
+                // Shift the rank bits to the correct rank, and add the square ID of the
+                // current square. Now we have one possible setup of occupied (on the
+                // current rank), and we can try to slide the piece east and west from
+                // the current square, saving the attacked squares.
+                occupied = ((long) rank_bits) << (rank * 8) | fromSquare;
+                horizontalAttacks[fromIndex][rank_bits] = createCachedHorizontalAttacks(fromSquare);
+            }
+        }
+    }
 
     /**
      * Sets up internal state.
@@ -90,18 +117,19 @@ public class AttackGenerator extends AbstractGenerator {
     /**
      * Returns a bitboard of all squares attacked by my king.
      */
-    public long getAllKingAttacks() {
+    long getAllKingAttacks() {
         return KING_MOVES[Square.idToIndex(position.king & friend)];
     }
 
     /**
      * Returns a bitboard of all squares attacked by all my knights.
      */
-    public long getAllKnightAttacks() {
-        List<Integer> fromIndices = Square.bitboardToIndices(position.knight & friend);
+    long getAllKnightAttacks() {
+        int numberOfKnights = Square.bitboardToIndices(position.knight & friend);
 
         long squares = 0;
-        for (Integer fromIndex : fromIndices) {
+        for (int knightIndex = 0; knightIndex < numberOfKnights; knightIndex++) {
+            int fromIndex = SQUARE_INDICES[knightIndex];
             squares |= KNIGHT_MOVES[fromIndex];
         }
         return squares;
@@ -110,7 +138,7 @@ public class AttackGenerator extends AbstractGenerator {
     /**
      * Returns a bitboard of all squares attacked by all my pawns.
      */
-    public long getAllPawnAttacks() {
+    long getAllPawnAttacks() {
         long squares = position.pawn & friend;
 
         if (isWhiteAttack) {
@@ -125,12 +153,15 @@ public class AttackGenerator extends AbstractGenerator {
     /**
      * Returns a bitboard of all squares attacked by all my rooks.
      */
-    public long getAllRookAttacks() {
-        int count = Square.bitboardToIds(position.rook & friend);
+    long getAllRookAttacks() {
+        int count = Square.bitboardToIndices(position.rook & friend);
 
         long squares = 0;
         for (int i = 0; i < count; i++) {
-            squares |= getStraightAttacks(SQUARE_IDS[i]);
+            int fromIndex = SQUARE_INDICES[i];
+            long fromSquare = indexToId(fromIndex);
+            squares |= getCachedHorizontalAttacks(fromIndex);
+            squares |= getVerticalAttacks(fromSquare);
         }
         return squares;
     }
@@ -138,7 +169,7 @@ public class AttackGenerator extends AbstractGenerator {
     /**
      * Returns a bitboard of all squares attacked by all my bishops.
      */
-    public long getAllBishopAttacks() {
+    long getAllBishopAttacks() {
         int count = Square.bitboardToIds(position.bishop & friend);
 
         long squares = 0;
@@ -151,13 +182,16 @@ public class AttackGenerator extends AbstractGenerator {
     /**
      * Returns a bitboard of all squares attacked by all my queens.
      */
-    public long getAllQueenAttacks() {
-        int count = Square.bitboardToIds(position.queen & friend);
+    long getAllQueenAttacks() {
+        int count = Square.bitboardToIndices(position.queen & friend);
 
         long squares = 0;
         for (int i = 0; i < count; i++) {
-            squares |= getStraightAttacks(SQUARE_IDS[i]);
-            squares |= getDiagonalAttacks(SQUARE_IDS[i]);
+            int fromIndex = SQUARE_INDICES[i];
+            long fromSquare = indexToId(fromIndex);
+            squares |= getCachedHorizontalAttacks(fromIndex);
+            squares |= getVerticalAttacks(fromSquare);
+            squares |= getDiagonalAttacks(fromSquare);
         }
         return squares;
     }
@@ -165,63 +199,79 @@ public class AttackGenerator extends AbstractGenerator {
     // ------------------------------------------------------------------------
 
     /**
-     * Returns a bitboard of squares that a piece on square {@code from} can attack in a straight line.
-     *
-     * The following things are checked:
-     *
-     * - The move does not cross a border.
+     * Returns a bitboard of squares that a sliding piece on square {@code fromIndex}
+     * can attack horizontally.
      */
-    public long getStraightAttacks(long from) {
-        boolean inNorthBorder = (NORTH_BORDER & from) != 0;
+    private long getCachedHorizontalAttacks(int fromIndex) {
+        int rank = fromIndex / 8;   // Board.getRank() returns rank 1-8
+        int rank_bits = (int) (occupied >> (rank * 8)) & 0b11111111;
+        return horizontalAttacks[fromIndex][rank_bits];
+    }
+
+    /**
+     * Creates a bitboard of squares that a sliding piece on square {@code from} can attack
+     * horizontally. This method assumes that bitboard {@link #occupied} has been initialized
+     * correctly, like it would when actually playing the game.
+     */
+    private long createCachedHorizontalAttacks(long from) {
         boolean inEastBorder = (EAST_BORDER & from) != 0;
-        boolean inSouthBorder = (SOUTH_BORDER & from) != 0;
         boolean inWestBorder = (WEST_BORDER & from) != 0;
 
         long res = 0;
 
-        long stop;
-        long pos;
-
-        // North
-        if (!inNorthBorder) {
-            stop = NORTH_BORDER | occupied;
-            pos = Square.north(from);
-            while ((pos & stop) == 0) {
-                res |= pos;
-                pos = Square.north(pos);
-            }
-            res |= pos;
-        }
-
         // East
         if (!inEastBorder) {
-            stop = EAST_BORDER | occupied;
-            pos = Square.east(from);
+            long stop = EAST_BORDER | occupied;
+            long pos = east(from);
             while ((pos & stop) == 0) {
                 res |= pos;
-                pos = Square.east(pos);
-            }
-            res |= pos;
-        }
-
-        // South
-        if (!inSouthBorder) {
-            stop = SOUTH_BORDER | occupied;
-            pos = Square.south(from);
-            while ((pos & stop) == 0) {
-                res |= pos;
-                pos = Square.south(pos);
+                pos = east(pos);
             }
             res |= pos;
         }
 
         // West
         if (!inWestBorder) {
-            stop = WEST_BORDER | occupied;
-            pos = Square.west(from);
+            long stop = WEST_BORDER | occupied;
+            long pos = west(from);
             while ((pos & stop) == 0) {
                 res |= pos;
-                pos = Square.west(pos);
+                pos = west(pos);
+            }
+            res |= pos;
+        }
+
+        return res;
+    }
+
+    /**
+     * Returns a bitboard of squares that a sliding piece on square {@code from}
+     * can attack vertically.
+     */
+    private long getVerticalAttacks(long from) {
+        boolean inNorthBorder = (NORTH_BORDER & from) != 0;
+        boolean inSouthBorder = (SOUTH_BORDER & from) != 0;
+
+        long res = 0;
+
+        // North
+        if (!inNorthBorder) {
+            long stop = NORTH_BORDER | occupied;
+            long pos = north(from);
+            while ((pos & stop) == 0) {
+                res |= pos;
+                pos = north(pos);
+            }
+            res |= pos;
+        }
+
+        // South
+        if (!inSouthBorder) {
+            long stop = SOUTH_BORDER | occupied;
+            long pos = south(from);
+            while ((pos & stop) == 0) {
+                res |= pos;
+                pos = south(pos);
             }
             res |= pos;
         }
@@ -236,7 +286,7 @@ public class AttackGenerator extends AbstractGenerator {
      *
      * - The move does not cross a border.
      */
-    public long getDiagonalAttacks(long from) {
+    private long getDiagonalAttacks(long from) {
         boolean inNorthBorder = (NORTH_BORDER & from) != 0;
         boolean inEastBorder = (EAST_BORDER & from) != 0;
         boolean inSouthBorder = (SOUTH_BORDER & from) != 0;

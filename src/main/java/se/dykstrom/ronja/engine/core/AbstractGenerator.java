@@ -20,6 +20,8 @@ package se.dykstrom.ronja.engine.core;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.common.model.Board;
 
+import static se.dykstrom.ronja.common.model.Square.*;
+
 /**
  * An abstract base class that contains constants that are common to the two generator classes.
  *
@@ -28,22 +30,22 @@ import se.dykstrom.ronja.common.model.Board;
 abstract class AbstractGenerator {
 
     /** The north border of the chess board (rank 8). */
-    protected static final long NORTH_BORDER = Board.RANK_8;
+    static final long NORTH_BORDER = Board.RANK_8;
 
     /** The east border of the chess board (file H). */
-    protected static final long EAST_BORDER = Board.FILE_H;
+    static final long EAST_BORDER = Board.FILE_H;
 
     /** Everything except the east border (file H). */
-    protected static final long NOT_EAST_BORDER = ~EAST_BORDER;
+    static final long NOT_EAST_BORDER = ~EAST_BORDER;
 
     /** The south border of the chess board (rank 1). */
-    protected static final long SOUTH_BORDER = Board.RANK_1;
+    static final long SOUTH_BORDER = Board.RANK_1;
 
     /** The west border of the chess board (file A). */
-    protected static final long WEST_BORDER = Board.FILE_A;
+    static final long WEST_BORDER = Board.FILE_A;
 
     /** Everything except the west border (file A). */
-    protected static final long NOT_WEST_BORDER = ~WEST_BORDER;
+    static final long NOT_WEST_BORDER = ~WEST_BORDER;
 
     /** All squares a king can move to for each square. */
     static final long[] KING_MOVES = {
@@ -128,6 +130,89 @@ abstract class AbstractGenerator {
         Square.G8 + Square.H7 + Square.G7
     };
 
+    /** All 'to' square indices a king can move to for each 'from' square index. */
+    static final int[][] KING_SQUARES = {
+        // Rank 1
+        {A2_IDX, B2_IDX, B1_IDX},
+        {A1_IDX, A2_IDX, B2_IDX, C2_IDX, C1_IDX},
+        {B1_IDX, B2_IDX, C2_IDX, D2_IDX, D1_IDX},
+        {C1_IDX, C2_IDX, D2_IDX, E2_IDX, E1_IDX},
+        {D1_IDX, D2_IDX, E2_IDX, F2_IDX, F1_IDX},
+        {E1_IDX, E2_IDX, F2_IDX, G2_IDX, G1_IDX},
+        {F1_IDX, F2_IDX, G2_IDX, H2_IDX, H1_IDX},
+        {G1_IDX, G2_IDX, H2_IDX},
+
+        // Rank 2
+        {A3_IDX, B3_IDX, B2_IDX, B1_IDX, A1_IDX},
+        {A2_IDX, A3_IDX, B3_IDX, C3_IDX, C2_IDX, C1_IDX, B1_IDX, A1_IDX},
+        {B2_IDX, B3_IDX, C3_IDX, D3_IDX, D2_IDX, D1_IDX, C1_IDX, B1_IDX},
+        {C2_IDX, C3_IDX, D3_IDX, E3_IDX, E2_IDX, E1_IDX, D1_IDX, C1_IDX},
+        {D2_IDX, D3_IDX, E3_IDX, F3_IDX, F2_IDX, F1_IDX, E1_IDX, D1_IDX},
+        {E2_IDX, E3_IDX, F3_IDX, G3_IDX, G2_IDX, G1_IDX, F1_IDX, E1_IDX},
+        {F2_IDX, F3_IDX, G3_IDX, H3_IDX, H2_IDX, H1_IDX, G1_IDX, F1_IDX},
+        {G2_IDX, G3_IDX, H3_IDX, H1_IDX, G1_IDX},
+
+        // Rank 3
+        {A4_IDX, B4_IDX, B3_IDX, B2_IDX, A2_IDX},
+        {A3_IDX, A4_IDX, B4_IDX, C4_IDX, C3_IDX, C2_IDX, B2_IDX, A2_IDX},
+        {B3_IDX, B4_IDX, C4_IDX, D4_IDX, D3_IDX, D2_IDX, C2_IDX, B2_IDX},
+        {C3_IDX, C4_IDX, D4_IDX, E4_IDX, E3_IDX, E2_IDX, D2_IDX, C2_IDX},
+        {D3_IDX, D4_IDX, E4_IDX, F4_IDX, F3_IDX, F2_IDX, E2_IDX, D2_IDX},
+        {E3_IDX, E4_IDX, F4_IDX, G4_IDX, G3_IDX, G2_IDX, F2_IDX, E2_IDX},
+        {F3_IDX, F4_IDX, G4_IDX, H4_IDX, H3_IDX, H2_IDX, G2_IDX, F2_IDX},
+        {G3_IDX, G4_IDX, H4_IDX, H2_IDX, G2_IDX},
+
+        // Rank 4
+        {A5_IDX, B5_IDX, B4_IDX, B3_IDX, A3_IDX},
+        {A4_IDX, A5_IDX, B5_IDX, C5_IDX, C4_IDX, C3_IDX, B3_IDX, A3_IDX},
+        {B4_IDX, B5_IDX, C5_IDX, D5_IDX, D4_IDX, D3_IDX, C3_IDX, B3_IDX},
+        {C4_IDX, C5_IDX, D5_IDX, E5_IDX, E4_IDX, E3_IDX, D3_IDX, C3_IDX},
+        {D4_IDX, D5_IDX, E5_IDX, F5_IDX, F4_IDX, F3_IDX, E3_IDX, D3_IDX},
+        {E4_IDX, E5_IDX, F5_IDX, G5_IDX, G4_IDX, G3_IDX, F3_IDX, E3_IDX},
+        {F4_IDX, F5_IDX, G5_IDX, H5_IDX, H4_IDX, H3_IDX, G3_IDX, F3_IDX},
+        {G4_IDX, G5_IDX, H5_IDX, H3_IDX, G3_IDX},
+
+        // Rank 5
+        {A6_IDX, B6_IDX, B5_IDX, B4_IDX, A4_IDX},
+        {A5_IDX, A6_IDX, B6_IDX, C6_IDX, C5_IDX, C4_IDX, B4_IDX, A4_IDX},
+        {B5_IDX, B6_IDX, C6_IDX, D6_IDX, D5_IDX, D4_IDX, C4_IDX, B4_IDX},
+        {C5_IDX, C6_IDX, D6_IDX, E6_IDX, E5_IDX, E4_IDX, D4_IDX, C4_IDX},
+        {D5_IDX, D6_IDX, E6_IDX, F6_IDX, F5_IDX, F4_IDX, E4_IDX, D4_IDX},
+        {E5_IDX, E6_IDX, F6_IDX, G6_IDX, G5_IDX, G4_IDX, F4_IDX, E4_IDX},
+        {F5_IDX, F6_IDX, G6_IDX, H6_IDX, H5_IDX, H4_IDX, G4_IDX, F4_IDX},
+        {G5_IDX, G6_IDX, H6_IDX, H4_IDX, G4_IDX},
+
+        // Rank 6
+        {A7_IDX, B7_IDX, B6_IDX, B5_IDX, A5_IDX},
+        {A6_IDX, A7_IDX, B7_IDX, C7_IDX, C6_IDX, C5_IDX, B5_IDX, A5_IDX},
+        {B6_IDX, B7_IDX, C7_IDX, D7_IDX, D6_IDX, D5_IDX, C5_IDX, B5_IDX},
+        {C6_IDX, C7_IDX, D7_IDX, E7_IDX, E6_IDX, E5_IDX, D5_IDX, C5_IDX},
+        {D6_IDX, D7_IDX, E7_IDX, F7_IDX, F6_IDX, F5_IDX, E5_IDX, D5_IDX},
+        {E6_IDX, E7_IDX, F7_IDX, G7_IDX, G6_IDX, G5_IDX, F5_IDX, E5_IDX},
+        {F6_IDX, F7_IDX, G7_IDX, H7_IDX, H6_IDX, H5_IDX, G5_IDX, F5_IDX},
+        {G6_IDX, G7_IDX, H7_IDX, H5_IDX, G5_IDX},
+
+        // Rank 7
+        {A8_IDX, B8_IDX, B7_IDX, B6_IDX, A6_IDX},
+        {A7_IDX, A8_IDX, B8_IDX, C8_IDX, C7_IDX, C6_IDX, B6_IDX, A6_IDX},
+        {B7_IDX, B8_IDX, C8_IDX, D8_IDX, D7_IDX, D6_IDX, C6_IDX, B6_IDX},
+        {C7_IDX, C8_IDX, D8_IDX, E8_IDX, E7_IDX, E6_IDX, D6_IDX, C6_IDX},
+        {D7_IDX, D8_IDX, E8_IDX, F8_IDX, F7_IDX, F6_IDX, E6_IDX, D6_IDX},
+        {E7_IDX, E8_IDX, F8_IDX, G8_IDX, G7_IDX, G6_IDX, F6_IDX, E6_IDX},
+        {F7_IDX, F8_IDX, G8_IDX, H8_IDX, H7_IDX, H6_IDX, G6_IDX, F6_IDX},
+        {G7_IDX, G8_IDX, H8_IDX, H6_IDX, G6_IDX},
+
+        // Rank 8
+        {B8_IDX, B7_IDX, A7_IDX},
+        {A8_IDX, C8_IDX, C7_IDX, B7_IDX, A7_IDX},
+        {B8_IDX, D8_IDX, D7_IDX, C7_IDX, B7_IDX},
+        {C8_IDX, E8_IDX, E7_IDX, D7_IDX, C7_IDX},
+        {D8_IDX, F8_IDX, F7_IDX, E7_IDX, D7_IDX},
+        {E8_IDX, G8_IDX, G7_IDX, F7_IDX, E7_IDX},
+        {F8_IDX, H8_IDX, H7_IDX, G7_IDX, F7_IDX},
+        {G8_IDX, H7_IDX, G7_IDX}
+    };
+
     /** All squares a knight can move to for each square. */
     static final long[] KNIGHT_MOVES = {
         // Rank 1
@@ -209,5 +294,88 @@ abstract class AbstractGenerator {
         Square.E6 + Square.D7 + Square.H7 + Square.G6,
         Square.F6 + Square.E7 + Square.H6,
         Square.G6 + Square.F7
+    };
+
+    /** All 'to' square indices a knight can move to for each 'from' square index. */
+    static final int[][] KNIGHT_SQUARES = {
+            // Rank 1
+            {B3_IDX, C2_IDX},
+            {A3_IDX, C3_IDX, D2_IDX},
+            {A2_IDX, B3_IDX, D3_IDX, E2_IDX},
+            {B2_IDX, C3_IDX, E3_IDX, F2_IDX},
+            {C2_IDX, D3_IDX, F3_IDX, G2_IDX},
+            {D2_IDX, E3_IDX, G3_IDX, H2_IDX},
+            {E2_IDX, F3_IDX, H3_IDX},
+            {F2_IDX, G3_IDX},
+
+            // Rank 2
+            {B4_IDX, C3_IDX, C1_IDX},
+            {A4_IDX, C4_IDX, D3_IDX, D1_IDX},
+            {A1_IDX, A3_IDX, B4_IDX, D4_IDX, E3_IDX, E1_IDX},
+            {B1_IDX, B3_IDX, C4_IDX, E4_IDX, F3_IDX, F1_IDX},
+            {C1_IDX, C3_IDX, D4_IDX, F4_IDX, G3_IDX, G1_IDX},
+            {D1_IDX, D3_IDX, E4_IDX, G4_IDX, H3_IDX, H1_IDX},
+            {E1_IDX, E3_IDX, F4_IDX, H4_IDX},
+            {F1_IDX, F3_IDX, G4_IDX},
+
+            // Rank 3
+            {B5_IDX, C4_IDX, C2_IDX, B1_IDX},
+            {A1_IDX, A5_IDX, C5_IDX, D4_IDX, D2_IDX, C1_IDX},
+            {B1_IDX, A2_IDX, A4_IDX, B5_IDX, D5_IDX, E4_IDX, E2_IDX, D1_IDX},
+            {C1_IDX, B2_IDX, B4_IDX, C5_IDX, E5_IDX, F4_IDX, F2_IDX, E1_IDX},
+            {D1_IDX, C2_IDX, C4_IDX, D5_IDX, F5_IDX, G4_IDX, G2_IDX, F1_IDX},
+            {E1_IDX, D2_IDX, D4_IDX, E5_IDX, G5_IDX, H4_IDX, H2_IDX, G1_IDX},
+            {F1_IDX, E2_IDX, E4_IDX, F5_IDX, H5_IDX, H1_IDX},
+            {G1_IDX, F2_IDX, F4_IDX, G5_IDX},
+
+            // Rank 4
+            {B6_IDX, C5_IDX, C3_IDX, B2_IDX},
+            {A2_IDX, A6_IDX, C6_IDX, D5_IDX, D3_IDX, C2_IDX},
+            {B2_IDX, A3_IDX, A5_IDX, B6_IDX, D6_IDX, E5_IDX, E3_IDX, D2_IDX},
+            {C2_IDX, B3_IDX, B5_IDX, C6_IDX, E6_IDX, F5_IDX, F3_IDX, E2_IDX},
+            {D2_IDX, C3_IDX, C5_IDX, D6_IDX, F6_IDX, G5_IDX, G3_IDX, F2_IDX},
+            {E2_IDX, D3_IDX, D5_IDX, E6_IDX, G6_IDX, H5_IDX, H3_IDX, G2_IDX},
+            {F2_IDX, E3_IDX, E5_IDX, F6_IDX, H6_IDX, H2_IDX},
+            {G2_IDX, F3_IDX, F5_IDX, G6_IDX},
+
+            // Rank 5
+            {B7_IDX, C6_IDX, C4_IDX, B3_IDX},
+            {A3_IDX, A7_IDX, C7_IDX, D6_IDX, D4_IDX, C3_IDX},
+            {B3_IDX, A4_IDX, A6_IDX, B7_IDX, D7_IDX, E6_IDX, E4_IDX, D3_IDX},
+            {C3_IDX, B4_IDX, B6_IDX, C7_IDX, E7_IDX, F6_IDX, F4_IDX, E3_IDX},
+            {D3_IDX, C4_IDX, C6_IDX, D7_IDX, F7_IDX, G6_IDX, G4_IDX, F3_IDX},
+            {E3_IDX, D4_IDX, D6_IDX, E7_IDX, G7_IDX, H6_IDX, H4_IDX, G3_IDX},
+            {F3_IDX, E4_IDX, E6_IDX, F7_IDX, H7_IDX, H3_IDX},
+            {G3_IDX, F4_IDX, F6_IDX, G7_IDX},
+
+            // Rank 6
+            {B8_IDX, C7_IDX, C5_IDX, B4_IDX},
+            {A4_IDX, A8_IDX, C8_IDX, D7_IDX, D5_IDX, C4_IDX},
+            {B4_IDX, A5_IDX, A7_IDX, B8_IDX, D8_IDX, E7_IDX, E5_IDX, D4_IDX},
+            {C4_IDX, B5_IDX, B7_IDX, C8_IDX, E8_IDX, F7_IDX, F5_IDX, E4_IDX},
+            {D4_IDX, C5_IDX, C7_IDX, D8_IDX, F8_IDX, G7_IDX, G5_IDX, F4_IDX},
+            {E4_IDX, D5_IDX, D7_IDX, E8_IDX, G8_IDX, H7_IDX, H5_IDX, G4_IDX},
+            {F4_IDX, E5_IDX, E7_IDX, F8_IDX, H8_IDX, H4_IDX},
+            {G4_IDX, F5_IDX, F7_IDX, G8_IDX},
+
+            // Rank 7
+            {C8_IDX, C6_IDX, B5_IDX},
+            {D8_IDX, D6_IDX, C5_IDX, A5_IDX},
+            {B5_IDX, A6_IDX, A8_IDX, E8_IDX, E6_IDX, D5_IDX},
+            {C5_IDX, B6_IDX, B8_IDX, F8_IDX, F6_IDX, E5_IDX},
+            {D5_IDX, C6_IDX, C8_IDX, G8_IDX, G6_IDX, F5_IDX},
+            {E5_IDX, D6_IDX, D8_IDX, H8_IDX, H6_IDX, G5_IDX},
+            {F5_IDX, E6_IDX, E8_IDX, H5_IDX},
+            {G5_IDX, F6_IDX, F8_IDX},
+
+            // Rank 8
+            {C7_IDX, B6_IDX},
+            {A6_IDX, D7_IDX, C6_IDX},
+            {B6_IDX, A7_IDX, E7_IDX, D6_IDX},
+            {C6_IDX, B7_IDX, F7_IDX, E6_IDX},
+            {D6_IDX, C7_IDX, G7_IDX, F6_IDX},
+            {E6_IDX, D7_IDX, H7_IDX, G6_IDX},
+            {F6_IDX, E7_IDX, H6_IDX},
+            {G6_IDX, F7_IDX}
     };
 }

@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.List;
 
@@ -120,6 +121,20 @@ public class OpeningBookParserIT extends AbstractTestCase {
 
         // Then
         assertEquals(0, book.size());
+    }
+
+    @Test
+    public void shouldParseRealOpeningBook() throws Exception {
+        // Given
+        File file = Paths.get("target/scripts/book.csv").toFile();
+        assertTrue("File not found: " + file.getPath() + ". Current directory: " + Paths.get("").toFile().getAbsolutePath(), file.exists());
+
+        // When
+        OpeningBook book = OpeningBookParser.parse(file);
+
+        // Then
+        System.out.println("Opening book contains " + book.size() + " positions.");
+        assertTrue(book.size() > 0);
     }
 
     @Test(expected = IOException.class)

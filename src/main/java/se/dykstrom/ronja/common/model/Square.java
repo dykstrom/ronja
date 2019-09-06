@@ -17,9 +17,6 @@
 
 package se.dykstrom.ronja.common.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Contains constants and methods related to the squares on a chess board. A square can be
  * identified in three ways - using a name, an ID, or an index. A square name is a lower case
@@ -97,6 +94,71 @@ public class Square {
     public static final long G8 = 1L << 62L;
     public static final long H8 = 1L << 63L;
 
+    public static final int A1_IDX = 0;
+    public static final int B1_IDX = 1;
+    public static final int C1_IDX = 2;
+    public static final int D1_IDX = 3;
+    public static final int E1_IDX = 4;
+    public static final int F1_IDX = 5;
+    public static final int G1_IDX = 6;
+    public static final int H1_IDX = 7;
+    public static final int A2_IDX = 8;
+    public static final int B2_IDX = 9;
+    public static final int C2_IDX = 10;
+    public static final int D2_IDX = 11;
+    public static final int E2_IDX = 12;
+    public static final int F2_IDX = 13;
+    public static final int G2_IDX = 14;
+    public static final int H2_IDX = 15;
+    public static final int A3_IDX = 16;
+    public static final int B3_IDX = 17;
+    public static final int C3_IDX = 18;
+    public static final int D3_IDX = 19;
+    public static final int E3_IDX = 20;
+    public static final int F3_IDX = 21;
+    public static final int G3_IDX = 22;
+    public static final int H3_IDX = 23;
+    public static final int A4_IDX = 24;
+    public static final int B4_IDX = 25;
+    public static final int C4_IDX = 26;
+    public static final int D4_IDX = 27;
+    public static final int E4_IDX = 28;
+    public static final int F4_IDX = 29;
+    public static final int G4_IDX = 30;
+    public static final int H4_IDX = 31;
+    public static final int A5_IDX = 32;
+    public static final int B5_IDX = 33;
+    public static final int C5_IDX = 34;
+    public static final int D5_IDX = 35;
+    public static final int E5_IDX = 36;
+    public static final int F5_IDX = 37;
+    public static final int G5_IDX = 38;
+    public static final int H5_IDX = 39;
+    public static final int A6_IDX = 40;
+    public static final int B6_IDX = 41;
+    public static final int C6_IDX = 42;
+    public static final int D6_IDX = 43;
+    public static final int E6_IDX = 44;
+    public static final int F6_IDX = 45;
+    public static final int G6_IDX = 46;
+    public static final int H6_IDX = 47;
+    public static final int A7_IDX = 48;
+    public static final int B7_IDX = 49;
+    public static final int C7_IDX = 50;
+    public static final int D7_IDX = 51;
+    public static final int E7_IDX = 52;
+    public static final int F7_IDX = 53;
+    public static final int G7_IDX = 54;
+    public static final int H7_IDX = 55;
+    public static final int A8_IDX = 56;
+    public static final int B8_IDX = 57;
+    public static final int C8_IDX = 58;
+    public static final int D8_IDX = 59;
+    public static final int E8_IDX = 60;
+    public static final int F8_IDX = 61;
+    public static final int G8_IDX = 62;
+    public static final int H8_IDX = 63;
+
     private static final String SQUARES =
             "a1b1c1d1e1f1g1h1" +
             "a2b2c2d2e2f2g2h2" +
@@ -112,6 +174,7 @@ public class Square {
     public static final int MAX_SQUARES = 64;
 
     public static final long[] SQUARE_IDS = new long[MAX_SQUARES];
+    public static final int[] SQUARE_INDICES = new int[MAX_SQUARES];
 
     /**
      * Stores the square IDs of the occupied squares in the given bitboard in the array {@link #SQUARE_IDS},
@@ -164,37 +227,41 @@ public class Square {
     // ------------------------------------------------------------------------
 
     /**
-     * Returns a list of square indices representing the squares that are occupied in the given bitboard.
-     * This implementation works best for sparsely populated bitboards.
+     * Stores the square indices of the occupied squares in the given bitboard in the array {@link #SQUARE_INDICES},
+     * and returns the number of square indices found in the bitboard. This implementation works best for sparsely
+     * populated bitboards.
      * <p>
      * Example: bitboardToIndices(Square.A1 | Square.E4) returns [0, 28].
+     *
+     * @param bitboard The bitboard to split into square indices.
+     * @return The number of square indices found in the bitboard.
      */
-    public static List<Integer> bitboardToIndices(long bitboard) {
-        List<Integer> result = new ArrayList<>();
+    public static int bitboardToIndices(long bitboard) {
+        int count = 0;
 
         for (long b = bitboard; b != 0;) {
             int index = Long.numberOfTrailingZeros(b);
-            result.add(index);
+            SQUARE_INDICES[count++] = index;
             b &= ~(1L << index);
         }
 
-        return result;
+        return count;
     }
 
 //  Alternative implementation:
 //
-//  public static List<Integer> bitboardToIndices(long bitboard) {
-//      List<Integer> result = new ArrayList<>();
+//  public static int bitboardToIndices(long bitboard) {
+//      int count = 0;
 //
 //      int i = 0;
 //      for (long b = bitboard; b != 0; b = b >>> 1) {
 //          if ((b & 1) != 0) {
-//              result.add(i);
+//              SQUARE_INDICES[count++] = i;
 //          }
 //          i++;
 //      }
 //
-//      return result;
+//      return count;
 //  }
 
     /**

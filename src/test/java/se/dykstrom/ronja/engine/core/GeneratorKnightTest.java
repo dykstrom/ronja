@@ -28,6 +28,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
+import static se.dykstrom.ronja.common.model.Square.*;
 
 /**
  * This class is for testing knight moves with the generator classes using JUnit.
@@ -53,10 +54,10 @@ public class GeneratorKnightTest extends AbstractTestCase {
 
         MOVE_GENERATOR.generateKnightMoves();
         assertThat(MOVE_GENERATOR.getMoveIndex(), is(4));
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KNIGHT, Square.B1, Square.A3),
-                                             Move.create(KNIGHT, Square.B1, Square.C3),
-                                             Move.create(KNIGHT, Square.G1, Square.F3),
-                                             Move.create(KNIGHT, Square.G1, Square.H3));
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(KNIGHT, B1_IDX, A3_IDX),
+                                             Move.create(KNIGHT, B1_IDX, C3_IDX),
+                                             Move.create(KNIGHT, G1_IDX, F3_IDX),
+                                             Move.create(KNIGHT, G1_IDX, H3_IDX));
     }
 
     // TODO: Add more tests for class FullMoveGenerator.

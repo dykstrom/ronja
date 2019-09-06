@@ -19,11 +19,8 @@ package se.dykstrom.ronja.engine.core;
 
 import se.dykstrom.ronja.common.model.*;
 
-import java.util.List;
-
 import static se.dykstrom.ronja.common.model.Piece.*;
-import static se.dykstrom.ronja.common.model.Square.MAX_SQUARES;
-import static se.dykstrom.ronja.common.model.Square.SQUARE_IDS;
+import static se.dykstrom.ronja.common.model.Square.*;
 
 /**
  * A class used to generate all possible pseudo moves for a certain position. A
@@ -129,36 +126,23 @@ public class FullMoveGenerator extends AbstractGenerator {
     }
 
     /**
-     * Populates the array {@link Square#SQUARE_IDS} with all squares that a king on the square
-     * with index {@code fromIndex} can move to. Returns the number of such squares found.
+     * Generates all possible moves for a king on square {@code fromIndex}.
      */
-    private int getNormalKingMoves(int fromIndex) {
-        // Get all possible to squares
-        long to = KING_MOVES[fromIndex];
+    private void generateNormalKingMoves(int fromIndex) {
+        // Find all squares to move to
+        int[] toIndices = KING_SQUARES[fromIndex];
 
-        // TODO: Would it be better if the lookup in KING_MOVES and KNIGHT_MOVES returned an array of 'to' squares?
-        //
-        // Implementation suggestion:
-        //
-        //        long[] tos = KING_MOVES[fromIndex];
-        //        List<Long> legalTos = new ArrayList<>(tos.length);
-        //        for (int i = 0; i < tos.length; i++) {
-        //            if ((tos[i] & ~friend & ~attacked) != 0) {
-        //                legalTos.add(tos[i]);
-        //            }
-        //        }
-        //        return legalTos;
-
-        // Filter out those that are legal to move to
-        long legal = to & ~friend & ~attacked;
-
-        // Convert to list of to squares
-        return Square.bitboardToIds(legal);
+        // For each 'to' square, create a move
+        for (int toIndex : toIndices) {
+            long toSquare = indexToId(toIndex);
+            if ((toSquare & ~friend & ~attacked) != 0) {
+                createAndSaveMove(KING, fromIndex, toIndex, toSquare);
+            }
+        }
     }
 
     /**
-     * Populates the array {@link Square#SQUARE_IDS} with all squares that a king on the square
-     * {@code from} can move to <i>by castling</i>. Returns the number of such squares found.
+     * Generates all possible castling moves for a king on square {@code fromIndex}.
      *
      * The following things are checked:
      *
@@ -166,34 +150,30 @@ public class FullMoveGenerator extends AbstractGenerator {
      * - The squares that the king moves across are empty and not checked.
      * - The squares that the rook moves across are empty.
      */
-    private int getCastlingKingMoves(long from) {
-        int count = 0;
-
+    private void generateCastlingKingMoves(int fromIndex) {
         // White castling
-        if (from == Square.E1) {
+        if (fromIndex == E1_IDX) {
             if (position.isKingSideCastlingAllowed(Color.WHITE) && isRookOnStartSquare(Square.H1) &&
                 isPossibleToCastle(Square.F1 | Square.G1, Square.E1 | Square.F1 | Square.G1)) {
-                SQUARE_IDS[count++] = Square.G1;
+                moves[positionIndex][moveIndex++] = Move.createCastling(fromIndex, G1_IDX);
             }
             if (position.isQueenSideCastlingAllowed(Color.WHITE) && isRookOnStartSquare(Square.A1) &&
                 isPossibleToCastle(Square.B1 | Square.C1 | Square.D1, Square.C1 | Square.D1 | Square.E1)) {
-                SQUARE_IDS[count++] = Square.C1;
+                moves[positionIndex][moveIndex++] = Move.createCastling(fromIndex, C1_IDX);
             }
         }
 
         // Black castling
-        else if (from == Square.E8) {
+        else if (fromIndex == E8_IDX) {
             if (position.isKingSideCastlingAllowed(Color.BLACK) && isRookOnStartSquare(Square.H8) &&
                 isPossibleToCastle(Square.F8 | Square.G8, Square.E8 | Square.F8 | Square.G8)) {
-                SQUARE_IDS[count++] = Square.G8;
+                moves[positionIndex][moveIndex++] = Move.createCastling(fromIndex, G8_IDX);
             }
             if (position.isQueenSideCastlingAllowed(Color.BLACK) && isRookOnStartSquare(Square.A8) &&
                 isPossibleToCastle(Square.B8 | Square.C8 | Square.D8, Square.C8 | Square.D8 | Square.E8)) {
-                SQUARE_IDS[count++] = Square.C8;
+                moves[positionIndex][moveIndex++] = Move.createCastling(fromIndex, C8_IDX);
             }
         }
-
-        return count;
     }
 
     /**
@@ -204,37 +184,27 @@ public class FullMoveGenerator extends AbstractGenerator {
         long fromSquare = position.king & friend;
         int fromIndex = Square.idToIndex(fromSquare);
 
-        int count = getNormalKingMoves(fromIndex);
-        for (int i = 0; i < count; i++) {
-            createAndSaveMove(KING, fromSquare, SQUARE_IDS[i]);
-        }
-
-        count = getCastlingKingMoves(fromSquare);
-        for (int i = 0; i < count; i++) {
-            moves[positionIndex][moveIndex++] = Move.createCastling(fromSquare, SQUARE_IDS[i]);
-        }
+        // Generate possible moves
+        generateNormalKingMoves(fromIndex);
+        generateCastlingKingMoves(fromIndex);
     }
 
     // ------------------------------------------------------------------------
 
     /**
-     * Populates the array {@link Square#SQUARE_IDS} with all squares that a knight on the square
-     * with index {@code fromIndex} can move to. Returns the number of such squares found.
-     *
-     * The following things are checked:
-     *
-     * - The destination square is not blocked by a piece of my color.
-     * - The move does not cross a border.
+     * Generates all possible moves for a knight on square {@code fromIndex}.
      */
-    private int getKnightMoves(int fromIndex) {
-        // Get all possible 'to' squares as a bitboard
-        long to = KNIGHT_MOVES[fromIndex];
+    private void generateKnightMoves(int fromIndex) {
+        // Find all squares to move to
+        int[] toIndices = KNIGHT_SQUARES[fromIndex];
 
-        // Filter out those that are legal to move to
-        long legal = to & ~friend;
-
-        // Convert to array of 'to' squares
-        return Square.bitboardToIds(legal);
+        // For each 'to' square, create a move
+        for (int toIndex : toIndices) {
+            long toSquare = indexToId(toIndex);
+            if (!isBlocked(toSquare)) {
+                createAndSaveMove(KNIGHT, fromIndex, toIndex, toSquare);
+            }
+        }
     }
 
     /**
@@ -242,16 +212,11 @@ public class FullMoveGenerator extends AbstractGenerator {
      */
     void generateKnightMoves() {
         // Find all my knights
-        List<Integer> fromIndices = Square.bitboardToIndices(position.knight & friend);
+        int numberOfKnights = bitboardToIndices(position.knight & friend);
 
-        // For each knight, find all of its 'to' squares
-        for (Integer fromIndex : fromIndices) {
-            long fromSquare = Square.indexToId(fromIndex);
-            int count = getKnightMoves(fromIndex);
-            for (int i = 0; i < count; i++) {
-                long toSquare = SQUARE_IDS[i];
-                createAndSaveMove(KNIGHT, fromSquare, toSquare);
-            }
+        // For each knight, generate possible moves
+        for (int knightIndex = 0; knightIndex < numberOfKnights; knightIndex++) {
+            generateKnightMoves(SQUARE_INDICES[knightIndex]);
         }
     }
 
@@ -369,31 +334,34 @@ public class FullMoveGenerator extends AbstractGenerator {
         // For each pawn, find all of its 'to' squares
         for (int fromSquareIdx = 0; fromSquareIdx < fromSquareCount; fromSquareIdx++) {
             long fromSquare = SQUARE_IDS[fromSquareIdx];
+            int fromIndex = idToIndex(fromSquare);
 
             int toSquareCount = getNormalPawnMoves(fromSquare);
             for (int toSquareIdx = 0; toSquareIdx < toSquareCount; toSquareIdx++) {
                 long toSquare = squareIds[toSquareIdx];
+                int toIndex = idToIndex(toSquare);
                 if ((toSquare & (Board.RANK_1 | Board.RANK_8)) != 0) {
                     if (isCapture(toSquare)) {
                         int captured = position.getPiece(toSquare);
-                        moves[positionIndex][moveIndex++] = Move.createCapturePromotion(fromSquare, toSquare, captured, BISHOP);
-                        moves[positionIndex][moveIndex++] = Move.createCapturePromotion(fromSquare, toSquare, captured, KNIGHT);
-                        moves[positionIndex][moveIndex++] = Move.createCapturePromotion(fromSquare, toSquare, captured, QUEEN);
-                        moves[positionIndex][moveIndex++] = Move.createCapturePromotion(fromSquare, toSquare, captured, ROOK);
+                        moves[positionIndex][moveIndex++] = Move.createCapturePromotion(fromIndex, toIndex, captured, BISHOP);
+                        moves[positionIndex][moveIndex++] = Move.createCapturePromotion(fromIndex, toIndex, captured, KNIGHT);
+                        moves[positionIndex][moveIndex++] = Move.createCapturePromotion(fromIndex, toIndex, captured, QUEEN);
+                        moves[positionIndex][moveIndex++] = Move.createCapturePromotion(fromIndex, toIndex, captured, ROOK);
                     } else {
-                        moves[positionIndex][moveIndex++] = Move.createPromotion(fromSquare, toSquare, BISHOP);
-                        moves[positionIndex][moveIndex++] = Move.createPromotion(fromSquare, toSquare, KNIGHT);
-                        moves[positionIndex][moveIndex++] = Move.createPromotion(fromSquare, toSquare, QUEEN);
-                        moves[positionIndex][moveIndex++] = Move.createPromotion(fromSquare, toSquare, ROOK);
+                        moves[positionIndex][moveIndex++] = Move.createPromotion(fromIndex, toIndex, BISHOP);
+                        moves[positionIndex][moveIndex++] = Move.createPromotion(fromIndex, toIndex, KNIGHT);
+                        moves[positionIndex][moveIndex++] = Move.createPromotion(fromIndex, toIndex, QUEEN);
+                        moves[positionIndex][moveIndex++] = Move.createPromotion(fromIndex, toIndex, ROOK);
                     }
                 } else {
-                    createAndSaveMove(PAWN, fromSquare, toSquare);
+                    createAndSaveMove(PAWN, fromIndex, toIndex, toSquare);
                 }
             }
 
             long toSquare = getEnPassantPawnMove(fromSquare);
             if (toSquare != 0) {
-                moves[positionIndex][moveIndex++] = Move.createEnPassant(fromSquare, toSquare);
+                int toIndex = idToIndex(toSquare);
+                moves[positionIndex][moveIndex++] = Move.createEnPassant(fromIndex, toIndex);
             }
         }
     }
@@ -413,7 +381,9 @@ public class FullMoveGenerator extends AbstractGenerator {
 
             int toSquareCount = getDiagonalMoves(fromSquare);
             for (int toSquareIdx = 0; toSquareIdx < toSquareCount; toSquareIdx++) {
-                createAndSaveMove(BISHOP, fromSquare, squareIds[toSquareIdx]);
+                long toSquare = squareIds[toSquareIdx];
+                int toIndex = idToIndex(toSquare);
+                createAndSaveMove(BISHOP, idToIndex(fromSquare), toIndex, toSquare);
             }
         }
     }
@@ -431,11 +401,15 @@ public class FullMoveGenerator extends AbstractGenerator {
 
             int toSquareCount = getDiagonalMoves(fromSquare);
             for (int toSquareIdx = 0; toSquareIdx < toSquareCount; toSquareIdx++) {
-                createAndSaveMove(QUEEN, fromSquare, squareIds[toSquareIdx]);
+                long toSquare = squareIds[toSquareIdx];
+                int toIndex = idToIndex(toSquare);
+                createAndSaveMove(QUEEN, idToIndex(fromSquare), toIndex, toSquare);
             }
             toSquareCount = getStraightMoves(fromSquare);
             for (int toSquareIdx = 0; toSquareIdx < toSquareCount; toSquareIdx++) {
-                createAndSaveMove(QUEEN, fromSquare, squareIds[toSquareIdx]);
+                long toSquare = squareIds[toSquareIdx];
+                int toIndex = idToIndex(toSquare);
+                createAndSaveMove(QUEEN, idToIndex(fromSquare), toIndex, toSquare);
             }
         }
     }
@@ -453,7 +427,9 @@ public class FullMoveGenerator extends AbstractGenerator {
 
             int toSquareCount = getStraightMoves(fromSquare);
             for (int toSquareIdx = 0; toSquareIdx < toSquareCount; toSquareIdx++) {
-                createAndSaveMove(ROOK, fromSquare, squareIds[toSquareIdx]);
+                long toSquare = squareIds[toSquareIdx];
+                int toIndex = idToIndex(toSquare);
+                createAndSaveMove(ROOK, idToIndex(fromSquare), toIndex, toSquare);
             }
         }
     }
@@ -461,15 +437,15 @@ public class FullMoveGenerator extends AbstractGenerator {
     // ------------------------------------------------------------------------
 
     /**
-     * Creates a move with the given piece moving from fromSquare to toSquare, possibly
+     * Creates a move with the given piece moving from fromIndex to toIndex, possibly
      * making a capture. The created move is added to the {@link #moves} matrix.
      */
-    private void createAndSaveMove(int piece, long fromSquare, long toSquare) {
+    private void createAndSaveMove(int piece, int fromIndex, int toIndex, long toSquare) {
         int move;
         if (isCapture(toSquare)) {
-            move = Move.createCapture(piece, fromSquare, toSquare, position.getPiece(toSquare));
+            move = Move.createCapture(piece, fromIndex, toIndex, position.getPiece(toSquare));
         } else {
-            move = Move.create(piece, fromSquare, toSquare);
+            move = Move.create(piece, fromIndex, toIndex);
         }
         moves[positionIndex][moveIndex++] = move;
     }

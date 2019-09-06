@@ -25,6 +25,7 @@ import se.dykstrom.ronja.test.AbstractTestCase;
 import static org.junit.Assert.*;
 import static se.dykstrom.ronja.common.model.Piece.BISHOP;
 import static se.dykstrom.ronja.common.model.Piece.ROOK;
+import static se.dykstrom.ronja.common.model.Square.*;
 
 /**
  * This class is for testing class {@code Position} using JUnit.
@@ -355,7 +356,7 @@ public class PositionTest extends AbstractTestCase {
         assertEquals(Square.D6, originalPosition.getEnPassantSquare());
 
         // Make the 'en passant' move
-        Position resultPosition = originalPosition.withMove(Move.createEnPassant(Square.E5, Square.D6));
+        Position resultPosition = originalPosition.withMove(Move.createEnPassant(E5_IDX, D6_IDX));
 
         // Verify that the white pawn is on d6
         assertEquals(Piece.PAWN, resultPosition.getPiece(Square.D6));
@@ -375,7 +376,7 @@ public class PositionTest extends AbstractTestCase {
         assertEquals(Square.C3, originalPosition.getEnPassantSquare());
 
         // Make the 'en passant' move
-        Position resultPosition = originalPosition.withMove(Move.createEnPassant(Square.D4, Square.C3));
+        Position resultPosition = originalPosition.withMove(Move.createEnPassant(D4_IDX, C3_IDX));
 
         // Verify that the black pawn is on c3
         assertEquals(Piece.PAWN, resultPosition.getPiece(Square.C3));
@@ -394,7 +395,7 @@ public class PositionTest extends AbstractTestCase {
         Position originalPosition = FenParser.parse(FEN_WP_E7F8);
 
         // Make the promotion move
-        Position resultPosition = originalPosition.withMove(Move.createPromotion(Square.E7, Square.F8, BISHOP));
+        Position resultPosition = originalPosition.withMove(Move.createPromotion(E7_IDX, F8_IDX, BISHOP));
 
         // Verify that the white bishop is on f8
         assertEquals(Piece.BISHOP, resultPosition.getPiece(Square.F8));
@@ -413,7 +414,7 @@ public class PositionTest extends AbstractTestCase {
         Position originalPosition = FenParser.parse(FEN_BP_A2A1);
 
         // Make the promotion move
-        Position resultPosition = originalPosition.withMove(Move.createPromotion(Square.A2, Square.A1, ROOK));
+        Position resultPosition = originalPosition.withMove(Move.createPromotion(A2_IDX, A1_IDX, ROOK));
 
         // Verify that the black rook is on a1
         assertEquals(Piece.ROOK,  resultPosition.getPiece(Square.A1));

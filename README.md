@@ -7,7 +7,7 @@ An XBoard/WinBoard chess engine written in Java.
 Ronja is a chess engine. It provides  only a simple, character based user 
 interface. It is highly recommended that you run it from a chess GUI like 
 [XBoard/WinBoard](https://www.gnu.org/software/xboard) or
-[Arena](http://www.playwitharena.com). You will also need a Java runtime
+[Arena](http://www.playwitharena.de). You will also need a Java runtime
 installed to run Ronja.
 
 Ronja version 0.7.0 and earlier requires Java 8; download it 

@@ -17,20 +17,18 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static se.dykstrom.ronja.common.model.Piece.BISHOP;
-import static se.dykstrom.ronja.common.model.Piece.PAWN;
-import static se.dykstrom.ronja.common.model.Piece.ROOK;
-
 import org.junit.Test;
-
 import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static se.dykstrom.ronja.common.model.Piece.*;
+import static se.dykstrom.ronja.common.model.Square.*;
 
 /**
  * This class is for testing bishop moves with the generator classes using JUnit.
@@ -69,11 +67,11 @@ public class GeneratorBishopTest extends AbstractTestCase {
         // There should be 5 moves: Be2, Bd3, Bc4, Bb5, Ba6
         MOVE_GENERATOR.generateBishopMoves();
         assertThat(MOVE_GENERATOR.getMoveIndex(), is(5));
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(BISHOP, Square.F1, Square.E2),
-                                             Move.create(BISHOP, Square.F1, Square.D3), 
-                                             Move.create(BISHOP, Square.F1, Square.C4), 
-                                             Move.create(BISHOP, Square.F1, Square.B5),
-                                             Move.create(BISHOP, Square.F1, Square.A6));
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(BISHOP, F1_IDX, E2_IDX),
+                                             Move.create(BISHOP, F1_IDX, D3_IDX),
+                                             Move.create(BISHOP, F1_IDX, C4_IDX),
+                                             Move.create(BISHOP, F1_IDX, B5_IDX),
+                                             Move.create(BISHOP, F1_IDX, A6_IDX));
     }
 
     /**
@@ -86,11 +84,11 @@ public class GeneratorBishopTest extends AbstractTestCase {
         // There should be 5 moves: Be7, Bd6, Bc5, Bb4, Ba3
         MOVE_GENERATOR.generateBishopMoves();
         assertThat(MOVE_GENERATOR.getMoveIndex(), is(5));
-        assertGeneratedMoves(MOVE_GENERATOR, Move.create(BISHOP, Square.F8, Square.E7), 
-                                             Move.create(BISHOP, Square.F8, Square.D6), 
-                                             Move.create(BISHOP, Square.F8, Square.C5), 
-                                             Move.create(BISHOP, Square.F8, Square.B4), 
-                                             Move.create(BISHOP, Square.F8, Square.A3));
+        assertGeneratedMoves(MOVE_GENERATOR, Move.create(BISHOP, F8_IDX, E7_IDX),
+                                             Move.create(BISHOP, F8_IDX, D6_IDX),
+                                             Move.create(BISHOP, F8_IDX, C5_IDX),
+                                             Move.create(BISHOP, F8_IDX, B4_IDX),
+                                             Move.create(BISHOP, F8_IDX, A3_IDX));
     }
 
     /**
@@ -115,9 +113,9 @@ public class GeneratorBishopTest extends AbstractTestCase {
         // There should be 3 moves: Bxb4, Bb2, Bxc1
         MOVE_GENERATOR.generateBishopMoves();
         assertThat(MOVE_GENERATOR.getMoveIndex(), is(3));
-        assertGeneratedMoves(MOVE_GENERATOR, Move.createCapture(BISHOP, Square.A3, Square.B4, PAWN), 
-                                             Move.create(BISHOP, Square.A3, Square.B2), 
-                                             Move.createCapture(BISHOP, Square.A3, Square.C1, BISHOP));
+        assertGeneratedMoves(MOVE_GENERATOR, Move.createCapture(BISHOP, A3_IDX, B4_IDX, PAWN),
+                                             Move.create(BISHOP, A3_IDX, B2_IDX),
+                                             Move.createCapture(BISHOP, A3_IDX, C1_IDX, BISHOP));
     }
 
     /**
@@ -166,11 +164,11 @@ public class GeneratorBishopTest extends AbstractTestCase {
         // There should be 5 moves: Bxa8, Bb7, Bxb5, Bxd7, Bd5
         MOVE_GENERATOR.generateBishopMoves();
         assertThat(MOVE_GENERATOR.getMoveIndex(), is(5));
-        assertGeneratedMoves(MOVE_GENERATOR, Move.createCapture(BISHOP, Square.C6, Square.A8, ROOK),
-                                             Move.create(BISHOP, Square.C6, Square.B7),
-                                             Move.createCapture(BISHOP, Square.C6, Square.B5, PAWN),
-                                             Move.createCapture(BISHOP, Square.C6, Square.D7, BISHOP),
-                                             Move.create(BISHOP, Square.C6, Square.D5));
+        assertGeneratedMoves(MOVE_GENERATOR, Move.createCapture(BISHOP, C6_IDX, A8_IDX, ROOK),
+                                             Move.create(BISHOP, C6_IDX, B7_IDX),
+                                             Move.createCapture(BISHOP, C6_IDX, B5_IDX, PAWN),
+                                             Move.createCapture(BISHOP, C6_IDX, D7_IDX, BISHOP),
+                                             Move.create(BISHOP, C6_IDX, D5_IDX));
     }
 
     // ------------------------------------------------------------------------

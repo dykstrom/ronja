@@ -20,11 +20,11 @@ package se.dykstrom.ronja.common.parser;
 import org.junit.Test;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Position;
-import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
 import static org.junit.Assert.*;
 import static se.dykstrom.ronja.common.model.Piece.*;
+import static se.dykstrom.ronja.common.model.Square.*;
 
 /**
  * This class is for testing class {@code CanParser} using JUnit.
@@ -70,34 +70,34 @@ public class CanParserTest extends AbstractTestCase {
 
     @Test
     public void testFormatSimple() {
-        assertEquals("a7a5", CanParser.format(Move.create(PAWN, Square.A7, Square.A5)));
-        assertEquals("d5c4", CanParser.format(Move.createCapture(PAWN, Square.D5, Square.C4, QUEEN)));
-        assertEquals("f6e4", CanParser.format(Move.create(KNIGHT, Square.F6, Square.E4)));
-        assertEquals("e7a3", CanParser.format(Move.create(QUEEN, Square.E7, Square.A3)));
+        assertEquals("a7a5", CanParser.format(Move.create(PAWN, A7_IDX, A5_IDX)));
+        assertEquals("d5c4", CanParser.format(Move.createCapture(PAWN, D5_IDX, C4_IDX, QUEEN)));
+        assertEquals("f6e4", CanParser.format(Move.create(KNIGHT, F6_IDX, E4_IDX)));
+        assertEquals("e7a3", CanParser.format(Move.create(QUEEN, E7_IDX, A3_IDX)));
     }
 
     @Test
     public void testFormatPromotion() {
-        assertEquals("e7f8b", CanParser.format(Move.createPromotion(Square.E7, Square.F8, BISHOP)));
-        assertEquals("e7f8r", CanParser.format(Move.createPromotion(Square.E7, Square.F8, ROOK)));
-        assertEquals("a2a1n", CanParser.format(Move.createPromotion(Square.A2, Square.A1, KNIGHT)));
-        assertEquals("a2a1q", CanParser.format(Move.createPromotion(Square.A2, Square.A1, QUEEN)));
+        assertEquals("e7f8b", CanParser.format(Move.createPromotion(E7_IDX, F8_IDX, BISHOP)));
+        assertEquals("e7f8r", CanParser.format(Move.createPromotion(E7_IDX, F8_IDX, ROOK)));
+        assertEquals("a2a1n", CanParser.format(Move.createPromotion(A2_IDX, A1_IDX, KNIGHT)));
+        assertEquals("a2a1q", CanParser.format(Move.createPromotion(A2_IDX, A1_IDX, QUEEN)));
     }
 
     @Test
     public void testFormatCastling() {
-        assertEquals("e1g1", CanParser.format(Move.createCastling(Square.E1, Square.G1)));
-        assertEquals("e1f1", CanParser.format(Move.createCastling(Square.E1, Square.F1)));
-        assertEquals("e8g8", CanParser.format(Move.createCastling(Square.E8, Square.G8)));
-        assertEquals("e8e7", CanParser.format(Move.createCastling(Square.E8, Square.E7)));
+        assertEquals("e1g1", CanParser.format(Move.createCastling(E1_IDX, G1_IDX)));
+        assertEquals("e1c1", CanParser.format(Move.createCastling(E1_IDX, C1_IDX)));
+        assertEquals("e8g8", CanParser.format(Move.createCastling(E8_IDX, G8_IDX)));
+        assertEquals("e8c8", CanParser.format(Move.createCastling(E8_IDX, C8_IDX)));
     }
 
     @Test
     public void testFormatEnPassant() {
-        assertEquals("e5d6", CanParser.format(Move.createEnPassant(Square.E5, Square.D6)));
-        assertEquals("d2d4", CanParser.format(Move.createEnPassant(Square.D2, Square.D4)));
-        assertEquals("d4c3", CanParser.format(Move.createEnPassant(Square.D4, Square.C3)));
-        assertEquals("d4d3", CanParser.format(Move.createEnPassant(Square.D4, Square.D3)));
+        assertEquals("e5d6", CanParser.format(Move.createEnPassant(E5_IDX, D6_IDX)));
+        assertEquals("d2d4", CanParser.format(Move.createEnPassant(D2_IDX, D4_IDX)));
+        assertEquals("d4c3", CanParser.format(Move.createEnPassant(D4_IDX, C3_IDX)));
+        assertEquals("d4d3", CanParser.format(Move.createEnPassant(D4_IDX, D3_IDX)));
     }
 
     // -----------------------------------------------------------------------
@@ -108,43 +108,43 @@ public class CanParserTest extends AbstractTestCase {
     public void testParseSimple() throws Exception {
         Position position = FenParser.parse(FEN_MIDDLE_GAME_0);
 
-        assertEquals(Move.create(PAWN, Square.A7, Square.A5), CanParser.parse("a7a5", position));
-        assertEquals(Move.create(KNIGHT, Square.F6, Square.E4), CanParser.parse("f6e4", position));
-        assertEquals(Move.create(QUEEN, Square.E7, Square.A3), CanParser.parse("e7a3", position));
-        assertEquals(Move.createCapture(PAWN, Square.D5, Square.C4, PAWN), CanParser.parse("d5c4", position));
+        assertEquals(Move.create(PAWN, A7_IDX, A5_IDX), CanParser.parse("a7a5", position));
+        assertEquals(Move.create(KNIGHT, F6_IDX, E4_IDX), CanParser.parse("f6e4", position));
+        assertEquals(Move.create(QUEEN, E7_IDX, A3_IDX), CanParser.parse("e7a3", position));
+        assertEquals(Move.createCapture(PAWN, D5_IDX, C4_IDX, PAWN), CanParser.parse("d5c4", position));
     }
 
     @Test
     public void testParsePromotion() throws Exception {
         Position position = FenParser.parse(FEN_WP_E7F8);
-        assertEquals(Move.createCapturePromotion(Square.E7, Square.F8, BISHOP, BISHOP), CanParser.parse("e7f8b", position));
-        assertEquals(Move.createCapturePromotion(Square.E7, Square.F8, BISHOP, ROOK), CanParser.parse("e7f8r", position));
+        assertEquals(Move.createCapturePromotion(E7_IDX, F8_IDX, BISHOP, BISHOP), CanParser.parse("e7f8b", position));
+        assertEquals(Move.createCapturePromotion(E7_IDX, F8_IDX, BISHOP, ROOK), CanParser.parse("e7f8r", position));
 
         position = FenParser.parse(FEN_BP_A2A1);
-        assertEquals(Move.createPromotion(Square.A2, Square.A1, KNIGHT), CanParser.parse("a2a1n", position));
-        assertEquals(Move.createPromotion(Square.A2, Square.A1, QUEEN), CanParser.parse("a2a1q", position));
+        assertEquals(Move.createPromotion(A2_IDX, A1_IDX, KNIGHT), CanParser.parse("a2a1n", position));
+        assertEquals(Move.createPromotion(A2_IDX, A1_IDX, QUEEN), CanParser.parse("a2a1q", position));
     }
 
     @Test
     public void testParseCastling() throws Exception {
         Position position = FenParser.parse(FEN_WKC_OK);
         assertEquals(MOVE_E1G1, CanParser.parse("e1g1", position));
-        assertEquals(Move.create(KING, Square.E1, Square.F1), CanParser.parse("e1f1", position));
+        assertEquals(Move.create(KING, E1_IDX, F1_IDX), CanParser.parse("e1f1", position));
 
         position = FenParser.parse(FEN_BKC_OK);
         assertEquals(MOVE_E8G8, CanParser.parse("e8g8", position));
-        assertEquals(Move.create(KING, Square.E8, Square.E7), CanParser.parse("e8e7", position));
+        assertEquals(Move.create(KING, E8_IDX, E7_IDX), CanParser.parse("e8e7", position));
     }
 
     @Test
     public void testParseEnPassant() throws Exception {
         Position position = FenParser.parse(FEN_WEP_E5D6);
-        assertEquals(Move.createEnPassant(Square.E5, Square.D6), CanParser.parse("e5d6", position));
-        assertEquals(Move.create(PAWN, Square.D2, Square.D4), CanParser.parse("d2d4", position));
+        assertEquals(Move.createEnPassant(E5_IDX, D6_IDX), CanParser.parse("e5d6", position));
+        assertEquals(Move.create(PAWN, D2_IDX, D4_IDX), CanParser.parse("d2d4", position));
 
         position = FenParser.parse(FEN_BEP_D4C3);
-        assertEquals(Move.createEnPassant(Square.D4, Square.C3), CanParser.parse("d4c3", position));
-        assertEquals(Move.create(PAWN, Square.D4, Square.D3), CanParser.parse("d4d3", position));
+        assertEquals(Move.createEnPassant(D4_IDX, C3_IDX), CanParser.parse("d4c3", position));
+        assertEquals(Move.create(PAWN, D4_IDX, D3_IDX), CanParser.parse("d4d3", position));
     }
 
     @Test(expected = IllegalMoveException.class)

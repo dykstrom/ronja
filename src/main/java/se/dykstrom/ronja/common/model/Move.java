@@ -17,7 +17,6 @@
 
 package se.dykstrom.ronja.common.model;
 
-import static se.dykstrom.ronja.common.model.Square.idToIndex;
 import static se.dykstrom.ronja.common.model.Square.indexToId;
 
 /**
@@ -54,49 +53,52 @@ public class Move {
     private static final int CAPTURED_PIECE_MASK = PIECE_MASK << CAPTURED_OFFSET;
     private static final int PROMOTED_PIECE_MASK = PIECE_MASK << PROMOTED_OFFSET;
 
+    private static final int MOVED_KING = Piece.KING << MOVED_OFFSET;
+    private static final int MOVED_PAWN = Piece.PAWN << MOVED_OFFSET;
+
     /**
      * Creates a new move with the given piece moving from square from to square to.
      */
-    public static int create(int piece, long from, long to) {
-        return (piece << MOVED_OFFSET) | (idToIndex(from) << FROM_OFFSET) | idToIndex(to);
+    public static int create(int piece, int from, int to) {
+        return (piece << MOVED_OFFSET) | (from << FROM_OFFSET) | to;
     }
 
     /**
-     * Creates a new move with the given piece moving from square from to square to, 
+     * Creates a new move with the given piece moving from square from to square to,
      * capturing another piece.
      */
-    public static int createCapture(int piece, long from, long to, int captured) {
-        return (piece << MOVED_OFFSET) | (idToIndex(from) << FROM_OFFSET) | idToIndex(to) | (captured << CAPTURED_OFFSET);
+    public static int createCapture(int piece, int from, int to, int captured) {
+        return (piece << MOVED_OFFSET) | (from << FROM_OFFSET) | to | (captured << CAPTURED_OFFSET);
     }
 
     /**
      * Creates a new pawn move from square from to square to, promoting to another piece.
      */
-    public static int createPromotion(long from, long to, int promoted) {
-        return (Piece.PAWN << MOVED_OFFSET) | (idToIndex(from) << FROM_OFFSET) | idToIndex(to) | (promoted << PROMOTED_OFFSET);
+    public static int createPromotion(int from, int to, int promoted) {
+        return MOVED_PAWN | (from << FROM_OFFSET) | to | (promoted << PROMOTED_OFFSET);
     }
 
     /**
      * Creates a new pawn move from square from to square to, capturing another piece, 
      * and promoting to yet another piece.
      */
-    public static int createCapturePromotion(long from, long to, int captured, int promoted) {
-        return (Piece.PAWN << MOVED_OFFSET) | (idToIndex(from) << FROM_OFFSET) | idToIndex(to) | (captured << CAPTURED_OFFSET) | (promoted << PROMOTED_OFFSET);
+    public static int createCapturePromotion(int from, int to, int captured, int promoted) {
+        return MOVED_PAWN | (from << FROM_OFFSET) | to | (captured << CAPTURED_OFFSET) | (promoted << PROMOTED_OFFSET);
     }
 
     /**
      * Creates a new 'en passant' move with the pawn moving from square from to square to,
      * capturing the another pawn.
      */
-    public static int createEnPassant(long from, long to) {
-        return (Piece.PAWN << MOVED_OFFSET) | (idToIndex(from) << FROM_OFFSET) | idToIndex(to) | (Piece.PAWN << CAPTURED_OFFSET) | ENPASSANT_MASK;
+    public static int createEnPassant(int from, int to) {
+        return MOVED_PAWN | (from << FROM_OFFSET) | to | (Piece.PAWN << CAPTURED_OFFSET) | ENPASSANT_MASK;
     }
 
     /**
      * Creates a new castling move with the king moving from square from to square to.
      */
-    public static int createCastling(long from, long to) {
-        return (Piece.KING << MOVED_OFFSET) | (idToIndex(from) << FROM_OFFSET) | idToIndex(to) | CASTLE_MASK;
+    public static int createCastling(int from, int to) {
+        return MOVED_KING | (from << FROM_OFFSET) | to | CASTLE_MASK;
     }
 
     /**
@@ -107,14 +109,14 @@ public class Move {
     }
     
     /**
-     * Returns the square moved from.
+     * Returns the ID of the square moved from.
      */
     public static long getFrom(int move) {
         return indexToId((move >> FROM_OFFSET) & SQUARE_MASK);
     }
     
     /**
-     * Returns the square moved to.
+     * Returns the ID of the square moved to.
      */
     public static long getTo(int move) {
         return indexToId(move & SQUARE_MASK);

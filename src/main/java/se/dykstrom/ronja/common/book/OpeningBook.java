@@ -17,17 +17,17 @@
 
 package se.dykstrom.ronja.common.book;
 
-import static java.util.Collections.singletonList;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.parser.IllegalMoveException;
 
 import java.util.*;
 
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Piece;
-import se.dykstrom.ronja.common.model.Position;
-import se.dykstrom.ronja.common.model.Square;
-import se.dykstrom.ronja.common.parser.IllegalMoveException;
+import static java.util.Collections.singletonList;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+import static se.dykstrom.ronja.common.model.Piece.PAWN;
+import static se.dykstrom.ronja.common.model.Square.*;
 
 /**
  * A chess game opening book, that reads its opening moves from a file that is
@@ -55,10 +55,10 @@ public class OpeningBook {
         positions = new HashMap<>();
 
         // Add some simple moves to the empty opening book
-        int e2e4 = Move.create(Piece.PAWN, Square.E2, Square.E4);
-        int e7e5 = Move.create(Piece.PAWN, Square.E7, Square.E5);
-        int d2d4 = Move.create(Piece.PAWN, Square.D2, Square.D4);
-        int d7d5 = Move.create(Piece.PAWN, Square.D7, Square.D5);
+        int e2e4 = Move.create(PAWN, E2_IDX, E4_IDX);
+        int e7e5 = Move.create(PAWN, E7_IDX, E5_IDX);
+        int d2d4 = Move.create(PAWN, D2_IDX, D4_IDX);
+        int d7d5 = Move.create(PAWN, D7_IDX, D5_IDX);
         try {
             positions.put(Position.START, Arrays.asList(new BookMove(e2e4, 50), new BookMove(d2d4, 50)));
             positions.put(Position.of(new String[]{"e2e4"}), singletonList(new BookMove(e7e5, 100)));
