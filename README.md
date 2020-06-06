@@ -59,4 +59,4 @@ Ronja is designed in an object-oriented way, with classes representing
 positions, and other entities. This makes the engine rather slow, and
 so may be changed in the future.
 
-[![Build Status](https://travis-ci.org/dykstrom/ronja.svg?branch=master)](https://travis-ci.org/dykstrom/ronja)
+[![Build Status](https://travis-ci.com/dykstrom/ronja.svg?branch=master)](https://travis-ci.com/dykstrom/ronja)
