@@ -17,15 +17,15 @@
 
 package se.dykstrom.ronja.common.model;
 
-import se.dykstrom.ronja.common.book.OpeningBook;
-import se.dykstrom.ronja.engine.time.TimeControl;
-import se.dykstrom.ronja.engine.time.TimeControlType;
-import se.dykstrom.ronja.engine.time.TimeData;
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+import se.dykstrom.ronja.common.book.OpeningBook;
+import se.dykstrom.ronja.engine.time.TimeControl;
+import se.dykstrom.ronja.engine.time.TimeData;
+
 import static se.dykstrom.ronja.engine.time.TimeControlType.CLASSIC;
+import static se.dykstrom.ronja.engine.time.TimeControlType.SECONDS_PER_MOVE;
 
 /**
  * This class holds state information for the current game.
@@ -35,7 +35,7 @@ import static se.dykstrom.ronja.engine.time.TimeControlType.CLASSIC;
 public class Game {
 
     /** Default time control is 40 moves in 2 minutes. */
-    private static final TimeControl TWO_MINUTES = new TimeControl(40, 2 * 60 * 1000, 0, CLASSIC);
+    private static final TimeControl TWO_MINUTES = new TimeControl(40, 2 * 60 * 1000L, 0, CLASSIC);
 
     /** The maximum number of moves in a game. */
     private static final int MAX_MOVES = 500;
@@ -143,13 +143,13 @@ public class Game {
      *
      * @param usedTime The time used for this move in milliseconds.
      */
-    public void updateTimeDataAfterMove(long usedTime) {
-        TimeControl timeControl = getTimeControl();
-        if (timeControl.getType() == TimeControlType.SECONDS_PER_MOVE) {
+    public void updateTimeDataAfterMove(final long usedTime) {
+        final TimeControl timeControl = getTimeControl();
+        if (timeControl.getType() == SECONDS_PER_MOVE) {
             setTimeData(TimeData.from(timeControl));
         } else if (timeControl.getType() == CLASSIC) {
-            TimeData timeData = getTimeData();
-            long remainingTime = timeData.getRemainingTime() - usedTime;
+            final TimeData timeData = getTimeData();
+            long remainingTime = Math.max(timeData.getRemainingTime() - usedTime, 0);
             long numberOfMoves = timeData.getNumberOfMoves() - 1;
             // If we have reached the time control, reset number of moves and add time
             if (numberOfMoves == 0) {
@@ -157,9 +157,9 @@ public class Game {
                 remainingTime += timeControl.getBaseTime();
             }
             setTimeData(timeData.withRemainingTime(remainingTime).withNumberOfMoves(numberOfMoves));
-        } else { // TimeControlType.INCREMENTAL
-            TimeData timeData = getTimeData();
-            long remainingTime = timeData.getRemainingTime() - usedTime + timeControl.getIncrement();
+        } else { // INCREMENTAL
+            final TimeData timeData = getTimeData();
+            final long remainingTime = Math.max(timeData.getRemainingTime() - usedTime + timeControl.getIncrement(), 0);
             setTimeData(timeData.withRemainingTime(remainingTime));
         }
     }

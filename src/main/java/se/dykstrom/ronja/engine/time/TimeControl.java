@@ -19,6 +19,9 @@ package se.dykstrom.ronja.engine.time;
 
 import java.util.Objects;
 
+import static java.util.Objects.requireNonNull;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 /**
  * Stores the time control values specified by XBoard using the 'level' or 'st' commands.
  *
@@ -41,11 +44,11 @@ public class TimeControl {
     /** The type of time control: CLASSIC, INCREMENTAL, or SECONDS_PER_MOVE. */
     private final TimeControlType type;
 
-    public TimeControl(long numberOfMoves, long baseTime, long increment, TimeControlType type) {
+    public TimeControl(final long numberOfMoves, final long baseTime, final long increment, final TimeControlType type) {
         this.numberOfMoves = numberOfMoves;
         this.baseTime = baseTime;
         this.increment = increment;
-        this.type = type;
+        this.type = requireNonNull(type);
     }
 
     @Override
@@ -80,5 +83,21 @@ public class TimeControl {
 
     public TimeControlType getType() {
         return type;
+    }
+
+    /**
+     * Returns the PGN representation of this time control.
+     */
+    public String toPgn() {
+        switch (type) {
+            case CLASSIC:
+                return numberOfMoves + "/" + MILLISECONDS.toSeconds(baseTime);
+            case INCREMENTAL:
+                return MILLISECONDS.toSeconds(baseTime) + "+" + MILLISECONDS.toSeconds(increment);
+            case SECONDS_PER_MOVE:
+                return "" + MILLISECONDS.toSeconds(increment);
+            default:
+                throw new IllegalStateException("unknown time control type: " + type);
+        }
     }
 }

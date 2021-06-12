@@ -17,15 +17,16 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import java.util.logging.Logger;
+
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
-
-import java.util.logging.Logger;
 
 import static se.dykstrom.ronja.engine.time.TimeUtils.formatTime;
 
 /**
- * Class that represents the XBoard 'time' command.
+ * Class that represents the XBoard 'time' command. When this command executes,
+ * it updates the internal chess clock with the time from XBoard.
  *
  * @author Johan Dykstrom
  */
@@ -33,19 +34,17 @@ public class TimeCommand extends AbstractCommand {
 
     public static final String NAME = "time";
 
-    private final static Logger TLOG = Logger.getLogger(TimeCommand.class.getName());
+    private static final Logger TLOG = Logger.getLogger(TimeCommand.class.getName());
 
     /** The remaining time in milliseconds, according to XBoard. */
     private final int time;
 
     @SuppressWarnings("WeakerAccess")
-    public TimeCommand(String time, Response response, Game game) throws InvalidCommandException {
+    public TimeCommand(final String time, final Response response, final Game game) throws InvalidCommandException {
         super(time, response, game);
-
         if (time == null) {
             throw new InvalidCommandException("missing time argument");
         }
-
         try {
             this.time = 10 * Integer.parseInt(time);
         } catch (NumberFormatException nfe) {
@@ -55,8 +54,9 @@ public class TimeCommand extends AbstractCommand {
 
     @Override
     public void execute() {
-        long engineTime = game.getTimeData().getRemainingTime();
-        TLOG.fine("XBoard reports time " + time + " = " + formatTime(time));
-        TLOG.fine("Engine reports time " + engineTime + " = " + formatTime(engineTime));
+        final long engineTime = game.getTimeData().getRemainingTime();
+        TLOG.fine(() -> "XBoard reports time " + time + " = " + formatTime(time));
+        TLOG.fine(() -> "Engine reports time " + engineTime + " = " + formatTime(engineTime));
+        game.setTimeData(game.getTimeData().withRemainingTime(time));
     }
 }

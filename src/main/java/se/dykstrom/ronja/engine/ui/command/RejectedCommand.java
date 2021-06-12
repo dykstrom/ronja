@@ -17,16 +17,16 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import java.util.logging.Logger;
+
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
-
-import java.util.logging.Logger;
 
 public class RejectedCommand extends AbstractCommand {
 
     public static final String NAME = "rejected";
 
-    private final static Logger TLOG = Logger.getLogger(RejectedCommand.class.getName());
+    private static final Logger TLOG = Logger.getLogger(RejectedCommand.class.getName());
 
     @SuppressWarnings("WeakerAccess")
     public RejectedCommand(String feature, Response response, Game game) throws InvalidCommandException {

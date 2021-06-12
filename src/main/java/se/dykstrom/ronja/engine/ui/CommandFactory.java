@@ -17,14 +17,45 @@
 
 package se.dykstrom.ronja.engine.ui;
 
-import se.dykstrom.ronja.common.model.Game;
-import se.dykstrom.ronja.engine.ui.command.*;
-import se.dykstrom.ronja.engine.ui.io.Response;
-import se.dykstrom.ronja.engine.utils.ClassUtils;
-
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
+
+import se.dykstrom.ronja.common.model.Game;
+import se.dykstrom.ronja.engine.ui.command.AcceptedCommand;
+import se.dykstrom.ronja.engine.ui.command.BkCommand;
+import se.dykstrom.ronja.engine.ui.command.BoardCommand;
+import se.dykstrom.ronja.engine.ui.command.Command;
+import se.dykstrom.ronja.engine.ui.command.ComputerCommand;
+import se.dykstrom.ronja.engine.ui.command.EasyCommand;
+import se.dykstrom.ronja.engine.ui.command.ForceCommand;
+import se.dykstrom.ronja.engine.ui.command.GoCommand;
+import se.dykstrom.ronja.engine.ui.command.HardCommand;
+import se.dykstrom.ronja.engine.ui.command.HelpCommand;
+import se.dykstrom.ronja.engine.ui.command.HintCommand;
+import se.dykstrom.ronja.engine.ui.command.InvalidCommand;
+import se.dykstrom.ronja.engine.ui.command.InvalidCommandException;
+import se.dykstrom.ronja.engine.ui.command.LevelCommand;
+import se.dykstrom.ronja.engine.ui.command.MovesCommand;
+import se.dykstrom.ronja.engine.ui.command.NameCommand;
+import se.dykstrom.ronja.engine.ui.command.NewCommand;
+import se.dykstrom.ronja.engine.ui.command.NoPostCommand;
+import se.dykstrom.ronja.engine.ui.command.OtimCommand;
+import se.dykstrom.ronja.engine.ui.command.PingCommand;
+import se.dykstrom.ronja.engine.ui.command.PlayOtherCommand;
+import se.dykstrom.ronja.engine.ui.command.PostCommand;
+import se.dykstrom.ronja.engine.ui.command.ProtoverCommand;
+import se.dykstrom.ronja.engine.ui.command.QuitCommand;
+import se.dykstrom.ronja.engine.ui.command.RandomCommand;
+import se.dykstrom.ronja.engine.ui.command.RejectedCommand;
+import se.dykstrom.ronja.engine.ui.command.ResultCommand;
+import se.dykstrom.ronja.engine.ui.command.SetBoardCommand;
+import se.dykstrom.ronja.engine.ui.command.StCommand;
+import se.dykstrom.ronja.engine.ui.command.TimeCommand;
+import se.dykstrom.ronja.engine.ui.command.UserMoveCommand;
+import se.dykstrom.ronja.engine.ui.command.XBoardCommand;
+import se.dykstrom.ronja.engine.ui.io.Response;
+import se.dykstrom.ronja.engine.utils.ClassUtils;
 
 /**
  * A factory class used to create {@link Command} objects.
@@ -75,18 +106,18 @@ class CommandFactory {
      * instance of {@code InvalidCommand}.
      *
      * @param name The name of the command.
-     * @param args The command arguments (optional).
-     * @param response The command response object (optional).
+     * @param args The command arguments (may be null).
+     * @param response The command response object.
      * @param game The game state.
      * @return The created command.
      */
-    static Command create(String name, String args, Response response, Game game) {
-        Class<? extends Command> clazz = COMMANDS.get(name);
+    static Command create(final String name, final String args, final Response response, final Game game) {
+        final Class<? extends Command> clazz = COMMANDS.get(name);
         if (clazz == null) {
             return new InvalidCommand(name, response, "unknown command", game);
         }
         try {
-            Constructor<? extends Command> constructor = ClassUtils.getConstructorOrFail(clazz, String.class, Response.class, Game.class);
+            final Constructor<? extends Command> constructor = ClassUtils.getConstructorOrFail(clazz, String.class, Response.class, Game.class);
             return ClassUtils.invokeConstructorOrFail(constructor, args, response, game);
         } catch (Exception e) {
             if (e.getCause() instanceof InvalidCommandException) {

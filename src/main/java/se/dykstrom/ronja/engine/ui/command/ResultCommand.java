@@ -17,21 +17,21 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Logger;
+
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.parser.PgnParser;
 import se.dykstrom.ronja.engine.ui.io.Response;
 import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.engine.utils.FileUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Logger;
-
 public class ResultCommand extends AbstractCommand {
 
     public static final String NAME = "result";
 
-    private final static Logger TLOG = Logger.getLogger(ResultCommand.class.getName());
+    private static final Logger TLOG = Logger.getLogger(ResultCommand.class.getName());
 
     @SuppressWarnings("WeakerAccess")
     public ResultCommand(String result, Response response, Game game) throws InvalidCommandException {

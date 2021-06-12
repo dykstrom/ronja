@@ -17,20 +17,18 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertThat;
-
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
-
 import se.dykstrom.ronja.common.parser.CanParser;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertArrayEquals;
 
 /**
  * This class is for testing class {@code FullMoveGenerator} using JUnit.
@@ -121,7 +119,7 @@ public class FullMoveGeneratorTest extends AbstractTestCase {
         int moveIndex = MOVE_GENERATOR.getMoveIndex();
         int[][] actualMoves = MOVE_GENERATOR.moves;
         
-        List<Integer> actualMoveList = asList(ArrayUtils.toObject(actualMoves[0])).subList(0, moveIndex);
+        List<Integer> actualMoveList = List.of(ArrayUtils.toObject(actualMoves[0])).subList(0, moveIndex);
         String[] formattedMoves = actualMoveList.stream().map(CanParser::format).toArray(String[]::new);
 
         Arrays.sort(expectedMoves);

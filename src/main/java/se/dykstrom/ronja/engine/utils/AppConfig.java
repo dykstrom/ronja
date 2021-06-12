@@ -121,7 +121,6 @@ public class AppConfig {
     /**
      * Sets the engine name.
      */
-    @SuppressWarnings("unused")
     public static void setEngineName(String engineName) {
         AppConfig.engineName = engineName;
     }
@@ -150,12 +149,12 @@ public class AppConfig {
      * @param name The configuration data name.
      * @param def The default value to use if no data is found.
      */
-    private static String getString(String name, String def) {
-        String res = getProperties().getProperty(name);
+    private static String getString(final String name, final String def) {
+        final String res = getProperties().getProperty(name);
         if (res != null) {
             return res;
         } else {
-            TLOG.warning("Missing data for [" + name + "]. Using default value '" + def + "'.");
+            TLOG.warning(() -> "Missing data for [" + name + "]. Using default value '" + def + "'.");
             return def;
         }
     }
@@ -164,11 +163,11 @@ public class AppConfig {
      * Returns a properties object loaded from the application properties file.
      */
     private static Properties getProperties() {
-        File file = new File(getConfigDirectory(), PROPERTIES_FILENAME);
+        final var file = new File(getConfigDirectory(), PROPERTIES_FILENAME);
 
-        Properties properties = new Properties();
-        try (FileInputStream fis = new FileInputStream(file)) {
-            properties.load(fis);
+        final var properties = new Properties();
+        try (final var in = new FileInputStream(file)) {
+            properties.load(in);
         } catch (IOException ioe) {
             TLOG.warning("Failed to load properties from file '" + file.getName() + "': " + ioe);
         }

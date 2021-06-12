@@ -17,11 +17,6 @@
 
 package se.dykstrom.ronja.engine.ui;
 
-import org.junit.*;
-import se.dykstrom.ronja.engine.utils.AppConfig;
-import se.dykstrom.ronja.test.AbstractTestCase;
-import se.dykstrom.ronja.test.TestUtils;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -34,9 +29,21 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import se.dykstrom.ronja.engine.utils.AppConfig;
+import se.dykstrom.ronja.test.AbstractTestCase;
+import se.dykstrom.ronja.test.TestUtils;
+
 import static java.util.regex.Pattern.quote;
-import static org.junit.Assert.*;
-import static se.dykstrom.ronja.test.TestUtils.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+import static se.dykstrom.ronja.test.TestUtils.assertContainsRegex;
+import static se.dykstrom.ronja.test.TestUtils.containsRegex;
+import static se.dykstrom.ronja.test.TestUtils.waitForSupplier;
 
 /**
  * This class is for integration tests related to the XBoard protocol (Chess Engine Communication Protocol).
@@ -48,7 +55,7 @@ public class XBoardProtocolIT extends AbstractTestCase {
 
     private static final Logger TLOG = Logger.getLogger(XBoardProtocolIT.class.getName());
 
-    private static final DateTimeFormatter DF = DateTimeFormatter.ISO_LOCAL_DATE;
+    private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
     private static final String ENGINE_NAME = "ENGINE_NAME";
 

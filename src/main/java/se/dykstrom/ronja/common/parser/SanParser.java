@@ -17,17 +17,25 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import se.dykstrom.ronja.common.model.*;
-import se.dykstrom.ronja.engine.core.FullMoveGenerator;
-import se.dykstrom.ronja.engine.utils.PositionUtils;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import static se.dykstrom.ronja.common.model.Board.*;
+import se.dykstrom.ronja.common.model.Board;
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Piece;
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.model.Square;
+import se.dykstrom.ronja.engine.core.FullMoveGenerator;
+import se.dykstrom.ronja.engine.utils.PositionUtils;
+
+import static se.dykstrom.ronja.common.model.Board.getFile;
+import static se.dykstrom.ronja.common.model.Board.getFileChar;
+import static se.dykstrom.ronja.common.model.Board.getRank;
+import static se.dykstrom.ronja.common.model.Color.WHITE;
+import static se.dykstrom.ronja.common.model.Piece.PAWN;
 
 /**
  * A class that can parse and format moves specified in Standard Algebraic Notation (SAN).
@@ -61,10 +69,6 @@ public class SanParser extends AbstractMoveParser {
     /**
 	 * Parses and validates a move specified in SAN format in the given {@code Position}.
 	 *
-	 * TODO: - Finding the from square
-	 *       - Nbc3 (the case where two pieces can move to the same square)
-	 *       - exd5 (pawn captures)
-	 *
 	 * @param move The move in SAN format.
 	 * @param position The position when the move is made.
 	 * @return The parsed move.
@@ -73,33 +77,27 @@ public class SanParser extends AbstractMoveParser {
     public static int parse(String move, Position position) throws IllegalMoveException {
 		TLOG.finest("move: " + move + " position: \n" + position);
         long from = 0;
-        long to = 0;
+        long to;
         int promotedPiece = 0;
         int capturedPiece = 0;
 
 		if (isKingSideCastling(move)) {
-            switch (position.getActiveColor()) {
-                case WHITE:
-                    from = Square.E1;
-                    to = Square.G1;
-                    break;
-                case BLACK:
-                    from = Square.E8;
-                    to = Square.G8;
-                    break;
+            if (position.getActiveColor() == WHITE) {
+                from = Square.E1;
+                to = Square.G1;
+            } else {
+                from = Square.E8;
+                to = Square.G8;
             }
 		}
 
 		else if (isQueenSideCastling(move)) {
-            switch (position.getActiveColor()) {
-                case WHITE:
-                    from = Square.E1;
-                    to = Square.C1;
-                    break;
-                case BLACK:
-                    from = Square.E8;
-                    to = Square.C8;
-                    break;
+            if (position.getActiveColor() == WHITE) {
+                from = Square.E1;
+                to = Square.C1;
+            } else {
+                from = Square.E8;
+                to = Square.C8;
             }
         }
 
@@ -113,7 +111,7 @@ public class SanParser extends AbstractMoveParser {
 				// Remove piece name
 				move = move.substring(1);
 
-				// Remove 'x' - not used?
+				// Remove 'x'
 				if (move.startsWith("x")) {
 					move = move.substring(1);
 					capture = true;
@@ -122,13 +120,56 @@ public class SanParser extends AbstractMoveParser {
 
 			// Or pawn
 			else {
-				// Pawn capture
-				if (move.contains("x")) {
-					// TODO: Save the from file before removing it from move
-					move = move.substring(2);
-					capture = true;
-				}
-			}
+                // Pawn capture
+                if (move.contains("x")) {
+                    final var fromFileChar = move.charAt(0);
+                    // Remove from file and 'x'
+                    move = move.substring(2);
+                    capture = true;
+                    final var toRank = Integer.parseInt(move.substring(1, 2));
+                    final int fromRank;
+                    if (position.getActiveColor() == WHITE) {
+                        fromRank = toRank - 1;
+                    } else {
+                        fromRank = toRank + 1;
+                    }
+                    from = Square.nameToId("" + fromFileChar + fromRank);
+                    if (position.getPiece(from) != PAWN) {
+                        throw new IllegalMoveException("illegal pawn move, no pawn on " + Square.idToName(from));
+                    }
+                } else {
+                    to = Square.nameToId(move.substring(0, 2));
+                    if (position.getActiveColor() == WHITE) {
+                        // Is there a pawn one rank back?
+                        from = Square.south(to);
+                        if (position.getPiece(from) == PAWN) {
+                            // OK
+                        } else {
+                            // Is there a pawn two ranks back?
+                            from = Square.south(from);
+                            if (position.getPiece(from) == PAWN) {
+                                // OK
+                            } else {
+                                throw new IllegalMoveException("illegal pawn move");
+                            }
+                        }
+                    } else {
+                        // Is there a pawn one rank back?
+                        from = Square.north(to);
+                        if (position.getPiece(from) == PAWN) {
+                            // OK
+                        } else {
+                            // Is there a pawn two ranks back?
+                            from = Square.north(from);
+                            if (position.getPiece(from) == PAWN) {
+                                // OK
+                            } else {
+                                throw new IllegalMoveException("illegal pawn move");
+                            }
+                        }
+                    }
+                }
+            }
 
 			// Get to square
             to = Square.nameToId(move.substring(0, 2));
@@ -137,7 +178,7 @@ public class SanParser extends AbstractMoveParser {
 			if (capture) {
 			    if (to == position.getEnPassantSquare()) {
 			        // 'En passant' capture
-                    capturedPiece = Piece.PAWN;
+                    capturedPiece = PAWN;
 			    } else {
 			        // Normal capture
     				capturedPiece = position.getPiece(to);
@@ -148,7 +189,7 @@ public class SanParser extends AbstractMoveParser {
     				if ((capturedPiece == 0) ||
     					(capturedPiece == Piece.KING) ||
     					(position.getColor(to) == position.getActiveColor())) {
-    					throw new IllegalMoveException("invalid capture");
+    					throw new IllegalMoveException("illegal capture");
     				}
 			    }
 			}
@@ -159,7 +200,7 @@ public class SanParser extends AbstractMoveParser {
             }
 
 			// Get from square
-			// TODO: Get from square
+			// TODO: Get from square of piece moves.
 
 			// Promotion
 			if (move.contains("=")) {
@@ -216,7 +257,7 @@ public class SanParser extends AbstractMoveParser {
     public static String format(Position position, int move) {
         if (Move.isCastling(move)) {
             return formatCastlingMove(move);
-        } else if (Move.getPiece(move) == Piece.PAWN) {
+        } else if (Move.getPiece(move) == PAWN) {
             return formatPawnMove(move, position);
         } else {
             return formatPieceMove(move, position);

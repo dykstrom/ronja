@@ -19,6 +19,8 @@ package se.dykstrom.ronja.common.book;
 
 import java.util.Objects;
 
+import se.dykstrom.ronja.common.parser.CanParser;
+
 /**
  * Represents an opening book move with the actual move, and its weight in the opening book.
  *
@@ -36,7 +38,7 @@ public class BookMove {
 
     @Override
     public String toString() {
-        return move + "/" + weight;
+        return CanParser.format(move) + "/" + weight;
     }
     
     public int getMove() {

@@ -17,17 +17,17 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
-import se.dykstrom.ronja.common.model.Game;
-import se.dykstrom.ronja.engine.ui.io.Response;
-
 import java.util.Objects;
 import java.util.logging.Logger;
+
+import se.dykstrom.ronja.common.model.Game;
+import se.dykstrom.ronja.engine.ui.io.Response;
 
 public class NewCommand extends AbstractCommand {
 
     public static final String NAME = "new";
 
-    private final static Logger TLOG = Logger.getLogger(NewCommand.class.getName());
+    private static final Logger TLOG = Logger.getLogger(NewCommand.class.getName());
 
     @SuppressWarnings("WeakerAccess")
     public NewCommand(String args, Response response, Game game) {

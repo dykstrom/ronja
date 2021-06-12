@@ -17,18 +17,18 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import java.util.Objects;
+import java.util.logging.Logger;
+
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
-
-import java.util.Objects;
-import java.util.logging.Logger;
 
 public class PlayOtherCommand extends AbstractMoveCommand {
 
     public static final String NAME = "playother";
 
-    private final static Logger TLOG = Logger.getLogger(PlayOtherCommand.class.getName());
+    private static final Logger TLOG = Logger.getLogger(PlayOtherCommand.class.getName());
 
     @SuppressWarnings("WeakerAccess")
     public PlayOtherCommand(String args, Response response, Game game) {

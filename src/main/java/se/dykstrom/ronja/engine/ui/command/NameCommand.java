@@ -17,16 +17,16 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import java.util.logging.Logger;
+
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
-
-import java.util.logging.Logger;
 
 public class NameCommand extends AbstractCommand {
 
     public static final String NAME = "name";
 
-    private final static Logger TLOG = Logger.getLogger(NameCommand.class.getName());
+    private static final Logger TLOG = Logger.getLogger(NameCommand.class.getName());
 
     @SuppressWarnings("WeakerAccess")
     public NameCommand(String name, Response response, Game game) throws InvalidCommandException {

@@ -17,13 +17,6 @@
 
 package se.dykstrom.ronja.common.book;
 
-import org.junit.Test;
-import se.dykstrom.ronja.common.model.Position;
-import se.dykstrom.ronja.common.parser.CanParser;
-import se.dykstrom.ronja.common.parser.FenParser;
-import se.dykstrom.ronja.test.AbstractTestCase;
-import se.dykstrom.ronja.test.TestUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -32,7 +25,17 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.parser.CanParser;
+import se.dykstrom.ronja.common.parser.FenParser;
+import se.dykstrom.ronja.test.AbstractTestCase;
+import se.dykstrom.ronja.test.TestUtils;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static se.dykstrom.ronja.test.SizeMatcher.hasSize;
 
 /**

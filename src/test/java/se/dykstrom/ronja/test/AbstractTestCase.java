@@ -17,19 +17,44 @@
 
 package se.dykstrom.ronja.test;
 
+import java.util.List;
+
 import org.apache.commons.lang3.ArrayUtils;
-import se.dykstrom.ronja.common.model.*;
+import se.dykstrom.ronja.common.model.Color;
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.IllegalMoveException;
 import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.engine.core.FullMoveGenerator;
 
-import java.util.List;
-
 import static java.util.Arrays.asList;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
 import static se.dykstrom.ronja.common.model.Piece.PAWN;
-import static se.dykstrom.ronja.common.model.Square.*;
+import static se.dykstrom.ronja.common.model.Square.C1_IDX;
+import static se.dykstrom.ronja.common.model.Square.C2_IDX;
+import static se.dykstrom.ronja.common.model.Square.C3_IDX;
+import static se.dykstrom.ronja.common.model.Square.C4_IDX;
+import static se.dykstrom.ronja.common.model.Square.C5_IDX;
+import static se.dykstrom.ronja.common.model.Square.C7_IDX;
+import static se.dykstrom.ronja.common.model.Square.C8_IDX;
+import static se.dykstrom.ronja.common.model.Square.D2_IDX;
+import static se.dykstrom.ronja.common.model.Square.D4_IDX;
+import static se.dykstrom.ronja.common.model.Square.D5_IDX;
+import static se.dykstrom.ronja.common.model.Square.D6_IDX;
+import static se.dykstrom.ronja.common.model.Square.E1_IDX;
+import static se.dykstrom.ronja.common.model.Square.E2_IDX;
+import static se.dykstrom.ronja.common.model.Square.E4_IDX;
+import static se.dykstrom.ronja.common.model.Square.E5_IDX;
+import static se.dykstrom.ronja.common.model.Square.E6_IDX;
+import static se.dykstrom.ronja.common.model.Square.E7_IDX;
+import static se.dykstrom.ronja.common.model.Square.E8_IDX;
+import static se.dykstrom.ronja.common.model.Square.F3_IDX;
+import static se.dykstrom.ronja.common.model.Square.F6_IDX;
+import static se.dykstrom.ronja.common.model.Square.G1_IDX;
+import static se.dykstrom.ronja.common.model.Square.G8_IDX;
 
 /**
  * An abstract base test case for all {@code se.dykstrom.ronja} test cases.
@@ -53,6 +78,11 @@ public abstract class AbstractTestCase {
     protected static final int MOVE_E1C1 = Move.createCastling(E1_IDX, C1_IDX);
     protected static final int MOVE_E8G8 = Move.createCastling(E8_IDX, G8_IDX);
     protected static final int MOVE_E8C8 = Move.createCastling(E8_IDX, C8_IDX);
+    protected static final int MOVE_E4D5 = Move.createCapture(PAWN, E4_IDX, D5_IDX, PAWN);
+    protected static final int MOVE_D5E4 = Move.createCapture(PAWN, D5_IDX, E4_IDX, PAWN);
+    protected static final int MOVE_D5C4 = Move.createCapture(PAWN, D5_IDX, C4_IDX, PAWN);
+    protected static final int MOVE_E5D6 = Move.createEnPassant(E5_IDX, D6_IDX);
+    protected static final int MOVE_D4C3 = Move.createEnPassant(D4_IDX, C3_IDX);
 
     // Move sequences
     protected static final String[] MOVE_START            = { };

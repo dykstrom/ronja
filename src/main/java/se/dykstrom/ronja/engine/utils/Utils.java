@@ -36,17 +36,17 @@ public final class Utils {
      * @param bitboards An array of bitboards to convert to a string.
      * @return A string representation of the bitboards.
      */
-    public static String toString(long... bitboards) {
-        StringBuilder[] ranks = new StringBuilder[8];
+    public static String toString(final long... bitboards) {
+        final var ranks = new StringBuilder[8];
 
         // For each rank
-        for (int r = 0; r < 8; r++) {
+        for (var r = 0; r < 8; r++) {
             ranks[r] = new StringBuilder();
             // For each bitboard
-            for (long bitboard : bitboards) {
+            for (final long bitboard : bitboards) {
                 // For each file
-                for (int f = 0; f < 8; f++) {
-                    long square = Board.getSquareId(f + 1, r + 1);
+                for (var f = 0; f < 8; f++) {
+                    final long square = Board.getSquareId(f + 1, r + 1);
                     if ((square & bitboard) != 0) {
                         ranks[r].append("1");
                     } else {
@@ -58,9 +58,9 @@ public final class Utils {
         }
 
         // Turn board upside down
-        StringBuilder builder = new StringBuilder();
-        for (int r = 7; r >= 0; r--) {
-            builder.append(ranks[r].toString()).append("\n");
+        final var builder = new StringBuilder();
+        for (var r = 7; r >= 0; r--) {
+            builder.append(ranks[r].toString().strip()).append("\n");
         }
         return builder.toString();
     }

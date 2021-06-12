@@ -17,17 +17,17 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import se.dykstrom.ronja.common.model.Color;
-import se.dykstrom.ronja.common.model.Game;
-import se.dykstrom.ronja.common.model.Position;
-import se.dykstrom.ronja.engine.utils.AppConfig;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import se.dykstrom.ronja.common.model.Color;
+import se.dykstrom.ronja.common.model.Game;
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.engine.utils.AppConfig;
 
 /**
  * A class that can parse and format files specified in Portable Game Notation (PGN).
@@ -36,8 +36,8 @@ import java.util.regex.Pattern;
  */
 public final class PgnParser {
 
-    private static final DateTimeFormatter DF = DateTimeFormatter.ISO_LOCAL_DATE;
-    private static final DateTimeFormatter TF = DateTimeFormatter.ofPattern("HH:mm");
+    private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+    private static final DateTimeFormatter TF = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     private static final String BACKSLASH_REPLACEMENT = Matcher.quoteReplacement("\\\\");
     private static final String QUOTE_REPLACEMENT = Matcher.quoteReplacement("\\\"");
@@ -50,6 +50,8 @@ public final class PgnParser {
 
     /** A regex pattern that matches the result string sent by XBoard. */
     private static final Pattern RESULT_PATTERN = Pattern.compile("^([012/-]+) \\{.*}$");
+
+    private PgnParser() { }
 
     /**
      * Formats the given {@code game} as a PGN string.
@@ -65,19 +67,20 @@ public final class PgnParser {
      * Returns a string containing all the PGN format headers.
      */
     private static String getHeaders(Game game) {
-        StringBuilder builder = new StringBuilder();
+        final var builder = new StringBuilder();
         builder.append(getHeader("Event", getEvent())).append(EOL);
         builder.append(getHeader("Site", getSite())).append(EOL);
+        builder.append(getHeader("Date", getDate(game))).append(EOL);
         builder.append(getHeader("Round", getRound())).append(EOL);
         builder.append(getHeader("White", getWhite(game))).append(EOL);
         builder.append(getHeader("Black", getBlack(game))).append(EOL);
         builder.append(getHeader("Result", getShortResult(game))).append(EOL);
-        builder.append(getHeader("Date", getDate(game))).append(EOL);
-        builder.append(getHeader("Time", getTime(game))).append(EOL);
         if (!game.getStartPosition().equals(Position.START)) {
-            builder.append(getHeader("SetUp", "1")).append(EOL);
             builder.append(getHeader("FEN", getFen(game))).append(EOL);
+            builder.append(getHeader("SetUp", "1")).append(EOL);
         }
+        builder.append(getHeader("Time", getTime(game))).append(EOL);
+        builder.append(getHeader("TimeControl", getTimeControl(game))).append(EOL);
         return builder.toString();
     }
 
@@ -180,6 +183,10 @@ public final class PgnParser {
         return TF.format(game.getStartTime());
     }
 
+    private static String getTimeControl(final Game game) {
+        return game.getTimeControl().toPgn();
+    }
+
     private static String getFen(Game game) {
         return FenParser.format(game.getStartPosition());
     }
@@ -188,7 +195,7 @@ public final class PgnParser {
         try {
             return InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException ignore) {
-            return "<unknown>";
+            return "Unknown";
         }
     }
 

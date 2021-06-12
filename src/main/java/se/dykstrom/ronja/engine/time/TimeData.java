@@ -19,6 +19,8 @@ package se.dykstrom.ronja.engine.time;
 
 import java.util.Objects;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 /**
  * Keeps track of the current time and number of moves.
  *
@@ -64,7 +66,7 @@ public class TimeData {
 
     @Override
     public String toString() {
-        return "[" + numberOfMoves + " " + remainingTime + "]";
+        return numberOfMoves + "/" + MILLISECONDS.toSeconds(remainingTime);
     }
 
     @Override

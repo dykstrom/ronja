@@ -17,16 +17,16 @@
 
 package se.dykstrom.ronja.engine.core;
 
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.SanParser;
 import se.dykstrom.ronja.engine.time.TimeUtils;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
-
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
 
 import static se.dykstrom.ronja.engine.time.TimeUtils.formatTime;
 
@@ -39,8 +39,8 @@ import static se.dykstrom.ronja.engine.time.TimeUtils.formatTime;
  */
 public class AlphaBetaFinder extends AbstractFinder {
 
-    static final int ALPHA_START = -3000000;
-    static final int BETA_START = 3000000;
+    static final int ALPHA_START = -3_000_000;
+    static final int BETA_START = 3_000_000;
 
     private static final Logger TLOG = Logger.getLogger(AlphaBetaFinder.class.getName());
 
@@ -68,7 +68,7 @@ public class AlphaBetaFinder extends AbstractFinder {
 
     @Override
     public int findBestMoveWithinTime(Position position, long maxTime) {
-        TLOG.fine("Available time " + maxTime + " = " + formatTime(maxTime));
+        TLOG.fine(() -> "Available time " + maxTime + " = " + formatTime(maxTime));
         List<Long> searchTimes = new ArrayList<>();
 
         // Reset statistics
@@ -98,18 +98,19 @@ public class AlphaBetaFinder extends AbstractFinder {
         } catch (OutOfTimeException exception) {
             if (DEBUG) TLOG.fine("Aborted search with max depth " + maxDepth + " because time is up");
         }
-        if (DEBUG) TLOG.fine("Search times: " + searchTimes);
+        if (DEBUG) TLOG.fine(() -> "Search times: " + searchTimes);
 
         long stopTime = System.currentTimeMillis();
-        TLOG.fine("Evaluated " + nodes + " nodes (depth " + maxDepth + ") in " + (stopTime - startTime) + " ms = "
-                + NF.format(nodes / ((stopTime - startTime) / 1000.0)) + " nps");
+        final int finalMaxDepth = maxDepth;
+        TLOG.fine(() -> "Evaluated " + nodes + " nodes (depth " + finalMaxDepth + ") in " + (stopTime - startTime) +
+                        " ms = " + NF.format(nodes / ((stopTime - startTime) / 1000.0)) + " nps");
         return bestMove;
     }
 
     @Override
     public int findBestMove(Position position, int maxDepth) {
         int numberOfMoves = fullMoveGenerator.generateMoves(position, 0);
-        return findBestMove(position, maxDepth, numberOfMoves, 50000);
+        return findBestMove(position, maxDepth, numberOfMoves, 50_000);
     }
 
     /**
@@ -152,7 +153,9 @@ public class AlphaBetaFinder extends AbstractFinder {
         }
 
         if (DEBUG) TLOG.finest(leave(position, 0) + ", score = " + alpha + ", best move = " + formatMove(position, bestMove));
-        TLOG.fine("Returning best move " + formatMove(position, bestMove) + " with score " + alpha + " for max depth " + maxDepth);
+        final int finalBestMove = bestMove;
+        final int finalAlpha = alpha;
+        TLOG.fine(() -> "Returning best move " + formatMove(position, finalBestMove) + " with score " + finalAlpha + " for max depth " + maxDepth);
         return bestMove;
     }
 
@@ -171,8 +174,8 @@ public class AlphaBetaFinder extends AbstractFinder {
         long remainingTime = maxTime - usedTime;
         long averageTime = (moveIndex == 0) ? 0 : usedTime / moveIndex;
         if (averageTime > remainingTime) {
-            TLOG.fine("Aborting search at move " + moveIndex + "/" + numberOfMoves + ", average time = " + averageTime
-                    + ", remaining time = " + remainingTime);
+            TLOG.fine(() -> "Aborting search at move " + moveIndex + "/" + numberOfMoves +
+                            ", average time = " + averageTime + ", remaining time = " + remainingTime);
             throw new OutOfTimeException();
         }
     }

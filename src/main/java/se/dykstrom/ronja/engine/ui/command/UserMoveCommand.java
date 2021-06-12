@@ -17,14 +17,13 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import java.util.logging.Logger;
+
 import se.dykstrom.ronja.common.model.Game;
-import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.IllegalMoveException;
 import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.engine.ui.io.Response;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
-
-import java.util.logging.Logger;
 
 public class UserMoveCommand extends AbstractMoveCommand {
 
@@ -42,14 +41,14 @@ public class UserMoveCommand extends AbstractMoveCommand {
 
     @Override
     public void execute() {
-        Position position = game.getPosition();
+        final var position = game.getPosition();
 
         if (PositionUtils.isGameOver(position, game)) {
             notifyUserGameOverError(NAME);
         } else {
             try {
-                int move = MoveParser.parse(getArgs(), position);
-                TLOG.fine("User move: " + formatForLogging(move, position));
+                final int move = MoveParser.parse(getArgs(), position);
+                TLOG.fine(() -> "User move: " + formatForLogging(move, position));
 
                 // Make the user's move
                 game.makeMove(move);

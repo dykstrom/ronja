@@ -26,6 +26,7 @@
             <directory>${project.build.directory}/scripts</directory>
             <outputDirectory/>
             <excludes>
+                <exclude>*.bat</exclude>
                 <exclude>*.sh</exclude>
             </excludes>
         </fileSet>
@@ -36,6 +37,15 @@
             <includes>
                 <include>*.sh</include>
             </includes>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/scripts</directory>
+            <outputDirectory/>
+            <includes>
+                <include>*.bat</include>
+            </includes>
+            <lineEnding>windows</lineEnding>
         </fileSet>
     </fileSets>
 </assembly>

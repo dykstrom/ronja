@@ -17,10 +17,10 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import java.util.logging.Logger;
+
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
-
-import java.util.logging.Logger;
 
 import static se.dykstrom.ronja.engine.time.TimeUtils.formatTime;
 
@@ -33,12 +33,12 @@ public class OtimCommand extends AbstractCommand {
 
     public static final String NAME = "otim";
 
-    private final static Logger TLOG = Logger.getLogger(OtimCommand.class.getName());
+    private static final Logger TLOG = Logger.getLogger(OtimCommand.class.getName());
 
     private final int time;
 
     @SuppressWarnings("WeakerAccess")
-    public OtimCommand(String time, Response response, Game game) throws InvalidCommandException {
+    public OtimCommand(final String time, final Response response, final Game game) throws InvalidCommandException {
         super(time, response, game);
 
         if (time == null) {
@@ -54,6 +54,6 @@ public class OtimCommand extends AbstractCommand {
 
     @Override
     public void execute() {
-        TLOG.fine("XBoard reports otim " + time + " = " + formatTime(time));
+        TLOG.fine(() -> "XBoard reports otim " + time + " = " + formatTime(time));
     }
 }

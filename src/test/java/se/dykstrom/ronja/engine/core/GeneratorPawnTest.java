@@ -17,6 +17,9 @@
 
 package se.dykstrom.ronja.engine.core;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Test;
 import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Move;
@@ -25,11 +28,10 @@ import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This class is for testing pawn moves with the generator classes using JUnit.

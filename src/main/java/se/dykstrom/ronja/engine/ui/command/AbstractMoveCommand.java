@@ -17,6 +17,8 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import java.util.logging.Logger;
+
 import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.model.Position;
@@ -26,8 +28,6 @@ import se.dykstrom.ronja.engine.core.AlphaBetaFinder;
 import se.dykstrom.ronja.engine.time.TimeUtils;
 import se.dykstrom.ronja.engine.ui.io.Response;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
-
-import java.util.logging.Logger;
 
 /**
  * Abstract base class for all move related XBoard commands.
@@ -48,23 +48,25 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
     protected void move() {
         // If not in force mode, make a move
         if (!game.getForceMode()) {
-            long startTime = System.currentTimeMillis();
+            final long startTime = System.currentTimeMillis();
 
-            Position position = game.getPosition();
+            final var position = game.getPosition();
 
             checkActiveColor(game);
 
             // Try to find a move in the opening book
-            int move = game.getBook().findBestMove(position);
+            final int bookMove = game.getBook().findBestMove(position);
 
             // If no book move found, use Finder to find best move
-            if (move == 0) {
-                var availableTime = TimeUtils.calculateTimeForNextMove(game.getTimeControl(), game.getTimeData());
-                var finder = new AlphaBetaFinder(game);
+            final int move;
+            if (bookMove == 0) {
+                final var availableTime = TimeUtils.calculateTimeForNextMove(game.getTimeControl(), game.getTimeData());
+                final var finder = new AlphaBetaFinder(game);
                 move = finder.findBestMoveWithinTime(position, availableTime);
-                TLOG.fine("Engine move: " + formatForLogging(move, position));
+                TLOG.fine(() -> "Engine move: " + formatForLogging(move, position));
             } else {
-                TLOG.fine("Engine move: " + formatForLogging(move, position) + " (book)");
+                move = bookMove;
+                TLOG.fine(() -> "Engine move: " + formatForLogging(move, position) + " (book)");
             }
 
             // Make the move
@@ -78,8 +80,8 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
                 notifyUserGameOverOk();
             }
 
-            long stopTime = System.currentTimeMillis();
-            long usedTime = stopTime - startTime + 50; // Add 50 ms as a safety margin
+            final long stopTime = System.currentTimeMillis();
+            final long usedTime = stopTime - startTime;
             game.updateTimeDataAfterMove(usedTime);
         }
     }

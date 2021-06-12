@@ -17,19 +17,23 @@
 
 package se.dykstrom.ronja.common.parser;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.junit.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Game;
+import se.dykstrom.ronja.engine.time.TimeControl;
 import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.both;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static se.dykstrom.ronja.engine.time.TimeControlType.INCREMENTAL;
 
 /**
  * This class is for testing class {@code PgnParser} using JUnit.
@@ -41,8 +45,8 @@ public class PgnParserTest extends AbstractTestCase {
 
     private static final LocalDateTime DATE = LocalDateTime.of(2016, 2, 18, 14, 31, 0);
 
-    private static final DateTimeFormatter DF = DateTimeFormatter.ISO_LOCAL_DATE;
-    private static final DateTimeFormatter TF = DateTimeFormatter.ofPattern("HH:mm");
+    private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+    private static final DateTimeFormatter TF = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     private final Game game = new Game(OpeningBook.DEFAULT);
 
@@ -67,7 +71,8 @@ public class PgnParserTest extends AbstractTestCase {
                 .and(containsString("[White \"" + AppConfig.getEngineName() + "\"]"))
                 .and(containsString("[Black \"" + opponent + "\"]"))
                 .and(containsString("[Date \"" + DF.format(DATE) + "\"]"))
-                .and(containsString("[Time \"" + TF.format(DATE)))
+                .and(containsString("[Time \"" + TF.format(DATE) + "\"]"))
+                .and(containsString("[TimeControl \"40/120\"]"))
                 .and(containsString("1. e4 c5"))
                 .and(containsString("2. Nf3"))
                 .and(containsString(fullResult)));
@@ -83,7 +88,7 @@ public class PgnParserTest extends AbstractTestCase {
                 .and(containsString("[White \"\"]"))
                 .and(containsString("[Black \"" + AppConfig.getEngineName() + "\"]"))
                 .and(containsString("[Date \"" + DF.format(now) + "\"]"))
-                .and(containsString("[Time \"" + TF.format(now))));
+                .and(containsString("[Time \"" + TF.format(now) + "\"]")));
         assertThat(contents, not(containsString("[SetUp \"1\"]")));
     }
 
@@ -94,6 +99,7 @@ public class PgnParserTest extends AbstractTestCase {
         String fullResult = shortResult + " {Black mates}";
 
         game.setStartTime(DATE);
+        game.setTimeControl(new TimeControl(0, 10 * 1000, 5 * 1000, INCREMENTAL));
         game.setOpponent(opponent);
         game.setEngineColor(Color.WHITE);
         game.setPosition(FenParser.parse(FEN_CHECKMATE_1_1));
@@ -107,7 +113,8 @@ public class PgnParserTest extends AbstractTestCase {
                 .and(containsString("[White \"" + AppConfig.getEngineName() + "\"]"))
                 .and(containsString("[Black \"" + opponent + "\"]"))
                 .and(containsString("[Date \"" + DF.format(DATE) + "\"]"))
-                .and(containsString("[Time \"" + TF.format(DATE)))
+                .and(containsString("[Time \"" + TF.format(DATE) + "\"]"))
+                .and(containsString("[TimeControl \"10+5\"]"))
                 .and(containsString("[SetUp \"1\"]"))
                 .and(containsString("[FEN \"" + FEN_CHECKMATE_1_1 + "\"]"))
                 .and(containsString("18. Bc1 Rxc1#"))
@@ -133,7 +140,7 @@ public class PgnParserTest extends AbstractTestCase {
                 .and(containsString("[White \"" + opponent + "\"]"))
                 .and(containsString("[Black \"" + AppConfig.getEngineName() + "\"]"))
                 .and(containsString("[Date \"" + DF.format(DATE) + "\"]"))
-                .and(containsString("[Time \"" + TF.format(DATE)))
+                .and(containsString("[Time \"" + TF.format(DATE) + "\"]"))
                 .and(containsString("[SetUp \"1\"]"))
                 .and(containsString("[FEN \"" + FEN_CHECKMATE_1_2 + "\"]"))
                 .and(containsString("18... Rxc1#"))

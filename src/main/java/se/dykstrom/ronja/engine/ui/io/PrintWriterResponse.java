@@ -25,17 +25,17 @@ import java.util.logging.Logger;
  */
 public class PrintWriterResponse implements Response {
 
-    private final static Logger TLOG = Logger.getLogger(PrintWriterResponse.class.getName());
+    private static final Logger TLOG = Logger.getLogger(PrintWriterResponse.class.getName());
 
     private final PrintWriter writer;
 
-    public PrintWriterResponse(PrintWriter writer) {
+    public PrintWriterResponse(final PrintWriter writer) {
         this.writer = writer;
     }
 
     @Override
-    public void write(String text) {
-        TLOG.finer("XB <- " + text);
+    public void write(final String text) {
+        TLOG.finer(() -> "XB <- " + text);
         writer.println(text);
     }
 }

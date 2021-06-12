@@ -18,7 +18,7 @@
 package se.dykstrom.ronja.engine.utils;
 
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -48,15 +48,15 @@ public final class Version {
     }
 
     private Version() {
-        try {
-            URL url = Version.class.getResource("/version.properties");
-            if (url != null) {
-                Properties properties = new Properties();
-                properties.load(url.openStream());
+        final var url = Version.class.getResource("/version.properties");
+        if (url != null) {
+            try (InputStream in = url.openStream()) {
+                final var properties = new Properties();
+                properties.load(in);
                 version = properties.getProperty("ronja.version");
+            } catch (IOException ignore) {
+                // Ignore
             }
-        } catch (IOException ignore) { 
-            // Ignore
         }
     }
 

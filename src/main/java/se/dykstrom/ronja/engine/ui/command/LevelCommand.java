@@ -17,13 +17,13 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import java.text.ParseException;
+import java.util.logging.Logger;
+
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.time.TimeControl;
 import se.dykstrom.ronja.engine.time.TimeData;
 import se.dykstrom.ronja.engine.ui.io.Response;
-
-import java.text.ParseException;
-import java.util.logging.Logger;
 
 import static se.dykstrom.ronja.engine.time.TimeUtils.parseLevelText;
 
@@ -40,7 +40,7 @@ public class LevelCommand extends AbstractCommand {
 
     public static final String NAME = "level";
 
-    private final static Logger TLOG = Logger.getLogger(LevelCommand.class.getName());
+    private static final Logger TLOG = Logger.getLogger(LevelCommand.class.getName());
 
     @SuppressWarnings("WeakerAccess")
     public LevelCommand(String args, Response response, Game game) throws InvalidCommandException {

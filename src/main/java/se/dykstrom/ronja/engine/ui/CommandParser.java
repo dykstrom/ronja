@@ -17,14 +17,19 @@
 
 package se.dykstrom.ronja.engine.ui;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.logging.Logger;
+
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.parser.CanParser;
 import se.dykstrom.ronja.engine.ui.command.Command;
 import se.dykstrom.ronja.engine.ui.command.UserMoveCommand;
 import se.dykstrom.ronja.engine.ui.io.PrintWriterResponse;
-
-import java.io.*;
-import java.util.logging.Logger;
 
 /**
  * A class that parses XBoard commands.
@@ -88,11 +93,11 @@ public class CommandParser {
     /**
      * Reads the next line from stdin while also doing some error handling.
      */
-    private String read(BufferedReader in) throws IOException {
+    private String read(final BufferedReader in) throws IOException {
         try {
-            String line = in.readLine();
+            final String line = in.readLine();
             if (line != null) {
-                TLOG.finer("XB -> " + line);
+                TLOG.finer(() -> "XB -> " + line);
                 return line.trim();
             } else {
                 TLOG.info("BufferedReader.readLine returned null");

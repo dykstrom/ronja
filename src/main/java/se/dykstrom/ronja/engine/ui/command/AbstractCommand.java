@@ -20,6 +20,8 @@ package se.dykstrom.ronja.engine.ui.command;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * An abstract base class for all XBoard commands.
  * 
@@ -31,10 +33,10 @@ public abstract class AbstractCommand implements Command {
     final Response response;
     final Game game;
 
-    AbstractCommand(String args, Response response, Game game) {
+    AbstractCommand(final String args, final Response response, final Game game) {
         this.args = args;
-        this.response = response;
-        this.game = game;
+        this.response = requireNonNull(response);
+        this.game = requireNonNull(game);
     }
 
     /**
@@ -43,10 +45,4 @@ public abstract class AbstractCommand implements Command {
     public String getArgs() {
         return args;
     }
-
-    /**
-     * Default implementation does nothing.
-     */
-    @Override
-    public void execute() { /* Empty */ }
 }

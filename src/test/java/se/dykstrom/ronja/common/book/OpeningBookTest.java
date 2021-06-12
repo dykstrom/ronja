@@ -17,25 +17,29 @@
 
 package se.dykstrom.ronja.common.book;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.junit.Test;
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.test.AbstractTestCase;
+
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 import static se.dykstrom.ronja.common.parser.FenParser.parse;
 import static se.dykstrom.ronja.test.SizeMatcher.hasSize;
-
-import java.text.ParseException;
-import java.util.*;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.junit.Test;
-
-import se.dykstrom.ronja.common.model.Position;
-import se.dykstrom.ronja.test.AbstractTestCase;
 
 /**
  * This class is for testing class {@code OpeningBook} using JUnit.

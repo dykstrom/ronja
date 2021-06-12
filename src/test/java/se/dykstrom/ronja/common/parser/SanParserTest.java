@@ -17,20 +17,71 @@
 
 package se.dykstrom.ronja.common.parser;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Test;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import static java.util.Arrays.asList;
-import static org.junit.Assert.*;
-import static se.dykstrom.ronja.common.model.Piece.*;
-import static se.dykstrom.ronja.common.model.Square.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+import static se.dykstrom.ronja.common.model.Piece.BISHOP;
+import static se.dykstrom.ronja.common.model.Piece.KING;
+import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
+import static se.dykstrom.ronja.common.model.Piece.PAWN;
+import static se.dykstrom.ronja.common.model.Piece.QUEEN;
+import static se.dykstrom.ronja.common.model.Piece.ROOK;
+import static se.dykstrom.ronja.common.model.Square.A1_IDX;
+import static se.dykstrom.ronja.common.model.Square.A2_IDX;
+import static se.dykstrom.ronja.common.model.Square.A3_IDX;
+import static se.dykstrom.ronja.common.model.Square.A6_IDX;
+import static se.dykstrom.ronja.common.model.Square.A7_IDX;
+import static se.dykstrom.ronja.common.model.Square.A8_IDX;
+import static se.dykstrom.ronja.common.model.Square.B4_IDX;
+import static se.dykstrom.ronja.common.model.Square.B5_IDX;
+import static se.dykstrom.ronja.common.model.Square.B7_IDX;
+import static se.dykstrom.ronja.common.model.Square.B8_IDX;
+import static se.dykstrom.ronja.common.model.Square.C1_IDX;
+import static se.dykstrom.ronja.common.model.Square.C3_IDX;
+import static se.dykstrom.ronja.common.model.Square.C4_IDX;
+import static se.dykstrom.ronja.common.model.Square.C5_IDX;
+import static se.dykstrom.ronja.common.model.Square.C6_IDX;
+import static se.dykstrom.ronja.common.model.Square.C7_IDX;
+import static se.dykstrom.ronja.common.model.Square.C8_IDX;
+import static se.dykstrom.ronja.common.model.Square.D1_IDX;
+import static se.dykstrom.ronja.common.model.Square.D2_IDX;
+import static se.dykstrom.ronja.common.model.Square.D4_IDX;
+import static se.dykstrom.ronja.common.model.Square.D5_IDX;
+import static se.dykstrom.ronja.common.model.Square.D6_IDX;
+import static se.dykstrom.ronja.common.model.Square.D7_IDX;
+import static se.dykstrom.ronja.common.model.Square.D8_IDX;
+import static se.dykstrom.ronja.common.model.Square.E1_IDX;
+import static se.dykstrom.ronja.common.model.Square.E2_IDX;
+import static se.dykstrom.ronja.common.model.Square.E4_IDX;
+import static se.dykstrom.ronja.common.model.Square.E5_IDX;
+import static se.dykstrom.ronja.common.model.Square.E7_IDX;
+import static se.dykstrom.ronja.common.model.Square.E8_IDX;
+import static se.dykstrom.ronja.common.model.Square.F1_IDX;
+import static se.dykstrom.ronja.common.model.Square.F3_IDX;
+import static se.dykstrom.ronja.common.model.Square.F4_IDX;
+import static se.dykstrom.ronja.common.model.Square.F6_IDX;
+import static se.dykstrom.ronja.common.model.Square.F7_IDX;
+import static se.dykstrom.ronja.common.model.Square.F8_IDX;
+import static se.dykstrom.ronja.common.model.Square.G1_IDX;
+import static se.dykstrom.ronja.common.model.Square.G8_IDX;
+import static se.dykstrom.ronja.common.model.Square.H4_IDX;
+import static se.dykstrom.ronja.common.model.Square.H6_IDX;
 import static se.dykstrom.ronja.common.parser.FenParser.parse;
-import static se.dykstrom.ronja.common.parser.SanParser.*;
+import static se.dykstrom.ronja.common.parser.SanParser.format;
+import static se.dykstrom.ronja.common.parser.SanParser.getAllFromSquares;
+import static se.dykstrom.ronja.common.parser.SanParser.isFileUnique;
+import static se.dykstrom.ronja.common.parser.SanParser.isMove;
+import static se.dykstrom.ronja.common.parser.SanParser.isRankUnique;
 
 /**
  * This class is for testing class {@code SanParser} using JUnit.
@@ -265,6 +316,42 @@ public class SanParserTest extends AbstractTestCase {
         assertEquals(MOVE_E1C1, SanParser.parse("O-O-O", parse(FEN_WQC_OK)));
         assertEquals(MOVE_E8G8, SanParser.parse("O-O", parse(FEN_BKC_OK)));
         assertEquals(MOVE_E8C8, SanParser.parse("O-O-O", parse(FEN_BQC_OK)));
+    }
+
+    @Test
+    public void shouldParseSimplePawnMoves() throws Exception {
+        assertEquals(MOVE_E2E4, SanParser.parse("e4", parse(FEN_START)));
+        assertEquals(MOVE_D2D4, SanParser.parse("d4", parse(FEN_START)));
+        assertEquals(MOVE_E7E5, SanParser.parse("e5", parse(FEN_E4)));
+        assertEquals(MOVE_E7E6, SanParser.parse("e6", parse(FEN_E4)));
+    }
+
+    @Test
+    public void shouldParsePawnCaptures() throws Exception {
+        assertEquals(MOVE_E4D5, SanParser.parse("exd5", parse(FEN_PC_E4D5)));
+        assertEquals(MOVE_D5E4, SanParser.parse("dxe4", parse(FEN_PC_D5E4_D5C4)));
+        assertEquals(MOVE_D5C4, SanParser.parse("dxc4", parse(FEN_PC_D5E4_D5C4)));
+    }
+
+    @Test
+    public void shouldParseEnPassantCaptures() throws Exception {
+        assertEquals(MOVE_E5D6, SanParser.parse("exd6", parse(FEN_WEP_E5D6)));
+        assertEquals(MOVE_D4C3, SanParser.parse("dxc3", parse(FEN_BEP_D4C3)));
+    }
+
+    @Test
+    public void shouldNotParseInvalidPawnMoves() {
+        IllegalMoveException e = assertThrows(IllegalMoveException.class, () -> SanParser.parse("e4", parse(FEN_E4_C5)));
+        assertEquals("illegal pawn move", e.getMessage());
+
+        e = assertThrows(IllegalMoveException.class, () -> SanParser.parse("a7", parse(FEN_E4_C5)));
+        assertEquals("illegal pawn move", e.getMessage());
+
+        e = assertThrows(IllegalMoveException.class, () -> SanParser.parse("dxe5", parse(FEN_E4_C5)));
+        assertEquals("illegal pawn move, no pawn on d4", e.getMessage());
+
+        e = assertThrows(IllegalMoveException.class, () -> SanParser.parse("exd5", parse(FEN_E4_C5)));
+        assertEquals("illegal capture", e.getMessage());
     }
 
     // TODO: Add more parsing tests.

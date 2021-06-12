@@ -25,7 +25,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.Long.parseLong;
-import static se.dykstrom.ronja.engine.time.TimeControlType.*;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static se.dykstrom.ronja.engine.time.TimeControlType.CLASSIC;
+import static se.dykstrom.ronja.engine.time.TimeControlType.INCREMENTAL;
+import static se.dykstrom.ronja.engine.time.TimeControlType.SECONDS_PER_MOVE;
 
 /**
  * Utility methods related to time.
@@ -34,10 +39,6 @@ import static se.dykstrom.ronja.engine.time.TimeControlType.*;
  */
 public final class TimeUtils {
 
-    private static final long NANOS_PER_MILLI = 1_000_000L;
-    private static final long MILLIS_PER_SECOND = 1_000L;
-    private static final long MILLIS_PER_MINUTE = 60_000L;
-
     private static final int MOVES_INDEX = 0;
     private static final int BASE_TIME_INDEX = 1;
     private static final int INCREMENT_INDEX = 2;
@@ -45,34 +46,33 @@ public final class TimeUtils {
     // Base time is given as MIN or MIN:SEC, possibly followed by other characters that can be ignored for now
     private static final Pattern BASE_TIME_PATTERN = Pattern.compile("([0-9]+)(:[0-9]+)?.*");
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_TIME;
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ISO_TIME;
 
     private TimeUtils() { }
 
     /**
      * Formats the time given in milliseconds as HH:mm:ss.SSS.
      */
-    public static String formatTime(long millis) {
-        return FORMATTER.format(LocalTime.ofNanoOfDay(millis * NANOS_PER_MILLI));
+    public static String formatTime(final long millis) {
+        return TIME_FORMATTER.format(LocalTime.ofNanoOfDay(MILLISECONDS.toNanos(millis)));
     }
 
     /**
      * Parses the given text from the 'st' command, and returns a {@code TimeControl} object.
      */
-    public static TimeControl parseStText(String text) throws ParseException {
-        long time;
+    public static TimeControl parseStText(final String text) throws ParseException {
         try {
-            time = parseLong(text.trim()) * MILLIS_PER_SECOND;
+            final long time = SECONDS.toMillis(parseLong(text.strip()));
+            return new TimeControl(0, 0, time, SECONDS_PER_MOVE);
         } catch (NumberFormatException nfe) {
             throw new ParseException("invalid time", 0);
         }
-        return new TimeControl(0, 0, time, SECONDS_PER_MOVE);
     }
 
     /**
      * Parses the given text from the 'level' command, and returns a {@code TimeControl} object.
      */
-    public static TimeControl parseLevelText(String text) throws ParseException {
+    public static TimeControl parseLevelText(final String text) throws ParseException {
         String[] parts = text.split(" ");
         if (parts.length != 3) {
             throw new ParseException("invalid number of arguments", 0);
@@ -108,23 +108,23 @@ public final class TimeUtils {
         return new TimeControl(numberOfMoves, baseTime, increment, (increment == 0) ? CLASSIC : INCREMENTAL);
     }
 
-    private static long getIncrementAsMillis(String[] parts) {
-        return parseLong(parts[INCREMENT_INDEX].trim()) * MILLIS_PER_SECOND;
+    private static long getIncrementAsMillis(final String[] parts) {
+        return SECONDS.toMillis(parseLong(parts[INCREMENT_INDEX].trim()));
     }
 
-    private static long getSecondsAsMillis(Matcher matcher) {
-        return parseLong(matcher.group(2).substring(1)) * MILLIS_PER_SECOND;
+    private static long getSecondsAsMillis(final Matcher matcher) {
+        return SECONDS.toMillis(parseLong(matcher.group(2).substring(1)));
     }
 
-    private static long getMinutesAsMillis(Matcher matcher) {
-        return parseLong(matcher.group(1)) * MILLIS_PER_MINUTE;
+    private static long getMinutesAsMillis(final Matcher matcher) {
+        return MINUTES.toMillis(parseLong(matcher.group(1)));
     }
 
     /**
      * Calculates the amount of time available in millis for the next move.
      * The calculation is done differently for the different time control types.
      */
-    public static long calculateTimeForNextMove(TimeControl timeControl, TimeData timeData) {
+    public static long calculateTimeForNextMove(final TimeControl timeControl, final TimeData timeData) {
         if (timeControl.getType() == TimeControlType.SECONDS_PER_MOVE) {
             // Use all available time minus a safety margin
             // The safety margin is 10% of the time up to 500 ms

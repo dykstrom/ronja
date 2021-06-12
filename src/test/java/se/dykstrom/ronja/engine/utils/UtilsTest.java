@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Johan Dykstrom
+ * Copyright (C) 2021 Johan Dykstrom
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.dykstrom.ronja.engine.ui.command;
+package se.dykstrom.ronja.engine.utils;
 
-/**
- * Interface to be implemented by all XBoard commands.
- *
- * @author Johan Dykstrom
- */
-public interface Command {
-    /**
-     * Executes the command.
-     */
-    default void execute() { }
+import org.junit.Test;
+import se.dykstrom.ronja.common.model.Position;
+
+import static org.junit.Assert.assertTrue;
+
+public class UtilsTest {
+
+    @Test
+    public void shouldConvertBitboardToString() {
+        final String board = Utils.toString(
+                Position.START.rook & Position.START.black,
+                Position.START.bishop & Position.START.white
+        );
+        assertTrue(board.startsWith("10000001  00000000\n"));
+        assertTrue(board.endsWith("00000000  00100100\n"));
+    }
 }

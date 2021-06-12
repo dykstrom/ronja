@@ -17,7 +17,6 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
@@ -32,7 +31,12 @@ import se.dykstrom.ronja.test.SizeMatcher;
 
 import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.hasItems;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static se.dykstrom.ronja.common.model.Piece.PAWN;
 import static se.dykstrom.ronja.common.model.Square.A2_IDX;
 import static se.dykstrom.ronja.common.model.Square.A4_IDX;
@@ -98,17 +102,17 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testForceCommand() {
-        Command command = new ForceCommand(null, null, game);
+        Command command = new ForceCommand(null, new ListResponse(), game);
         command.execute();
         assertTrue(game.getForceMode());
     }
 
     @Test
     public void testNewCommand() {
-        Command command = new NewCommand(null, null, game);
+        Command command = new NewCommand(null, new ListResponse(), game);
         command.execute();
         assertFalse(game.getForceMode());
-        Assert.assertEquals(Color.BLACK, game.getEngineColor());
+        assertEquals(Color.BLACK, game.getEngineColor());
         assertEquals(Position.START, game.getPosition());
         assertEquals("*", game.getResult());
         assertNotNull(game.getStartTime());
@@ -118,7 +122,7 @@ public class CommandTest extends AbstractTestCase {
     @Test
     public void testNameCommand() throws Exception {
         String name = "GNU Chess";
-        Command command = new NameCommand(name, null, game);
+        Command command = new NameCommand(name, new ListResponse(), game);
         command.execute();
         assertEquals(name, game.getOpponent());
     }
@@ -181,6 +185,21 @@ public class CommandTest extends AbstractTestCase {
     }
 
     @Test
+    public void timeCommandShouldSetClock() throws Exception {
+        Command command = new TimeCommand("1500", new ListResponse(), game);
+        command.execute();
+        assertEquals(15_000, game.getTimeData().getRemainingTime());
+    }
+
+    @Test
+    public void testOtimCommand() throws Exception {
+        final var response = new ListResponse();
+        Command command = new OtimCommand("100", response, game);
+        command.execute();
+        assertTrue(response.getList().isEmpty());
+    }
+
+    @Test
     public void testGoCommand() {
         game.setTimeControl(TC_40_5_0);
         game.setTimeData(TD_40_5_0);
@@ -195,7 +214,7 @@ public class CommandTest extends AbstractTestCase {
         assertContainsRegex("move (e2e4|d2d4)", response.getList());
         // The remaining time has decreased by some amount, and the number of moves left has decreased by one
         assertTrue(timeDataAfter.getRemainingTime() <= timeDataBefore.getRemainingTime());
-        assertTrue(timeDataAfter.getNumberOfMoves() == timeDataBefore.getNumberOfMoves() - 1);
+        assertEquals(timeDataAfter.getNumberOfMoves(), timeDataBefore.getNumberOfMoves() - 1);
     }
 
     @Test
@@ -479,13 +498,13 @@ public class CommandTest extends AbstractTestCase {
         Command command = new UserMoveCommand("e2e4", response, game);
         command.execute();
         assertEquals(0, response.getList().size());
-        Assert.assertEquals(FenParser.parse(FEN_E4), game.getPosition());
+        assertEquals(FenParser.parse(FEN_E4), game.getPosition());
 
         response = new ListResponse();
         command = new UserMoveCommand("e7e5", response, game);
         command.execute();
         assertEquals(0, response.getList().size());
-        Assert.assertEquals(FenParser.parse(FEN_E4_E5), game.getPosition());
+        assertEquals(FenParser.parse(FEN_E4_E5), game.getPosition());
 
         assertTrue(game.getForceMode());
         assertNull(game.getEngineColor());

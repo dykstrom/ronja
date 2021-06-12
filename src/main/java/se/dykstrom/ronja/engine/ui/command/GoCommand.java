@@ -17,17 +17,17 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
+import java.util.logging.Logger;
+
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
-
-import java.util.logging.Logger;
 
 public class GoCommand extends AbstractMoveCommand {
 
     public static final String NAME = "go";
 
-    private final static Logger TLOG = Logger.getLogger(GoCommand.class.getName());
+    private static final Logger TLOG = Logger.getLogger(GoCommand.class.getName());
 
     @SuppressWarnings("WeakerAccess")
     public GoCommand(String args, Response response, Game game) {
