@@ -364,6 +364,26 @@ public class XBoardProtocolIT extends AbstractTestCase {
     }
 
     /**
+     * Tests the remove command.
+     */
+    @Test
+    public void testRemove() throws Exception {
+        writer.println("xboard");
+        writer.println("protover 2");
+        discardAllInput();
+        writer.println("new");
+        writer.println("usermove e2e4");
+        List<String> list = readAllInput();
+        assertContainsRegex("move e7(e5|e6)", list);
+        // Retract latest move, and make it again
+        writer.println("remove");
+        writer.println("usermove e2e4");
+        list = readAllInput();
+        assertContainsRegex("move e7(e5|e6)", list);
+        writer.println("quit");
+    }
+
+    /**
      * Tests the go command.
      */
     @Test

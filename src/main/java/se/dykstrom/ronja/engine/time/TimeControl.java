@@ -89,15 +89,10 @@ public class TimeControl {
      * Returns the PGN representation of this time control.
      */
     public String toPgn() {
-        switch (type) {
-            case CLASSIC:
-                return numberOfMoves + "/" + MILLISECONDS.toSeconds(baseTime);
-            case INCREMENTAL:
-                return MILLISECONDS.toSeconds(baseTime) + "+" + MILLISECONDS.toSeconds(increment);
-            case SECONDS_PER_MOVE:
-                return "" + MILLISECONDS.toSeconds(increment);
-            default:
-                throw new IllegalStateException("unknown time control type: " + type);
-        }
+        return switch (type) {
+            case CLASSIC -> numberOfMoves + "/" + MILLISECONDS.toSeconds(baseTime);
+            case INCREMENTAL -> MILLISECONDS.toSeconds(baseTime) + "+" + MILLISECONDS.toSeconds(increment);
+            case SECONDS_PER_MOVE -> "" + MILLISECONDS.toSeconds(increment);
+        };
     }
 }

@@ -48,6 +48,7 @@ import se.dykstrom.ronja.engine.ui.command.ProtoverCommand;
 import se.dykstrom.ronja.engine.ui.command.QuitCommand;
 import se.dykstrom.ronja.engine.ui.command.RandomCommand;
 import se.dykstrom.ronja.engine.ui.command.RejectedCommand;
+import se.dykstrom.ronja.engine.ui.command.RemoveCommand;
 import se.dykstrom.ronja.engine.ui.command.ResultCommand;
 import se.dykstrom.ronja.engine.ui.command.SetBoardCommand;
 import se.dykstrom.ronja.engine.ui.command.StCommand;
@@ -91,6 +92,7 @@ class CommandFactory {
         COMMANDS.put(QuitCommand.NAME, QuitCommand.class);
         COMMANDS.put(RandomCommand.NAME, RandomCommand.class);
         COMMANDS.put(RejectedCommand.NAME, RejectedCommand.class);
+        COMMANDS.put(RemoveCommand.NAME, RemoveCommand.class);
         COMMANDS.put(ResultCommand.NAME, ResultCommand.class);
         COMMANDS.put(SetBoardCommand.NAME, SetBoardCommand.class);
         COMMANDS.put(StCommand.NAME, StCommand.class);

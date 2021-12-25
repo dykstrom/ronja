@@ -17,6 +17,11 @@
 
 package se.dykstrom.ronja.engine.ui;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.logging.Logger;
+
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.book.OpeningBookParser;
 import se.dykstrom.ronja.common.model.Game;
@@ -24,11 +29,6 @@ import se.dykstrom.ronja.engine.ui.command.Command;
 import se.dykstrom.ronja.engine.ui.command.QuitCommand;
 import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.engine.utils.Version;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.logging.Logger;
 
 /**
  * The main class, and entry point of the chess engine.
@@ -50,14 +50,19 @@ public class Ronja {
         }
     }
 
+    @SuppressWarnings("java:S106")
     public static void main(String[] args) throws IOException {
         System.out.println("# Ronja version " + Version.instance());
 
+        final var logger = Logger.getLogger(Ronja.class.getName());
+        logger.info(() -> "Ronja version: " + Version.instance());
+        logger.info(() -> "Java version:  " + System.getProperty("java.version"));
+
         // Create a game
-        Game game = createGame();
+        final var game = createGame();
 
         // Create a command parser
-        CommandParser parser = new CommandParser(System.in, System.out, game);
+        final var parser = new CommandParser(System.in, System.out, game);
 
         // Start parsing commands
         start(parser);
@@ -70,8 +75,8 @@ public class Ronja {
         try {
             return new Game(OpeningBookParser.parse(new File(AppConfig.getBookFilename())));
         } catch (IOException | ParseException e) {
-            Logger TLOG = Logger.getLogger(Ronja.class.getName());
-            TLOG.severe("Failed to load opening book. " + e.getMessage());
+            final var logger = Logger.getLogger(Ronja.class.getName());
+            logger.severe("Failed to load opening book. " + e.getMessage());
             return new Game(OpeningBook.DEFAULT);
         }
     }

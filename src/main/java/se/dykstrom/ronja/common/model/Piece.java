@@ -55,21 +55,14 @@ public class Piece {
      * Returns the piece that corresponds to the given symbol.
      */
     public static int valueOf(char symbol) {
-        switch (Character.toUpperCase(symbol)) {
-        case 'B':
-            return BISHOP;
-        case 'K':
-            return KING;
-        case 'N':
-            return KNIGHT;
-        case 'P':
-            return PAWN;
-        case 'Q':
-            return QUEEN;
-        case 'R':
-            return ROOK;
-        default:
-            throw new IllegalArgumentException("invalid piece: " + symbol);
-        }
+        return switch (Character.toUpperCase(symbol)) {
+            case 'B' -> BISHOP;
+            case 'K' -> KING;
+            case 'N' -> KNIGHT;
+            case 'P' -> PAWN;
+            case 'Q' -> QUEEN;
+            case 'R' -> ROOK;
+            default -> throw new IllegalArgumentException("invalid piece: " + symbol);
+        };
     }
 }

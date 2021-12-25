@@ -26,8 +26,8 @@
             <directory>${project.build.directory}/scripts</directory>
             <outputDirectory/>
             <excludes>
-                <exclude>*.bat</exclude>
-                <exclude>*.sh</exclude>
+                <exclude>ronja.bat</exclude>
+                <exclude>ronja</exclude>
             </excludes>
         </fileSet>
         <fileSet>
@@ -35,7 +35,7 @@
             <outputDirectory/>
             <fileMode>775</fileMode>
             <includes>
-                <include>*.sh</include>
+                <include>ronja</include>
             </includes>
             <lineEnding>unix</lineEnding>
         </fileSet>
@@ -43,7 +43,7 @@
             <directory>${project.build.directory}/scripts</directory>
             <outputDirectory/>
             <includes>
-                <include>*.bat</include>
+                <include>ronja.bat</include>
             </includes>
             <lineEnding>windows</lineEnding>
         </fileSet>

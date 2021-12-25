@@ -20,11 +20,20 @@ package se.dykstrom.ronja.engine.ui;
 import org.junit.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Game;
+import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.engine.ui.command.*;
 import se.dykstrom.ronja.test.ListResponse;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static se.dykstrom.ronja.common.model.Piece.PAWN;
+import static se.dykstrom.ronja.common.model.Square.D2_IDX;
+import static se.dykstrom.ronja.common.model.Square.D4_IDX;
+import static se.dykstrom.ronja.common.model.Square.E2_IDX;
+import static se.dykstrom.ronja.common.model.Square.E4_IDX;
+import static se.dykstrom.ronja.common.model.Square.E5_IDX;
+import static se.dykstrom.ronja.common.model.Square.E7_IDX;
 import static se.dykstrom.ronja.test.TestUtils.assertContainsRegex;
 
 /**
@@ -56,6 +65,23 @@ public class CommandFactoryTest {
         command.execute();
         assertEquals(0, response.getList().size());
         assertEquals(opponent, game.getOpponent());
+    }
+
+    @Test
+    public void testRemoveCommand() {
+        final var e2e4 = Move.create(PAWN, E2_IDX, E4_IDX);
+        final var e7e5 = Move.create(PAWN, E7_IDX, E5_IDX);
+        final var d2d4 = Move.create(PAWN, D2_IDX, D4_IDX);
+
+        game.makeMove(e2e4);
+        game.makeMove(e7e5);
+        game.makeMove(d2d4);
+        assertArrayEquals(new int[]{e2e4, e7e5, d2d4}, game.getMoves());
+
+        Command command = CommandFactory.create(RemoveCommand.NAME, null, response, game);
+        command.execute();
+        assertEquals(0, response.getList().size());
+        assertArrayEquals(new int[]{e2e4}, game.getMoves());
     }
 
     @Test
@@ -92,6 +118,7 @@ public class CommandFactoryTest {
         assertTrue(CommandFactory.create(QuitCommand.NAME, "", response, game) instanceof QuitCommand);
         assertTrue(CommandFactory.create(RandomCommand.NAME, "", response, game) instanceof RandomCommand);
         assertTrue(CommandFactory.create(RejectedCommand.NAME, "", response, game) instanceof RejectedCommand);
+        assertTrue(CommandFactory.create(RemoveCommand.NAME, "", response, game) instanceof RemoveCommand);
         assertTrue(CommandFactory.create(ResultCommand.NAME, "", response, game) instanceof ResultCommand);
         assertTrue(CommandFactory.create(SetBoardCommand.NAME, "", response, game) instanceof SetBoardCommand);
         assertTrue(CommandFactory.create(StCommand.NAME, "", response, game) instanceof StCommand);

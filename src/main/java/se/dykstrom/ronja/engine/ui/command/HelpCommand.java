@@ -48,6 +48,7 @@ public class HelpCommand extends AbstractCommand {
         response.write("playother = turn force mode off and set the chess engine to");
         response.write("            play the color that is not on move");
         response.write("quit      = quit program");
+        response.write("remove    = retract latest move pair, and let the user move again");
         response.write("setboard  = set current position to the given FEN position");
         response.write("usermove  = submit a move in coordinate algebraic notation");
         response.write("");

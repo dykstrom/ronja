@@ -45,14 +45,11 @@ public enum Color {
      * @throws IllegalArgumentException If the symbol cannot be interpreted as a color.
      */
     public static Color valueOf(char symbol) throws IllegalArgumentException {
-        switch (symbol) {
-        case 'b':
-            return BLACK;
-        case 'w':
-            return WHITE;
-        default:
-            throw new IllegalArgumentException("invalid color: " + symbol);
-        }
+        return switch (symbol) {
+            case 'b' -> BLACK;
+            case 'w' -> WHITE;
+            default -> throw new IllegalArgumentException("invalid color: " + symbol);
+        };
     }
 
     /**
