@@ -17,18 +17,27 @@
 
 package se.dykstrom.ronja.engine.core;
 
+import java.text.ParseException;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
-import se.dykstrom.ronja.common.model.*;
+import se.dykstrom.ronja.common.model.Game;
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Piece;
+import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.test.AbstractTestCase;
-
-import java.text.ParseException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static se.dykstrom.ronja.common.model.Piece.*;
-import static se.dykstrom.ronja.common.model.Square.*;
+import static se.dykstrom.ronja.common.model.Piece.KING;
+import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
+import static se.dykstrom.ronja.common.model.Piece.QUEEN;
+import static se.dykstrom.ronja.common.model.Square.A7_IDX;
+import static se.dykstrom.ronja.common.model.Square.B8_IDX;
+import static se.dykstrom.ronja.common.model.Square.F7_IDX;
+import static se.dykstrom.ronja.common.model.Square.G8_IDX;
+import static se.dykstrom.ronja.common.model.Square.H6_IDX;
 import static se.dykstrom.ronja.common.parser.FenParser.parse;
 
 /**
@@ -132,14 +141,14 @@ public class SlowFinderTest extends AbstractTestCase {
     }
 
     /**
-     * Calls {@link Finder#findBestMove(Position, int)} with the position specified by {@code fen}
+     * Calls {@link Finder#findBestMove(int)} with the position specified by {@code fen}
      * and the given {@code maxDepth}.
      */
     private int findBestMoveWithDepth(String fen, int maxDepth) throws ParseException {
         var game = new Game(OpeningBook.DEFAULT);
         game.setPosition(parse(fen));
         var finder = new AlphaBetaFinder(game);
-        return finder.findBestMove(parse(fen), maxDepth);
+        return finder.findBestMove(maxDepth);
     }
 
     public static void main(String[] args) throws Exception {

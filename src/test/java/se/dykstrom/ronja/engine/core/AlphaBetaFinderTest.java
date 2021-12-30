@@ -17,6 +17,8 @@
 
 package se.dykstrom.ronja.engine.core;
 
+import java.text.ParseException;
+
 import org.junit.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Game;
@@ -24,12 +26,38 @@ import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import java.text.ParseException;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static se.dykstrom.ronja.common.model.Piece.*;
-import static se.dykstrom.ronja.common.model.Square.*;
+import static se.dykstrom.ronja.common.model.Piece.BISHOP;
+import static se.dykstrom.ronja.common.model.Piece.KING;
+import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
+import static se.dykstrom.ronja.common.model.Piece.PAWN;
+import static se.dykstrom.ronja.common.model.Piece.QUEEN;
+import static se.dykstrom.ronja.common.model.Piece.ROOK;
+import static se.dykstrom.ronja.common.model.Square.A1_IDX;
+import static se.dykstrom.ronja.common.model.Square.A3_IDX;
+import static se.dykstrom.ronja.common.model.Square.A8_IDX;
+import static se.dykstrom.ronja.common.model.Square.B2_IDX;
+import static se.dykstrom.ronja.common.model.Square.B4_IDX;
+import static se.dykstrom.ronja.common.model.Square.B5_IDX;
+import static se.dykstrom.ronja.common.model.Square.C1_IDX;
+import static se.dykstrom.ronja.common.model.Square.C4_IDX;
+import static se.dykstrom.ronja.common.model.Square.C7_IDX;
+import static se.dykstrom.ronja.common.model.Square.D1_IDX;
+import static se.dykstrom.ronja.common.model.Square.D2_IDX;
+import static se.dykstrom.ronja.common.model.Square.D4_IDX;
+import static se.dykstrom.ronja.common.model.Square.E1_IDX;
+import static se.dykstrom.ronja.common.model.Square.E6_IDX;
+import static se.dykstrom.ronja.common.model.Square.E7_IDX;
+import static se.dykstrom.ronja.common.model.Square.E8_IDX;
+import static se.dykstrom.ronja.common.model.Square.F3_IDX;
+import static se.dykstrom.ronja.common.model.Square.F4_IDX;
+import static se.dykstrom.ronja.common.model.Square.F7_IDX;
+import static se.dykstrom.ronja.common.model.Square.G8_IDX;
+import static se.dykstrom.ronja.common.model.Square.H1_IDX;
+import static se.dykstrom.ronja.common.model.Square.H2_IDX;
+import static se.dykstrom.ronja.common.model.Square.H4_IDX;
+import static se.dykstrom.ronja.common.model.Square.H6_IDX;
 import static se.dykstrom.ronja.common.parser.FenParser.parse;
 
 /**
@@ -210,7 +238,7 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      */
     private int findBestMoveWithTime(String fen, int maxTime) throws ParseException {
         AlphaBetaFinder finder = setupFinder(fen);
-        return finder.findBestMoveWithinTime(parse(fen), maxTime);
+        return finder.findBestMoveWithinTime(maxTime);
     }
 
     /**
@@ -218,7 +246,7 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      */
     private int findBestMoveWithDepth(String fen) throws ParseException {
         AlphaBetaFinder finder = setupFinder(fen);
-        return finder.findBestMove(parse(fen), MAX_DEPTH);
+        return finder.findBestMove(MAX_DEPTH);
     }
 
     /**
@@ -226,7 +254,7 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      */
     private int alphaBeta(String fen, int maxDepth) throws ParseException {
         AlphaBetaFinder finder = setupFinder(fen);
-        return finder.alphaBeta(parse(fen), 0, maxDepth, AlphaBetaFinder.ALPHA_START, AlphaBetaFinder.BETA_START);
+        return finder.alphaBeta(0, maxDepth, AlphaBetaFinder.ALPHA_START, AlphaBetaFinder.BETA_START);
     }
 
     private AlphaBetaFinder setupFinder(String fen) throws ParseException {
