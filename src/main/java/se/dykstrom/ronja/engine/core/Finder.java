@@ -24,18 +24,18 @@ package se.dykstrom.ronja.engine.core;
  */
 public interface Finder {
     /**
-     * Finds and returns the best move in the given position within the given time.
+     * Finds and returns the best move in the current position within the given time.
      *
      * @param maxTime The maximum time to spend in milliseconds.
      * @return The move found.
      */
-    int findBestMoveWithinTime(long maxTime);
+    int findBestMoveWithinTime(final long maxTime);
 
     /**
-     * Finds and returns the best move in the given position. Searching is limited to the given {@code maxDepth}.
+     * Finds and returns the best move in the current position. Searching is limited to {@code maxDepth} plies.
      *
-     * @param maxDepth The maximum search depth.
+     * @param maxDepth The maximum search depth in plies.
      * @return The move found.
      */
-    int findBestMove(int maxDepth);
+    int findBestMove(final int maxDepth);
 }

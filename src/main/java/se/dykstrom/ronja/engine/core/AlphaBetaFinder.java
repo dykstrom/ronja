@@ -67,7 +67,7 @@ public class AlphaBetaFinder extends AbstractFinder {
     }
 
     @Override
-    public int findBestMoveWithinTime(long maxTime) {
+    public int findBestMoveWithinTime(final long maxTime) {
         TLOG.fine(() -> "Available time " + maxTime + " = " + formatTime(maxTime));
         List<Long> searchTimes = new ArrayList<>();
 
@@ -108,7 +108,7 @@ public class AlphaBetaFinder extends AbstractFinder {
     }
 
     @Override
-    public int findBestMove(int maxDepth) {
+    public int findBestMove(final int maxDepth) {
         int numberOfMoves = fullMoveGenerator.generateMoves(game.getPosition(), 0);
         return findBestMove(maxDepth, numberOfMoves, 50_000);
     }
@@ -134,7 +134,7 @@ public class AlphaBetaFinder extends AbstractFinder {
             int move = fullMoveGenerator.moves[0][moveIndex];
 
             // Make the move
-            Position next = game.makeMove(move);
+            game.makeMove(move);
 
             // Calculate the score for the move by searching deeper
             int score = -alphaBeta(move, 1, -beta, -alpha);
@@ -228,7 +228,7 @@ public class AlphaBetaFinder extends AbstractFinder {
             int move = fullMoveGenerator.moves[depth][moveIndex];
 
             // Make the move
-            Position next = game.makeMove(move);
+            game.makeMove(move);
 
             // Calculate the score for the move by searching deeper
             int score = -alphaBeta(move, depth + 1, -beta, -alpha);

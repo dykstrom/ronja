@@ -161,6 +161,8 @@ public abstract class AbstractTestCase {
     protected static final String FEN_MIDDLE_GAME_3     = "r3r1k1/2pn1pp1/1b1pqn1p/1p2p3/4P1NB/2PPN2P/1P3PP1/R2QR1K1 w - - 2 21";
     // Carlsen-Anand, 2013
     protected static final String FEN_MIDDLE_GAME_4     = "3qn1k1/1p1r1pp1/p1rPp2p/P7/2PR1P2/1P1R3P/3QN1P1/6K1 b - - 2 32";
+    // Morphy-Karl/Isouard, 1858
+    protected static final String FEN_MIDDLE_GAME_5     = "4kb1r/p2rqppp/5n2/1B2p1B1/4P3/1Q6/PPP2PPP/2K4R w k - 0 14";
 
     // End-game positions
     protected static final String FEN_END_GAME_0        = "5rn1/2pq1Bk1/3p1b1N/1p3P1Q/1P6/6P1/5P2/4R1K1 b - - 0 36";

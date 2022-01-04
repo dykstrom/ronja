@@ -115,22 +115,17 @@ public class Game {
     /**
      * Makes the given move, updates game data, and returns the resulting position.
      */
-    public Position makeMove(int move) {
+    public void makeMove(int move) {
         moves[moveIndex++] = move;
 
         position = position.withMove(move);
         positions[positionIndex++] = position;
-
-        return position;
     }
 
     /**
      * Unmakes the last move that was made, and updates game data.
      */
     public void unmakeMove() {
-        if (moveIndex == 0) {
-            throw new IllegalStateException("no moves to unmake");
-        }
         moveIndex--;
 
         positionIndex--;
