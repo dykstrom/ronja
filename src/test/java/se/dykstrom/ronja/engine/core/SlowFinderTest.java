@@ -17,18 +17,29 @@
 
 package se.dykstrom.ronja.engine.core;
 
+import java.text.ParseException;
+import java.util.concurrent.TimeUnit;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
-import se.dykstrom.ronja.common.model.*;
+import se.dykstrom.ronja.common.model.Game;
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Piece;
+import se.dykstrom.ronja.common.model.Square;
+import se.dykstrom.ronja.common.parser.CanParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
-
-import java.text.ParseException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static se.dykstrom.ronja.common.model.Piece.*;
-import static se.dykstrom.ronja.common.model.Square.*;
+import static se.dykstrom.ronja.common.model.Piece.KING;
+import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
+import static se.dykstrom.ronja.common.model.Piece.QUEEN;
+import static se.dykstrom.ronja.common.model.Square.A7_IDX;
+import static se.dykstrom.ronja.common.model.Square.B8_IDX;
+import static se.dykstrom.ronja.common.model.Square.F7_IDX;
+import static se.dykstrom.ronja.common.model.Square.G8_IDX;
+import static se.dykstrom.ronja.common.model.Square.H6_IDX;
 import static se.dykstrom.ronja.common.parser.FenParser.parse;
 
 /**
@@ -116,51 +127,58 @@ public class SlowFinderTest extends AbstractTestCase {
     /**
      * A test to be used together with a profiler.
      */
+    @SuppressWarnings("java:S2925")
     @Test
     public void testFindBestMove_Profiler() throws Exception {
-        var waitTime = 15_000;
-        System.out.println("Waiting " + (waitTime / 1000) + " seconds...");
-        Thread.sleep(waitTime);
+        var waitTime = 15;
+        System.out.println("Warming up...");
+        findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 8);
+        System.out.printf("Waiting %d seconds...", waitTime);
+        Thread.sleep(TimeUnit.SECONDS.toMillis(waitTime));
         System.out.println("Starting test...");
         var start = System.nanoTime();
         assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_0, 6));
-        System.out.printf("Finished step 0 after %.3f seconds%n", elapsedTime(start));
+        System.out.printf("Finished step after %7.3f seconds%n", elapsedTime(start));
         assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 7));
-        System.out.printf("Finished step 1 after %.3f seconds%n", elapsedTime(start));
+        System.out.printf("Finished step after %7.3f seconds%n", elapsedTime(start));
         assertNotEquals(0, findBestMoveWithDepth(FEN_MIDDLE_GAME_2, 6));
-        System.out.printf("Finished step 2 after %.3f seconds%n", elapsedTime(start));
+        System.out.printf("Finished step after %7.3f seconds%n", elapsedTime(start));
     }
 
     /**
-     * Calls {@link Finder#findBestMove(Position, int)} with the position specified by {@code fen}
+     * Calls {@link Finder#findBestMove(int)} with the position specified by {@code fen}
      * and the given {@code maxDepth}.
      */
     private int findBestMoveWithDepth(String fen, int maxDepth) throws ParseException {
         var game = new Game(OpeningBook.DEFAULT);
         game.setPosition(parse(fen));
         var finder = new AlphaBetaFinder(game);
-        return finder.findBestMove(parse(fen), maxDepth);
+        return finder.findBestMove(maxDepth);
     }
 
     public static void main(String[] args) throws Exception {
-        var test = new SlowFinderTest();
+        final var test = new SlowFinderTest();
         System.out.println("Warming up...");
         test.findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 8);
         System.out.println("Starting test...");
-        var start = System.nanoTime();
-        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_0, 7));
-        System.out.printf("Finished step 0 after %.3f seconds%n", elapsedTime(start));
-        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 8));
-        System.out.printf("Finished step 1 after %.3f seconds%n", elapsedTime(start));
-        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_2, 6));
-        System.out.printf("Finished step 2 after %.3f seconds%n", elapsedTime(start));
-        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_3, 8));
-        System.out.printf("Finished step 3 after %.3f seconds%n", elapsedTime(start));
-        System.out.println("Best move: " + test.findBestMoveWithDepth(FEN_MIDDLE_GAME_4, 8));
-        System.out.printf("Finished step 4 after %.3f seconds%n", elapsedTime(start));
+        final var start = System.nanoTime();
+        runStep(FEN_MIDDLE_GAME_0, 7, test);
+        runStep(FEN_MIDDLE_GAME_1, 8, test);
+        runStep(FEN_MIDDLE_GAME_2, 7, test);
+        runStep(FEN_MIDDLE_GAME_3, 8, test);
+        runStep(FEN_MIDDLE_GAME_4, 8, test);
+        runStep(FEN_MIDDLE_GAME_5, 8, test);
+        System.out.printf("Finished test after %7.3f seconds%n", elapsedTime(start));
     }
 
-    private static double elapsedTime(long start) {
-        return (System.nanoTime() - start) / 1_000_000_000.0;
+    private static void runStep(final String fen, final int maxDepth, final SlowFinderTest test) throws ParseException {
+        final var start = System.nanoTime();
+        final var move = test.findBestMoveWithDepth(fen, maxDepth);
+        System.out.printf("Finished step after %7.3f seconds, best move: %s%n",
+                elapsedTime(start), CanParser.format(move));
+    }
+
+    private static double elapsedTime(final long startTimeInNanos) {
+        return (System.nanoTime() - startTimeInNanos) / 1_000_000_000.0;
     }
 }

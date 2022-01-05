@@ -62,7 +62,7 @@ public abstract class AbstractMoveCommand extends AbstractCommand {
             if (bookMove == 0) {
                 final var availableTime = TimeUtils.calculateTimeForNextMove(game.getTimeControl(), game.getTimeData());
                 final var finder = new AlphaBetaFinder(game);
-                move = finder.findBestMoveWithinTime(position, availableTime);
+                move = finder.findBestMoveWithinTime(availableTime);
                 TLOG.fine(() -> "Engine move: " + formatForLogging(move, position));
             } else {
                 move = bookMove;
