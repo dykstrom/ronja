@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Johan Dykstrom
+ * Copyright (C) 2022 Johan Dykstrom
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,23 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.dykstrom.ronja.test;
-
-import java.util.function.Supplier;
+package se.dykstrom.ronja.engine.core;
 
 /**
- * Represents a supplier of results <i>that is allowed to fail</i>.
- *
- * @param <T> The type of results supplied by this supplier.
- * @see Supplier
+ * A move comparator that takes into account the best move from the previous
+ * search, and orders the moves so the best move is always first.
  */
-@FunctionalInterface
-public interface FailableSupplier<T> {
-    /**
-     * Gets a result.
-     *
-     * @return a result
-     * @throws Exception an exception
-     */
-    T get() throws Exception;
+public record BestMoveComparator(int bestMove) implements MoveComparator {
+    @Override
+    public int compare(final int x, final int y) {
+        if (x == bestMove) {
+            return -1;
+        } else if (y == bestMove) {
+            return 1;
+        }
+        return Integer.compare(y, x);
+    }
 }

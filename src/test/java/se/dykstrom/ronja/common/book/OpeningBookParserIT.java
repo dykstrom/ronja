@@ -53,11 +53,11 @@ public class OpeningBookParserIT extends AbstractTestCase {
 
         List<BookMove> moves = book.findAllMoves(FenParser.parse(FEN_START));
         assertEquals(1, moves.size());
-        assertEquals(MOVE_E2E4, moves.get(0).getMove());
+        assertEquals(MOVE_E2E4, moves.get(0).move());
 
         moves = book.findAllMoves(FenParser.parse(FEN_E4));
         assertThat(moves, hasSize(2));
-        assertTrue(moves.stream().map(bm -> CanParser.format(bm.getMove())).allMatch(s -> s.matches("^e7(e5|e6)$")));
+        assertTrue(moves.stream().map(bm -> CanParser.format(bm.move())).allMatch(s -> s.matches("^e7(e5|e6)$")));
 
         // Check some non-existing positions
         assertNull(book.findAllMoves(FenParser.parse(FEN_E4_C5)));

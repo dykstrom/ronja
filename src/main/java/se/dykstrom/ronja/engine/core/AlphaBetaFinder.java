@@ -37,6 +37,7 @@ import static se.dykstrom.ronja.engine.time.TimeUtils.formatTime;
  *
  * @author Johan Dykstrom
  */
+@SuppressWarnings("java:S2629")
 public class AlphaBetaFinder extends AbstractFinder {
 
     static final int ALPHA_START = -3_000_000;
@@ -92,7 +93,7 @@ public class AlphaBetaFinder extends AbstractFinder {
                 long usedTime = System.currentTimeMillis() - startTime;
                 remainingTime = maxTime - usedTime;
                 estimatedTime = TimeUtils.estimateTimeForNextDepth(searchTimes);
-                if (DEBUG) TLOG.fine("Estimated = time " + estimatedTime + ", remaining time = " + remainingTime);
+                if (DEBUG) TLOG.fine("Estimated time = " + estimatedTime + ", remaining time = " + remainingTime);
                 sort(fullMoveGenerator, 0, numberOfMoves, bestMove);
             } while (estimatedTime < remainingTime);
         } catch (OutOfTimeException exception) {
@@ -146,15 +147,15 @@ public class AlphaBetaFinder extends AbstractFinder {
 
             // If this move is the best yet
             if (score > alpha) {
-                if (DEBUG) TLOG.finest(stay(game.getPosition(), 0) + ", score = " + score + ", new best move = " + formatMove(
-                        game.getPosition(), move));
+                if (DEBUG) TLOG.finest(stay(game.getPosition(), 0) + ", score = " + score + ", new best move = " +
+                                       formatMove(game.getPosition(), move));
                 bestMove = move;
                 alpha = score;
             }
         }
 
-        if (DEBUG) TLOG.finest(leave(game.getPosition(), 0) + ", score = " + alpha + ", best move = " + formatMove(
-                game.getPosition(), bestMove));
+        if (DEBUG) TLOG.finest(leave(game.getPosition(), 0) + ", score = " + alpha + ", best move = " +
+                               formatMove(game.getPosition(), bestMove));
         final int finalBestMove = bestMove;
         final int finalAlpha = alpha;
         TLOG.fine(() -> "Returning best move " + formatMove(game.getPosition(), finalBestMove) + " with score " + finalAlpha + " for max depth " + maxDepth);
@@ -250,8 +251,8 @@ public class AlphaBetaFinder extends AbstractFinder {
             }
         }
 
-        if (DEBUG) TLOG.finest(leave(game.getPosition(), depth) + ", score = " + alpha + ", best move = " + formatMove(
-                game.getPosition(), bestMove));
+        if (DEBUG) TLOG.finest(leave(game.getPosition(), depth) + ", score = " + alpha + ", best move = " +
+                               formatMove(game.getPosition(), bestMove));
         return alpha;
     }
 
@@ -259,14 +260,7 @@ public class AlphaBetaFinder extends AbstractFinder {
      * Sorts the moves on the given depth, taking into account the previous best move.
      */
     private void sort(FullMoveGenerator moveGenerator, int depth, int numberOfMoves, int bestMove) {
-        SortUtils.sort(moveGenerator.moves[depth], numberOfMoves, (x, y) -> {
-            if (x == bestMove) {
-                return -1;
-            } else if (y == bestMove) {
-                return 1;
-            }
-            return Integer.compare(y, x);
-        });
+        SortUtils.sort(moveGenerator.moves[depth], numberOfMoves, new BestMoveComparator(bestMove));
     }
 
     /**

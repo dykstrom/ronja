@@ -40,6 +40,8 @@ import static se.dykstrom.ronja.common.model.Square.indexToId;
  */
 public class Move {
 
+    private Move() { }
+
     private static final int PIECE_MASK = 0x07;
     private static final int SQUARE_MASK = 0x3f;
     private static final int CASTLE_MASK = 0x01 << 15;

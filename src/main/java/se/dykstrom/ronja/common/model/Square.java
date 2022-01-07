@@ -176,6 +176,8 @@ public class Square {
     public static final long[] SQUARE_IDS = new long[MAX_SQUARES];
     public static final int[] SQUARE_INDICES = new int[MAX_SQUARES];
 
+    private Square() { }
+
     /**
      * Stores the square IDs of the occupied squares in the given bitboard in the array {@link #SQUARE_IDS},
      * and returns the number of square IDs found in the bitboard.
@@ -231,7 +233,8 @@ public class Square {
      * and returns the number of square indices found in the bitboard. This implementation works best for sparsely
      * populated bitboards.
      * <p>
-     * Example: bitboardToIndices(Square.A1 | Square.E4) returns [0, 28].
+     * Example: bitboardToIndices(Square.A1 | Square.E4) returns 2,
+     * and stores values 0 and 28 in {@link #SQUARE_INDICES}.
      *
      * @param bitboard The bitboard to split into square indices.
      * @return The number of square indices found in the bitboard.
@@ -247,22 +250,6 @@ public class Square {
 
         return count;
     }
-
-//  Alternative implementation:
-//
-//  public static int bitboardToIndices(long bitboard) {
-//      int count = 0;
-//
-//      int i = 0;
-//      for (long b = bitboard; b != 0; b = b >>> 1) {
-//          if ((b & 1) != 0) {
-//              SQUARE_INDICES[count++] = i;
-//          }
-//          i++;
-//      }
-//
-//      return count;
-//  }
 
     /**
      * Returns the index of the square with the specified ID.

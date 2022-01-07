@@ -49,13 +49,14 @@ public class BkCommand extends AbstractCommand {
         } else {
             response.write(" Book moves:");
             bookMoves.stream()
-                    .filter(bookMove -> bookMove.getWeight() > 0)
-                    .sorted(BOOK_MOVE_COMPARATOR)
-                    .map(bookMove -> String.format(" %-6s %3d%%", SanParser.format(position, bookMove.getMove()), bookMove.getWeight()))
-                    .forEach(response::write);
+                     .filter(bm -> bm.weight() > 0)
+                     .sorted(BOOK_MOVE_COMPARATOR)
+                     .map(bm -> String.format(" %-6s %3d%%", SanParser.format(position, bm.move()), bm.weight()))
+                     .forEach(response::write);
         }
         response.write("");
     }
 
-    private static final Comparator<BookMove> BOOK_MOVE_COMPARATOR = (bm1, bm2) -> Integer.compare(bm2.getWeight(), bm1.getWeight());
+    private static final Comparator<BookMove> BOOK_MOVE_COMPARATOR = (bm1, bm2) -> Integer.compare(bm2.weight(),
+            bm1.weight());
 }

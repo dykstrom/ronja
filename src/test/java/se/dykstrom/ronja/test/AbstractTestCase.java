@@ -267,7 +267,7 @@ public abstract class AbstractTestCase {
      * Parses an array of move strings and returns an array of actual moves.
      * This method assumes that the moves are made from the start position.
      *
-     * @param moves An array move moves in string format to convert.
+     * @param moves An array of moves in string format to convert.
      * @return The array of converted moves.
      * @throws IllegalMoveException If there was an illegal move.
      */

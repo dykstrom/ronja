@@ -43,12 +43,11 @@ public class SizeMatcher<T> extends BaseMatcher<T> {
     }
 
     @Override
-    public boolean matches(Object obj) {
-        if (obj instanceof Iterable<?>) {
-            Iterable<?> iterable = (Iterable<?>) obj;
+    public boolean matches(Object item) {
+        if (item instanceof Iterable<?> iterable) {
             return StreamSupport.stream(iterable.spliterator(), false).count() == this.size;
-        } else if (obj.getClass().isArray()) {
-            return Array.getLength(obj) == this.size;
+        } else if (item.getClass().isArray()) {
+            return Array.getLength(item) == this.size;
         }
         return false;
     }

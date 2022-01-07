@@ -17,15 +17,17 @@
 
 package se.dykstrom.ronja.test;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.assertTrue;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.fail;
 
 /**
@@ -36,28 +38,6 @@ import static org.junit.Assert.fail;
 public class TestUtils {
 
     private TestUtils() { }
-
-    /**
-     * Waits for the given {@code supplier} to return {@code true} within the given timeout.
-     * The supplier should represent some condition that the user wants to wait for. This
-     * could be that a file has been created, that a thread has finished or something else.
-     *
-     * @param supplier The supplier to wait for.
-     * @param timeout The maximum time to wait.
-     * @param unit The time unit of the timeout argument.
-     * @throws Exception If an exception occurs while waiting.
-     */
-    public static void waitForSupplier(FailableSupplier<Boolean> supplier, long timeout, TimeUnit unit) throws Exception {
-        long start = System.nanoTime();
-        long remaining = unit.toNanos(timeout);
-
-        while (!supplier.get() && remaining > 0) {
-            Thread.sleep(Math.min(TimeUnit.NANOSECONDS.toMillis(remaining) + 1, 50));
-            remaining = unit.toNanos(timeout) - (System.nanoTime() - start);
-        }
-
-        assertTrue("Timeout after " + timeout + " " + unit, supplier.get());
-    }
 
     /**
      * Returns {@code true} if the regular expression {@code regex} matches
@@ -88,6 +68,34 @@ public class TestUtils {
             System.err.println("Actual   :" + list);
             fail("Regex '" + regex + "' not found in list");
         }
+    }
+
+    /**
+     * Reads all lines of input that is available from the given {@code reader},
+     * and returns this as a list of strings. This method assumes that some input
+     * will be available, and will fail the test if that is not the case. It will
+     * also fail the test if the input read contains an exception.
+     *
+     * @param reader The reader to read input from.
+     * @return The lines of input read from the reader.
+     */
+    public static List<String> readAllInput(final BufferedReader reader) throws Exception {
+        List<String> list = new ArrayList<>();
+
+        // Assume there will be some input
+        await().atMost(5, SECONDS).until(reader::ready);
+
+        while (reader.ready()) {
+            list.add(reader.readLine());
+            Thread.sleep(100);
+        }
+
+        // Fail if we discover an exception
+        if (containsRegex("Exception", list)) {
+            fail("Engine exception: " + list);
+        }
+
+        return list;
     }
 
     /**

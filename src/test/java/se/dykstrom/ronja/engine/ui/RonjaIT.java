@@ -17,19 +17,26 @@
 
 package se.dykstrom.ronja.engine.ui;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.io.PrintStream;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import se.dykstrom.ronja.test.TestUtils;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertNull;
 import static se.dykstrom.ronja.test.TestUtils.assertContainsRegex;
-import static se.dykstrom.ronja.test.TestUtils.containsRegex;
 
 /**
  * This class is for integration testing class {@code Ronja}.
@@ -42,27 +49,33 @@ public class RonjaIT {
     private final InputStream stdin = System.in;
     private final PrintStream stdout = System.out;
 
-    private Thread thread;
     private PrintStream commandStream;
-    private PipedInputStream responseStream;
+    private BufferedReader responseReader;
+    private Future<Void> engineFuture;
+
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Before
     public void setUp() throws Exception {
         PipedInputStream redirectedStdin = new PipedInputStream();
-        commandStream = new PrintStream(new PipedOutputStream(redirectedStdin), true, StandardCharsets.ISO_8859_1);
+        commandStream = new PrintStream(new PipedOutputStream(redirectedStdin), true, ISO_8859_1);
         System.setIn(redirectedStdin);
 
-        responseStream = new PipedInputStream();
-        PrintStream redirectedStdout = new PrintStream(new PipedOutputStream(responseStream), true, StandardCharsets.ISO_8859_1);
+        PipedInputStream responseStream = new PipedInputStream();
+        responseReader = new BufferedReader(new InputStreamReader(responseStream, ISO_8859_1));
+        PrintStream redirectedStdout = new PrintStream(new PipedOutputStream(responseStream), true, ISO_8859_1);
         System.setOut(redirectedStdout);
 
-        thread = new Thread(new Engine());
-        thread.start();
+        engineFuture = executorService.submit(() -> {
+            Ronja.main(new String[]{});
+            return null;
+        });
     }
 
     @After
     public void tearDown() throws Exception {
-        thread.join(1000);
+        assertNull(engineFuture.get());
+        executorService.shutdown();
 
         // Restore System.in and System.out
         System.setIn(stdin);
@@ -70,8 +83,10 @@ public class RonjaIT {
     }
 
     @Test
-    public void shouldQuit() {
+    public void shouldQuit() throws Exception {
         commandStream.println("quit");
+        List<String> list = readAllInput();
+        assertContainsRegex("# Ronja", list);
     }
 
     @Test
@@ -105,46 +120,11 @@ public class RonjaIT {
         commandStream.println("quit");
     }
 
-    /**
-     * Reads all lines of input that is available from {@code stdin}, and returns this as a list of strings.
-     */
     private List<String> readAllInput() throws Exception {
-        List<String> list = new ArrayList<>();
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(responseStream, StandardCharsets.ISO_8859_1));
-
-        // Assume there will be some input
-        while (!reader.ready()) {
-            Thread.sleep(100);
-        }
-        while (reader.ready()) {
-            list.add(reader.readLine());
-            Thread.sleep(100);
-        }
-
-        // Fail if we discover an exception
-        if (containsRegex("Exception", list)) {
-            fail("Engine exception: " + list);
-        }
-
-        return list;
+        return TestUtils.readAllInput(responseReader);
     }
 
-    /**
-     * Reads all lines of input that is available from {@code stdin}, and throws them away.
-     */
     private void discardAllInput() throws Exception {
         assertNotNull(readAllInput());
-    }
-
-    private static class Engine implements Runnable {
-        @Override
-        public void run() {
-            try {
-                Ronja.main(new String[]{});
-            } catch (IOException e) {
-                fail("Caught exception: " + e);
-            }
-        }
     }
 }

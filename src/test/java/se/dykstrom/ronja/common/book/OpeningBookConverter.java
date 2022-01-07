@@ -144,7 +144,7 @@ public class OpeningBookConverter implements Callable<Integer> {
     }
 
     private String formatBookMove(final BookMove bookMove, final Position position) {
-        return formatMove(bookMove.getMove(), position) + "/" + bookMove.getWeight();
+        return formatMove(bookMove.move(), position) + "/" + bookMove.weight();
     }
 
     private int parseMove(final String inputMove, final Position position) throws IllegalMoveException {

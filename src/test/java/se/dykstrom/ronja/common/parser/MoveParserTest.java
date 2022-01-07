@@ -17,16 +17,15 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
-
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * This class is for testing class {@code MoveParser} using JUnit. However, most of the parsing tests
- * are collected in classes {@code CanParserTest} and {@code SanParserTest}.
+ * are collected in classes {@link CanParserTest} and {@link SanParserTest}.
  *
  * @author Johan Dykstrom
  * @see MoveParser
@@ -41,6 +40,8 @@ public class MoveParserTest extends AbstractTestCase {
         assertEquals(MOVE_E2E4, MoveParser.parse("e2e4", position));
         assertEquals(MOVE_G1F3, MoveParser.parse("g1f3", position));
 
-        // TODO: Add some SAN tests.
+        // SAN format
+        assertEquals(MOVE_E2E4, MoveParser.parse("e4", position));
+        assertEquals(MOVE_E1G1, MoveParser.parse("O-O", FenParser.parse(FEN_WKC_OK)));
     }
 }

@@ -17,8 +17,6 @@
 
 package se.dykstrom.ronja.engine.time;
 
-import java.util.Objects;
-
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
@@ -26,15 +24,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  *
  * @author Johan Dykstrom
  */
-public class TimeData {
-
-    private final long numberOfMoves;
-    private final long remainingTime;
-
-    private TimeData(long numberOfMoves, long remainingTime) {
-        this.numberOfMoves = numberOfMoves;
-        this.remainingTime = remainingTime;
-    }
+public record TimeData(long numberOfMoves, long remainingTime) {
 
     /**
      * Creates a new time data instance from the given time control. If the time control is
@@ -48,38 +38,6 @@ public class TimeData {
         } else {
             return new TimeData(timeControl.getNumberOfMoves(), timeControl.getBaseTime());
         }
-    }
-
-    /**
-     * Returns the number of moves left in the time control.
-     */
-    public long getNumberOfMoves() {
-        return numberOfMoves;
-    }
-
-    /**
-     * Returns the remaining time in milliseconds.
-     */
-    public long getRemainingTime() {
-        return remainingTime;
-    }
-
-    @Override
-    public String toString() {
-        return numberOfMoves + "/" + MILLISECONDS.toSeconds(remainingTime);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TimeData that = (TimeData) o;
-        return numberOfMoves == that.numberOfMoves && remainingTime == that.remainingTime;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(numberOfMoves, remainingTime);
     }
 
     /**
@@ -100,5 +58,10 @@ public class TimeData {
      */
     public TimeData withNumberOfMoves(long numberOfMoves) {
         return new TimeData(numberOfMoves, remainingTime);
+    }
+
+    @Override
+    public String toString() {
+        return numberOfMoves + "/" + MILLISECONDS.toSeconds(remainingTime);
     }
 }

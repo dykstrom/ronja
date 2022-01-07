@@ -201,7 +201,7 @@ public class FullMoveGenerator extends AbstractGenerator {
         // For each 'to' square, create a move
         for (int toIndex : toIndices) {
             long toSquare = indexToId(toIndex);
-            if (!isBlocked(toSquare)) {
+            if (isAvailable(toSquare)) {
                 createAndSaveMove(KNIGHT, fromIndex, toIndex, toSquare);
             }
         }
@@ -378,12 +378,13 @@ public class FullMoveGenerator extends AbstractGenerator {
         // For each bishop, find all of its 'to' squares
         for (int fromSquareIdx = 0; fromSquareIdx < fromSquareCount; fromSquareIdx++) {
             long fromSquare = SQUARE_IDS[fromSquareIdx];
+            int fromIndex = idToIndex(fromSquare);
 
             int toSquareCount = getDiagonalMoves(fromSquare);
             for (int toSquareIdx = 0; toSquareIdx < toSquareCount; toSquareIdx++) {
                 long toSquare = squareIds[toSquareIdx];
                 int toIndex = idToIndex(toSquare);
-                createAndSaveMove(BISHOP, idToIndex(fromSquare), toIndex, toSquare);
+                createAndSaveMove(BISHOP, fromIndex, toIndex, toSquare);
             }
         }
     }
@@ -398,18 +399,19 @@ public class FullMoveGenerator extends AbstractGenerator {
         // For each queen, find all of its 'to' squares
         for (int fromSquareIdx = 0; fromSquareIdx < fromSquareCount; fromSquareIdx++) {
             long fromSquare = SQUARE_IDS[fromSquareIdx];
+            int fromIndex = idToIndex(fromSquare);
 
             int toSquareCount = getDiagonalMoves(fromSquare);
             for (int toSquareIdx = 0; toSquareIdx < toSquareCount; toSquareIdx++) {
                 long toSquare = squareIds[toSquareIdx];
                 int toIndex = idToIndex(toSquare);
-                createAndSaveMove(QUEEN, idToIndex(fromSquare), toIndex, toSquare);
+                createAndSaveMove(QUEEN, fromIndex, toIndex, toSquare);
             }
             toSquareCount = getStraightMoves(fromSquare);
             for (int toSquareIdx = 0; toSquareIdx < toSquareCount; toSquareIdx++) {
                 long toSquare = squareIds[toSquareIdx];
                 int toIndex = idToIndex(toSquare);
-                createAndSaveMove(QUEEN, idToIndex(fromSquare), toIndex, toSquare);
+                createAndSaveMove(QUEEN, fromIndex, toIndex, toSquare);
             }
         }
     }
@@ -424,12 +426,13 @@ public class FullMoveGenerator extends AbstractGenerator {
         // For each rook, find all of its 'to' squares
         for (int fromSquareIdx = 0; fromSquareIdx < fromSquareCount; fromSquareIdx++) {
             long fromSquare = SQUARE_IDS[fromSquareIdx];
+            int fromIndex = idToIndex(fromSquare);
 
             int toSquareCount = getStraightMoves(fromSquare);
             for (int toSquareIdx = 0; toSquareIdx < toSquareCount; toSquareIdx++) {
                 long toSquare = squareIds[toSquareIdx];
                 int toIndex = idToIndex(toSquare);
-                createAndSaveMove(ROOK, idToIndex(fromSquare), toIndex, toSquare);
+                createAndSaveMove(ROOK, fromIndex, toIndex, toSquare);
             }
         }
     }
@@ -478,8 +481,7 @@ public class FullMoveGenerator extends AbstractGenerator {
                 squareIds[count++] = pos;
                 pos = Square.north(pos);
             }
-            if (!isBlocked(pos))
-                squareIds[count++] = pos;
+            if (isAvailable(pos)) squareIds[count++] = pos;
         }
 
         // East
@@ -490,8 +492,7 @@ public class FullMoveGenerator extends AbstractGenerator {
                 squareIds[count++] = pos;
                 pos = Square.east(pos);
             }
-            if (!isBlocked(pos))
-                squareIds[count++] = pos;
+            if (isAvailable(pos)) squareIds[count++] = pos;
         }
 
         // South
@@ -502,8 +503,7 @@ public class FullMoveGenerator extends AbstractGenerator {
                 squareIds[count++] = pos;
                 pos = Square.south(pos);
             }
-            if (!isBlocked(pos))
-                squareIds[count++] = pos;
+            if (isAvailable(pos)) squareIds[count++] = pos;
         }
 
         // West
@@ -514,8 +514,7 @@ public class FullMoveGenerator extends AbstractGenerator {
                 squareIds[count++] = pos;
                 pos = Square.west(pos);
             }
-            if (!isBlocked(pos))
-                squareIds[count++] = pos;
+            if (isAvailable(pos)) squareIds[count++] = pos;
         }
 
         return count;
@@ -549,9 +548,7 @@ public class FullMoveGenerator extends AbstractGenerator {
                 squareIds[count++] = pos;
                 pos = Square.northEast(pos);
             }
-            if (!isBlocked(pos)) {
-                squareIds[count++] = pos;
-            }
+            if (isAvailable(pos)) squareIds[count++] = pos;
         }
 
         // SE
@@ -562,8 +559,7 @@ public class FullMoveGenerator extends AbstractGenerator {
                 squareIds[count++] = pos;
                 pos = Square.southEast(pos);
             }
-            if (!isBlocked(pos))
-                squareIds[count++] = pos;
+            if (isAvailable(pos)) squareIds[count++] = pos;
         }
 
         // SW
@@ -574,8 +570,7 @@ public class FullMoveGenerator extends AbstractGenerator {
                 squareIds[count++] = pos;
                 pos = Square.southWest(pos);
             }
-            if (!isBlocked(pos))
-                squareIds[count++] = pos;
+            if (isAvailable(pos)) squareIds[count++] = pos;
         }
 
         // NW
@@ -586,8 +581,7 @@ public class FullMoveGenerator extends AbstractGenerator {
                 squareIds[count++] = pos;
                 pos = Square.northWest(pos);
             }
-            if (!isBlocked(pos))
-                squareIds[count++] = pos;
+            if (isAvailable(pos)) squareIds[count++] = pos;
         }
 
         return count;
@@ -596,10 +590,11 @@ public class FullMoveGenerator extends AbstractGenerator {
     // ------------------------------------------------------------------------
 
     /**
-     * Returns {@code true} if {@code square} is blocked, that is, is occupied by one of my own pieces.
+     * Returns {@code true} if {@code square} is available to put a piece on, that is,
+     * if {@code square} is _not_ occupied by one of my own pieces.
      */
-    private boolean isBlocked(long square) {
-        return (square & friend) != 0;
+    private boolean isAvailable(final long square) {
+        return (square & friend) == 0;
     }
 
     /**

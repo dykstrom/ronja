@@ -188,7 +188,7 @@ public class CommandTest extends AbstractTestCase {
     public void timeCommandShouldSetClock() throws Exception {
         Command command = new TimeCommand("1500", new ListResponse(), game);
         command.execute();
-        assertEquals(15_000, game.getTimeData().getRemainingTime());
+        assertEquals(15_000, game.getTimeData().remainingTime());
     }
 
     @Test
@@ -213,8 +213,8 @@ public class CommandTest extends AbstractTestCase {
         assertEquals(1, response.getList().size());
         assertContainsRegex("move (e2e4|d2d4)", response.getList());
         // The remaining time has decreased by some amount, and the number of moves left has decreased by one
-        assertTrue(timeDataAfter.getRemainingTime() <= timeDataBefore.getRemainingTime());
-        assertEquals(timeDataAfter.getNumberOfMoves(), timeDataBefore.getNumberOfMoves() - 1);
+        assertTrue(timeDataAfter.remainingTime() <= timeDataBefore.remainingTime());
+        assertEquals(timeDataAfter.numberOfMoves(), timeDataBefore.numberOfMoves() - 1);
     }
 
     @Test

@@ -17,8 +17,6 @@
 
 package se.dykstrom.ronja.common.book;
 
-import java.util.Objects;
-
 import se.dykstrom.ronja.common.parser.CanParser;
 
 /**
@@ -26,28 +24,7 @@ import se.dykstrom.ronja.common.parser.CanParser;
  *
  * @author Johan Dykstrom
  */
-public class BookMove {
-    
-    private final int move;
-    private final int weight;
-
-    public BookMove(int move, int weight) {
-        this.move = move;
-        this.weight = weight;
-    }
-
-    @Override
-    public String toString() {
-        return CanParser.format(move) + "/" + weight;
-    }
-    
-    public int getMove() {
-        return move;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
+public record BookMove(int move, int weight) {
 
     /**
      * Returns a copy of this book move, with the weight altered. This book move remains unchanged.
@@ -60,15 +37,7 @@ public class BookMove {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BookMove that = (BookMove) o;
-        return this.move == that.move && this.weight == that.weight;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(move, weight);
+    public String toString() {
+        return CanParser.format(move) + "/" + weight;
     }
 }
