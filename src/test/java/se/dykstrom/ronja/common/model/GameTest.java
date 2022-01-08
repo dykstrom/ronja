@@ -55,8 +55,8 @@ public class GameTest extends AbstractTestCase {
 
         game.updateTimeDataAfterMove(usedTime);
 
-        assertEquals(39, game.getTimeData().getNumberOfMoves());
-        assertEquals(FIVE_MINUTES - usedTime, game.getTimeData().getRemainingTime());
+        assertEquals(39, game.getTimeData().numberOfMoves());
+        assertEquals(FIVE_MINUTES - usedTime, game.getTimeData().remainingTime());
     }
 
     @Test
@@ -69,9 +69,9 @@ public class GameTest extends AbstractTestCase {
         game.updateTimeDataAfterMove(usedTime);
 
         // Expect that there are now 40 new moves to make
-        assertEquals(40, game.getTimeData().getNumberOfMoves());
+        assertEquals(40, game.getTimeData().numberOfMoves());
         // Expect to have the original 5 minutes, plus 5 new minutes minus used time
-        assertEquals(TEN_MINUTES - usedTime, game.getTimeData().getRemainingTime());
+        assertEquals(TEN_MINUTES - usedTime, game.getTimeData().remainingTime());
     }
 
     @Test
@@ -83,8 +83,8 @@ public class GameTest extends AbstractTestCase {
 
         game.updateTimeDataAfterMove(usedTime);
 
-        assertEquals(0, game.getTimeData().getNumberOfMoves());
-        assertEquals(THIRTY_MINUTES + FIVE_SECONDS - usedTime, game.getTimeData().getRemainingTime());
+        assertEquals(0, game.getTimeData().numberOfMoves());
+        assertEquals(THIRTY_MINUTES + FIVE_SECONDS - usedTime, game.getTimeData().remainingTime());
     }
 
     @Test
@@ -96,7 +96,7 @@ public class GameTest extends AbstractTestCase {
 
         game.updateTimeDataAfterMove(usedTime);
 
-        assertEquals(0, game.getTimeData().getNumberOfMoves());
-        assertEquals(THIRTY_SECONDS, game.getTimeData().getRemainingTime());
+        assertEquals(0, game.getTimeData().numberOfMoves());
+        assertEquals(THIRTY_SECONDS, game.getTimeData().remainingTime());
     }
 }

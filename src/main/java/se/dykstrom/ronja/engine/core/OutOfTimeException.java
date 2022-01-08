@@ -23,5 +23,26 @@ package se.dykstrom.ronja.engine.core;
  * @author Johan Dykstrom
  */
 class OutOfTimeException extends RuntimeException {
-    // Empty
+
+    private final int moveIndex;
+    private final long averageTime;
+    private final long remainingTime;
+
+    public OutOfTimeException(final int moveIndex, final long averageTime, final long remainingTime) {
+        this.moveIndex = moveIndex;
+        this.averageTime = averageTime;
+        this.remainingTime = remainingTime;
+    }
+
+    public int getMoveIndex() {
+        return moveIndex;
+    }
+
+    public long getAverageTime() {
+        return averageTime;
+    }
+
+    public long getRemainingTime() {
+        return remainingTime;
+    }
 }

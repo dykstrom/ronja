@@ -25,26 +25,10 @@ import se.dykstrom.ronja.common.model.Position;
 abstract class AbstractFinder implements Finder {
 
     /** The number of nodes evaluated. */
-    int nodes;
+    protected int nodes;
 
     /** The maximum search depth. */
-    private int maxDepth;
-
-    // -----------------------------------------------------------------------
-
-    /**
-     * Sets the maximum search depth.
-     */
-    void setMaxDepth(int maxDepth) {
-        this.maxDepth = maxDepth;
-    }
-
-    /**
-     * Returns {@code true} if the given search {@code depth} equals the maximum search depth.
-     */
-    boolean isMaxDepth(int depth) {
-        return depth == maxDepth;
-    }
+    protected int maxDepth;
 
     /**
      * Returns a debug string to display when entering a search method.
@@ -70,7 +54,8 @@ abstract class AbstractFinder implements Finder {
     /**
      * Formats the given {@code depth} by adding a number of spaces related to the depth to produce a nice indentation.
      */
-    private String format(int depth) {
-        return String.format("%s%" + (((depth - 1) * 2) + 1) + "s", depth, "");
+    private String format(final int depth) {
+        final var format = "%s%" + (((depth - 1) * 2) + 1) + "s";
+        return String.format(format, depth, "");
     }
 }

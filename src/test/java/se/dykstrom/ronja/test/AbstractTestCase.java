@@ -227,6 +227,11 @@ public abstract class AbstractTestCase {
     /** Possible fork for white. */
     protected static final String FEN_FORK_0            = "r1b1k1nr/ppppbppp/2n5/1N6/4q3/2P5/PP1PBPPP/R1BQK2R w KQkq - 0 1";
     protected static final String FEN_FORK_1            = "rn1q1rk1/pp4pb/1bp1pp1p/3p4/2PNnP2/1P2PNP1/PB1P2BP/R2Q1RK1 w - - 0 1";
+    /**
+     * A position where there are several moves that lead to non-quiet positions,
+     * e.g. Qxe5+ and Bxa4. Best move is Nc6.
+     */
+    protected static final String FEN_NON_QUIET         = "r3k1nr/ppqb1ppp/1b2p3/3pP3/Pn6/2P2N2/1Q3PPP/RNB1KB1R b KQkq - 1 11";
 
     /**
      * Asserts that all given {@code squares} are empty in the given {@code position}.
@@ -267,7 +272,7 @@ public abstract class AbstractTestCase {
      * Parses an array of move strings and returns an array of actual moves.
      * This method assumes that the moves are made from the start position.
      *
-     * @param moves An array move moves in string format to convert.
+     * @param moves An array of moves in string format to convert.
      * @return The array of converted moves.
      * @throws IllegalMoveException If there was an illegal move.
      */

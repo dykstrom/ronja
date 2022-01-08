@@ -19,6 +19,7 @@ package se.dykstrom.ronja.engine.core;
 
 import org.junit.Test;
 import se.dykstrom.ronja.common.model.Color;
+import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
@@ -26,6 +27,8 @@ import se.dykstrom.ronja.test.AbstractTestCase;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static se.dykstrom.ronja.common.model.Piece.ROOK;
+import static se.dykstrom.ronja.common.model.Square.*;
 
 /**
  * This class is for testing rook moves with the generator classes using JUnit.
@@ -52,7 +55,70 @@ public class GeneratorRookTest extends AbstractTestCase {
         assertThat(MOVE_GENERATOR.getMoveIndex(), is(0));
     }
 
-    // TODO: Add more tests for class FullMoveGenerator.
+    /**
+     * Tests generating rook moves from position {@link #FEN_MIDDLE_GAME_0}.
+     */
+    @Test
+    public void testPosition0() throws Exception {
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_MIDDLE_GAME_0), 0);
+
+        // There should be 4 moves: Rb8, Rc8, Rd8, Rg8
+        MOVE_GENERATOR.generateRookMoves();
+        assertEquals(4, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR,
+                Move.create(ROOK, A8_IDX, B8_IDX),
+                Move.create(ROOK, A8_IDX, C8_IDX),
+                Move.create(ROOK, A8_IDX, D8_IDX),
+                Move.create(ROOK, H8_IDX, G8_IDX)
+        );
+    }
+
+    /**
+     * Tests generating rook moves from position {@link #FEN_MIDDLE_GAME_3}.
+     */
+    @Test
+    public void testPosition1() throws Exception {
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_MIDDLE_GAME_3), 0);
+
+        // There should be 11 moves: Ra2, Ra3, Ra4, Ra5, Ra6, Ra7, Rxa8, Rb1, Rc1, Re2, Rf1
+        MOVE_GENERATOR.generateRookMoves();
+        assertEquals(11, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR,
+                Move.create(ROOK, A1_IDX, A2_IDX),
+                Move.create(ROOK, A1_IDX, A3_IDX),
+                Move.create(ROOK, A1_IDX, A4_IDX),
+                Move.create(ROOK, A1_IDX, A5_IDX),
+                Move.create(ROOK, A1_IDX, A6_IDX),
+                Move.create(ROOK, A1_IDX, A7_IDX),
+                Move.createCapture(ROOK, A1_IDX, A8_IDX, ROOK),
+                Move.create(ROOK, A1_IDX, A2_IDX),
+                Move.create(ROOK, A1_IDX, A2_IDX),
+                Move.create(ROOK, E1_IDX, E2_IDX),
+                Move.create(ROOK, E1_IDX, F1_IDX)
+        );
+    }
+
+    /**
+     * Tests generating rook moves from position {@link #FEN_CHECKMATE_3_2}.
+     */
+    @Test
+    public void testPosition2() throws Exception {
+        MOVE_GENERATOR.setup(FenParser.parse(FEN_CHECKMATE_3_2), 0);
+
+        // There should be 8 moves: Rab8, Rac8, Rad8, Rae8, Rfb8, Rfc8, Rfd8, Rfe8
+        MOVE_GENERATOR.generateRookMoves();
+        assertEquals(8, MOVE_GENERATOR.getMoveIndex());
+        assertGeneratedMoves(MOVE_GENERATOR,
+                Move.create(ROOK, A8_IDX, B8_IDX),
+                Move.create(ROOK, A8_IDX, C8_IDX),
+                Move.create(ROOK, A8_IDX, D8_IDX),
+                Move.create(ROOK, A8_IDX, E8_IDX),
+                Move.create(ROOK, F8_IDX, B8_IDX),
+                Move.create(ROOK, F8_IDX, C8_IDX),
+                Move.create(ROOK, F8_IDX, D8_IDX),
+                Move.create(ROOK, F8_IDX, E8_IDX)
+        );
+    }
 
     // ------------------------------------------------------------------------
 

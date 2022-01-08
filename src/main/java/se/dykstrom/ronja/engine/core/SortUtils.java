@@ -17,34 +17,14 @@
 
 package se.dykstrom.ronja.engine.core;
 
+import se.dykstrom.ronja.common.model.Move;
+
 /**
  * Utility methods related to sorting.
  *
  * @author Johan Dykstrom
  */
 public final class SortUtils {
-
-    /**
-     * A comparison function, which imposes a <i>total ordering</i> on some collection of ints.
-     */
-    @FunctionalInterface
-    public interface IntComparator {
-        /**
-         * Compares its two arguments for order. Returns a negative integer,
-         * zero, or a positive integer as the first argument is less than, equal
-         * to, or greater than the second.
-         *
-         * @param x The first integer to compare.
-         * @param y The second integer to compare.
-         * @return a negative integer, zero, or a positive integer as the
-         *         first argument is less than, equal to, or greater than the
-         *         second.
-         */
-        int compare(int x, int y);
-    }
-
-    /** An IntComparator that sorts ints in their natural order. */
-    public static final IntComparator NATURAL_ORDER_COMPARATOR = Integer::compare;
 
     private SortUtils() { }
 
@@ -53,13 +33,13 @@ public final class SortUtils {
      * The number of elements to actually sort is given by {@code number}, which must be less than
      * or equal to the array size.
      *
-     * @implNote The sorting algorithm used is insert sort. This may be changed in future versions.
+     * @implNote The sorting algorithm used is insert sort.
      *
      * @param array The array to sort.
      * @param number The number of elements to sort in the array.
      * @param comparator The comparator to use when comparing elements.
      */
-    public static void sort(int[] array, int number, IntComparator comparator) {
+    public static void sort(int[] array, int number, MoveComparator comparator) {
         for (int index = 1; index < number; index++) {
             int data = array[index];
             int dataIndex = index;
@@ -75,10 +55,14 @@ public final class SortUtils {
      * Sorts the first part of the given array into descending order. The number of elements to
      * actually sort is given by {@code number}, which must be less than or equal to the array size.
      *
-     * @implNote The sorting algorithm used is insert sort. This may be changed in future versions.
+     * The moves in the array should be sorted in descending order, because of how the bits of
+     * a move are arranged. See class {@link Move}.
+     *
+     * @implNote The sorting algorithm used is insert sort.
      *
      * @param array The array to sort.
      * @param number The number of elements to sort in the array.
+     * @see Move
      */
     public static void sort(int[] array, int number) {
         for (int index = 1; index < number; index++) {

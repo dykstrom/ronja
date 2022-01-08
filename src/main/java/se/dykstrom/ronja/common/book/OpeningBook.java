@@ -17,17 +17,28 @@
 
 package se.dykstrom.ronja.common.book;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.IllegalMoveException;
 
-import java.util.*;
-
 import static java.util.Collections.singletonList;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static se.dykstrom.ronja.common.model.Piece.PAWN;
-import static se.dykstrom.ronja.common.model.Square.*;
+import static se.dykstrom.ronja.common.model.Square.D2_IDX;
+import static se.dykstrom.ronja.common.model.Square.D4_IDX;
+import static se.dykstrom.ronja.common.model.Square.D5_IDX;
+import static se.dykstrom.ronja.common.model.Square.D7_IDX;
+import static se.dykstrom.ronja.common.model.Square.E2_IDX;
+import static se.dykstrom.ronja.common.model.Square.E4_IDX;
+import static se.dykstrom.ronja.common.model.Square.E5_IDX;
+import static se.dykstrom.ronja.common.model.Square.E7_IDX;
 
 /**
  * A chess game opening book, that reads its opening moves from a file that is
@@ -48,8 +59,6 @@ public class OpeningBook {
 
     /** Used when there are several possible moves in one position. */
     private final Random random = new Random();
-
-    // ------------------------------------------------------------------------
 
     private OpeningBook() {
         positions = new HashMap<>();
@@ -101,57 +110,58 @@ public class OpeningBook {
      * Returns a new list of moves with all weights converted to percent.
      * The given list of moves remains unchanged.
      */
-    public static List<BookMove> convertWeightsToPercent(List<BookMove> bookMoves) {
-        int totalWeight = getTotalWeight(bookMoves);
+    public static List<BookMove> convertWeightsToPercent(final List<BookMove> bookMoves) {
+        final int totalWeight = getTotalWeight(bookMoves);
         if (totalWeight > 0 && totalWeight != 100) {
-            List<BookMove> convertedMoves = convertUsingTotalWeight(bookMoves, totalWeight);
-            int newTotalWeight = getTotalWeight(convertedMoves);
+            final List<BookMove> convertedMoves = convertUsingTotalWeight(bookMoves, totalWeight);
+            final int newTotalWeight = getTotalWeight(convertedMoves);
             if (newTotalWeight != 100) {
-                fixRoundingErrors(convertedMoves, 100 - newTotalWeight);
+                return fixRoundingError(convertedMoves, 100 - newTotalWeight);
+            } else {
+                return convertedMoves;
             }
-            return convertedMoves;
+        } else {
+            return bookMoves;
         }
-        return bookMoves;
     }
 
     /**
-     * Fixes any rounding error that occurred while converting to percent, by <i>updating</i> the
-     * first moves that has a weight > 0. All other moves a left unchanged.
+     * Fixes any rounding error that occurred while converting the weights to percent.
+     * Return a new list of book moves, where the first book move with non-zero weight
+     * has been updated to fix the rounding error. The given list of moves is not changed.
      *
-     * @param bookMoves List of moves to update.
-     * @param diff The diff that resulted from the rounding error.
+     * @param bookMoves List of book moves to update.
+     * @param roundingError The rounding error.
+     * @return The list of book moves with the rounding error fixed.
      */
-    private static void fixRoundingErrors(List<BookMove> bookMoves, int diff) {
-        int i = indexOfFirstWithNonZeroWeight(bookMoves);
-        BookMove bookMove = bookMoves.get(i);
-        bookMoves.set(i, bookMove.withWeight(bookMove.getWeight() + diff));
+    private static List<BookMove> fixRoundingError(final List<BookMove> bookMoves, final int roundingError) {
+        boolean hasAdjusted = false;
+        final List<BookMove> fixedBookMoves = new ArrayList<>();
+        for (BookMove bookMove : bookMoves) {
+            if (!hasAdjusted && bookMove.weight() > 0) {
+                fixedBookMoves.add(bookMove.withWeight(bookMove.weight() + roundingError));
+                hasAdjusted = true;
+            } else {
+                fixedBookMoves.add(bookMove);
+            }
+        }
+        return fixedBookMoves;
     }
 
     /**
      * Returns a new list of moves with all weights converted to percent using the given total weight.
      */
     private static List<BookMove> convertUsingTotalWeight(List<BookMove> bookMoves, int totalWeight) {
-        return bookMoves.stream().map(bm -> bm.withWeight(Math.round(100F * bm.getWeight() / totalWeight))).collect(toList());
+        return bookMoves.stream()
+                        .map(bm -> bm.withWeight(Math.round(100F * bm.weight() / totalWeight)))
+                        .toList();
     }
 
     /**
      * Returns the total weight of all moves in the list.
      */
     private static int getTotalWeight(List<BookMove> bookMoves) {
-        return bookMoves.stream().mapToInt(BookMove::getWeight).sum();
-    }
-
-    /**
-     * Returns the index of first book move in the list that has non-zero weight,
-     * or -1 if there is no such move.
-     */
-    private static int indexOfFirstWithNonZeroWeight(List<BookMove> bookMoves) {
-        for (int i = 0; i < bookMoves.size(); i++) {
-            if (bookMoves.get(i).getWeight() > 0) {
-                return i;
-            }
-        }
-        return -1;
+        return bookMoves.stream().mapToInt(BookMove::weight).sum();
     }
 
     /**
@@ -187,10 +197,10 @@ public class OpeningBook {
     public static int findMoveInList(final List<BookMove> moves, final int value) {
         if (moves.isEmpty()) {
             return 0;
-        } else if (value < moves.get(0).getWeight()) {
-            return moves.get(0).getMove();
+        } else if (value < moves.get(0).weight()) {
+            return moves.get(0).move();
         } else {
-            return findMoveInList(moves.subList(1, moves.size()), value - moves.get(0).getWeight());
+            return findMoveInList(moves.subList(1, moves.size()), value - moves.get(0).weight());
         }
     }
 

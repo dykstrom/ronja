@@ -24,9 +24,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import org.junit.After;
@@ -37,13 +35,13 @@ import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.test.AbstractTestCase;
 import se.dykstrom.ronja.test.TestUtils;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.regex.Pattern.quote;
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static se.dykstrom.ronja.test.TestUtils.assertContainsRegex;
-import static se.dykstrom.ronja.test.TestUtils.containsRegex;
-import static se.dykstrom.ronja.test.TestUtils.waitForSupplier;
 
 /**
  * This class is for integration tests related to the XBoard protocol (Chess Engine Communication Protocol).
@@ -107,7 +105,7 @@ public class XBoardProtocolIT extends AbstractTestCase {
         writer = new PrintWriter(process.getOutputStream(), true);
 
         // Wait for the process to start
-        assertProcessStarted(process, 5000, TimeUnit.MILLISECONDS);
+        assertProcessStarted(process);
 
         // If we failed to start the process
         if (!process.isAlive()) {
@@ -129,7 +127,7 @@ public class XBoardProtocolIT extends AbstractTestCase {
      * Tears down the chess engine.
      */
     private void tearDownChessEngine() throws Exception {
-        process.waitFor(5000, TimeUnit.MILLISECONDS);
+        process.waitFor(5, SECONDS);
         process.destroy();
     }
 
@@ -147,16 +145,12 @@ public class XBoardProtocolIT extends AbstractTestCase {
     }
 
     /**
-     * Asserts that the process represented by {@code process} starts within the given timeout.
-     * If the process has already started, this method returns immediately.
+     * Asserts that the process represented by {@code process} has started.
      *
      * @param process The process to wait for.
-     * @param timeout The maximum wait time.
-     * @param unit The time unit of the timeout argument.
-     * @throws Exception If an exception occurs while waiting.
      */
-    private void assertProcessStarted(Process process, long timeout, TimeUnit unit) throws Exception {
-        waitForSupplier(() -> process.getInputStream().available() > 0, timeout, unit);
+    private void assertProcessStarted(Process process) {
+        await().atMost(10, SECONDS).until(() -> process.getInputStream().available() > 0);
     }
 
     // ------------------------------------------------------------------------
@@ -199,11 +193,11 @@ public class XBoardProtocolIT extends AbstractTestCase {
      * Tests the result command.
      */
     @Test
-    public void testResult() throws Exception {
+    public void testResult() {
         writer.println("xboard");
         writer.println("new");
         writer.println("result 1/2-1/2 {Stalemate}");
-        assertGameLogFileWritten(1000, TimeUnit.MILLISECONDS);
+        assertGameLogFileWritten();
         writer.println("quit");
     }
 
@@ -244,7 +238,7 @@ public class XBoardProtocolIT extends AbstractTestCase {
         writer.println("force");
 
         // Verify that game log file was written
-        assertGameLogFileWritten(1000, TimeUnit.MILLISECONDS);
+        assertGameLogFileWritten();
 
         // Read game log file
         List<String> lines = Files.readAllLines(gameLogFile.toPath());
@@ -292,7 +286,7 @@ public class XBoardProtocolIT extends AbstractTestCase {
         writer.println("force");
 
         // Verify that game log file was written
-        assertGameLogFileWritten(1000, TimeUnit.MILLISECONDS);
+        assertGameLogFileWritten();
 
         // Read game log file
         List<String> lines = Files.readAllLines(gameLogFile.toPath());
@@ -557,34 +551,10 @@ public class XBoardProtocolIT extends AbstractTestCase {
         writer.println("quit");
     }
 
-    // ------------------------------------------------------------------------
-
-    /**
-     * Reads all lines of input that is available from the {@code reader}, and returns this as a list of strings.
-     */
     private List<String> readAllInput() throws Exception {
-        List<String> list = new ArrayList<>();
-
-        // Assume there will be some input
-        while (!reader.ready() && process.isAlive()) {
-            Thread.sleep(100);
-        }
-        while (reader.ready()) {
-            list.add(reader.readLine());
-            Thread.sleep(100);
-        }
-
-        // Fail if we discover an exception
-        if (containsRegex("Exception", list)) {
-            fail("Engine exception: " + list);
-        }
-
-        return list;
+        return TestUtils.readAllInput(reader);
     }
 
-    /**
-     * Reads all lines of input that is available from the {@code reader}, and throws them away.
-     */
     private void discardAllInput() throws Exception {
         assertNotNull(readAllInput());
     }
@@ -592,7 +562,7 @@ public class XBoardProtocolIT extends AbstractTestCase {
     /**
      * Asserts that a game log file is written by the engine within the given timeout.
      */
-    private void assertGameLogFileWritten(long timeout, TimeUnit unit) throws Exception {
-        waitForSupplier(() -> Files.size(gameLogFile.toPath()) > 0, timeout, unit);
+    private void assertGameLogFileWritten() {
+        await().atMost(10, SECONDS).until(() -> Files.size(gameLogFile.toPath()) > 0);
     }
 }

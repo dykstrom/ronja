@@ -19,7 +19,6 @@ package se.dykstrom.ronja.common.book;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +53,7 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 100);
         BookMove bookMove1 = new BookMove(MOVE_D2D4, 50);
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 50);
-        List<BookMove> bookMoves = Arrays.asList(bookMove0, bookMove1, bookMove2);
+        List<BookMove> bookMoves = List.of(bookMove0, bookMove1, bookMove2);
 
         List<BookMove> result = OpeningBook.convertWeightsToPercent(bookMoves);
         assertWeights(new int[]{50, 25, 25}, result);
@@ -74,7 +73,7 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 30);
         BookMove bookMove1 = new BookMove(MOVE_D2D4, 40);
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 30);
-        List<BookMove> bookMoves = Arrays.asList(bookMove0, bookMove1, bookMove2);
+        List<BookMove> bookMoves = List.of(bookMove0, bookMove1, bookMove2);
 
         List<BookMove> result = OpeningBook.convertWeightsToPercent(bookMoves);
         assertWeights(new int[]{30, 40, 30}, result);
@@ -85,10 +84,22 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 100);
         BookMove bookMove1 = new BookMove(MOVE_D2D4, 100);
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 100);
-        List<BookMove> bookMoves = Arrays.asList(bookMove0, bookMove1, bookMove2);
+        List<BookMove> bookMoves = List.of(bookMove0, bookMove1, bookMove2);
 
         List<BookMove> result = OpeningBook.convertWeightsToPercent(bookMoves);
+        // 33 is adjusted to 34
         assertWeights(new int[]{34, 33, 33}, result);
+    }
+
+    @Test
+    public void testConvertWeightsToPercent_AnotherRoundingError() {
+        BookMove bookMove0 = new BookMove(MOVE_E2E4, 445);
+        BookMove bookMove1 = new BookMove(MOVE_D2D4, 555);
+        List<BookMove> bookMoves = List.of(bookMove0, bookMove1);
+
+        List<BookMove> result = OpeningBook.convertWeightsToPercent(bookMoves);
+        // 45 is adjusted to 44
+        assertWeights(new int[]{44, 56}, result);
     }
 
     @Test
@@ -96,7 +107,7 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 100);
         BookMove bookMove1 = new BookMove(MOVE_D2D4, 1);
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 1);
-        List<BookMove> bookMoves = Arrays.asList(bookMove0, bookMove1, bookMove2);
+        List<BookMove> bookMoves = List.of(bookMove0, bookMove1, bookMove2);
 
         List<BookMove> result = OpeningBook.convertWeightsToPercent(bookMoves);
         assertWeights(new int[]{98, 1, 1}, result);
@@ -109,7 +120,7 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 40);
         BookMove bookMove3 = new BookMove(MOVE_E7E5, 0);
         BookMove bookMove4 = new BookMove(MOVE_C7C5, 20);
-        List<BookMove> bookMoves = Arrays.asList(bookMove0, bookMove1, bookMove2, bookMove3, bookMove4);
+        List<BookMove> bookMoves = List.of(bookMove0, bookMove1, bookMove2, bookMove3, bookMove4);
 
         List<BookMove> result = OpeningBook.convertWeightsToPercent(bookMoves);
         assertWeights(new int[]{0, 70, 20, 0, 10}, result);
@@ -124,8 +135,8 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMoveC5 = new BookMove(MOVE_C7C5, 80);
         BookMove bookMoveD4AfterE4C5 = new BookMove(MOVE_D2D4, 70);
 
-        List<BookMove> bookMovesStart = new ArrayList<>(Arrays.asList(bookMoveE4, bookMoveD4, bookMoveC4));
-        List<BookMove> bookMovesAfterE4 = new ArrayList<>(Arrays.asList(bookMoveE5, bookMoveC5));
+        List<BookMove> bookMovesStart = new ArrayList<>(List.of(bookMoveE4, bookMoveD4, bookMoveC4));
+        List<BookMove> bookMovesAfterE4 = new ArrayList<>(List.of(bookMoveE5, bookMoveC5));
         List<BookMove> bookMovesAfterE4C5 = new ArrayList<>(Collections.singletonList(bookMoveD4AfterE4C5));
 
         Map<Position, List<BookMove>> book = new HashMap<>();
@@ -145,7 +156,7 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 30);
         BookMove bookMove1 = new BookMove(MOVE_D2D4, 40);
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 30);
-        List<BookMove> bookMoves = Arrays.asList(bookMove0, bookMove1, bookMove2);
+        List<BookMove> bookMoves = List.of(bookMove0, bookMove1, bookMove2);
 
         assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 0));
         assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 29));
@@ -170,7 +181,7 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMove0 = new BookMove(MOVE_E2E4, 0);
         BookMove bookMove1 = new BookMove(MOVE_D2D4, 0);
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 0);
-        List<BookMove> bookMoves = Arrays.asList(bookMove0, bookMove1, bookMove2);
+        List<BookMove> bookMoves = List.of(bookMove0, bookMove1, bookMove2);
 
         assertEquals(0, OpeningBook.findMoveInList(bookMoves, 0));
         assertEquals(0, OpeningBook.findMoveInList(bookMoves, 49));
@@ -194,7 +205,7 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 40);
         BookMove bookMove3 = new BookMove(MOVE_E7E5, 0);
         BookMove bookMove4 = new BookMove(MOVE_C7C5, 30);
-        List<BookMove> bookMoves = Arrays.asList(bookMove0, bookMove1, bookMove2, bookMove3, bookMove4);
+        List<BookMove> bookMoves = List.of(bookMove0, bookMove1, bookMove2, bookMove3, bookMove4);
 
         assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 0));
         assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 29));
@@ -211,7 +222,7 @@ public class OpeningBookTest extends AbstractTestCase {
         BookMove bookMove2 = new BookMove(MOVE_C2C4, 1);
         BookMove bookMove3 = new BookMove(MOVE_E7E5, 67);
         BookMove bookMove4 = new BookMove(MOVE_C7C5, 1);
-        List<BookMove> bookMoves = Arrays.asList(bookMove0, bookMove1, bookMove2, bookMove3, bookMove4);
+        List<BookMove> bookMoves = List.of(bookMove0, bookMove1, bookMove2, bookMove3, bookMove4);
 
         assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 0));
         assertEquals(MOVE_E2E4, OpeningBook.findMoveInList(bookMoves, 29));
@@ -250,14 +261,14 @@ public class OpeningBookTest extends AbstractTestCase {
      * Finds all book moves in the position identified by {@code fen} and returns those as normal moves.
      */
     private int[] findAllMoves(OpeningBook book, String fen) throws ParseException {
-        return book.findAllMoves(parse(fen)).stream().map(BookMove::getMove).mapToInt(move -> move).toArray();
+        return book.findAllMoves(parse(fen)).stream().map(BookMove::move).mapToInt(move -> move).toArray();
     }
 
     /**
      * Asserts that the weights in the list of book moves equal the weights in {@code expectedWeights}.
      */
     private void assertWeights(int[] expectedWeights, List<BookMove> bookMoves) {
-        int[] actualWeights = bookMoves.stream().mapToInt(BookMove::getWeight).toArray();
+        int[] actualWeights = bookMoves.stream().mapToInt(BookMove::weight).toArray();
         assertArrayEquals(expectedWeights, actualWeights);
     }
 }

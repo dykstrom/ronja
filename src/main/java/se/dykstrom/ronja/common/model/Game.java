@@ -144,8 +144,8 @@ public class Game {
             setTimeData(TimeData.from(timeControl));
         } else if (timeControl.getType() == CLASSIC) {
             final TimeData timeData = getTimeData();
-            long remainingTime = Math.max(timeData.getRemainingTime() - usedTime, 0);
-            long numberOfMoves = timeData.getNumberOfMoves() - 1;
+            long remainingTime = Math.max(timeData.remainingTime() - usedTime, 0);
+            long numberOfMoves = timeData.numberOfMoves() - 1;
             // If we have reached the time control, reset number of moves and add time
             if (numberOfMoves == 0) {
                 numberOfMoves = timeControl.getNumberOfMoves();
@@ -154,7 +154,7 @@ public class Game {
             setTimeData(timeData.withRemainingTime(remainingTime).withNumberOfMoves(numberOfMoves));
         } else { // INCREMENTAL
             final TimeData timeData = getTimeData();
-            final long remainingTime = Math.max(timeData.getRemainingTime() - usedTime + timeControl.getIncrement(), 0);
+            final long remainingTime = Math.max(timeData.remainingTime() - usedTime + timeControl.getIncrement(), 0);
             setTimeData(timeData.withRemainingTime(remainingTime));
         }
     }

@@ -17,7 +17,6 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
@@ -25,7 +24,6 @@ import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
@@ -271,39 +269,34 @@ public class SanParserTest extends AbstractTestCase {
 
     @Test
     public void testGetAllFromSquares() throws Exception {
-        assertEquals(asSet(), getAllFromSquares(ROOK, Square.F3, parse(FEN_START)));
-        assertEquals(asSet(Square.G1), getAllFromSquares(KNIGHT, Square.F3, parse(FEN_START)));
-        assertEquals(asSet(Square.C6, Square.F3), getAllFromSquares(QUEEN, Square.F6, parse(FEN_TWO_QUEENS)));
-        assertEquals(asSet(Square.C6, Square.F3), getAllFromSquares(QUEEN, Square.E4, parse(FEN_TWO_QUEENS)));
-        assertEquals(asSet(Square.A6, Square.D1, Square.D8), getAllFromSquares(ROOK, Square.D6, parse(FEN_MANY_CAPTURES)));
-        assertEquals(asSet(Square.B5, Square.B7, Square.C4), getAllFromSquares(KNIGHT, Square.D6, parse(FEN_MANY_CAPTURES)));
+        assertEquals(Set.of(), getAllFromSquares(ROOK, Square.F3, parse(FEN_START)));
+        assertEquals(Set.of(Square.G1), getAllFromSquares(KNIGHT, Square.F3, parse(FEN_START)));
+        assertEquals(Set.of(Square.C6, Square.F3), getAllFromSquares(QUEEN, Square.F6, parse(FEN_TWO_QUEENS)));
+        assertEquals(Set.of(Square.C6, Square.F3), getAllFromSquares(QUEEN, Square.E4, parse(FEN_TWO_QUEENS)));
+        assertEquals(Set.of(Square.A6, Square.D1, Square.D8), getAllFromSquares(ROOK, Square.D6, parse(FEN_MANY_CAPTURES)));
+        assertEquals(Set.of(Square.B5, Square.B7, Square.C4), getAllFromSquares(KNIGHT, Square.D6, parse(FEN_MANY_CAPTURES)));
     }
 
     @Test
     public void testIsFileUnique() {
-        assertTrue(isFileUnique(Square.E4, asSet(Square.E4)));
-        assertTrue(isFileUnique(Square.E4, asSet(Square.A1, Square.E4, Square.A4, Square.G5)));
-        assertTrue(isFileUnique(Square.G8, asSet(Square.B8, Square.A4, Square.H8, Square.G8)));
+        assertTrue(isFileUnique(Square.E4, Set.of(Square.E4)));
+        assertTrue(isFileUnique(Square.E4, Set.of(Square.A1, Square.E4, Square.A4, Square.G5)));
+        assertTrue(isFileUnique(Square.G8, Set.of(Square.B8, Square.A4, Square.H8, Square.G8)));
 
-        assertFalse(isFileUnique(Square.A1, asSet(Square.A1, Square.A2)));
-        assertFalse(isFileUnique(Square.A1, asSet(Square.E4, Square.A7, Square.A5, Square.A1)));
-        assertFalse(isFileUnique(Square.F7, asSet(Square.A6, Square.A7, Square.F6, Square.F7)));
+        assertFalse(isFileUnique(Square.A1, Set.of(Square.A1, Square.A2)));
+        assertFalse(isFileUnique(Square.A1, Set.of(Square.E4, Square.A7, Square.A5, Square.A1)));
+        assertFalse(isFileUnique(Square.F7, Set.of(Square.A6, Square.A7, Square.F6, Square.F7)));
     }
 
     @Test
     public void testIsRankUnique() {
-        assertTrue(isRankUnique(Square.E4, asSet(Square.E4)));
-        assertTrue(isRankUnique(Square.E4, asSet(Square.A1, Square.E4, Square.E7, Square.G5)));
-        assertTrue(isRankUnique(Square.G8, asSet(Square.B1, Square.A4, Square.G5, Square.G8)));
+        assertTrue(isRankUnique(Square.E4, Set.of(Square.E4)));
+        assertTrue(isRankUnique(Square.E4, Set.of(Square.A1, Square.E4, Square.E7, Square.G5)));
+        assertTrue(isRankUnique(Square.G8, Set.of(Square.B1, Square.A4, Square.G5, Square.G8)));
 
-        assertFalse(isRankUnique(Square.A1, asSet(Square.A1, Square.B1)));
-        assertFalse(isRankUnique(Square.A1, asSet(Square.E4, Square.E1, Square.F1, Square.A1)));
-        assertFalse(isRankUnique(Square.F7, asSet(Square.A6, Square.A7, Square.F6, Square.F7)));
-    }
-
-    @SafeVarargs
-    private static <T> Set<T> asSet(T... values) {
-        return new HashSet<>(asList(values));
+        assertFalse(isRankUnique(Square.A1, Set.of(Square.A1, Square.B1)));
+        assertFalse(isRankUnique(Square.A1, Set.of(Square.E4, Square.E1, Square.F1, Square.A1)));
+        assertFalse(isRankUnique(Square.F7, Set.of(Square.A6, Square.A7, Square.F6, Square.F7)));
     }
 
     // -----------------------------------------------------------------------

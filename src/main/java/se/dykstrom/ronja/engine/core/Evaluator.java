@@ -63,8 +63,6 @@ public class Evaluator {
         // Calculate value of attacked squares
         score += calculateAttackedSquares(position);
 
-        // TODO: King safety, centralization, open files.
-
         // If black is to move, negate the score
         return position.isWhiteMove() ? score: -score;
     }

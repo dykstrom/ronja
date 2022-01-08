@@ -17,15 +17,20 @@
 
 package se.dykstrom.ronja.common.model;
 
-import se.dykstrom.ronja.common.parser.IllegalMoveException;
-import se.dykstrom.ronja.common.parser.MoveParser;
-import se.dykstrom.ronja.engine.core.AttackGenerator;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static se.dykstrom.ronja.common.model.Piece.*;
+import se.dykstrom.ronja.common.parser.IllegalMoveException;
+import se.dykstrom.ronja.common.parser.MoveParser;
+import se.dykstrom.ronja.engine.core.AttackGenerator;
+
+import static se.dykstrom.ronja.common.model.Piece.BISHOP;
+import static se.dykstrom.ronja.common.model.Piece.KING;
+import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
+import static se.dykstrom.ronja.common.model.Piece.PAWN;
+import static se.dykstrom.ronja.common.model.Piece.QUEEN;
+import static se.dykstrom.ronja.common.model.Piece.ROOK;
 
 /**
  * Represents a chess position, including the move number, the active color,
@@ -217,7 +222,7 @@ public class Position {
         long to = Move.getTo(move);
 
         int fromPiece = Move.getPiece(move);
-        int toPiece = getPiece(to); // TODO: Use Move.getCaptured(move)?
+        int toPiece = getPiece(to);
 
         long white = this.white;
         long black = this.black;
@@ -707,43 +712,45 @@ public class Position {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Position) {
-            Position other = (Position) obj;
-            return ((flags == other.flags) &&
-                    (fullMoveNumber == other.fullMoveNumber) &&
-                    (halfMoveClock == other.halfMoveClock) &&
-                    (enPassantSquare == other.enPassantSquare) &&
-                    (white == other.white) &&
-                    (black == other.black) &&
-                    (bishop == other.bishop) &&
-                    (king == other.king) &&
-                    (knight == other.knight) &&
-                    (pawn == other.pawn) &&
-                    (queen == other.queen) &&
-                    (rook == other.rook));
-        } else {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
+        Position that = (Position) obj;
+        return ((this.flags == that.flags) &&
+                (this.fullMoveNumber == that.fullMoveNumber) &&
+                (this.halfMoveClock == that.halfMoveClock) &&
+                (this.enPassantSquare == that.enPassantSquare) &&
+                (this.white == that.white) &&
+                (this.black == that.black) &&
+                (this.bishop == that.bishop) &&
+                (this.king == that.king) &&
+                (this.knight == that.knight) &&
+                (this.pawn == that.pawn) &&
+                (this.queen == that.queen) &&
+                (this.rook == that.rook));
     }
 
     /**
      * Returns {@code true} if this position is equal to the given position if the full move number
      * and half move clock are ignored.
      *
-     * @param other The other position to compare with.
+     * @param that The position to compare with.
      * @return True if the positions are equal.
      */
-    public boolean equalTo(Position other) {
-        return ((flags == other.flags) &&
-                (enPassantSquare == other.enPassantSquare) &&
-                (white == other.white) &&
-                (black == other.black) &&
-                (bishop == other.bishop) &&
-                (king == other.king) &&
-                (knight == other.knight) &&
-                (pawn == other.pawn) &&
-                (queen == other.queen) &&
-                (rook == other.rook));
+    public boolean equalTo(Position that) {
+        return ((this.flags == that.flags) &&
+                (this.enPassantSquare == that.enPassantSquare) &&
+                (this.white == that.white) &&
+                (this.black == that.black) &&
+                (this.bishop == that.bishop) &&
+                (this.king == that.king) &&
+                (this.knight == that.knight) &&
+                (this.pawn == that.pawn) &&
+                (this.queen == that.queen) &&
+                (this.rook == that.rook));
     }
 
     @Override

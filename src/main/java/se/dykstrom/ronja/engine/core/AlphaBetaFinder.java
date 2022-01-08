@@ -37,6 +37,7 @@ import static se.dykstrom.ronja.engine.time.TimeUtils.formatTime;
  *
  * @author Johan Dykstrom
  */
+@SuppressWarnings("java:S2629")
 public class AlphaBetaFinder extends AbstractFinder {
 
     static final int ALPHA_START = -3_000_000;
@@ -62,7 +63,7 @@ public class AlphaBetaFinder extends AbstractFinder {
     /** The current game. */
     private final Game game;
 
-    public AlphaBetaFinder(Game game) {
+    public AlphaBetaFinder(final Game game) {
         this.game = game;
     }
 
@@ -73,11 +74,11 @@ public class AlphaBetaFinder extends AbstractFinder {
 
         // Reset statistics
         nodes = 0;
+        maxDepth = 0;
         long startTime = System.currentTimeMillis();
         long remainingTime = maxTime;
         long estimatedTime;
         int bestMove = 0;
-        int maxDepth = 0;
 
         // Find all possible moves
         int numberOfMoves = fullMoveGenerator.generateMoves(game.getPosition(), 0);
@@ -86,17 +87,20 @@ public class AlphaBetaFinder extends AbstractFinder {
             do {
                 maxDepth++;
                 long startTimeForDepth = System.currentTimeMillis();
-                bestMove = findBestMove(maxDepth, numberOfMoves, remainingTime);
+                bestMove = findBestMove(numberOfMoves, remainingTime);
                 if (DEBUG) TLOG.fine("Best move at depth " + maxDepth + " is " + formatMove(game.getPosition(), bestMove));
                 searchTimes.add(System.currentTimeMillis() - startTimeForDepth);
                 long usedTime = System.currentTimeMillis() - startTime;
                 remainingTime = maxTime - usedTime;
                 estimatedTime = TimeUtils.estimateTimeForNextDepth(searchTimes);
-                if (DEBUG) TLOG.fine("Estimated = time " + estimatedTime + ", remaining time = " + remainingTime);
-                sort(fullMoveGenerator, 0, numberOfMoves, bestMove);
+                if (DEBUG) TLOG.fine("Estimated time = " + estimatedTime + ", remaining time = " + remainingTime);
+                sort(0, numberOfMoves, bestMove);
             } while (estimatedTime < remainingTime);
-        } catch (OutOfTimeException exception) {
-            if (DEBUG) TLOG.fine("Aborted search with max depth " + maxDepth + " because time is up");
+        } catch (OutOfTimeException e) {
+            final int abortedMaxDepth = maxDepth;
+            TLOG.fine(() -> String.format("Aborting search at move %d/%d for max depth %d, average time = %d, remaining time = %d",
+                    e.getMoveIndex(), numberOfMoves, abortedMaxDepth, e.getAverageTime(), e.getRemainingTime()));
+            maxDepth--;
         }
         if (DEBUG) TLOG.fine(() -> "Search times: " + searchTimes);
 
@@ -109,16 +113,16 @@ public class AlphaBetaFinder extends AbstractFinder {
 
     @Override
     public int findBestMove(final int maxDepth) {
+        this.maxDepth = maxDepth;
         int numberOfMoves = fullMoveGenerator.generateMoves(game.getPosition(), 0);
-        return findBestMove(maxDepth, numberOfMoves, 50_000);
+        return findBestMove(numberOfMoves, 50_000);
     }
 
     /**
-     * Finds the best move in the given position, searching in the given list of
-     * moves. Searching is limited to the given max depth and the given max time.
+     * Finds the best move in the given position. Searching is limited to the current max depth,
+     * and the given max time.
      */
-    private int findBestMove(int maxDepth, int numberOfMoves, long maxTime) {
-        setMaxDepth(maxDepth);
+    private int findBestMove(final int numberOfMoves, final long maxTime) {
         if (DEBUG) TLOG.finest(enter(game.getPosition(), 0));
 
         long startTime = System.currentTimeMillis();
@@ -129,7 +133,7 @@ public class AlphaBetaFinder extends AbstractFinder {
         // Search all moves
         for (int moveIndex = 0; moveIndex < numberOfMoves; moveIndex++) {
             // Abort search if we realize we won't finish in time
-            abortSearchIfOutOfTime(numberOfMoves, moveIndex, startTime, maxTime);
+            abortSearchIfOutOfTime(moveIndex, startTime, maxTime);
 
             int move = fullMoveGenerator.moves[0][moveIndex];
 
@@ -146,15 +150,15 @@ public class AlphaBetaFinder extends AbstractFinder {
 
             // If this move is the best yet
             if (score > alpha) {
-                if (DEBUG) TLOG.finest(stay(game.getPosition(), 0) + ", score = " + score + ", new best move = " + formatMove(
-                        game.getPosition(), move));
+                if (DEBUG) TLOG.finest(stay(game.getPosition(), 0) + ", score = " + score + ", new best move = " +
+                                       formatMove(game.getPosition(), move));
                 bestMove = move;
                 alpha = score;
             }
         }
 
-        if (DEBUG) TLOG.finest(leave(game.getPosition(), 0) + ", score = " + alpha + ", best move = " + formatMove(
-                game.getPosition(), bestMove));
+        if (DEBUG) TLOG.finest(leave(game.getPosition(), 0) + ", score = " + alpha + ", best move = " +
+                               formatMove(game.getPosition(), bestMove));
         final int finalBestMove = bestMove;
         final int finalAlpha = alpha;
         TLOG.fine(() -> "Returning best move " + formatMove(game.getPosition(), finalBestMove) + " with score " + finalAlpha + " for max depth " + maxDepth);
@@ -166,34 +170,32 @@ public class AlphaBetaFinder extends AbstractFinder {
      * to finish in time. We calculate the average time it has taken to search a
      * move, and if this time exceeds the time left, we abort the search.
      *
-     * @param numberOfMoves The number of moves generated.
      * @param moveIndex The index of the move we will search next.
      * @param startTime The time we started to search.
-     * @param maxTime The maximum time to use for the search.
+     * @param maxTime The maximum time to use for the entire search, not only for the current move.
      */
-    private void abortSearchIfOutOfTime(int numberOfMoves, int moveIndex, long startTime, long maxTime) {
-        long usedTime = System.currentTimeMillis() - startTime;
-        long remainingTime = maxTime - usedTime;
-        long averageTime = (moveIndex == 0) ? 0 : usedTime / moveIndex;
-        if (averageTime > remainingTime) {
-            TLOG.fine(() -> "Aborting search at move " + moveIndex + "/" + numberOfMoves +
-                            ", average time = " + averageTime + ", remaining time = " + remainingTime);
-            throw new OutOfTimeException();
+    private void abortSearchIfOutOfTime(final int moveIndex,
+                                        final long startTime,
+                                        final long maxTime) {
+        final long usedTime = System.currentTimeMillis() - startTime;
+        final long remainingTime = maxTime - usedTime;
+        final long averageTimePerMove = (moveIndex == 0) ? 0 : usedTime / moveIndex;
+        if (averageTimePerMove > remainingTime) {
+            throw new OutOfTimeException(moveIndex, averageTimePerMove, remainingTime);
         }
     }
 
     /**
      * Returns the score of the given position. The score will be positive if
-     * the side to move is in the lead. The values {@code alpha} and
-     * {@code beta} are search results from already searched branches in the
-     * tree.
+     * the side to move is in the lead. The values {@code alpha} and {@code beta}
+     * are search results from already searched branches in the tree.
      *
      * @param lastMove The last move made that led to this position.
      * @param depth The current search depth.
      * @param alpha The score of the best move found so far in any branch of the tree.
      * @param beta The score of the best move for our opponent found so far in any branch of the tree.
      */
-    int alphaBeta(int lastMove, int depth, int alpha, int beta) {
+    int alphaBeta(final int lastMove, final int depth, int alpha, final int beta) {
         if (DEBUG) TLOG.finest(enter(game.getPosition(), depth) + ", after " + lastMove + ", alpha = " + alpha + ", beta = " + beta);
 
         // Check that we do not pass by an end-of-game position
@@ -211,7 +213,7 @@ public class AlphaBetaFinder extends AbstractFinder {
         }
 
         // If we have reached a leaf node, evaluate the position
-        if (isMaxDepth(depth)) {
+        if (depth == maxDepth) {
             int score = evaluator.evaluate(game.getPosition());
             nodes++;
             if (DEBUG) TLOG.finest(leave(game.getPosition(), depth) + ", score = " + score);
@@ -222,7 +224,7 @@ public class AlphaBetaFinder extends AbstractFinder {
 
         // For all possible moves
         int numberOfMoves = fullMoveGenerator.generateMoves(game.getPosition(), depth);
-        sort(fullMoveGenerator, depth, numberOfMoves);
+        sort(depth, numberOfMoves);
 
         for (int moveIndex = 0; moveIndex < numberOfMoves; moveIndex++) {
             int move = fullMoveGenerator.moves[depth][moveIndex];
@@ -250,30 +252,23 @@ public class AlphaBetaFinder extends AbstractFinder {
             }
         }
 
-        if (DEBUG) TLOG.finest(leave(game.getPosition(), depth) + ", score = " + alpha + ", best move = " + formatMove(
-                game.getPosition(), bestMove));
+        if (DEBUG) TLOG.finest(leave(game.getPosition(), depth) + ", score = " + alpha + ", best move = " +
+                               formatMove(game.getPosition(), bestMove));
         return alpha;
     }
 
     /**
      * Sorts the moves on the given depth, taking into account the previous best move.
      */
-    private void sort(FullMoveGenerator moveGenerator, int depth, int numberOfMoves, int bestMove) {
-        SortUtils.sort(moveGenerator.moves[depth], numberOfMoves, (x, y) -> {
-            if (x == bestMove) {
-                return -1;
-            } else if (y == bestMove) {
-                return 1;
-            }
-            return Integer.compare(y, x);
-        });
+    private void sort(int depth, int numberOfMoves, int bestMove) {
+        SortUtils.sort(fullMoveGenerator.moves[depth], numberOfMoves, new BestMoveComparator(bestMove));
     }
 
     /**
      * Sorts the moves on the given depth.
      */
-    private void sort(FullMoveGenerator moveGenerator, int depth, int numberOfMoves) {
-        SortUtils.sort(moveGenerator.moves[depth], numberOfMoves);
+    private void sort(int depth, int numberOfMoves) {
+        SortUtils.sort(fullMoveGenerator.moves[depth], numberOfMoves);
     }
 
     /**

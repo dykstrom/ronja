@@ -23,15 +23,9 @@ import java.util.logging.Logger;
 /**
  * A {@code Response} object that forwards the response to the given {@code PrintWriter}.
  */
-public class PrintWriterResponse implements Response {
+public record PrintWriterResponse(PrintWriter writer) implements Response {
 
     private static final Logger TLOG = Logger.getLogger(PrintWriterResponse.class.getName());
-
-    private final PrintWriter writer;
-
-    public PrintWriterResponse(final PrintWriter writer) {
-        this.writer = writer;
-    }
 
     @Override
     public void write(final String text) {

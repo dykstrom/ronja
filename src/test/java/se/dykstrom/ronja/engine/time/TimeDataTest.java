@@ -30,8 +30,8 @@ public class TimeDataTest {
     @Test
     public void shouldCreateTimeData() {
         final var timeData = TimeData.from(TIME_CONTROL);
-        assertEquals(40, timeData.getNumberOfMoves());
-        assertEquals(5 * 60 * 1000L, timeData.getRemainingTime());
+        assertEquals(40, timeData.numberOfMoves());
+        assertEquals(5 * 60 * 1000L, timeData.remainingTime());
         assertEquals("40/300", timeData.toString());
 
         final var anotherTimeData = timeData.withRemainingTime(1000);

@@ -19,11 +19,13 @@ package se.dykstrom.ronja.engine.core;
 
 import java.text.ParseException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Square;
+import se.dykstrom.ronja.common.parser.SanParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
 import static org.junit.Assert.assertEquals;
@@ -42,6 +44,7 @@ import static se.dykstrom.ronja.common.model.Square.B4_IDX;
 import static se.dykstrom.ronja.common.model.Square.B5_IDX;
 import static se.dykstrom.ronja.common.model.Square.C1_IDX;
 import static se.dykstrom.ronja.common.model.Square.C4_IDX;
+import static se.dykstrom.ronja.common.model.Square.C6_IDX;
 import static se.dykstrom.ronja.common.model.Square.C7_IDX;
 import static se.dykstrom.ronja.common.model.Square.D1_IDX;
 import static se.dykstrom.ronja.common.model.Square.D2_IDX;
@@ -220,15 +223,39 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
      * Tests calling findBestMoveWithinTime with positions that result in forced checkmate in one move.
      */
     @Test
-    public void testFindBestMoveWithinTime_CheckmateInOne() throws Exception {
+    public void shouldFindBestMoveWithinTime_CheckmateInOne() throws Exception {
         assertEquals(Move.createCapture(ROOK, A1_IDX, C1_IDX, BISHOP), findBestMoveWithTime(FEN_CHECKMATE_1_2, 50));
         assertEquals(Move.create(KNIGHT, H6_IDX, F7_IDX), findBestMoveWithTime(FEN_CHECKMATE_2_8, 50));
         assertEquals(Move.create(BISHOP, B4_IDX, A3_IDX), findBestMoveWithTime(FEN_CHECKMATE_3_2, 50));
     }
 
     @Test
-    public void testFindBestMoveWithinTime() throws Exception {
+    public void shouldFindBestMoveWithinTime() throws Exception {
         assertEquals(Move.createCapture(KNIGHT, B5_IDX, C7_IDX, PAWN), findBestMoveWithTime(FEN_FORK_0, 500));
+    }
+
+    @Ignore("Quiescence search not implemented")
+    @Test
+    public void shouldFindBestMoveInNonQuietPositionAtMaxDepth1() throws Exception {
+        findBestMoveAtMaxDepth(Move.create(KNIGHT, B4_IDX, C6_IDX), FEN_NON_QUIET, 1);
+    }
+
+    @Ignore("Quiescence search not implemented")
+    @Test
+    public void shouldFindBestMoveInNonQuietPositionAtMaxDepth2() throws Exception {
+        findBestMoveAtMaxDepth(Move.create(KNIGHT, B4_IDX, C6_IDX), FEN_NON_QUIET, 2);
+    }
+
+    private void findBestMoveAtMaxDepth(final int expectedMove, final String fen, final int maxDepth) throws Exception {
+        final var position = parse(fen);
+        final var finder = setupFinder(fen);
+        final var actualMove = finder.findBestMove(maxDepth);
+        final var message = String.format(
+                "Expected %s, got %s",
+                SanParser.format(position, expectedMove),
+                SanParser.format(position, actualMove)
+        );
+        assertEquals(message, expectedMove, actualMove);
     }
 
     // -----------------------------------------------------------------------
@@ -257,11 +284,11 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
         return finder.alphaBeta(0, maxDepth, AlphaBetaFinder.ALPHA_START, AlphaBetaFinder.BETA_START);
     }
 
-    private AlphaBetaFinder setupFinder(String fen) throws ParseException {
-        Game game = new Game(OpeningBook.DEFAULT);
+    private AlphaBetaFinder setupFinder(final String fen) throws ParseException {
+        final var game = new Game(OpeningBook.DEFAULT);
         game.setPosition(parse(fen));
-        AlphaBetaFinder finder = new AlphaBetaFinder(game);
-        finder.setMaxDepth(MAX_DEPTH);
+        final var finder = new AlphaBetaFinder(game);
+        finder.maxDepth = MAX_DEPTH;
         return finder;
     }
 }
