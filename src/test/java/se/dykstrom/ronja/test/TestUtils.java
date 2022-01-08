@@ -83,7 +83,7 @@ public class TestUtils {
         List<String> list = new ArrayList<>();
 
         // Assume there will be some input
-        await().atMost(5, SECONDS).until(reader::ready);
+        await().atMost(10, SECONDS).until(reader::ready);
 
         while (reader.ready()) {
             list.add(reader.readLine());
