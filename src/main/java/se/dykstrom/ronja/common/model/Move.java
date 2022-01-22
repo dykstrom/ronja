@@ -109,14 +109,14 @@ public class Move {
     public static int getPiece(int move) {
         return (move >> MOVED_OFFSET) & PIECE_MASK;
     }
-    
+
     /**
      * Returns the ID of the square moved from.
      */
     public static long getFrom(int move) {
         return indexToId((move >> FROM_OFFSET) & SQUARE_MASK);
     }
-    
+
     /**
      * Returns the ID of the square moved to.
      */
@@ -137,28 +137,28 @@ public class Move {
     public static int getPromoted(int move) {
         return (move >> PROMOTED_OFFSET) & PIECE_MASK;
     }
-    
+
     /**
      * Returns true if the given move is a capture move.
      */
     public static boolean isCapture(int move) {
         return (move & CAPTURED_PIECE_MASK) != 0;
     }
-    
+
     /**
      * Returns true if the given move is a promotion move.
      */
     public static boolean isPromotion(int move) {
         return (move & PROMOTED_PIECE_MASK) != 0;
     }
-    
+
     /**
      * Returns true if the given move is a castling move.
      */
     public static boolean isCastling(int move) {
         return (move & CASTLE_MASK) != 0;
     }
-    
+
     /**
      * Returns true if the given move is an 'en passant' move.
      */

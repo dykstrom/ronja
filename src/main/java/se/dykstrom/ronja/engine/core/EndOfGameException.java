@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Johan Dykstrom
+ * Copyright (C) 2022 Johan Dykstrom
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,25 +17,21 @@
 
 package se.dykstrom.ronja.engine.core;
 
-/**
- * Interface to be implemented by all move finders.
- *
- * @author Johan Dykstrom
- */
-public interface Finder {
-    /**
-     * Finds and returns the best move in the current position within the given maximum time.
-     *
-     * @param maxTime The maximum time to spend in milliseconds.
-     * @return The move found.
-     */
-    int findBestMoveWithinTime(final long maxTime);
+public class EndOfGameException extends RuntimeException {
 
-    /**
-     * Finds and returns the best move in the current position. Searching is limited to {@code depth} plies.
-     *
-     * @param depth The maximum search depth in plies.
-     * @return The move found.
-     */
-    int findBestMove(final int depth);
+    private final int bestMove;
+    private final int score;
+
+    public EndOfGameException(final int bestMove, final int score) {
+        this.bestMove = bestMove;
+        this.score = score;
+    }
+
+    public int getBestMove() {
+        return bestMove;
+    }
+
+    public int getScore() {
+        return score;
+    }
 }

@@ -140,21 +140,21 @@ public class Game {
      */
     public void updateTimeDataAfterMove(final long usedTime) {
         final TimeControl timeControl = getTimeControl();
-        if (timeControl.getType() == SECONDS_PER_MOVE) {
+        if (timeControl.type() == SECONDS_PER_MOVE) {
             setTimeData(TimeData.from(timeControl));
-        } else if (timeControl.getType() == CLASSIC) {
+        } else if (timeControl.type() == CLASSIC) {
             final TimeData timeData = getTimeData();
             long remainingTime = Math.max(timeData.remainingTime() - usedTime, 0);
             long numberOfMoves = timeData.numberOfMoves() - 1;
             // If we have reached the time control, reset number of moves and add time
             if (numberOfMoves == 0) {
-                numberOfMoves = timeControl.getNumberOfMoves();
-                remainingTime += timeControl.getBaseTime();
+                numberOfMoves = timeControl.numberOfMoves();
+                remainingTime += timeControl.baseTime();
             }
             setTimeData(timeData.withRemainingTime(remainingTime).withNumberOfMoves(numberOfMoves));
         } else { // INCREMENTAL
             final TimeData timeData = getTimeData();
-            final long remainingTime = Math.max(timeData.remainingTime() - usedTime + timeControl.getIncrement(), 0);
+            final long remainingTime = Math.max(timeData.remainingTime() - usedTime + timeControl.increment(), 0);
             setTimeData(timeData.withRemainingTime(remainingTime));
         }
     }

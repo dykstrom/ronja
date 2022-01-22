@@ -17,14 +17,19 @@
 
 package se.dykstrom.ronja.engine.time;
 
-import org.junit.Test;
-
 import java.text.ParseException;
+
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static se.dykstrom.ronja.engine.time.TimeControlType.*;
-import static se.dykstrom.ronja.engine.time.TimeUtils.*;
+import static se.dykstrom.ronja.engine.time.TimeControlType.CLASSIC;
+import static se.dykstrom.ronja.engine.time.TimeControlType.INCREMENTAL;
+import static se.dykstrom.ronja.engine.time.TimeControlType.SECONDS_PER_MOVE;
+import static se.dykstrom.ronja.engine.time.TimeUtils.calculateTimeForNextMove;
+import static se.dykstrom.ronja.engine.time.TimeUtils.formatTime;
+import static se.dykstrom.ronja.engine.time.TimeUtils.parseLevelText;
+import static se.dykstrom.ronja.engine.time.TimeUtils.parseStText;
 
 /**
  * This class is for testing class {@code TimeUtils} using JUnit.
@@ -34,14 +39,15 @@ import static se.dykstrom.ronja.engine.time.TimeUtils.*;
  */
 public class TimeUtilsTest {
 
-    private static final TimeControl TC_40_5_0 = new TimeControl(40, 5 * 60 * 1000, 0, CLASSIC);
-    private static final TimeControl TC_0_30_5 = new TimeControl(0, 30 * 60 * 1000, 5 * 1000, INCREMENTAL);
-    private static final TimeControl TC_0_0_10 = new TimeControl(0, 0, 10 * 1000, INCREMENTAL);
-    private static final TimeControl TC_10_1_30_0 = new TimeControl(10, 90 * 1000, 0, CLASSIC);
-    private static final TimeControl TC_40_2_30_0 = new TimeControl(40, 150 * 1000, 0, CLASSIC);
-    private static final TimeControl TC_40_25_0 = new TimeControl(40, 25 * 60 * 1000, 0, CLASSIC);
+    private static final TimeControl TC_10_01_00 = new TimeControl(10, 60 * 1000, 0, CLASSIC);
+    private static final TimeControl TC_40_05_00 = new TimeControl(40, 5 * 60 * 1000, 0, CLASSIC);
+    private static final TimeControl TC_0_30_05 = new TimeControl(0, 30 * 60 * 1000, 5 * 1000, INCREMENTAL);
+    private static final TimeControl TC_0_00_10 = new TimeControl(0, 0, 10 * 1000, INCREMENTAL);
+    private static final TimeControl TC_10_1_30_00 = new TimeControl(10, 90 * 1000, 0, CLASSIC);
+    private static final TimeControl TC_40_2_30_00 = new TimeControl(40, 150 * 1000, 0, CLASSIC);
+    private static final TimeControl TC_40_25_00 = new TimeControl(40, 25 * 60 * 1000, 0, CLASSIC);
 
-    private static final TimeControl TC_0_0_3 = new TimeControl(0, 0, 3 * 1000, SECONDS_PER_MOVE);
+    private static final TimeControl TC_0_0_03 = new TimeControl(0, 0, 3 * 1000, SECONDS_PER_MOVE);
     private static final TimeControl TC_0_0_30 = new TimeControl(0, 0, 30 * 1000, SECONDS_PER_MOVE);
 
     @Test
@@ -54,12 +60,13 @@ public class TimeUtilsTest {
 
     @Test
     public void testParseLevelText() throws Exception {
-        assertEquals(TC_40_5_0, parseLevelText("40 5 0"));
-        assertEquals(TC_0_30_5, parseLevelText("0 30 5"));
-        assertEquals(TC_0_0_10, parseLevelText("0 0 10"));
-        assertEquals(TC_10_1_30_0, parseLevelText("10 1:30 0"));
-        assertEquals(TC_40_25_0, parseLevelText("40 25+5 0"));
-        assertEquals(TC_40_2_30_0, parseLevelText("40 2:30+5 0"));
+        assertEquals(TC_40_05_00, parseLevelText("40 5 0"));
+        assertEquals(TC_10_01_00, parseLevelText("10 0:60 0"));
+        assertEquals(TC_0_30_05, parseLevelText("0 30 5"));
+        assertEquals(TC_0_00_10, parseLevelText("0 0 10"));
+        assertEquals(TC_10_1_30_00, parseLevelText("10 1:30 0"));
+        assertEquals(TC_40_25_00, parseLevelText("40 25+5 0"));
+        assertEquals(TC_40_2_30_00, parseLevelText("40 2:30+5 0"));
     }
 
     @Test(expected = ParseException.class)
@@ -75,6 +82,7 @@ public class TimeUtilsTest {
     @Test
     public void testParseStText() throws Exception {
         assertEquals(TC_0_0_30, parseStText("30"));
+        assertEquals(TC_0_0_03, parseStText("3"));
     }
 
     @Test(expected = ParseException.class)
@@ -89,20 +97,44 @@ public class TimeUtilsTest {
 
     @Test
     public void testCalculateTimeForNextMoveClassic() {
-        assertTrue(calculateTimeForNextMove(TC_40_5_0, TimeData.from(TC_40_5_0)) > 7500);
-        assertTrue(calculateTimeForNextMove(TC_10_1_30_0, TimeData.from(TC_10_1_30_0)) > 9000);
+        assertTrue(calculateTimeForNextMove(TC_40_05_00, TimeData.from(TC_40_05_00)) > 7500);
+        assertTrue(calculateTimeForNextMove(TC_10_1_30_00, TimeData.from(TC_10_1_30_00)) > 9000);
+    }
+
+    @Test
+    public void testCalculateTimeForLastMoveBeforeTimeControl() {
+        final var timeData = TimeData.from(TC_10_01_00).withNumberOfMoves(1);
+        // The last move before the time control should be allocated less time as a security measure
+        assertTrue(calculateTimeForNextMove(TC_10_01_00, timeData) <= timeData.remainingTime() / 2);
+    }
+
+    @Test
+    public void testCalculateTimeForAllMovesClassic() {
+        TimeData timeData = TimeData.from(TC_10_01_00);
+        final long totalNumberOfMoves = timeData.numberOfMoves();
+        final long totalAvailableTime = timeData.remainingTime();
+
+        long calculatedTime = 0;
+        long totalCalculatedTime = 0;
+        for (long numberOfMovesLeft = totalNumberOfMoves; numberOfMovesLeft > 0; numberOfMovesLeft--) {
+            timeData = timeData.withNumberOfMoves(numberOfMovesLeft).withRemainingTime(timeData.remainingTime() - calculatedTime);
+            calculatedTime = calculateTimeForNextMove(TC_10_01_00, timeData);
+            totalCalculatedTime += calculatedTime;
+        }
+        // The total time calculated to all moves must be less than the total available time
+        assertTrue(totalCalculatedTime < totalAvailableTime);
     }
 
     @Test
     public void testCalculateTimeForNextMoveIncremental() {
-        TimeData timeData = TimeData.from(TC_0_30_5);
-        assertEquals(95000, calculateTimeForNextMove(TC_0_30_5, timeData.withRemainingTime(30 * 60 * 1000 + 5 * 1000)));
-        assertEquals(5050, calculateTimeForNextMove(TC_0_30_5, timeData.withRemainingTime(1000 + 5 * 1000)));
+        TimeData timeData = TimeData.from(TC_0_30_05);
+        assertEquals(95000, calculateTimeForNextMove(TC_0_30_05, timeData.withRemainingTime(30 * 60 * 1000 + 5 * 1000)));
+        assertEquals(5050, calculateTimeForNextMove(TC_0_30_05, timeData.withRemainingTime(1000 + 5 * 1000)));
     }
 
     @Test
     public void testCalculateTimeForNextMoveSecondsPerMove() {
-        assertEquals(2700, calculateTimeForNextMove(TC_0_0_3, TimeData.from(TC_0_0_3)));
+        assertEquals(2700, calculateTimeForNextMove(TC_0_0_03, TimeData.from(TC_0_0_03)));
         assertEquals(29500, calculateTimeForNextMove(TC_0_0_30, TimeData.from(TC_0_0_30)));
     }
 }

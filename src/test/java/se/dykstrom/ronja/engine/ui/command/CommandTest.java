@@ -29,6 +29,8 @@ import se.dykstrom.ronja.test.AbstractTestCase;
 import se.dykstrom.ronja.test.ListResponse;
 import se.dykstrom.ronja.test.SizeMatcher;
 
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -51,23 +53,28 @@ import static se.dykstrom.ronja.test.TestUtils.assertContainsRegex;
  */
 public class CommandTest extends AbstractTestCase {
 
-    private static final TimeControl TC_40_5_0 = new TimeControl(40, 5 * 60 * 1000, 0, CLASSIC);
-    private static final TimeControl TC_0_5_30 = new TimeControl(0, 5 * 60 * 1000, 30 * 1000, INCREMENTAL);
-    private static final TimeControl TC_0_0_10 = new TimeControl(0, 0, 10 * 1000, SECONDS_PER_MOVE);
-    private static final TimeControl TC_0_0_01 = new TimeControl(0, 0, 100, SECONDS_PER_MOVE);
+    private static final long MINUTES_5 = MINUTES.toMillis(5);
+    private static final long SECONDS_30 = SECONDS.toMillis(30);
+    private static final long SECONDS_10 = SECONDS.toMillis(10);
+    private static final long SECONDS_1_TENTH = 100;
 
-    private static final TimeData TD_40_5_0 = TimeData.from(TC_40_5_0);
+    private static final TimeControl TC_40_5_00 = new TimeControl(40, MINUTES_5, 0, CLASSIC);
+    private static final TimeControl TC_0_5_30 = new TimeControl(0, MINUTES_5, SECONDS_30, INCREMENTAL);
+    private static final TimeControl TC_0_0_10 = new TimeControl(0, 0, SECONDS_10, SECONDS_PER_MOVE);
+    private static final TimeControl TC_0_0_0_100 = new TimeControl(0, 0, SECONDS_1_TENTH, SECONDS_PER_MOVE);
+
+    private static final TimeData TD_40_5_00 = TimeData.from(TC_40_5_00);
     private static final TimeData TD_0_5_30 = TimeData.from(TC_0_5_30);
     private static final TimeData TD_0_0_10 = TimeData.from(TC_0_0_10);
-    private static final TimeData TD_0_0_01 = TimeData.from(TC_0_0_01);
+    private static final TimeData TD_0_0_0_100 = TimeData.from(TC_0_0_0_100);
 
     private final Game game = new Game(OpeningBook.DEFAULT);
 
     @Before
     public void setUp() {
         AppConfig.setGameLogFilename(null);
-        game.setTimeControl(TC_0_0_01);
-        game.setTimeData(TD_0_0_01);
+        game.setTimeControl(TC_0_0_0_100);
+        game.setTimeData(TD_0_0_0_100);
     }
 
     // ------------------------------------------------------------------------
@@ -137,7 +144,7 @@ public class CommandTest extends AbstractTestCase {
     public void testLevelCommand_ConventionalClock() throws Exception {
         Command command = new LevelCommand("40 5 0", new ListResponse(), game);
         command.execute();
-        assertEquals(TD_40_5_0, game.getTimeData());
+        assertEquals(TD_40_5_00, game.getTimeData());
     }
 
     @Test
@@ -159,7 +166,7 @@ public class CommandTest extends AbstractTestCase {
         Command command = new LevelCommand("foo", response, game);
         command.execute();
         assertEquals(1, response.getList().size());
-        assertContainsRegex("Error \\(invalid number of arguments\\): level foo", response.getList());
+        assertContainsRegex("Error \\(invalid number of arguments: 1\\): level foo", response.getList());
     }
 
     @Test
@@ -201,8 +208,8 @@ public class CommandTest extends AbstractTestCase {
 
     @Test
     public void testGoCommand() {
-        game.setTimeControl(TC_40_5_0);
-        game.setTimeData(TD_40_5_0);
+        game.setTimeControl(TC_40_5_00);
+        game.setTimeData(TD_40_5_00);
         ListResponse response = new ListResponse();
         Command command = new GoCommand(null, response, game);
         TimeData timeDataBefore = game.getTimeData();

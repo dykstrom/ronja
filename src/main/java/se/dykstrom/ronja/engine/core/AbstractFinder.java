@@ -24,12 +24,6 @@ import se.dykstrom.ronja.common.model.Position;
  */
 abstract class AbstractFinder implements Finder {
 
-    /** The number of nodes evaluated. */
-    protected int nodes;
-
-    /** The maximum search depth. */
-    protected int maxDepth;
-
     /**
      * Returns a debug string to display when entering a search method.
      */

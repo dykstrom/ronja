@@ -22,13 +22,21 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import se.dykstrom.ronja.common.book.OpeningBook;
+import se.dykstrom.ronja.common.model.Game;
+import se.dykstrom.ronja.common.parser.SanParser;
+import se.dykstrom.ronja.engine.core.AlphaBetaFinder;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static se.dykstrom.ronja.common.parser.FenParser.parse;
 
 /**
  * Utility functions related to testing.
@@ -116,5 +124,23 @@ public class TestUtils {
         }
 
         return bookFile;
+    }
+
+    public static void assertFindMoveAtDepth(final int expectedMove, final String fen, final int depth) throws Exception {
+        final var position = parse(fen);
+        final var finder = setupFinder(fen);
+        final var actualMove = finder.findBestMove(depth);
+        final var message = String.format(
+                "Expected %s, got %s",
+                SanParser.format(position, expectedMove),
+                SanParser.format(position, actualMove)
+        );
+        assertEquals(message, expectedMove, actualMove);
+    }
+
+    public static AlphaBetaFinder setupFinder(final String fen) throws ParseException {
+        final var game = new Game(OpeningBook.DEFAULT);
+        game.setPosition(parse(fen));
+        return new AlphaBetaFinder(game);
     }
 }

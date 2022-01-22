@@ -73,29 +73,31 @@ public final class TimeUtils {
      * Parses the given text from the 'level' command, and returns a {@code TimeControl} object.
      */
     public static TimeControl parseLevelText(final String text) throws ParseException {
-        String[] parts = text.split(" ");
+        final String[] parts = text.split(" ");
         if (parts.length != 3) {
-            throw new ParseException("invalid number of arguments", 0);
+            throw new ParseException("invalid number of arguments: " + parts.length, 0);
         }
 
         // Parse number of moves
-        long numberOfMoves;
+        final String numberOfMovesStr = parts[MOVES_INDEX].trim();
+        final long numberOfMoves;
         try {
-            numberOfMoves = parseLong(parts[MOVES_INDEX].trim());
-        } catch (NumberFormatException nfe) {
-            throw new ParseException("invalid number of moves", 0);
+            numberOfMoves = parseLong(numberOfMovesStr);
+        } catch (NumberFormatException e) {
+            throw new ParseException("invalid number of moves: " + numberOfMovesStr, 0);
         }
 
         // Parse base time
+        final String baseTimeStr = parts[BASE_TIME_INDEX].trim();
         long baseTime;
-        Matcher matcher = BASE_TIME_PATTERN.matcher(parts[BASE_TIME_INDEX].trim());
+        final Matcher matcher = BASE_TIME_PATTERN.matcher(baseTimeStr);
         if (matcher.matches()) {
             baseTime = getMinutesAsMillis(matcher);
             if (matcher.group(2) != null) {
                 baseTime += getSecondsAsMillis(matcher);
             }
         } else {
-            throw new ParseException("invalid base time", 0);
+            throw new ParseException("invalid base time: " + baseTimeStr, 0);
         }
 
         // Parse time increment
@@ -125,23 +127,27 @@ public final class TimeUtils {
      * The calculation is done differently for the different time control types.
      */
     public static long calculateTimeForNextMove(final TimeControl timeControl, final TimeData timeData) {
-        if (timeControl.getType() == TimeControlType.SECONDS_PER_MOVE) {
+        if (timeControl.type() == TimeControlType.SECONDS_PER_MOVE) {
             // Use all available time minus a safety margin
             // The safety margin is 10% of the time up to 500 ms
             long margin = Math.min(timeData.remainingTime() / 10, 500);
             return timeData.remainingTime() - margin;
-        } else if (timeControl.getType() == TimeControlType.CLASSIC) {
+        } else if (timeControl.type() == TimeControlType.CLASSIC) {
+            // If this is the last move before the time control, we need a safety margin
+            if (timeData.numberOfMoves() == 1) {
+                return timeData.remainingTime() / 2;
+            }
             // Divide the remaining time between remaining moves,
-            // but allocate more time to moves early in the game
-            double partOfMovesLeft = 1.0 * timeData.numberOfMoves() / timeControl.getNumberOfMoves();
+            // but allocate more time to early moves
+            double partOfMovesLeft = 1.0 * timeData.numberOfMoves() / timeControl.numberOfMoves();
             double factor = 0.2 * partOfMovesLeft + 0.9;
             long evenlyDividedTime = timeData.remainingTime() / timeData.numberOfMoves();
             return (long) (evenlyDividedTime * factor);
         } else { // TimeControlType.INCREMENTAL
             // Remove increment that was added after last move to get remaining base time
-            long baseTime = timeData.remainingTime() - timeControl.getIncrement();
+            long baseTime = timeData.remainingTime() - timeControl.increment();
             // Use a certain part of the base time, and add increment to that
-            return baseTime / 20 + timeControl.getIncrement();
+            return baseTime / 20 + timeControl.increment();
         }
     }
 

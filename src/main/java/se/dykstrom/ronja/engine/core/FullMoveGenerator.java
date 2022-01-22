@@ -33,8 +33,8 @@ import static se.dykstrom.ronja.common.model.Square.*;
  */
 public class FullMoveGenerator extends AbstractGenerator {
 
-    private static final int MAX_POSITIONS = 50;
-    private static final int MAX_MOVES = 200;
+    public static final int MAX_POSITIONS = 50;
+    public static final int MAX_MOVES = 200;
     
     public final int[][] moves = new int[MAX_POSITIONS][MAX_MOVES];
     private int positionIndex = 0;

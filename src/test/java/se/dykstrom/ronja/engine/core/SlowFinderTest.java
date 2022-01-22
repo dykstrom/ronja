@@ -24,22 +24,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Game;
-import se.dykstrom.ronja.common.model.Move;
-import se.dykstrom.ronja.common.model.Piece;
-import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.common.parser.CanParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
+import se.dykstrom.ronja.test.TestUtils;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static se.dykstrom.ronja.common.model.Piece.KING;
-import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
-import static se.dykstrom.ronja.common.model.Piece.QUEEN;
-import static se.dykstrom.ronja.common.model.Square.A7_IDX;
-import static se.dykstrom.ronja.common.model.Square.B8_IDX;
-import static se.dykstrom.ronja.common.model.Square.F7_IDX;
-import static se.dykstrom.ronja.common.model.Square.G8_IDX;
-import static se.dykstrom.ronja.common.model.Square.H6_IDX;
 import static se.dykstrom.ronja.common.parser.FenParser.parse;
 
 /**
@@ -50,50 +39,6 @@ import static se.dykstrom.ronja.common.parser.FenParser.parse;
  */
 @Ignore
 public class SlowFinderTest extends AbstractTestCase {
-
-    /**
-     * Tests calling findBestMove with positions that result in mate in four moves.
-     */
-    @Test
-    public void testFindBestMove_MateInFour() throws Exception {
-        assertEquals(Move.create(KING, G8_IDX, G8_IDX), findBestMoveWithDepth(FEN_CHECKMATE_2_5, 5));
-    }
-
-    /**
-     * Tests calling findBestMove with positions that result in draw in four moves.
-     */
-    @Test
-    public void testFindBestMove_DrawInFour() throws Exception {
-        assertEquals(Move.createCapture(KING, A7_IDX, B8_IDX, QUEEN), findBestMoveWithDepth(FEN_DRAW_2_1, 5));
-    }
-
-    /**
-     * Tests calling findBestMove with positions that result in mate in five moves.
-     */
-    @Test
-    public void testFindBestMove_MateInFive() throws Exception {
-        assertEquals(Move.create(KNIGHT, F7_IDX, H6_IDX), findBestMoveWithDepth(FEN_CHECKMATE_2_4, 5));
-    }
-
-    /**
-     * Tests calling findBestMove with positions that result in draw in five moves.
-     */
-    @Test
-    public void testFindBestMove_DrawInFive() throws Exception {
-        int actual = findBestMoveWithDepth(FEN_DRAW_2_0, 5);
-        assertEquals(Piece.PAWN, Move.getPiece(actual));
-        assertEquals(Square.B7, Move.getFrom(actual));
-        assertEquals(Square.B8, Move.getTo(actual));
-        // Any promotion piece will do as the piece will be taken anyway
-    }
-
-    /**
-     * Tests calling findBestMove with positions that result in mate in six moves.
-     */
-    @Test
-    public void testFindBestMove_MateInSix() throws Exception {
-        assertEquals(Move.create(KING, G8_IDX, G8_IDX), findBestMoveWithDepth(FEN_CHECKMATE_2_3, 6));
-    }
 
     /**
      * Tests calling findBestMove with some middle game positions with maximum depth 5.
@@ -145,15 +90,15 @@ public class SlowFinderTest extends AbstractTestCase {
         System.out.printf("Finished step after %7.3f seconds%n", elapsedTime(start));
     }
 
-    /**
-     * Calls {@link Finder#findBestMove(int)} with the position specified by {@code fen}
-     * and the given {@code maxDepth}.
-     */
-    private int findBestMoveWithDepth(String fen, int maxDepth) throws ParseException {
-        var game = new Game(OpeningBook.DEFAULT);
-        game.setPosition(parse(fen));
-        var finder = new AlphaBetaFinder(game);
-        return finder.findBestMove(maxDepth);
+    @SuppressWarnings("java:S2925")
+    @Test
+    public void testFindBestMove_WithTime() throws Exception {
+        System.out.println("Warming up...");
+        findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 8);
+        System.out.println("Starting test...");
+        var start = System.nanoTime();
+        assertNotEquals(0, findBestMoveWithTime(FEN_MIDDLE_GAME_0, 60_000));
+        System.out.printf("Finished step after %7.3f seconds%n", elapsedTime(start));
     }
 
     public static void main(String[] args) throws Exception {
@@ -164,11 +109,27 @@ public class SlowFinderTest extends AbstractTestCase {
         final var start = System.nanoTime();
         runStep(FEN_MIDDLE_GAME_0, 7, test);
         runStep(FEN_MIDDLE_GAME_1, 8, test);
-        runStep(FEN_MIDDLE_GAME_2, 7, test);
+        runStep(FEN_MIDDLE_GAME_2, 6, test);
         runStep(FEN_MIDDLE_GAME_3, 8, test);
         runStep(FEN_MIDDLE_GAME_4, 8, test);
         runStep(FEN_MIDDLE_GAME_5, 8, test);
+        runStep(FEN_OPENING_0, 7, test);
+        runStep(FEN_END_GAME_0, 7, test);
+        runStep(FEN_NON_QUIET, 7, test);
+        runStep(FEN_FORK_1, 8, test);
         System.out.printf("Finished test after %7.3f seconds%n", elapsedTime(start));
+    }
+
+    private int findBestMoveWithDepth(final String fen, final int maxDepth) throws ParseException {
+        Finder finder = TestUtils.setupFinder(fen);
+        return finder.findBestMove(maxDepth);
+    }
+
+    private int findBestMoveWithTime(final String fen, final int maxTime) throws ParseException {
+        var game = new Game(OpeningBook.DEFAULT);
+        game.setPosition(parse(fen));
+        var finder = new AlphaBetaFinder(game);
+        return finder.findBestMoveWithinTime(maxTime);
     }
 
     private static void runStep(final String fen, final int maxDepth, final SlowFinderTest test) throws ParseException {

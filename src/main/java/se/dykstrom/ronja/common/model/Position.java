@@ -19,7 +19,6 @@ package se.dykstrom.ronja.common.model;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import se.dykstrom.ronja.common.parser.IllegalMoveException;
 import se.dykstrom.ronja.common.parser.MoveParser;
@@ -74,8 +73,6 @@ public class Position {
      */
     public static final Position START = new Position();
 
-    private static final Logger TLOG = Logger.getLogger(Position.class.getName());
-
     /**
      * Bit masks for manipulating castling rights.
      */
@@ -92,9 +89,9 @@ public class Position {
     /**
      * A bitset of flags that define the following data:
      * <p>
-     * - Bit 0-1: Castling rights for white (1 = yes, 0 = no)
-     * - Bit 2-3: Castling rights for black (1 = yes, 0 = no)
-     * - Bit 4:   Active color (1 = white, 0 = black)
+     * - Bit 00-01 - castling rights for white (1 = yes, 0 = no)
+     * - Bit 02-03 - castling rights for black (1 = yes, 0 = no)
+     * - Bit 04    - active color (1 = white, 0 = black)
      */
     private final long flags;
 
@@ -316,7 +313,6 @@ public class Position {
                     rook = rook | to;
                     break;
                 default:
-                    TLOG.severe("Invalid promotion piece: " + Move.getPromoted(move));
                     throw new IllegalArgumentException("invalid promotion piece: " + Move.getPromoted(move));
             }
         }
@@ -336,7 +332,6 @@ public class Position {
                 rook = rook ^ Square.A8 | Square.D8;
                 black = black ^ Square.A8 | Square.D8;
             } else {
-                TLOG.severe("Invalid castling square: " + Square.idToName(to));
                 throw new IllegalArgumentException("invalid castling square: " + Square.idToName(to));
             }
         }
@@ -375,8 +370,10 @@ public class Position {
                 whiteAttack, blackAttack, enPassantSquare, fullMoveNumber, halfMoveClock, flags);
 
         // Return the new position, including new attack bitboards
-        return position.withAttackBitboards(ATTACK_GENERATOR.getAttackedSquares(Color.WHITE, position),
-                ATTACK_GENERATOR.getAttackedSquares(Color.BLACK, position));
+        return position.withAttackBitboards(
+                ATTACK_GENERATOR.getAttackedSquares(Color.WHITE, position),
+                ATTACK_GENERATOR.getAttackedSquares(Color.BLACK, position)
+        );
     }
 
     /**
@@ -777,6 +774,11 @@ public class Position {
 
         // Turn board upside down, and add a border
         StringBuilder builder = new StringBuilder();
+        builder.append(getActiveColor()).append(" ").append(getFullMoveNumber());
+        if (getEnPassantSquare() != 0) {
+            builder.append(" ".repeat(18 - builder.length())).append(Square.idToName(getEnPassantSquare()));
+        }
+        builder.append("\n");
         builder.append("  -----------------\n");
         for (int r = 7; r >= 0; r--) {
             builder.append(r + 1).append("| ").append(ranks[r].toString()).append("|\n");

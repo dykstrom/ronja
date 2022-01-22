@@ -382,11 +382,16 @@ public class SanParser extends AbstractMoveParser {
     }
 
     private static String formatCheck(int move, Position position) {
-        Position newPosition = position.withMove(move);
-        if (PositionUtils.isCheckMate(newPosition)) {
-            return "#";
-        } else if (newPosition.isCheck(newPosition.getActiveColor())) {
-            return "+";
+        try {
+            Position newPosition = position.withMove(move);
+            if (PositionUtils.isCheckMate(newPosition)) {
+                return "#";
+            } else if (newPosition.isCheck(newPosition.getActiveColor())) {
+                return "+";
+            }
+        } catch (Exception e) {
+            // We failed to make the move, so we don't know the check status here
+            return "?";
         }
         return "";
     }

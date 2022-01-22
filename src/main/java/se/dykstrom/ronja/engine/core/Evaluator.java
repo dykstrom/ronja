@@ -19,6 +19,7 @@ package se.dykstrom.ronja.engine.core;
 
 import se.dykstrom.ronja.common.model.Board;
 import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.engine.utils.PositionUtils;
 
 /**
  * A class used to evaluate positions.
@@ -54,6 +55,10 @@ public class Evaluator {
      * @param position The position to evaluate.
      */
     public int evaluate(Position position) {
+        if (PositionUtils.isCheckMate(position)) {
+            return CHECK_MATE_VALUE;
+        }
+
         // When calculating the score, white is positive, and black is negative
         int score = 0;
 

@@ -20,7 +20,7 @@ package se.dykstrom.ronja.engine.time;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
- * Keeps track of the current time and number of moves.
+ * Keeps track of the current time and number of moves left.
  *
  * @author Johan Dykstrom
  */
@@ -33,10 +33,10 @@ public record TimeData(long numberOfMoves, long remainingTime) {
      * time control base time.
      */
     public static TimeData from(TimeControl timeControl) {
-        if (timeControl.getType() == TimeControlType.SECONDS_PER_MOVE) {
-            return new TimeData(0, timeControl.getIncrement());
+        if (timeControl.type() == TimeControlType.SECONDS_PER_MOVE) {
+            return new TimeData(0, timeControl.increment());
         } else {
-            return new TimeData(timeControl.getNumberOfMoves(), timeControl.getBaseTime());
+            return new TimeData(timeControl.numberOfMoves(), timeControl.baseTime());
         }
     }
 
@@ -51,9 +51,9 @@ public record TimeData(long numberOfMoves, long remainingTime) {
     }
 
     /**
-     * Returns a copy of this time data with number of moves updated.
+     * Returns a copy of this time data with number of moves left updated.
      *
-     * @param numberOfMoves The new number of moves.
+     * @param numberOfMoves The new number of moves left.
      * @return The updated time data.
      */
     public TimeData withNumberOfMoves(long numberOfMoves) {

@@ -47,7 +47,7 @@ public class HintCommand extends AbstractCommand {
             int move = book.findBestMove(position);
             if (move == 0) {
                 var finder = new AlphaBetaFinder(game);
-                move = finder.findBestMove(3); // Limit the search depth in this case
+                move = finder.findBestMoveWithinTime(50);
             }
             response.write("Hint: " + SanParser.format(position, move));
         }
