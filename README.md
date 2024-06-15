@@ -25,7 +25,7 @@ interface. It is highly recommended that you run it from a chess GUI like
 
 * Ronja versions 0.7.0 and earlier require Java 8.
 * Ronja versions 0.8.x require Java 11.
-* Ronja versions 0.9.0 and later require Java 17.
+* Ronja versions 0.9.0 and later require Java 17+.
 
 
 ## Installation

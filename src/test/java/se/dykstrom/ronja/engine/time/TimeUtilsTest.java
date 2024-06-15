@@ -41,6 +41,8 @@ public class TimeUtilsTest {
 
     private static final TimeControl TC_10_01_00 = new TimeControl(10, 60 * 1000, 0, CLASSIC);
     private static final TimeControl TC_40_05_00 = new TimeControl(40, 5 * 60 * 1000, 0, CLASSIC);
+    // Incremental time with an increment of 0
+    private static final TimeControl TC_0_03_00 = new TimeControl(0, 3 * 60 * 1000, 0, INCREMENTAL);
     private static final TimeControl TC_0_30_05 = new TimeControl(0, 30 * 60 * 1000, 5 * 1000, INCREMENTAL);
     private static final TimeControl TC_0_00_10 = new TimeControl(0, 0, 10 * 1000, INCREMENTAL);
     private static final TimeControl TC_10_1_30_00 = new TimeControl(10, 90 * 1000, 0, CLASSIC);
@@ -62,6 +64,7 @@ public class TimeUtilsTest {
     public void testParseLevelText() throws Exception {
         assertEquals(TC_40_05_00, parseLevelText("40 5 0"));
         assertEquals(TC_10_01_00, parseLevelText("10 0:60 0"));
+        assertEquals(TC_0_03_00, parseLevelText("0 3 0"));
         assertEquals(TC_0_30_05, parseLevelText("0 30 5"));
         assertEquals(TC_0_00_10, parseLevelText("0 0 10"));
         assertEquals(TC_10_1_30_00, parseLevelText("10 1:30 0"));
