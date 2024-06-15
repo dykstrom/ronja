@@ -107,7 +107,7 @@ public final class TimeUtils {
         } catch (NumberFormatException nfe) {
             throw new ParseException("invalid time increment", 0);
         }
-        return new TimeControl(numberOfMoves, baseTime, increment, (increment == 0) ? CLASSIC : INCREMENTAL);
+        return new TimeControl(numberOfMoves, baseTime, increment, (numberOfMoves != 0) ? CLASSIC : INCREMENTAL);
     }
 
     private static long getIncrementAsMillis(final String[] parts) {
