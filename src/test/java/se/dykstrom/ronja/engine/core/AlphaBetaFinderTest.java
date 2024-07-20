@@ -36,6 +36,7 @@ import static se.dykstrom.ronja.common.model.Piece.PAWN;
 import static se.dykstrom.ronja.common.model.Piece.QUEEN;
 import static se.dykstrom.ronja.common.model.Piece.ROOK;
 import static se.dykstrom.ronja.common.model.Square.A1_IDX;
+import static se.dykstrom.ronja.common.model.Square.A2_IDX;
 import static se.dykstrom.ronja.common.model.Square.A3_IDX;
 import static se.dykstrom.ronja.common.model.Square.A7_IDX;
 import static se.dykstrom.ronja.common.model.Square.A8_IDX;
@@ -189,6 +190,14 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
         assertEquals(KING, Move.getPiece(actual));
         assertEquals(Square.B8, Move.getFrom(actual));
         // We don't care about the to-square since there are some alternatives
+    }
+
+    /**
+     * Tests calling findBestMove with positions that where a stalemate is the best alternative.
+     */
+    @Test
+    public void testFindBestMove_StalemateIsBest() throws Exception {
+        assertFindMoveAtDepth(Move.createCapture(ROOK, A2_IDX, B2_IDX, PAWN), FEN_STALEMATE_BEST, 3);
     }
 
     /**

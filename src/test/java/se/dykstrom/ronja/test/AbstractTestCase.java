@@ -232,6 +232,8 @@ public abstract class AbstractTestCase {
      * e.g. Qxe5+ and Bxa4. Best move is Nc6.
      */
     protected static final String FEN_NON_QUIET         = "r3k1nr/ppqb1ppp/1b2p3/3pP3/Pn6/2P2N2/1Q3PPP/RNB1KB1R b KQkq - 1 11";
+    /** A position where Rxb2 which leads to stalemate is best for white. */
+    protected static final String FEN_STALEMATE_BEST    = "k7/8/K7/P7/8/8/Rp6/8 w - - 0 1";
 
     /**
      * Asserts that all given {@code squares} are empty in the given {@code position}.
