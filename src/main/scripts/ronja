@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 
-ORIGINAL_DIR="$PWD"
-function finish {
-  cd "$ORIGINAL_DIR"
-}
-trap finish EXIT
-
-SCRIPT_DIR=$(dirname -- "$0")
-cd "$SCRIPT_DIR"
+# Find the real script, following symbolic links, because the jar and the config
+# files are next to the script and not next to any link to it
+SOURCE="${BASH_SOURCE[0]}"
+while [ -L "$SOURCE" ]; do
+  LINK_DIR=$(cd -P -- "$(dirname -- "$SOURCE")" && pwd)
+  SOURCE=$(readlink -- "$SOURCE")
+  # A relative link target is relative to the directory that holds the link
+  [[ "$SOURCE" != /* ]] && SOURCE="$LINK_DIR/$SOURCE"
+done
+SCRIPT_DIR=$(cd -P -- "$(dirname -- "$SOURCE")" && pwd)
+cd "$SCRIPT_DIR" || exit 1
 
 if [ "$JAVA_HOME" == "" ]; then
   JAVA_CMD="java"
@@ -15,9 +18,12 @@ else
   JAVA_CMD="$JAVA_HOME/bin/java"
 fi
 
-LOGGING_ARG="-Djava.util.logging.config.file=ronja.properties"
-CONFIG_ARG="-Dronja.config.dir=."
-JVM_ARGS="${LOGGING_ARG} ${CONFIG_ARG}"
+JVM_ARGS=(
+  "-Djava.util.logging.config.file=ronja.properties"
+  "-Dronja.config.dir=."
+)
+# Maven replaces project.version when it copies this script to target/scripts
+# shellcheck disable=SC2154
 JAR_FILE="ronja-${project.version}.jar"
 
-${JAVA_CMD} ${JVM_ARGS} -jar ${JAR_FILE}
+"$JAVA_CMD" "${JVM_ARGS[@]}" -jar "$JAR_FILE"
