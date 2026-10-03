@@ -17,6 +17,13 @@
 
 package se.dykstrom.ronja.common.book;
 
+import org.junit.jupiter.api.Test;
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.parser.CanParser;
+import se.dykstrom.ronja.common.parser.FenParser;
+import se.dykstrom.ronja.test.AbstractTestCase;
+import se.dykstrom.ronja.test.TestUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -25,18 +32,10 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.List;
 
-import org.junit.Test;
-import se.dykstrom.ronja.common.model.Position;
-import se.dykstrom.ronja.common.parser.CanParser;
-import se.dykstrom.ronja.common.parser.FenParser;
-import se.dykstrom.ronja.test.AbstractTestCase;
-import se.dykstrom.ronja.test.TestUtils;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static se.dykstrom.ronja.test.SizeMatcher.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This class is for integration testing class {@code OpeningBookParser} using JUnit.
@@ -53,10 +52,10 @@ public class OpeningBookParserIT extends AbstractTestCase {
 
         List<BookMove> moves = book.findAllMoves(FenParser.parse(FEN_START));
         assertEquals(1, moves.size());
-        assertEquals(MOVE_E2E4, moves.get(0).move());
+        assertEquals(MOVE_E2E4, moves.getFirst().move());
 
         moves = book.findAllMoves(FenParser.parse(FEN_E4));
-        assertThat(moves, hasSize(2));
+        assertEquals(2, moves.size());
         assertTrue(moves.stream().map(bm -> CanParser.format(bm.move())).allMatch(s -> s.matches("^e7(e5|e6)$")));
 
         // Check some non-existing positions
@@ -65,7 +64,7 @@ public class OpeningBookParserIT extends AbstractTestCase {
         assertNull(book.findAllMoves(FenParser.parse(FEN_END_GAME_0)));
     }
 
-    @Test(expected = ParseException.class)
+    @Test
     public void shouldNotParseSyntaxError() throws Exception {
         File file = File.createTempFile("ronja_syntax_", ".csv");
         file.deleteOnExit();
@@ -74,7 +73,7 @@ public class OpeningBookParserIT extends AbstractTestCase {
             out.println("foo");
         }
 
-        OpeningBookParser.parse(file);
+        assertThrows(ParseException.class, () -> OpeningBookParser.parse(file));
     }
 
     @Test
@@ -130,7 +129,7 @@ public class OpeningBookParserIT extends AbstractTestCase {
     public void shouldParseRealOpeningBook() throws Exception {
         // Given
         File file = Paths.get("target/scripts/book.csv").toFile();
-        assertTrue("File not found: " + file.getPath() + ". Current directory: " + Paths.get("").toFile().getAbsolutePath(), file.exists());
+        assertTrue(file.exists(), "File not found: " + file.getPath() + ". Current directory: " + Paths.get("").toFile().getAbsolutePath());
 
         // When
         OpeningBook book = OpeningBookParser.parse(file);
@@ -140,9 +139,8 @@ public class OpeningBookParserIT extends AbstractTestCase {
         assertTrue(book.size() > 0);
     }
 
-    @Test(expected = IOException.class)
-    public void shouldThrowExceptionWhenMissingFile() throws Exception {
-        OpeningBook book = OpeningBookParser.parse(new File("does_not_exist.csv"));
-        assertNull(book);
+    @Test
+    public void shouldThrowExceptionWhenMissingFile() {
+        assertThrows(IOException.class, () -> OpeningBookParser.parse(new File("does_not_exist.csv")));
     }
 }

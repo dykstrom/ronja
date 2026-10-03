@@ -17,13 +17,13 @@
 
 package se.dykstrom.ronja.common.model;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.engine.time.TimeControl;
 import se.dykstrom.ronja.engine.time.TimeData;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.dykstrom.ronja.engine.time.TimeControlType.*;
 
 /**

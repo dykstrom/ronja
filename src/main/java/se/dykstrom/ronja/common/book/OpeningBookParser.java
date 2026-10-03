@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import java.text.ParseException;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
@@ -56,9 +57,9 @@ public class OpeningBookParser {
         Map<Position, List<BookMove>> positions;
 
         long start = System.currentTimeMillis();
-        try {
+        try (Stream<String> stream = Files.lines(file.toPath())) {
             // Read all lines and remove empty lines and comments
-            List<String> lines = Files.lines(file.toPath())
+            List<String> lines = stream
                     .map(String::trim)
                     .filter(line -> !line.isEmpty() && !line.startsWith("#"))
                     .collect(toList());

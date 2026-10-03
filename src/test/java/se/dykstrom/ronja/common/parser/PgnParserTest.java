@@ -20,7 +20,7 @@ package se.dykstrom.ronja.common.parser;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Game;
@@ -28,11 +28,9 @@ import se.dykstrom.ronja.engine.time.TimeControl;
 import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.hamcrest.CoreMatchers.both;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.dykstrom.ronja.engine.time.TimeControlType.INCREMENTAL;
 
 /**
@@ -66,30 +64,32 @@ public class PgnParserTest extends AbstractTestCase {
         setUpGame(opponent, fullResult);
 
         String contents = PgnParser.format(game);
-        assertThat(contents, both(containsString("[Event \"Chess Game\"]"))
-                .and(containsString("[Result \"" + shortResult + "\"]"))
-                .and(containsString("[White \"" + AppConfig.getEngineName() + "\"]"))
-                .and(containsString("[Black \"" + opponent + "\"]"))
-                .and(containsString("[Date \"" + DF.format(DATE) + "\"]"))
-                .and(containsString("[Time \"" + TF.format(DATE) + "\"]"))
-                .and(containsString("[TimeControl \"40/120\"]"))
-                .and(containsString("1. e4 c5"))
-                .and(containsString("2. Nf3"))
-                .and(containsString(fullResult)));
-        assertThat(contents, not(containsString("[SetUp \"1\"]")));
+        assertContains(contents,
+                "[Event \"Chess Game\"]",
+                "[Result \"" + shortResult + "\"]",
+                "[White \"" + AppConfig.getEngineName() + "\"]",
+                "[Black \"" + opponent + "\"]",
+                "[Date \"" + DF.format(DATE) + "\"]",
+                "[Time \"" + TF.format(DATE) + "\"]",
+                "[TimeControl \"40/120\"]",
+                "1. e4 c5",
+                "2. Nf3",
+                fullResult);
+        assertFalse(contents.contains("[SetUp \"1\"]"), contents);
     }
 
     @Test
     public void testFormat_NewGame() {
         LocalDateTime now = LocalDateTime.now();
         String contents = PgnParser.format(game);
-        assertThat(contents, both(containsString("[Event \"Chess Game\"]"))
-                .and(containsString("[Result \"*\"]"))
-                .and(containsString("[White \"\"]"))
-                .and(containsString("[Black \"" + AppConfig.getEngineName() + "\"]"))
-                .and(containsString("[Date \"" + DF.format(now) + "\"]"))
-                .and(containsString("[Time \"" + TF.format(now) + "\"]")));
-        assertThat(contents, not(containsString("[SetUp \"1\"]")));
+        assertContains(contents,
+                "[Event \"Chess Game\"]",
+                "[Result \"*\"]",
+                "[White \"\"]",
+                "[Black \"" + AppConfig.getEngineName() + "\"]",
+                "[Date \"" + DF.format(now) + "\"]",
+                "[Time \"" + TF.format(now) + "\"]");
+        assertFalse(contents.contains("[SetUp \"1\"]"), contents);
     }
 
     @Test
@@ -108,17 +108,18 @@ public class PgnParserTest extends AbstractTestCase {
         game.setResult(fullResult);
 
         String contents = PgnParser.format(game);
-        assertThat(contents, both(containsString("[Event \"Chess Game\"]"))
-                .and(containsString("[Result \"" + shortResult + "\"]"))
-                .and(containsString("[White \"" + AppConfig.getEngineName() + "\"]"))
-                .and(containsString("[Black \"" + opponent + "\"]"))
-                .and(containsString("[Date \"" + DF.format(DATE) + "\"]"))
-                .and(containsString("[Time \"" + TF.format(DATE) + "\"]"))
-                .and(containsString("[TimeControl \"10+5\"]"))
-                .and(containsString("[SetUp \"1\"]"))
-                .and(containsString("[FEN \"" + FEN_CHECKMATE_1_1 + "\"]"))
-                .and(containsString("18. Bc1 Rxc1#"))
-                .and(containsString(fullResult)));
+        assertContains(contents,
+                "[Event \"Chess Game\"]",
+                "[Result \"" + shortResult + "\"]",
+                "[White \"" + AppConfig.getEngineName() + "\"]",
+                "[Black \"" + opponent + "\"]",
+                "[Date \"" + DF.format(DATE) + "\"]",
+                "[Time \"" + TF.format(DATE) + "\"]",
+                "[TimeControl \"10+5\"]",
+                "[SetUp \"1\"]",
+                "[FEN \"" + FEN_CHECKMATE_1_1 + "\"]",
+                "18. Bc1 Rxc1#",
+                fullResult);
     }
 
     @Test
@@ -135,16 +136,17 @@ public class PgnParserTest extends AbstractTestCase {
         game.setResult(fullResult);
 
         String contents = PgnParser.format(game);
-        assertThat(contents, both(containsString("[Event \"Chess Game\"]"))
-                .and(containsString("[Result \"" + shortResult + "\"]"))
-                .and(containsString("[White \"" + opponent + "\"]"))
-                .and(containsString("[Black \"" + AppConfig.getEngineName() + "\"]"))
-                .and(containsString("[Date \"" + DF.format(DATE) + "\"]"))
-                .and(containsString("[Time \"" + TF.format(DATE) + "\"]"))
-                .and(containsString("[SetUp \"1\"]"))
-                .and(containsString("[FEN \"" + FEN_CHECKMATE_1_2 + "\"]"))
-                .and(containsString("18... Rxc1#"))
-                .and(containsString(fullResult)));
+        assertContains(contents,
+                "[Event \"Chess Game\"]",
+                "[Result \"" + shortResult + "\"]",
+                "[White \"" + opponent + "\"]",
+                "[Black \"" + AppConfig.getEngineName() + "\"]",
+                "[Date \"" + DF.format(DATE) + "\"]",
+                "[Time \"" + TF.format(DATE) + "\"]",
+                "[SetUp \"1\"]",
+                "[FEN \"" + FEN_CHECKMATE_1_2 + "\"]",
+                "18... Rxc1#",
+                fullResult);
     }
 
     @Test
@@ -174,4 +176,13 @@ public class PgnParserTest extends AbstractTestCase {
         assertEquals("with \\\\back slashes\\\\", PgnParser.escape("with \\back slashes\\"));
         assertEquals("\\\\", PgnParser.escape("\\"));
 	}
+
+    /**
+     * Asserts that {@code actual} contains all strings in {@code expected}.
+     */
+    private static void assertContains(String actual, String... expected) {
+        for (String s : expected) {
+            assertTrue(actual.contains(s), () -> "Expected to find '" + s + "' in:\n" + actual);
+        }
+    }
 }

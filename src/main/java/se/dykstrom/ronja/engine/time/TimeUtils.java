@@ -159,6 +159,6 @@ public final class TimeUtils {
      * @return The estimated time in millis to find the best move next time.
      */
     public static long estimateTimeForNextDepth(List<Long> searchTimes) {
-        return searchTimes.get(searchTimes.size() - 1) * 3;
+        return searchTimes.getLast() * 3;
     }
 }

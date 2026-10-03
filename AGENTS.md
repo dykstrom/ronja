@@ -5,16 +5,16 @@
 Ronja is a chess engine written in Java. It speaks the XBoard/WinBoard protocol
 over stdin and stdout. You run it under a chess GUI such as XBoard, WinBoard, or
 Arena, not directly. It ships with its own opening book, and implements iterative
-deepening, alpha-beta pruning, and move ordering. It requires Java 17 or later.
+deepening, alpha-beta pruning, and move ordering. It requires Java 25 or later.
 
 ## Stack
 
 | Piece | Choice |
 |-------|--------|
-| Language | Java 17. CI also builds on 21 |
+| Language | Java 25. CI builds on six platforms |
 | Build | Maven. No wrapper in the repo, so builds use the `mvn` on your PATH |
 | Dependencies | None at runtime. Every `pom.xml` dependency is `test` scope, so the shipped engine runs on the JDK alone |
-| Testing | JUnit 4 with Hamcrest. Awaitility for the protocol tests, picocli for test-side tooling |
+| Testing | JUnit 6 (Jupiter) assertions only. Awaitility for the protocol tests, picocli for test-side tooling. Hamcrest is on the test classpath only because Awaitility depends on it, so tests do not import it |
 | Test split | Surefire runs `*Test`, Failsafe runs `*IT` |
 | Interface | The XBoard/WinBoard protocol, over stdin and stdout |
 | Data | No database. The opening book is the text file `book.csv` |
@@ -51,7 +51,7 @@ docs/
 |------|---------|
 | Unit tests | `mvn test` — runs `*Test` only |
 | All tests | `mvn verify` — adds the `*IT` tests, including `RonjaIT` and `XBoardProtocolIT`, which drive the engine over the protocol |
-| Search benchmarks | `SlowFinderTest` is annotated `@Ignore`, so the build skips it. Run it by hand when changing the search |
+| Search benchmarks | `SlowFinderTest` is annotated `@Disabled`, so the build skips it. Run it by hand when changing the search |
 | Build the release archives | `mvn package` — the assembly plugin writes the zip and tar.gz to `target/` |
 | Run the engine | Start `se.dykstrom.ronja.engine.ui.Ronja` from the IDE, or unpack `target/ronja-*-bin.zip` and drive that from XBoard. The launcher needs the jar, `ronja.properties`, and `book.csv` in one directory, which only the unpacked archive gives you |
 

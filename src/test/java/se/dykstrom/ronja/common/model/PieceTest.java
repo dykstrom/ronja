@@ -17,10 +17,11 @@
 
 package se.dykstrom.ronja.common.model;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * This class is for testing class {@code PieceC} using JUnit.
@@ -47,9 +48,9 @@ public class PieceTest extends AbstractTestCase {
         assertEquals(Piece.ROOK, Piece.valueOf('r'));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldNotGetValueOf() {
-        Piece.valueOf('U');
+        assertThrows(IllegalArgumentException.class, () -> Piece.valueOf('U'));
     }
 
     @Test

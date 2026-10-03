@@ -17,15 +17,15 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.text.ParseException;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import se.dykstrom.ronja.common.model.*;
 import se.dykstrom.ronja.test.AbstractTestCase;
@@ -58,14 +58,14 @@ public class FenParserTest extends AbstractTestCase {
      */
     @Test
     public void testParse() throws Exception {
-        Assert.assertEquals(Position.of(MOVE_START),            FenParser.parse(FEN_START));
-        Assert.assertEquals(Position.of(MOVE_E4),               FenParser.parse(FEN_E4));
-        Assert.assertEquals(Position.of(MOVE_E4_C5),            FenParser.parse(FEN_E4_C5));
-        Assert.assertEquals(Position.of(MOVE_E4_C5_KE2),        FenParser.parse(FEN_E4_C5_KE2));
-        Assert.assertEquals(Position.of(MOVE_E4_C5_NF3),        FenParser.parse(FEN_E4_C5_NF3));
-        Assert.assertEquals(Position.of(MOVE_E4_C5_NF3_NC6),    FenParser.parse(FEN_E4_C5_NF3_NC6));
-        Assert.assertEquals(Position.of(MOVE_E4_C5_NF3_NC6_D4), FenParser.parse(FEN_E4_C5_NF3_NC6_D4));
-        Assert.assertEquals(Position.of(MOVE_SCHOLARS_MATE),    FenParser.parse(FEN_SCHOLARS_MATE));
+        Assertions.assertEquals(Position.of(MOVE_START),            FenParser.parse(FEN_START));
+        Assertions.assertEquals(Position.of(MOVE_E4),               FenParser.parse(FEN_E4));
+        Assertions.assertEquals(Position.of(MOVE_E4_C5),            FenParser.parse(FEN_E4_C5));
+        Assertions.assertEquals(Position.of(MOVE_E4_C5_KE2),        FenParser.parse(FEN_E4_C5_KE2));
+        Assertions.assertEquals(Position.of(MOVE_E4_C5_NF3),        FenParser.parse(FEN_E4_C5_NF3));
+        Assertions.assertEquals(Position.of(MOVE_E4_C5_NF3_NC6),    FenParser.parse(FEN_E4_C5_NF3_NC6));
+        Assertions.assertEquals(Position.of(MOVE_E4_C5_NF3_NC6_D4), FenParser.parse(FEN_E4_C5_NF3_NC6_D4));
+        Assertions.assertEquals(Position.of(MOVE_SCHOLARS_MATE),    FenParser.parse(FEN_SCHOLARS_MATE));
     }
 
     /**
@@ -104,10 +104,9 @@ public class FenParserTest extends AbstractTestCase {
     /**
      * Tests FEN parsing with an illegal position.
      */
-    @Test(expected = ParseException.class)
-    public void testIllegal() throws Exception {
-        Position position = FenParser.parse(FEN_ILLEGAL_0);
-        assertNull(position);
+    @Test
+    public void testIllegal() {
+        assertThrows(ParseException.class, () -> FenParser.parse(FEN_ILLEGAL_0));
     }
 
     /**
@@ -118,13 +117,13 @@ public class FenParserTest extends AbstractTestCase {
         Position position = FenParser.parse(FEN_MIDDLE_GAME_0);
 
         assertEquals(8, position.getFullMoveNumber());
-        Assert.assertEquals(Color.BLACK, position.getActiveColor());
+        Assertions.assertEquals(Color.BLACK, position.getActiveColor());
         assertEquals(0, position.getEnPassantSquare());
         assertTrue(position.isKingSideCastlingAllowed(Color.BLACK));
         assertTrue(position.isQueenSideCastlingAllowed(Color.BLACK));
         assertFalse(position.isKingSideCastlingAllowed(Color.WHITE));
         assertFalse(position.isQueenSideCastlingAllowed(Color.WHITE));
-        Assert.assertEquals(16, Board.popCount(position.white));
+        Assertions.assertEquals(16, Board.popCount(position.white));
         assertEquals(16, Board.popCount(position.black));
 
         assertPiece(position, Square.D7, Color.BLACK, Piece.KNIGHT);

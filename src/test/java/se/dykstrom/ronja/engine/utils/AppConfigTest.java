@@ -17,14 +17,14 @@
 
 package se.dykstrom.ronja.engine.utils;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import se.dykstrom.ronja.test.AbstractTestCase;
 
@@ -42,7 +42,7 @@ public class AppConfigTest extends AbstractTestCase {
 
     private static final String TEMP_DIRECTORY = System.getProperty("java.io.tmpdir");
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         AppConfig.setConfigDirectory(TEMP_DIRECTORY);
         AppConfig.setEngineName(null);

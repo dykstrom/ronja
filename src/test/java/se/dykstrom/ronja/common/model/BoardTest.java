@@ -17,12 +17,12 @@
 
 package se.dykstrom.ronja.common.model;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This class is for testing class {@code Board} using JUnit.

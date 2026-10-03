@@ -17,12 +17,12 @@
 
 package se.dykstrom.ronja.common.model;
 
-import java.util.Arrays;
-import java.util.List;
-
 import se.dykstrom.ronja.common.parser.IllegalMoveException;
 import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.engine.core.AttackGenerator;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static se.dykstrom.ronja.common.model.Piece.BISHOP;
 import static se.dykstrom.ronja.common.model.Piece.KING;
@@ -776,7 +776,7 @@ public class Position {
         StringBuilder builder = new StringBuilder();
         builder.append(getActiveColor()).append(" ").append(getFullMoveNumber());
         if (getEnPassantSquare() != 0) {
-            builder.append(" ".repeat(18 - builder.length())).append(Square.idToName(getEnPassantSquare()));
+            builder.repeat(" ", 18 - builder.length()).append(Square.idToName(getEnPassantSquare()));
         }
         builder.append("\n");
         builder.append("  -----------------\n");

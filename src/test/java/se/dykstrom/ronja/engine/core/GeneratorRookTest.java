@@ -17,16 +17,14 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.dykstrom.ronja.common.model.Piece.ROOK;
 import static se.dykstrom.ronja.common.model.Square.*;
 
@@ -52,7 +50,7 @@ public class GeneratorRookTest extends AbstractTestCase {
 
         // There should be no moves in this position
         MOVE_GENERATOR.generateRookMoves();
-        assertThat(MOVE_GENERATOR.getMoveIndex(), is(0));
+        assertEquals(0, MOVE_GENERATOR.getMoveIndex());
     }
 
     /**

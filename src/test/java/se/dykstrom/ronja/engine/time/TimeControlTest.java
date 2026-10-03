@@ -17,11 +17,11 @@
 
 package se.dykstrom.ronja.engine.time;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static se.dykstrom.ronja.engine.time.TimeControlType.CLASSIC;
 import static se.dykstrom.ronja.engine.time.TimeControlType.INCREMENTAL;
 import static se.dykstrom.ronja.engine.time.TimeControlType.SECONDS_PER_MOVE;

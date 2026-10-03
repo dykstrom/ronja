@@ -28,9 +28,9 @@ import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.engine.core.FullMoveGenerator;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
 import static se.dykstrom.ronja.common.model.Piece.PAWN;
 import static se.dykstrom.ronja.common.model.Square.C1_IDX;

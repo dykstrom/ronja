@@ -25,20 +25,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.hamcrest.CoreMatchers.anyOf;
-import static org.hamcrest.CoreMatchers.both;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.dykstrom.ronja.common.parser.FenParser.parse;
-import static se.dykstrom.ronja.test.SizeMatcher.hasSize;
 
 /**
  * This class is for testing class {@code OpeningBook} using JUnit.
@@ -236,8 +231,8 @@ public class OpeningBookTest extends AbstractTestCase {
     @Test
     public void testFindBestMove() throws Exception {
         OpeningBook book = OpeningBook.DEFAULT;
-        assertThat(book.findBestMove(parse(FEN_START)), anyOf(is(MOVE_E2E4), is(MOVE_D2D4)));
-        assertThat(book.findBestMove(parse(FEN_E4)), is(MOVE_E7E5));
+        assertTrue(List.of(MOVE_E2E4, MOVE_D2D4).contains(book.findBestMove(parse(FEN_START))));
+        assertEquals(MOVE_E7E5, book.findBestMove(parse(FEN_E4)));
         assertEquals(0, book.findBestMove(parse(FEN_E4_C5)));
         assertEquals(0, book.findBestMove(parse(FEN_SCHOLARS_MATE)));
     }
@@ -246,12 +241,11 @@ public class OpeningBookTest extends AbstractTestCase {
     public void testFindAllMoves() throws Exception {
         OpeningBook book = OpeningBook.DEFAULT;
 
-        Integer[] moves = ArrayUtils.toObject(findAllMoves(book, FEN_START));
-        assertThat(moves, hasSize(2));
-        assertThat(moves, both(hasItemInArray(MOVE_E2E4)).and(hasItemInArray(MOVE_D2D4)));
-        moves = ArrayUtils.toObject(findAllMoves(book, FEN_E4));
-        assertThat(moves, hasSize(1));
-        assertThat(moves, hasItemInArray(MOVE_E7E5));
+        List<Integer> moves = List.of(ArrayUtils.toObject(findAllMoves(book, FEN_START)));
+        assertEquals(2, moves.size());
+        assertTrue(moves.containsAll(List.of(MOVE_E2E4, MOVE_D2D4)));
+        moves = List.of(ArrayUtils.toObject(findAllMoves(book, FEN_E4)));
+        assertEquals(List.of(MOVE_E7E5), moves);
 
         assertNull(book.findAllMoves(parse(FEN_E4_C5)));
         assertNull(book.findAllMoves(parse(FEN_SCHOLARS_MATE)));

@@ -17,13 +17,17 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import static se.dykstrom.ronja.common.model.Piece.KING;
-import static se.dykstrom.ronja.common.model.Piece.QUEEN;
+import se.dykstrom.ronja.common.model.Board;
+import se.dykstrom.ronja.common.model.Color;
+import se.dykstrom.ronja.common.model.Piece;
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.model.Square;
+import se.dykstrom.ronja.engine.core.AttackGenerator;
 
 import java.text.ParseException;
 
-import se.dykstrom.ronja.common.model.*;
-import se.dykstrom.ronja.engine.core.AttackGenerator;
+import static se.dykstrom.ronja.common.model.Piece.KING;
+import static se.dykstrom.ronja.common.model.Piece.QUEEN;
 
 /**
  * A class that can parse and format positions specified in Forsyth-Edwards Notation (FEN).
@@ -139,7 +143,7 @@ public class FenParser {
         if (position.isQueenSideCastlingAllowed(Color.BLACK)) {
             builder.append("q");
         }
-        if (builder.length() == 0) {
+        if (builder.isEmpty()) {
             builder.append("-");
         }
 

@@ -17,10 +17,10 @@
 
 package se.dykstrom.ronja.engine.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.model.Position;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UtilsTest {
 

@@ -17,11 +17,11 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * This class is for testing class {@code MoveParser} using JUnit. However, most of the parsing tests

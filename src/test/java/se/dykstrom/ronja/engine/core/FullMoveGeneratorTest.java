@@ -21,14 +21,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.parser.CanParser;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 /**
  * This class is for testing class {@code FullMoveGenerator} using JUnit.
@@ -48,7 +47,7 @@ public class FullMoveGeneratorTest extends AbstractTestCase {
     @Test
     public void testPositionStart() throws Exception {
         int numberOfMoves = MOVE_GENERATOR.generateMoves(FenParser.parse(FEN_START), 0);
-        assertThat(numberOfMoves, is(20));
+        assertEquals(20, numberOfMoves);
     }
 
     /**
@@ -62,7 +61,7 @@ public class FullMoveGeneratorTest extends AbstractTestCase {
         // Bb6a5, Bb6c7, Bb6d8, Bb6c5, Bb6d4, Bb6e3, Bh7g6, Bh7f5 = 8
         // Qf8f7, Qf8c8, Qf8d8, Qf8e8, Qf8e7, Qf8d6, Qf8c5, Qf8b4, Qf8a3 = 9
         // Kg8f7, Kg8h8 = 2
-        assertThat(numberOfMoves, is(36));
+        assertEquals(36, numberOfMoves);
     }
 
     /**
@@ -74,7 +73,7 @@ public class FullMoveGeneratorTest extends AbstractTestCase {
         // b2b3, b2b4, f2f3, g2g3, g2g4, h2h3, h2h4 = 7
         // Bf4b8, Bf4c7, Bf4d6, Bf4e5, Bf4g3, Bf4c1, Bf4d2, Bf4e3, Bf4g5, Bf4h6 = 10
         // Kg1h1 = 1 (h1 is not attacked in the original position because the king is in the way)
-        assertThat(numberOfMoves, is(18));
+        assertEquals(18, numberOfMoves);
         assertMoves(new String[]{"b2b3", "b2b4", "f2f3", "g2g3", "g2g4", "h2h3", "h2h4",
                 "f4b8", "f4c7", "f4d6", "f4e5", "f4g3", "f4c1", "f4d2", "f4e3", "f4g5", "f4h6",
                 "g1h1"});
@@ -89,7 +88,7 @@ public class FullMoveGeneratorTest extends AbstractTestCase {
         // b7b8b, b7b8n, b7b8r, b7b8q = 4
         // Bd2c1, Bd2c3, Bd2b4, Bd2a5, Bd2e1, Bd2e3, Bd2f4, Bd2g5, Bd2h6 = 9
         // Ke4d3, Ke4d4, Ke4d5, Ke4e5, Ke4f5, Ke4f4, Ke4f3, Ke4e3 = 8
-        assertThat(numberOfMoves, is(21));
+        assertEquals(21, numberOfMoves);
         assertMoves(new String[]{"b7b8b", "b7b8n", "b7b8r", "b7b8q",
                 "d2c1", "d2c3", "d2b4", "d2a5", "d2e1", "d2e3", "d2f4", "d2g5", "d2h6",
                 "e4d3", "e4d4", "e4d5", "e4e5", "e4f5", "e4f4", "e4f3", "e4e3"});
@@ -107,7 +106,7 @@ public class FullMoveGeneratorTest extends AbstractTestCase {
         // Ra8b8, Ra8c8, Ra8d8 = 3
         // Qe7d7, Qe7d8, Qe7e6, Qe7f6, Qe7g5, Qe7h4 = 6
         // Ke8d7, Ke8d8, Ke8c8 = 3
-        assertThat(numberOfMoves, is(36));
+        assertEquals(36, numberOfMoves);
     }
 
     /**

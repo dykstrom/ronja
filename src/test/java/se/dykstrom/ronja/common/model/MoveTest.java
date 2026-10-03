@@ -17,11 +17,10 @@
 
 package se.dykstrom.ronja.common.model;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.dykstrom.ronja.common.model.Piece.*;
 
 /**
@@ -121,14 +120,14 @@ public class MoveTest extends AbstractTestCase {
     }
 
     private void assertMove(int move, int piece, long from, long to, int captured, int promoted, boolean castling, boolean enPassant) {
-        assertThat(Move.getPiece(move), is(piece));
-        assertThat(Move.getFrom(move), is(from));
-        assertThat(Move.getTo(move), is(to));
-        assertThat(Move.getCaptured(move), is(captured));
-        assertThat(Move.getPromoted(move), is(promoted));
-        assertThat(Move.isCastling(move), is(castling));
-        assertThat(Move.isEnPassant(move), is(enPassant));
-        assertThat(Move.isPromotion(move), is(promoted != 0));
-        assertThat(Move.isCapture(move), is(captured != 0));
+        assertEquals(piece, Move.getPiece(move));
+        assertEquals(from, Move.getFrom(move));
+        assertEquals(to, Move.getTo(move));
+        assertEquals(captured, Move.getCaptured(move));
+        assertEquals(promoted, Move.getPromoted(move));
+        assertEquals(castling, Move.isCastling(move));
+        assertEquals(enPassant, Move.isEnPassant(move));
+        assertEquals(promoted != 0, Move.isPromotion(move));
+        assertEquals(captured != 0, Move.isCapture(move));
     }
 }

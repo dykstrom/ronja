@@ -17,16 +17,14 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
 import static se.dykstrom.ronja.common.model.Square.*;
 
@@ -53,7 +51,7 @@ public class GeneratorKnightTest extends AbstractTestCase {
         MOVE_GENERATOR.setup(FenParser.parse(FEN_START), 0);
 
         MOVE_GENERATOR.generateKnightMoves();
-        assertThat(MOVE_GENERATOR.getMoveIndex(), is(4));
+        assertEquals(4, MOVE_GENERATOR.getMoveIndex());
         assertGeneratedMoves(MOVE_GENERATOR, Move.create(KNIGHT, B1_IDX, A3_IDX),
                                              Move.create(KNIGHT, B1_IDX, C3_IDX),
                                              Move.create(KNIGHT, G1_IDX, F3_IDX),

@@ -8,7 +8,7 @@
 ![Downloads](https://img.shields.io/github/downloads/dykstrom/ronja/total)
 ![License](https://img.shields.io/github/license/dykstrom/ronja)
 ![Top Language](https://img.shields.io/github/languages/top/dykstrom/ronja)
-[![JDK compatibility: 17+](https://img.shields.io/badge/JDK_compatibility-17+-blue.svg)](https://adoptium.net)
+[![JDK compatibility: 25+](https://img.shields.io/badge/JDK_compatibility-25+-blue.svg)](https://adoptium.net)
 
 </div>
 
@@ -25,7 +25,8 @@ interface. It is highly recommended that you run it from a chess GUI like
 
 * Ronja versions 0.7.0 and earlier require Java 8.
 * Ronja versions 0.8.x require Java 11.
-* Ronja versions 0.9.0 and later require Java 17+.
+* Ronja versions 0.9.x require Java 17+.
+* Ronja versions 0.10.0 and later require Java 25+.
 
 
 ## Installation

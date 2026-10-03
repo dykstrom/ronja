@@ -28,14 +28,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.test.TestUtils;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static se.dykstrom.ronja.test.TestUtils.assertContainsRegex;
 
 /**
@@ -55,7 +55,7 @@ public class RonjaIT {
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         PipedInputStream redirectedStdin = new PipedInputStream();
         commandStream = new PrintStream(new PipedOutputStream(redirectedStdin), true, ISO_8859_1);
@@ -72,7 +72,7 @@ public class RonjaIT {
         });
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         assertNull(engineFuture.get());
         executorService.shutdown();

@@ -17,16 +17,16 @@
 
 package se.dykstrom.ronja.engine.ui;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.engine.ui.command.*;
 import se.dykstrom.ronja.test.ListResponse;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static se.dykstrom.ronja.common.model.Piece.PAWN;
 import static se.dykstrom.ronja.common.model.Square.D2_IDX;
 import static se.dykstrom.ronja.common.model.Square.D4_IDX;
@@ -87,7 +87,7 @@ public class CommandFactoryTest {
     @Test
     public void testInvalidCommand() {
         Command command = CommandFactory.create("foo", null, response, game);
-        assertTrue(command instanceof InvalidCommand);
+        assertInstanceOf(InvalidCommand.class, command);
         command.execute();
         assertEquals(1, response.getList().size());
         assertContainsRegex("Error \\(unknown command\\):", response.getList());
@@ -95,35 +95,35 @@ public class CommandFactoryTest {
 
     @Test
     public void testAllCommands() {
-        assertTrue(CommandFactory.create(AcceptedCommand.NAME, "", response, game) instanceof AcceptedCommand);
-        assertTrue(CommandFactory.create(BkCommand.NAME, "", response, game) instanceof BkCommand);
-        assertTrue(CommandFactory.create(BoardCommand.NAME, "", response, game) instanceof BoardCommand);
-        assertTrue(CommandFactory.create(ComputerCommand.NAME, "", response, game) instanceof ComputerCommand);
-        assertTrue(CommandFactory.create(EasyCommand.NAME, "", response, game) instanceof EasyCommand);
-        assertTrue(CommandFactory.create(ForceCommand.NAME, "", response, game) instanceof ForceCommand);
-        assertTrue(CommandFactory.create(GoCommand.NAME, "", response, game) instanceof GoCommand);
-        assertTrue(CommandFactory.create(HardCommand.NAME, "", response, game) instanceof HardCommand);
-        assertTrue(CommandFactory.create(HelpCommand.NAME, "", response, game) instanceof HelpCommand);
-        assertTrue(CommandFactory.create(HintCommand.NAME, "", response, game) instanceof HintCommand);
-        assertTrue(CommandFactory.create(LevelCommand.NAME, "", response, game) instanceof LevelCommand);
-        assertTrue(CommandFactory.create(MovesCommand.NAME, "", response, game) instanceof MovesCommand);
-        assertTrue(CommandFactory.create(NameCommand.NAME, "", response, game) instanceof NameCommand);
-        assertTrue(CommandFactory.create(NewCommand.NAME, "", response, game) instanceof NewCommand);
-        assertTrue(CommandFactory.create(NoPostCommand.NAME, "", response, game) instanceof NoPostCommand);
-        assertTrue(CommandFactory.create(OtimCommand.NAME, "1", response, game) instanceof OtimCommand);
-        assertTrue(CommandFactory.create(PingCommand.NAME, "", response, game) instanceof PingCommand);
-        assertTrue(CommandFactory.create(PlayOtherCommand.NAME, "", response, game) instanceof PlayOtherCommand);
-        assertTrue(CommandFactory.create(PostCommand.NAME, "", response, game) instanceof PostCommand);
-        assertTrue(CommandFactory.create(ProtoverCommand.NAME, "1", response, game) instanceof ProtoverCommand);
-        assertTrue(CommandFactory.create(QuitCommand.NAME, "", response, game) instanceof QuitCommand);
-        assertTrue(CommandFactory.create(RandomCommand.NAME, "", response, game) instanceof RandomCommand);
-        assertTrue(CommandFactory.create(RejectedCommand.NAME, "", response, game) instanceof RejectedCommand);
-        assertTrue(CommandFactory.create(RemoveCommand.NAME, "", response, game) instanceof RemoveCommand);
-        assertTrue(CommandFactory.create(ResultCommand.NAME, "", response, game) instanceof ResultCommand);
-        assertTrue(CommandFactory.create(SetBoardCommand.NAME, "", response, game) instanceof SetBoardCommand);
-        assertTrue(CommandFactory.create(StCommand.NAME, "", response, game) instanceof StCommand);
-        assertTrue(CommandFactory.create(TimeCommand.NAME, "1", response, game) instanceof TimeCommand);
-        assertTrue(CommandFactory.create(UserMoveCommand.NAME, "", response, game) instanceof UserMoveCommand);
-        assertTrue(CommandFactory.create(XBoardCommand.NAME, "", response, game) instanceof XBoardCommand);
+        assertInstanceOf(AcceptedCommand.class, CommandFactory.create(AcceptedCommand.NAME, "", response, game));
+        assertInstanceOf(BkCommand.class, CommandFactory.create(BkCommand.NAME, "", response, game));
+        assertInstanceOf(BoardCommand.class, CommandFactory.create(BoardCommand.NAME, "", response, game));
+        assertInstanceOf(ComputerCommand.class, CommandFactory.create(ComputerCommand.NAME, "", response, game));
+        assertInstanceOf(EasyCommand.class, CommandFactory.create(EasyCommand.NAME, "", response, game));
+        assertInstanceOf(ForceCommand.class, CommandFactory.create(ForceCommand.NAME, "", response, game));
+        assertInstanceOf(GoCommand.class, CommandFactory.create(GoCommand.NAME, "", response, game));
+        assertInstanceOf(HardCommand.class, CommandFactory.create(HardCommand.NAME, "", response, game));
+        assertInstanceOf(HelpCommand.class, CommandFactory.create(HelpCommand.NAME, "", response, game));
+        assertInstanceOf(HintCommand.class, CommandFactory.create(HintCommand.NAME, "", response, game));
+        assertInstanceOf(LevelCommand.class, CommandFactory.create(LevelCommand.NAME, "", response, game));
+        assertInstanceOf(MovesCommand.class, CommandFactory.create(MovesCommand.NAME, "", response, game));
+        assertInstanceOf(NameCommand.class, CommandFactory.create(NameCommand.NAME, "", response, game));
+        assertInstanceOf(NewCommand.class, CommandFactory.create(NewCommand.NAME, "", response, game));
+        assertInstanceOf(NoPostCommand.class, CommandFactory.create(NoPostCommand.NAME, "", response, game));
+        assertInstanceOf(OtimCommand.class, CommandFactory.create(OtimCommand.NAME, "1", response, game));
+        assertInstanceOf(PingCommand.class, CommandFactory.create(PingCommand.NAME, "", response, game));
+        assertInstanceOf(PlayOtherCommand.class, CommandFactory.create(PlayOtherCommand.NAME, "", response, game));
+        assertInstanceOf(PostCommand.class, CommandFactory.create(PostCommand.NAME, "", response, game));
+        assertInstanceOf(ProtoverCommand.class, CommandFactory.create(ProtoverCommand.NAME, "1", response, game));
+        assertInstanceOf(QuitCommand.class, CommandFactory.create(QuitCommand.NAME, "", response, game));
+        assertInstanceOf(RandomCommand.class, CommandFactory.create(RandomCommand.NAME, "", response, game));
+        assertInstanceOf(RejectedCommand.class, CommandFactory.create(RejectedCommand.NAME, "", response, game));
+        assertInstanceOf(RemoveCommand.class, CommandFactory.create(RemoveCommand.NAME, "", response, game));
+        assertInstanceOf(ResultCommand.class, CommandFactory.create(ResultCommand.NAME, "", response, game));
+        assertInstanceOf(SetBoardCommand.class, CommandFactory.create(SetBoardCommand.NAME, "", response, game));
+        assertInstanceOf(StCommand.class, CommandFactory.create(StCommand.NAME, "", response, game));
+        assertInstanceOf(TimeCommand.class, CommandFactory.create(TimeCommand.NAME, "1", response, game));
+        assertInstanceOf(UserMoveCommand.class, CommandFactory.create(UserMoveCommand.NAME, "", response, game));
+        assertInstanceOf(XBoardCommand.class, CommandFactory.create(XBoardCommand.NAME, "", response, game));
     }
 }

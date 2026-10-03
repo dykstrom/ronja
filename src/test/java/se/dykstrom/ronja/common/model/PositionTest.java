@@ -17,12 +17,12 @@
 
 package se.dykstrom.ronja.common.model;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static se.dykstrom.ronja.common.model.Piece.BISHOP;
 import static se.dykstrom.ronja.common.model.Piece.ROOK;
 import static se.dykstrom.ronja.common.model.Square.*;

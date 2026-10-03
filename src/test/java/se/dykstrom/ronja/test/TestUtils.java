@@ -34,8 +34,8 @@ import se.dykstrom.ronja.engine.core.AlphaBetaFinder;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static se.dykstrom.ronja.common.parser.FenParser.parse;
 
 /**
@@ -135,7 +135,7 @@ public class TestUtils {
                 SanParser.format(position, expectedMove),
                 SanParser.format(position, actualMove)
         );
-        assertEquals(message, expectedMove, actualMove);
+        assertEquals(expectedMove, actualMove, message);
     }
 
     public static AlphaBetaFinder setupFinder(final String fen) throws ParseException {

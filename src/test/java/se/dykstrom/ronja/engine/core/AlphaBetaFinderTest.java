@@ -19,16 +19,16 @@ package se.dykstrom.ronja.engine.core;
 
 import java.text.ParseException;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Piece;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.test.AbstractTestCase;
 import se.dykstrom.ronja.test.TestUtils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.dykstrom.ronja.common.model.Piece.BISHOP;
 import static se.dykstrom.ronja.common.model.Piece.KING;
 import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
@@ -287,14 +287,14 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
         assertEquals(Move.createCapture(KNIGHT, B5_IDX, C7_IDX, PAWN), findBestMoveWithTime(FEN_FORK_0, 500));
     }
 
-    @Ignore("Quiescence search not implemented")
+    @Disabled("Quiescence search not implemented")
     @Test
     public void shouldFindBestMoveInNonQuietPositionAtMaxDepth1() throws Exception {
         assertFindMoveAtDepth(Move.create(KNIGHT, B4_IDX, C6_IDX), FEN_NON_QUIET, 1);
         assertFindMoveAtDepth(Move.createCapture(BISHOP, F4_IDX, H2_IDX, PAWN), FEN_DRAW_2_4, 1);
     }
 
-    @Ignore("Quiescence search not implemented")
+    @Disabled("Quiescence search not implemented")
     @Test
     public void shouldFindBestMoveInNonQuietPositionAtMaxDepth2() throws Exception {
         assertFindMoveAtDepth(Move.create(KNIGHT, B4_IDX, C6_IDX), FEN_NON_QUIET, 2);

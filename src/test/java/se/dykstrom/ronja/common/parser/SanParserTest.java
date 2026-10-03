@@ -19,15 +19,15 @@ package se.dykstrom.ronja.common.parser;
 
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.dykstrom.ronja.common.model.Piece.BISHOP;
 import static se.dykstrom.ronja.common.model.Piece.KING;
 import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
@@ -92,87 +92,87 @@ public class SanParserTest extends AbstractTestCase {
     @Test
 	public void testIsMove() {
         // Simple piece moves
-        assertTrue("Nf3", isMove("Nf3"));
-        assertTrue("Bh1", isMove("Bh1"));
-        assertTrue("Rf8", isMove("Rf8"));
-        assertTrue("Rf8+", isMove("Rf8+"));
-        assertTrue("Qa8", isMove("Qa8"));
-        assertTrue("Qa8#", isMove("Qa8#"));
-        assertTrue("Ka1", isMove("Ka1"));
+        assertTrue(isMove("Nf3"), "Nf3");
+        assertTrue(isMove("Bh1"), "Bh1");
+        assertTrue(isMove("Rf8"), "Rf8");
+        assertTrue(isMove("Rf8+"), "Rf8+");
+        assertTrue(isMove("Qa8"), "Qa8");
+        assertTrue(isMove("Qa8#"), "Qa8#");
+        assertTrue(isMove("Ka1"), "Ka1");
 
         // Complex piece moves
-        assertTrue("Nbc3", isMove("Nbc3"));
-        assertTrue("Bah1", isMove("Bah1"));
-        assertTrue("R1f8", isMove("R1f8"));
-        assertTrue("Q5d6", isMove("Q5d6"));
-        assertTrue("Qd5d6", isMove("Qd5d6"));
+        assertTrue(isMove("Nbc3"), "Nbc3");
+        assertTrue(isMove("Bah1"), "Bah1");
+        assertTrue(isMove("R1f8"), "R1f8");
+        assertTrue(isMove("Q5d6"), "Q5d6");
+        assertTrue(isMove("Qd5d6"), "Qd5d6");
 
         // Complex piece moves with captures
-        assertTrue("Ngxf3", isMove("Ngxf3"));
-        assertTrue("Bfxh1", isMove("Bfxh1"));
-        assertTrue("Raxf8", isMove("Raxf8"));
-        assertTrue("R7xf8+", isMove("R7xf8+"));
-        assertTrue("Q6xa8", isMove("Q6xa8"));
-        assertTrue("Q8xa8#", isMove("Q8xa8#"));
+        assertTrue(isMove("Ngxf3"), "Ngxf3");
+        assertTrue(isMove("Bfxh1"), "Bfxh1");
+        assertTrue(isMove("Raxf8"), "Raxf8");
+        assertTrue(isMove("R7xf8+"), "R7xf8+");
+        assertTrue(isMove("Q6xa8"), "Q6xa8");
+        assertTrue(isMove("Q8xa8#"), "Q8xa8#");
 
         // Simple pawn moves
-        assertTrue("e4", isMove("e4"));
-        assertTrue("a7", isMove("a7"));
-        assertTrue("b2+", isMove("b2+"));
-        assertTrue("g7#", isMove("g7#"));
+        assertTrue(isMove("e4"), "e4");
+        assertTrue(isMove("a7"), "a7");
+        assertTrue(isMove("b2+"), "b2+");
+        assertTrue(isMove("g7#"), "g7#");
 
         // Pawn moves with captures
-        assertTrue("exd4", isMove("exd4"));
-        assertTrue("axb2", isMove("axb2"));
-        assertTrue("bxc6+", isMove("bxc6+"));
-        assertTrue("hxg5#", isMove("hxg5#"));
+        assertTrue(isMove("exd4"), "exd4");
+        assertTrue(isMove("axb2"), "axb2");
+        assertTrue(isMove("bxc6+"), "bxc6+");
+        assertTrue(isMove("hxg5#"), "hxg5#");
 
         // Pawn promotions
-        assertTrue("e8=Q", isMove("e8=Q"));
-        assertTrue("c8=N", isMove("c8=N"));
-        assertTrue("a1=R", isMove("a1=R"));
-        assertTrue("h1=B", isMove("h1=B"));
-        assertTrue("g1=B+", isMove("g1=B+"));
-        assertTrue("axb8=N#", isMove("axb8=N#"));
+        assertTrue(isMove("e8=Q"), "e8=Q");
+        assertTrue(isMove("c8=N"), "c8=N");
+        assertTrue(isMove("a1=R"), "a1=R");
+        assertTrue(isMove("h1=B"), "h1=B");
+        assertTrue(isMove("g1=B+"), "g1=B+");
+        assertTrue(isMove("axb8=N#"), "axb8=N#");
 
         // Castling
-        assertTrue("O-O", isMove("O-O"));
-        assertTrue("O-O-O", isMove("O-O-O"));
-        assertTrue("O-O+", isMove("O-O+"));
-        assertTrue("O-O-O#", isMove("O-O-O#"));
+        assertTrue(isMove("O-O"), "O-O");
+        assertTrue(isMove("O-O-O"), "O-O-O");
+        assertTrue(isMove("O-O+"), "O-O+");
+        assertTrue(isMove("O-O-O#"), "O-O-O#");
 
         // Illegal moves
-        assertFalse("Nf9", isMove("Nf9"));
-        assertFalse("Bh11", isMove("Bh11"));
-        assertFalse("ka8", isMove("ka8"));
-        assertFalse("Sa8", isMove("Sa8"));
-        assertFalse("Qi8", isMove("Qi8"));
+        assertFalse(isMove("Nf9"), "Nf9");
+        assertFalse(isMove("Bh11"), "Bh11");
+        assertFalse(isMove("ka8"), "ka8");
+        assertFalse(isMove("Sa8"), "Sa8");
+        assertFalse(isMove("Qi8"), "Qi8");
 
-        assertFalse("Q9g8", isMove("Q9g8"));
-        assertFalse("Nfff5", isMove("Nfff5"));
-        assertFalse("N1ff5", isMove("N1ff5"));
+        assertFalse(isMove("Q9g8"), "Q9g8");
+        assertFalse(isMove("Nfff5"), "Nfff5");
+        assertFalse(isMove("N1ff5"), "N1ff5");
 
-        assertFalse("R9xf8+", isMove("R9xf8+"));
-        assertFalse("Qkxa8", isMove("Qkxa8"));
-        assertFalse("Q8xp8#", isMove("Q8xp8#"));
+        assertFalse(isMove("R9xf8+"), "R9xf8+");
+        assertFalse(isMove("Qkxa8"), "Qkxa8");
+        assertFalse(isMove("Q8xp8#"), "Q8xp8#");
 
-        assertFalse("i7", isMove("i7"));
-        assertFalse("h9", isMove("h9"));
-        assertFalse("f10+", isMove("f10+"));
-        assertFalse("a0#", isMove("a0#"));
+        assertFalse(isMove("i7"), "i7");
+        assertFalse(isMove("h9"), "h9");
+        assertFalse(isMove("f10+"), "f10+");
+        assertFalse(isMove("a0#"), "a0#");
 
-        assertFalse("zxd4", isMove("zxd4"));
-        assertFalse("axb9#", isMove("axb9#"));
+        assertFalse(isMove("zxd4"), "zxd4");
+        assertFalse(isMove("axb9#"), "axb9#");
 
-        assertFalse("e6=Q", isMove("e6=Q"));
-        assertFalse("c2=N", isMove("c2=N"));
-        assertFalse("c1=P", isMove("c1=P"));
-        assertFalse("g8=K", isMove("g8=K"));
-        assertFalse("e8=Q##", isMove("e8=Q##"));
+        assertFalse(isMove("e6=Q"), "e6=Q");
+        assertFalse(isMove("c2=N"), "c2=N");
+        assertFalse(isMove("c1=P"), "c1=P");
+        assertFalse(isMove("g8=K"), "g8=K");
+        assertFalse(isMove("e8=Q##"), "e8=Q##");
 
-        assertFalse("O", isMove("O"));
-        assertFalse("O+", isMove("O+"));
-        assertFalse("O-O-O-O", isMove("O-O-O-O"));
+        assertFalse(isMove("O"), "O");
+        assertFalse(isMove("O+"), "O+");
+        assertFalse(isMove("O-O-O-O"), "O-O-O-O");
 	}
 
     // -----------------------------------------------------------------------

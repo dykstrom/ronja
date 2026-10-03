@@ -17,14 +17,14 @@
 
 package se.dykstrom.ronja.engine.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class is for testing class {@code PositionUtils} using JUnit.

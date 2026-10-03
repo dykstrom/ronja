@@ -17,11 +17,6 @@
 
 package se.dykstrom.ronja.engine.ui;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.logging.Logger;
-
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.book.OpeningBookParser;
 import se.dykstrom.ronja.common.model.Game;
@@ -29,6 +24,11 @@ import se.dykstrom.ronja.engine.ui.command.Command;
 import se.dykstrom.ronja.engine.ui.command.QuitCommand;
 import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.engine.utils.Version;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.logging.Logger;
 
 /**
  * The main class, and entry point of the chess engine.
@@ -50,7 +50,7 @@ public class Ronja {
         }
     }
 
-    @SuppressWarnings("java:S106")
+    @SuppressWarnings({"java:S106", "JavaPrintToLogpoint"})
     public static void main(String[] args) throws IOException {
         System.out.println("# Ronja version " + Version.instance());
 

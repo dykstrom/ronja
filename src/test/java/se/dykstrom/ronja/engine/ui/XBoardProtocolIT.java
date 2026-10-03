@@ -22,15 +22,16 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.test.AbstractTestCase;
 import se.dykstrom.ronja.test.TestUtils;
@@ -38,9 +39,9 @@ import se.dykstrom.ronja.test.TestUtils;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.regex.Pattern.quote;
 import static org.awaitility.Awaitility.await;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 import static se.dykstrom.ronja.test.TestUtils.assertContainsRegex;
 
 /**
@@ -57,7 +58,9 @@ public class XBoardProtocolIT extends AbstractTestCase {
 
     private static final String ENGINE_NAME = "ENGINE_NAME";
 
-    private static final String JAVA_CMD = "java";
+    // Start the engine with the JDK that runs the tests, not the java found on the PATH,
+    // because the PATH may point to an older JDK that cannot load the engine's classes
+    private static final String JAVA_CMD = Path.of(System.getProperty("java.home"), "bin", "java").toString();
     private static final String BOOK_ARG = "-D" + AppConfig.PROPERTY_BOOK_FILE;
     private static final String GAME_LOG_ARG = "-D" + AppConfig.PROPERTY_GAME_LOG_FILE;
     private static final String ENGINE_ARG = "-D" + AppConfig.PROPERTY_ENGINE_NAME;
@@ -73,12 +76,12 @@ public class XBoardProtocolIT extends AbstractTestCase {
     private BufferedReader reader;
     private PrintWriter writer;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass() throws Exception {
         bookFile = TestUtils.createBookFile();
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         gameLogFile = File.createTempFile("XBoardProtocolIT_", ".pgn");
         gameLogFile.deleteOnExit();
@@ -86,7 +89,7 @@ public class XBoardProtocolIT extends AbstractTestCase {
         setUpChessEngine();
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         tearDownChessEngine();
 

@@ -17,8 +17,10 @@
 
 package se.dykstrom.ronja.engine.ui.command;
 
-import org.junit.Before;
-import org.junit.Test;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.*;
 import se.dykstrom.ronja.common.parser.FenParser;
@@ -27,18 +29,15 @@ import se.dykstrom.ronja.engine.time.TimeData;
 import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.test.AbstractTestCase;
 import se.dykstrom.ronja.test.ListResponse;
-import se.dykstrom.ronja.test.SizeMatcher;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.hamcrest.CoreMatchers.both;
-import static org.hamcrest.CoreMatchers.hasItems;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static se.dykstrom.ronja.common.model.Piece.PAWN;
 import static se.dykstrom.ronja.common.model.Square.A2_IDX;
 import static se.dykstrom.ronja.common.model.Square.A4_IDX;
@@ -70,7 +69,7 @@ public class CommandTest extends AbstractTestCase {
 
     private final Game game = new Game(OpeningBook.DEFAULT);
 
-    @Before
+    @BeforeEach
     public void setUp() {
         AppConfig.setGameLogFilename(null);
         game.setTimeControl(TC_0_0_0_100);
@@ -134,10 +133,9 @@ public class CommandTest extends AbstractTestCase {
         assertEquals(name, game.getOpponent());
     }
 
-    @Test(expected = InvalidCommandException.class)
-    public void testNameCommand_NoArgument() throws Exception {
-        Command command = new NameCommand(null, new ListResponse(), game);
-        command.execute();
+    @Test
+    public void testNameCommand_NoArgument() {
+        assertThrows(InvalidCommandException.class, () -> new NameCommand(null, new ListResponse(), game).execute());
     }
 
     @Test
@@ -154,10 +152,9 @@ public class CommandTest extends AbstractTestCase {
         assertEquals(TD_0_5_30, game.getTimeData());
     }
 
-    @Test(expected = InvalidCommandException.class)
-    public void testLevelCommand_NoArguments() throws Exception {
-        Command command = new LevelCommand(null, new ListResponse(), game);
-        command.execute();
+    @Test
+    public void testLevelCommand_NoArguments() {
+        assertThrows(InvalidCommandException.class, () -> new LevelCommand(null, new ListResponse(), game).execute());
     }
 
     @Test
@@ -176,10 +173,9 @@ public class CommandTest extends AbstractTestCase {
         assertEquals(TD_0_0_10, game.getTimeData());
     }
 
-    @Test(expected = InvalidCommandException.class)
-    public void testStCommand_NoArguments() throws Exception {
-        Command command = new StCommand(null, new ListResponse(), game);
-        command.execute();
+    @Test
+    public void testStCommand_NoArguments() {
+        assertThrows(InvalidCommandException.class, () -> new StCommand(null, new ListResponse(), game).execute());
     }
 
     @Test
@@ -230,7 +226,8 @@ public class CommandTest extends AbstractTestCase {
         ListResponse response = new ListResponse();
         Command command = new GoCommand(null, response, game);
         command.execute();
-        assertThat(response.getList(), both(hasItems("move a1c1", "0-1 {Black mates}")).and(SizeMatcher.hasSize(2)));
+        assertEquals(2, response.getList().size());
+        assertTrue(response.getList().containsAll(List.of("move a1c1", "0-1 {Black mates}")));
     }
 
     @Test
@@ -239,7 +236,7 @@ public class CommandTest extends AbstractTestCase {
         ListResponse response = new ListResponse();
         Command command = new GoCommand(null, response, game);
         command.execute();
-        assertThat(response.getList(), both(hasItems("Error (checkmate): go")).and(SizeMatcher.hasSize(1)));
+        assertEquals(List.of("Error (checkmate): go"), response.getList());
     }
 
     @Test
@@ -279,7 +276,7 @@ public class CommandTest extends AbstractTestCase {
         ListResponse response = new ListResponse();
         Command command = new PlayOtherCommand(null, response, game);
         command.execute();
-        assertThat(response.getList(), both(hasItems("Error (draw): playother")).and(SizeMatcher.hasSize(1)));
+        assertEquals(List.of("Error (draw): playother"), response.getList());
     }
 
     @Test
@@ -288,7 +285,7 @@ public class CommandTest extends AbstractTestCase {
         ListResponse response = new ListResponse();
         Command command = new PlayOtherCommand(null, response, game);
         command.execute();
-        assertThat(response.getList(), both(hasItems("Error (checkmate): playother")).and(SizeMatcher.hasSize(1)));
+        assertEquals(List.of("Error (checkmate): playother"), response.getList());
     }
 
     @Test
@@ -300,10 +297,9 @@ public class CommandTest extends AbstractTestCase {
         assertEquals("pong 1", response.getList().get(0));
     }
 
-    @Test(expected = InvalidCommandException.class)
-    public void testPingCommand_NoArgument() throws Exception {
-        Command command = new PingCommand(null, new ListResponse(), game);
-        command.execute();
+    @Test
+    public void testPingCommand_NoArgument() {
+        assertThrows(InvalidCommandException.class, () -> new PingCommand(null, new ListResponse(), game).execute());
     }
 
     @Test
@@ -327,10 +323,9 @@ public class CommandTest extends AbstractTestCase {
         assertNull(AppConfig.getGameLogFilename()); // How can we assert that no file has been written?
     }
 
-    @Test(expected = InvalidCommandException.class)
-    public void testResultCommand_NoArgument() throws Exception {
-        Command command = new ResultCommand(null, new ListResponse(), game);
-        command.execute();
+    @Test
+    public void testResultCommand_NoArgument() {
+        assertThrows(InvalidCommandException.class, () -> new ResultCommand(null, new ListResponse(), game).execute());
     }
 
     @Test
@@ -574,9 +569,8 @@ public class CommandTest extends AbstractTestCase {
         assertContainsRegex("Illegal move", response.getList());
     }
 
-    @Test(expected = InvalidCommandException.class)
-    public void testUserMoveCommand_NoArgument() throws Exception {
-        Command command = new UserMoveCommand(null, new ListResponse(), game);
-        command.execute();
+    @Test
+    public void testUserMoveCommand_NoArgument() {
+        assertThrows(InvalidCommandException.class, () -> new UserMoveCommand(null, new ListResponse(), game).execute());
     }
 }

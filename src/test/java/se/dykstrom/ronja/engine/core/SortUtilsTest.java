@@ -20,10 +20,10 @@ package se.dykstrom.ronja.engine.core;
 import java.util.Arrays;
 import java.util.Random;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.model.Move;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static se.dykstrom.ronja.common.model.Piece.BISHOP;
 import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
 import static se.dykstrom.ronja.common.model.Piece.PAWN;

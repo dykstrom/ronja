@@ -17,7 +17,7 @@
 
 package se.dykstrom.ronja.engine.ui;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.command.*;
@@ -27,8 +27,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * This class is for testing class {@code CommandParser} using JUnit.

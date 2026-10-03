@@ -17,12 +17,12 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static se.dykstrom.ronja.common.model.Piece.*;
 import static se.dykstrom.ronja.common.model.Square.*;
 
@@ -37,31 +37,31 @@ public class CanParserTest extends AbstractTestCase {
     @Test
     public void testIsMove() {
         // Normal moves
-        assertTrue("e2e4", CanParser.isMove("e2e4"));
-        assertTrue("e4e5", CanParser.isMove("e4e5"));
-        assertTrue("e5e4", CanParser.isMove("e5e4"));
-        assertTrue("e4e2", CanParser.isMove("e4e2"));
-        assertTrue("a1a8", CanParser.isMove("a1a8"));
-        assertTrue("h8h1", CanParser.isMove("h8h1"));
-        assertTrue("e1g1", CanParser.isMove("e1g1"));
+        assertTrue(CanParser.isMove("e2e4"), "e2e4");
+        assertTrue(CanParser.isMove("e4e5"), "e4e5");
+        assertTrue(CanParser.isMove("e5e4"), "e5e4");
+        assertTrue(CanParser.isMove("e4e2"), "e4e2");
+        assertTrue(CanParser.isMove("a1a8"), "a1a8");
+        assertTrue(CanParser.isMove("h8h1"), "h8h1");
+        assertTrue(CanParser.isMove("e1g1"), "e1g1");
 
         // Pawn promotions
-        assertTrue("e7e8q", CanParser.isMove("e7e8q"));
-        assertTrue("h7h8r", CanParser.isMove("h7h8r"));
-        assertTrue("b2b1n", CanParser.isMove("b2b1n"));
-        assertTrue("a2a1b", CanParser.isMove("a2a1b"));
+        assertTrue(CanParser.isMove("e7e8q"), "e7e8q");
+        assertTrue(CanParser.isMove("h7h8r"), "h7h8r");
+        assertTrue(CanParser.isMove("b2b1n"), "b2b1n");
+        assertTrue(CanParser.isMove("a2a1b"), "a2a1b");
 
         // Illegal moves
-        assertFalse("i2i4", CanParser.isMove("i2i4"));
-        assertFalse("h2i4", CanParser.isMove("h2i4"));
-        assertFalse("a0a1", CanParser.isMove("a0a1"));
-        assertFalse("a0aa1", CanParser.isMove("a0aa1"));
-        assertFalse("aa1", CanParser.isMove("aa1"));
-        assertFalse("a2a", CanParser.isMove("a2a"));
-        assertFalse("a2a4r", CanParser.isMove("a2a4r"));
-        assertFalse("e8e7b", CanParser.isMove("e8e7b"));
-        assertFalse("e7e8p", CanParser.isMove("e7e8p"));
-        assertFalse("f2f1p", CanParser.isMove("f2f1p"));
+        assertFalse(CanParser.isMove("i2i4"), "i2i4");
+        assertFalse(CanParser.isMove("h2i4"), "h2i4");
+        assertFalse(CanParser.isMove("a0a1"), "a0a1");
+        assertFalse(CanParser.isMove("a0aa1"), "a0aa1");
+        assertFalse(CanParser.isMove("aa1"), "aa1");
+        assertFalse(CanParser.isMove("a2a"), "a2a");
+        assertFalse(CanParser.isMove("a2a4r"), "a2a4r");
+        assertFalse(CanParser.isMove("e8e7b"), "e8e7b");
+        assertFalse(CanParser.isMove("e7e8p"), "e7e8p");
+        assertFalse(CanParser.isMove("f2f1p"), "f2f1p");
     }
 
     // -----------------------------------------------------------------------
@@ -147,28 +147,28 @@ public class CanParserTest extends AbstractTestCase {
         assertEquals(Move.create(PAWN, D4_IDX, D3_IDX), CanParser.parse("d4d3", position));
     }
 
-    @Test(expected = IllegalMoveException.class)
+    @Test
     public void testParseInvalid_NoPiece() throws Exception {
         Position position = FenParser.parse(FEN_START);
-        CanParser.parse("e4e5", position);
+        assertThrows(IllegalMoveException.class, () -> CanParser.parse("e4e5", position));
     }
 
-    @Test(expected = IllegalMoveException.class)
+    @Test
     public void testParseInvalid_WrongColor() throws Exception {
         Position position = FenParser.parse(FEN_START);
-        CanParser.parse("e5e6", position);
+        assertThrows(IllegalMoveException.class, () -> CanParser.parse("e5e6", position));
     }
 
-    @Test(expected = IllegalMoveException.class)
+    @Test
     public void testParseInvalid_InvalidCapture() throws Exception {
         Position position = FenParser.parse(FEN_START);
-        CanParser.parse("d1e8", position);
+        assertThrows(IllegalMoveException.class, () -> CanParser.parse("d1e8", position));
     }
 
-    @Test(expected = IllegalMoveException.class)
+    @Test
     public void testParseInvalid_InvalidCastling() throws Exception {
         Position position = FenParser.parse(FEN_WQC_NOK_K);
-        CanParser.parse("e1c1", position);
+        assertThrows(IllegalMoveException.class, () -> CanParser.parse("e1c1", position));
     }
 
     // -----------------------------------------------------------------------

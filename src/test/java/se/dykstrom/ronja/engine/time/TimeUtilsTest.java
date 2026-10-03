@@ -19,10 +19,11 @@ package se.dykstrom.ronja.engine.time;
 
 import java.text.ParseException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static se.dykstrom.ronja.engine.time.TimeControlType.CLASSIC;
 import static se.dykstrom.ronja.engine.time.TimeControlType.INCREMENTAL;
 import static se.dykstrom.ronja.engine.time.TimeControlType.SECONDS_PER_MOVE;
@@ -72,14 +73,14 @@ public class TimeUtilsTest {
         assertEquals(TC_40_2_30_00, parseLevelText("40 2:30+5 0"));
     }
 
-    @Test(expected = ParseException.class)
-    public void testParseLevelText_TwoArguments() throws Exception {
-        parseLevelText("40 5");
+    @Test
+    public void testParseLevelText_TwoArguments() {
+        assertThrows(ParseException.class, () -> parseLevelText("40 5"));
     }
 
-    @Test(expected = ParseException.class)
-    public void testParseLevelText_FourArguments() throws Exception {
-        parseLevelText("40 5 0 10");
+    @Test
+    public void testParseLevelText_FourArguments() {
+        assertThrows(ParseException.class, () -> parseLevelText("40 5 0 10"));
     }
 
     @Test
@@ -88,14 +89,14 @@ public class TimeUtilsTest {
         assertEquals(TC_0_0_03, parseStText("3"));
     }
 
-    @Test(expected = ParseException.class)
-    public void testParseStText_NoArguments() throws Exception {
-        parseStText("");
+    @Test
+    public void testParseStText_NoArguments() {
+        assertThrows(ParseException.class, () -> parseStText(""));
     }
 
-    @Test(expected = ParseException.class)
-    public void testParseStText_TwoArguments() throws Exception {
-        parseStText("40 5");
+    @Test
+    public void testParseStText_TwoArguments() {
+        assertThrows(ParseException.class, () -> parseStText("40 5"));
     }
 
     @Test

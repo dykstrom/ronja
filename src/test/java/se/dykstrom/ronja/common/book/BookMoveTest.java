@@ -17,12 +17,12 @@
 
 package se.dykstrom.ronja.common.book;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Piece;
 import se.dykstrom.ronja.common.model.Square;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BookMoveTest {
 

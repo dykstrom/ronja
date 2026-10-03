@@ -7,59 +7,33 @@ on:
     branches: [ master ]
 
 jobs:
-  build-macos:
-    runs-on: macos-latest
+  build:
+    name: ${{ matrix.os }} ${{ matrix.arch }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: Linux,   arch: x86_64, runner: ubuntu-latest,    distribution: temurin, upload: true }
+          - { os: Linux,   arch: arm64,  runner: ubuntu-24.04-arm, distribution: temurin }
+          - { os: macOS,   arch: x86_64, runner: macos-26-intel,   distribution: temurin }
+          - { os: macOS,   arch: arm64,  runner: macos-latest,     distribution: temurin }
+          - { os: Windows, arch: x86_64, runner: windows-latest,   distribution: temurin }
+          # Temurin has no JDK 25 build for Windows arm64
+          - { os: Windows, arch: arm64,  runner: windows-11-arm,   distribution: zulu }
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B verify --file pom.xml
-
-  build-linux-17:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B verify --file pom.xml
-
-  build-linux-21:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v7
+      - name: Set up JDK 25
+        uses: actions/setup-java@v6
         with:
-          java-version: '21'
-          distribution: 'temurin'
+          java-version: '25'
+          distribution: ${{ matrix.distribution }}
           cache: maven
       - name: Build with Maven
         run: mvn -B verify --file pom.xml
-
-  build-windows:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B verify --file pom.xml
-    - name: Upload artfacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: Windows-artifacts
-        path: target/ronja-*.zip
+      - name: Upload artifacts
+        if: matrix.upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: ronja-bin
+          path: target/ronja-*.zip

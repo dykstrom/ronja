@@ -21,12 +21,12 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.dykstrom.ronja.common.model.Square.A1_IDX;
 import static se.dykstrom.ronja.common.model.Square.A8_IDX;
 import static se.dykstrom.ronja.common.model.Square.B1_IDX;
@@ -83,7 +83,7 @@ public class SquareTest extends AbstractTestCase {
 	public void testIdToIndex() {
 		// Square indices range from 0 to 63
 		for (int index = 0; index < 64; index++) {
-			assertEquals("Index: " + index + ", ", index, Square.idToIndex(Square.indexToId(index)));
+			assertEquals(index, Square.idToIndex(Square.indexToId(index)), "Index: " + index + ", ");
 		}
 
         // Check a subset of the squares
@@ -101,7 +101,7 @@ public class SquareTest extends AbstractTestCase {
         // Square indices range from 0 to 63
         for (int index = 0; index < 64; index++) {
             long id = Square.indexToId(index);
-            assertEquals("Index: " + index + ", ", id, Square.nameToId(Square.idToName(id)));
+            assertEquals(id, Square.nameToId(Square.idToName(id)), "Index: " + index + ", ");
         }
 
         // Check a subset of the squares
@@ -118,7 +118,7 @@ public class SquareTest extends AbstractTestCase {
     public void testIndexToName() {
         // Square indices range from 0 to 63
         for (int index = 0; index < 64; index++) {
-            assertEquals("Index: " + index + ", ", index, Square.nameToIndex(Square.indexToName(index)));
+            assertEquals(index, Square.nameToIndex(Square.indexToName(index)), "Index: " + index + ", ");
         }
 
         // Check a subset of the squares
@@ -146,250 +146,250 @@ public class SquareTest extends AbstractTestCase {
 
     @Test
     public void testEast() {
-        Assert.assertEquals(Square.B1, Square.east(Square.A1));
-        Assert.assertEquals(Square.B2, Square.east(Square.A2));
-        Assert.assertEquals(Square.B3, Square.east(Square.A3));
-        Assert.assertEquals(Square.B4, Square.east(Square.A4));
-        Assert.assertEquals(Square.B5, Square.east(Square.A5));
-        Assert.assertEquals(Square.B6, Square.east(Square.A6));
-        Assert.assertEquals(Square.B7, Square.east(Square.A7));
-        Assert.assertEquals(Square.B8, Square.east(Square.A8));
+        Assertions.assertEquals(Square.B1, Square.east(Square.A1));
+        Assertions.assertEquals(Square.B2, Square.east(Square.A2));
+        Assertions.assertEquals(Square.B3, Square.east(Square.A3));
+        Assertions.assertEquals(Square.B4, Square.east(Square.A4));
+        Assertions.assertEquals(Square.B5, Square.east(Square.A5));
+        Assertions.assertEquals(Square.B6, Square.east(Square.A6));
+        Assertions.assertEquals(Square.B7, Square.east(Square.A7));
+        Assertions.assertEquals(Square.B8, Square.east(Square.A8));
 
-        Assert.assertEquals(Square.H1, Square.east(Square.G1));
-        Assert.assertEquals(Square.H2, Square.east(Square.G2));
-        Assert.assertEquals(Square.H3, Square.east(Square.G3));
-        Assert.assertEquals(Square.H4, Square.east(Square.G4));
-        Assert.assertEquals(Square.H5, Square.east(Square.G5));
-        Assert.assertEquals(Square.H6, Square.east(Square.G6));
-        Assert.assertEquals(Square.H7, Square.east(Square.G7));
-        Assert.assertEquals(Square.H8, Square.east(Square.G8));
+        Assertions.assertEquals(Square.H1, Square.east(Square.G1));
+        Assertions.assertEquals(Square.H2, Square.east(Square.G2));
+        Assertions.assertEquals(Square.H3, Square.east(Square.G3));
+        Assertions.assertEquals(Square.H4, Square.east(Square.G4));
+        Assertions.assertEquals(Square.H5, Square.east(Square.G5));
+        Assertions.assertEquals(Square.H6, Square.east(Square.G6));
+        Assertions.assertEquals(Square.H7, Square.east(Square.G7));
+        Assertions.assertEquals(Square.H8, Square.east(Square.G8));
     }
 
     @Test
     public void testWest() {
-        Assert.assertEquals(Square.G1, Square.west(Square.H1));
-        Assert.assertEquals(Square.G2, Square.west(Square.H2));
-        Assert.assertEquals(Square.G3, Square.west(Square.H3));
-        Assert.assertEquals(Square.G4, Square.west(Square.H4));
-        Assert.assertEquals(Square.G5, Square.west(Square.H5));
-        Assert.assertEquals(Square.G6, Square.west(Square.H6));
-        Assert.assertEquals(Square.G7, Square.west(Square.H7));
-        Assert.assertEquals(Square.G8, Square.west(Square.H8));
+        Assertions.assertEquals(Square.G1, Square.west(Square.H1));
+        Assertions.assertEquals(Square.G2, Square.west(Square.H2));
+        Assertions.assertEquals(Square.G3, Square.west(Square.H3));
+        Assertions.assertEquals(Square.G4, Square.west(Square.H4));
+        Assertions.assertEquals(Square.G5, Square.west(Square.H5));
+        Assertions.assertEquals(Square.G6, Square.west(Square.H6));
+        Assertions.assertEquals(Square.G7, Square.west(Square.H7));
+        Assertions.assertEquals(Square.G8, Square.west(Square.H8));
 
-        Assert.assertEquals(Square.A1, Square.west(Square.B1));
-        Assert.assertEquals(Square.A2, Square.west(Square.B2));
-        Assert.assertEquals(Square.A3, Square.west(Square.B3));
-        Assert.assertEquals(Square.A4, Square.west(Square.B4));
-        Assert.assertEquals(Square.A5, Square.west(Square.B5));
-        Assert.assertEquals(Square.A6, Square.west(Square.B6));
-        Assert.assertEquals(Square.A7, Square.west(Square.B7));
-        Assert.assertEquals(Square.A8, Square.west(Square.B8));
+        Assertions.assertEquals(Square.A1, Square.west(Square.B1));
+        Assertions.assertEquals(Square.A2, Square.west(Square.B2));
+        Assertions.assertEquals(Square.A3, Square.west(Square.B3));
+        Assertions.assertEquals(Square.A4, Square.west(Square.B4));
+        Assertions.assertEquals(Square.A5, Square.west(Square.B5));
+        Assertions.assertEquals(Square.A6, Square.west(Square.B6));
+        Assertions.assertEquals(Square.A7, Square.west(Square.B7));
+        Assertions.assertEquals(Square.A8, Square.west(Square.B8));
     }
 
     @Test
     public void testNorth() {
-        Assert.assertEquals(Square.A2, Square.north(Square.A1));
-        Assert.assertEquals(Square.B2, Square.north(Square.B1));
-        Assert.assertEquals(Square.C2, Square.north(Square.C1));
-        Assert.assertEquals(Square.D2, Square.north(Square.D1));
-        Assert.assertEquals(Square.E2, Square.north(Square.E1));
-        Assert.assertEquals(Square.F2, Square.north(Square.F1));
-        Assert.assertEquals(Square.G2, Square.north(Square.G1));
-        Assert.assertEquals(Square.H2, Square.north(Square.H1));
+        Assertions.assertEquals(Square.A2, Square.north(Square.A1));
+        Assertions.assertEquals(Square.B2, Square.north(Square.B1));
+        Assertions.assertEquals(Square.C2, Square.north(Square.C1));
+        Assertions.assertEquals(Square.D2, Square.north(Square.D1));
+        Assertions.assertEquals(Square.E2, Square.north(Square.E1));
+        Assertions.assertEquals(Square.F2, Square.north(Square.F1));
+        Assertions.assertEquals(Square.G2, Square.north(Square.G1));
+        Assertions.assertEquals(Square.H2, Square.north(Square.H1));
 
-        Assert.assertEquals(Square.A8, Square.north(Square.A7));
-        Assert.assertEquals(Square.B8, Square.north(Square.B7));
-        Assert.assertEquals(Square.C8, Square.north(Square.C7));
-        Assert.assertEquals(Square.D8, Square.north(Square.D7));
-        Assert.assertEquals(Square.E8, Square.north(Square.E7));
-        Assert.assertEquals(Square.F8, Square.north(Square.F7));
-        Assert.assertEquals(Square.G8, Square.north(Square.G7));
-        Assert.assertEquals(Square.H8, Square.north(Square.H7));
+        Assertions.assertEquals(Square.A8, Square.north(Square.A7));
+        Assertions.assertEquals(Square.B8, Square.north(Square.B7));
+        Assertions.assertEquals(Square.C8, Square.north(Square.C7));
+        Assertions.assertEquals(Square.D8, Square.north(Square.D7));
+        Assertions.assertEquals(Square.E8, Square.north(Square.E7));
+        Assertions.assertEquals(Square.F8, Square.north(Square.F7));
+        Assertions.assertEquals(Square.G8, Square.north(Square.G7));
+        Assertions.assertEquals(Square.H8, Square.north(Square.H7));
     }
 
     @Test
     public void testSouth() {
-        Assert.assertEquals(Square.A1, Square.south(Square.A2));
-        Assert.assertEquals(Square.B1, Square.south(Square.B2));
-        Assert.assertEquals(Square.C1, Square.south(Square.C2));
-        Assert.assertEquals(Square.D1, Square.south(Square.D2));
-        Assert.assertEquals(Square.E1, Square.south(Square.E2));
-        Assert.assertEquals(Square.F1, Square.south(Square.F2));
-        Assert.assertEquals(Square.G1, Square.south(Square.G2));
-        Assert.assertEquals(Square.H1, Square.south(Square.H2));
+        Assertions.assertEquals(Square.A1, Square.south(Square.A2));
+        Assertions.assertEquals(Square.B1, Square.south(Square.B2));
+        Assertions.assertEquals(Square.C1, Square.south(Square.C2));
+        Assertions.assertEquals(Square.D1, Square.south(Square.D2));
+        Assertions.assertEquals(Square.E1, Square.south(Square.E2));
+        Assertions.assertEquals(Square.F1, Square.south(Square.F2));
+        Assertions.assertEquals(Square.G1, Square.south(Square.G2));
+        Assertions.assertEquals(Square.H1, Square.south(Square.H2));
 
-        Assert.assertEquals(Square.A7, Square.south(Square.A8));
-        Assert.assertEquals(Square.B7, Square.south(Square.B8));
-        Assert.assertEquals(Square.C7, Square.south(Square.C8));
-        Assert.assertEquals(Square.D7, Square.south(Square.D8));
-        Assert.assertEquals(Square.E7, Square.south(Square.E8));
-        Assert.assertEquals(Square.F7, Square.south(Square.F8));
-        Assert.assertEquals(Square.G7, Square.south(Square.G8));
-        Assert.assertEquals(Square.H7, Square.south(Square.H8));
+        Assertions.assertEquals(Square.A7, Square.south(Square.A8));
+        Assertions.assertEquals(Square.B7, Square.south(Square.B8));
+        Assertions.assertEquals(Square.C7, Square.south(Square.C8));
+        Assertions.assertEquals(Square.D7, Square.south(Square.D8));
+        Assertions.assertEquals(Square.E7, Square.south(Square.E8));
+        Assertions.assertEquals(Square.F7, Square.south(Square.F8));
+        Assertions.assertEquals(Square.G7, Square.south(Square.G8));
+        Assertions.assertEquals(Square.H7, Square.south(Square.H8));
     }
 
     @Test
     public void testNorthEast() {
-        Assert.assertEquals(Square.B2, Square.northEast(Square.A1));
-        Assert.assertEquals(Square.B3, Square.northEast(Square.A2));
-        Assert.assertEquals(Square.B4, Square.northEast(Square.A3));
-        Assert.assertEquals(Square.B5, Square.northEast(Square.A4));
-        Assert.assertEquals(Square.B6, Square.northEast(Square.A5));
-        Assert.assertEquals(Square.B7, Square.northEast(Square.A6));
-        Assert.assertEquals(Square.B8, Square.northEast(Square.A7));
+        Assertions.assertEquals(Square.B2, Square.northEast(Square.A1));
+        Assertions.assertEquals(Square.B3, Square.northEast(Square.A2));
+        Assertions.assertEquals(Square.B4, Square.northEast(Square.A3));
+        Assertions.assertEquals(Square.B5, Square.northEast(Square.A4));
+        Assertions.assertEquals(Square.B6, Square.northEast(Square.A5));
+        Assertions.assertEquals(Square.B7, Square.northEast(Square.A6));
+        Assertions.assertEquals(Square.B8, Square.northEast(Square.A7));
 
-        Assert.assertEquals(Square.H2, Square.northEast(Square.G1));
-        Assert.assertEquals(Square.H3, Square.northEast(Square.G2));
-        Assert.assertEquals(Square.H4, Square.northEast(Square.G3));
-        Assert.assertEquals(Square.H5, Square.northEast(Square.G4));
-        Assert.assertEquals(Square.H6, Square.northEast(Square.G5));
-        Assert.assertEquals(Square.H7, Square.northEast(Square.G6));
-        Assert.assertEquals(Square.H8, Square.northEast(Square.G7));
+        Assertions.assertEquals(Square.H2, Square.northEast(Square.G1));
+        Assertions.assertEquals(Square.H3, Square.northEast(Square.G2));
+        Assertions.assertEquals(Square.H4, Square.northEast(Square.G3));
+        Assertions.assertEquals(Square.H5, Square.northEast(Square.G4));
+        Assertions.assertEquals(Square.H6, Square.northEast(Square.G5));
+        Assertions.assertEquals(Square.H7, Square.northEast(Square.G6));
+        Assertions.assertEquals(Square.H8, Square.northEast(Square.G7));
 
-        Assert.assertEquals(Square.B2, Square.northEast(Square.A1));
-        Assert.assertEquals(Square.C2, Square.northEast(Square.B1));
-        Assert.assertEquals(Square.D2, Square.northEast(Square.C1));
-        Assert.assertEquals(Square.E2, Square.northEast(Square.D1));
-        Assert.assertEquals(Square.F2, Square.northEast(Square.E1));
-        Assert.assertEquals(Square.G2, Square.northEast(Square.F1));
-        Assert.assertEquals(Square.H2, Square.northEast(Square.G1));
+        Assertions.assertEquals(Square.B2, Square.northEast(Square.A1));
+        Assertions.assertEquals(Square.C2, Square.northEast(Square.B1));
+        Assertions.assertEquals(Square.D2, Square.northEast(Square.C1));
+        Assertions.assertEquals(Square.E2, Square.northEast(Square.D1));
+        Assertions.assertEquals(Square.F2, Square.northEast(Square.E1));
+        Assertions.assertEquals(Square.G2, Square.northEast(Square.F1));
+        Assertions.assertEquals(Square.H2, Square.northEast(Square.G1));
 
-        Assert.assertEquals(Square.B8, Square.northEast(Square.A7));
-        Assert.assertEquals(Square.C8, Square.northEast(Square.B7));
-        Assert.assertEquals(Square.D8, Square.northEast(Square.C7));
-        Assert.assertEquals(Square.E8, Square.northEast(Square.D7));
-        Assert.assertEquals(Square.F8, Square.northEast(Square.E7));
-        Assert.assertEquals(Square.G8, Square.northEast(Square.F7));
-        Assert.assertEquals(Square.H8, Square.northEast(Square.G7));
+        Assertions.assertEquals(Square.B8, Square.northEast(Square.A7));
+        Assertions.assertEquals(Square.C8, Square.northEast(Square.B7));
+        Assertions.assertEquals(Square.D8, Square.northEast(Square.C7));
+        Assertions.assertEquals(Square.E8, Square.northEast(Square.D7));
+        Assertions.assertEquals(Square.F8, Square.northEast(Square.E7));
+        Assertions.assertEquals(Square.G8, Square.northEast(Square.F7));
+        Assertions.assertEquals(Square.H8, Square.northEast(Square.G7));
     }
 
     @Test
     public void testNorthWest() {
-        Assert.assertEquals(Square.A2, Square.northWest(Square.B1));
-        Assert.assertEquals(Square.A3, Square.northWest(Square.B2));
-        Assert.assertEquals(Square.A4, Square.northWest(Square.B3));
-        Assert.assertEquals(Square.A5, Square.northWest(Square.B4));
-        Assert.assertEquals(Square.A6, Square.northWest(Square.B5));
-        Assert.assertEquals(Square.A7, Square.northWest(Square.B6));
-        Assert.assertEquals(Square.A8, Square.northWest(Square.B7));
+        Assertions.assertEquals(Square.A2, Square.northWest(Square.B1));
+        Assertions.assertEquals(Square.A3, Square.northWest(Square.B2));
+        Assertions.assertEquals(Square.A4, Square.northWest(Square.B3));
+        Assertions.assertEquals(Square.A5, Square.northWest(Square.B4));
+        Assertions.assertEquals(Square.A6, Square.northWest(Square.B5));
+        Assertions.assertEquals(Square.A7, Square.northWest(Square.B6));
+        Assertions.assertEquals(Square.A8, Square.northWest(Square.B7));
 
-        Assert.assertEquals(Square.G2, Square.northWest(Square.H1));
-        Assert.assertEquals(Square.G3, Square.northWest(Square.H2));
-        Assert.assertEquals(Square.G4, Square.northWest(Square.H3));
-        Assert.assertEquals(Square.G5, Square.northWest(Square.H4));
-        Assert.assertEquals(Square.G6, Square.northWest(Square.H5));
-        Assert.assertEquals(Square.G7, Square.northWest(Square.H6));
-        Assert.assertEquals(Square.G8, Square.northWest(Square.H7));
+        Assertions.assertEquals(Square.G2, Square.northWest(Square.H1));
+        Assertions.assertEquals(Square.G3, Square.northWest(Square.H2));
+        Assertions.assertEquals(Square.G4, Square.northWest(Square.H3));
+        Assertions.assertEquals(Square.G5, Square.northWest(Square.H4));
+        Assertions.assertEquals(Square.G6, Square.northWest(Square.H5));
+        Assertions.assertEquals(Square.G7, Square.northWest(Square.H6));
+        Assertions.assertEquals(Square.G8, Square.northWest(Square.H7));
 
-        Assert.assertEquals(Square.A2, Square.northWest(Square.B1));
-        Assert.assertEquals(Square.B2, Square.northWest(Square.C1));
-        Assert.assertEquals(Square.C2, Square.northWest(Square.D1));
-        Assert.assertEquals(Square.D2, Square.northWest(Square.E1));
-        Assert.assertEquals(Square.E2, Square.northWest(Square.F1));
-        Assert.assertEquals(Square.F2, Square.northWest(Square.G1));
-        Assert.assertEquals(Square.G2, Square.northWest(Square.H1));
+        Assertions.assertEquals(Square.A2, Square.northWest(Square.B1));
+        Assertions.assertEquals(Square.B2, Square.northWest(Square.C1));
+        Assertions.assertEquals(Square.C2, Square.northWest(Square.D1));
+        Assertions.assertEquals(Square.D2, Square.northWest(Square.E1));
+        Assertions.assertEquals(Square.E2, Square.northWest(Square.F1));
+        Assertions.assertEquals(Square.F2, Square.northWest(Square.G1));
+        Assertions.assertEquals(Square.G2, Square.northWest(Square.H1));
 
-        Assert.assertEquals(Square.A8, Square.northWest(Square.B7));
-        Assert.assertEquals(Square.B8, Square.northWest(Square.C7));
-        Assert.assertEquals(Square.C8, Square.northWest(Square.D7));
-        Assert.assertEquals(Square.D8, Square.northWest(Square.E7));
-        Assert.assertEquals(Square.E8, Square.northWest(Square.F7));
-        Assert.assertEquals(Square.F8, Square.northWest(Square.G7));
-        Assert.assertEquals(Square.G8, Square.northWest(Square.H7));
+        Assertions.assertEquals(Square.A8, Square.northWest(Square.B7));
+        Assertions.assertEquals(Square.B8, Square.northWest(Square.C7));
+        Assertions.assertEquals(Square.C8, Square.northWest(Square.D7));
+        Assertions.assertEquals(Square.D8, Square.northWest(Square.E7));
+        Assertions.assertEquals(Square.E8, Square.northWest(Square.F7));
+        Assertions.assertEquals(Square.F8, Square.northWest(Square.G7));
+        Assertions.assertEquals(Square.G8, Square.northWest(Square.H7));
     }
 
     @Test
     public void testSouthEast() {
-        Assert.assertEquals(Square.B1, Square.southEast(Square.A2));
-        Assert.assertEquals(Square.B2, Square.southEast(Square.A3));
-        Assert.assertEquals(Square.B3, Square.southEast(Square.A4));
-        Assert.assertEquals(Square.B4, Square.southEast(Square.A5));
-        Assert.assertEquals(Square.B5, Square.southEast(Square.A6));
-        Assert.assertEquals(Square.B6, Square.southEast(Square.A7));
-        Assert.assertEquals(Square.B7, Square.southEast(Square.A8));
+        Assertions.assertEquals(Square.B1, Square.southEast(Square.A2));
+        Assertions.assertEquals(Square.B2, Square.southEast(Square.A3));
+        Assertions.assertEquals(Square.B3, Square.southEast(Square.A4));
+        Assertions.assertEquals(Square.B4, Square.southEast(Square.A5));
+        Assertions.assertEquals(Square.B5, Square.southEast(Square.A6));
+        Assertions.assertEquals(Square.B6, Square.southEast(Square.A7));
+        Assertions.assertEquals(Square.B7, Square.southEast(Square.A8));
 
-        Assert.assertEquals(Square.H1, Square.southEast(Square.G2));
-        Assert.assertEquals(Square.H2, Square.southEast(Square.G3));
-        Assert.assertEquals(Square.H3, Square.southEast(Square.G4));
-        Assert.assertEquals(Square.H4, Square.southEast(Square.G5));
-        Assert.assertEquals(Square.H5, Square.southEast(Square.G6));
-        Assert.assertEquals(Square.H6, Square.southEast(Square.G7));
-        Assert.assertEquals(Square.H7, Square.southEast(Square.G8));
+        Assertions.assertEquals(Square.H1, Square.southEast(Square.G2));
+        Assertions.assertEquals(Square.H2, Square.southEast(Square.G3));
+        Assertions.assertEquals(Square.H3, Square.southEast(Square.G4));
+        Assertions.assertEquals(Square.H4, Square.southEast(Square.G5));
+        Assertions.assertEquals(Square.H5, Square.southEast(Square.G6));
+        Assertions.assertEquals(Square.H6, Square.southEast(Square.G7));
+        Assertions.assertEquals(Square.H7, Square.southEast(Square.G8));
 
-        Assert.assertEquals(Square.B1, Square.southEast(Square.A2));
-        Assert.assertEquals(Square.C1, Square.southEast(Square.B2));
-        Assert.assertEquals(Square.D1, Square.southEast(Square.C2));
-        Assert.assertEquals(Square.E1, Square.southEast(Square.D2));
-        Assert.assertEquals(Square.F1, Square.southEast(Square.E2));
-        Assert.assertEquals(Square.G1, Square.southEast(Square.F2));
-        Assert.assertEquals(Square.H1, Square.southEast(Square.G2));
+        Assertions.assertEquals(Square.B1, Square.southEast(Square.A2));
+        Assertions.assertEquals(Square.C1, Square.southEast(Square.B2));
+        Assertions.assertEquals(Square.D1, Square.southEast(Square.C2));
+        Assertions.assertEquals(Square.E1, Square.southEast(Square.D2));
+        Assertions.assertEquals(Square.F1, Square.southEast(Square.E2));
+        Assertions.assertEquals(Square.G1, Square.southEast(Square.F2));
+        Assertions.assertEquals(Square.H1, Square.southEast(Square.G2));
 
-        Assert.assertEquals(Square.B7, Square.southEast(Square.A8));
-        Assert.assertEquals(Square.C7, Square.southEast(Square.B8));
-        Assert.assertEquals(Square.D7, Square.southEast(Square.C8));
-        Assert.assertEquals(Square.E7, Square.southEast(Square.D8));
-        Assert.assertEquals(Square.F7, Square.southEast(Square.E8));
-        Assert.assertEquals(Square.G7, Square.southEast(Square.F8));
-        Assert.assertEquals(Square.H7, Square.southEast(Square.G8));
+        Assertions.assertEquals(Square.B7, Square.southEast(Square.A8));
+        Assertions.assertEquals(Square.C7, Square.southEast(Square.B8));
+        Assertions.assertEquals(Square.D7, Square.southEast(Square.C8));
+        Assertions.assertEquals(Square.E7, Square.southEast(Square.D8));
+        Assertions.assertEquals(Square.F7, Square.southEast(Square.E8));
+        Assertions.assertEquals(Square.G7, Square.southEast(Square.F8));
+        Assertions.assertEquals(Square.H7, Square.southEast(Square.G8));
     }
 
     @Test
     public void testSouthWest() {
-        Assert.assertEquals(Square.A1, Square.southWest(Square.B2));
-        Assert.assertEquals(Square.A2, Square.southWest(Square.B3));
-        Assert.assertEquals(Square.A3, Square.southWest(Square.B4));
-        Assert.assertEquals(Square.A4, Square.southWest(Square.B5));
-        Assert.assertEquals(Square.A5, Square.southWest(Square.B6));
-        Assert.assertEquals(Square.A6, Square.southWest(Square.B7));
-        Assert.assertEquals(Square.A7, Square.southWest(Square.B8));
+        Assertions.assertEquals(Square.A1, Square.southWest(Square.B2));
+        Assertions.assertEquals(Square.A2, Square.southWest(Square.B3));
+        Assertions.assertEquals(Square.A3, Square.southWest(Square.B4));
+        Assertions.assertEquals(Square.A4, Square.southWest(Square.B5));
+        Assertions.assertEquals(Square.A5, Square.southWest(Square.B6));
+        Assertions.assertEquals(Square.A6, Square.southWest(Square.B7));
+        Assertions.assertEquals(Square.A7, Square.southWest(Square.B8));
 
-        Assert.assertEquals(Square.G1, Square.southWest(Square.H2));
-        Assert.assertEquals(Square.G2, Square.southWest(Square.H3));
-        Assert.assertEquals(Square.G3, Square.southWest(Square.H4));
-        Assert.assertEquals(Square.G4, Square.southWest(Square.H5));
-        Assert.assertEquals(Square.G5, Square.southWest(Square.H6));
-        Assert.assertEquals(Square.G6, Square.southWest(Square.H7));
-        Assert.assertEquals(Square.G7, Square.southWest(Square.H8));
+        Assertions.assertEquals(Square.G1, Square.southWest(Square.H2));
+        Assertions.assertEquals(Square.G2, Square.southWest(Square.H3));
+        Assertions.assertEquals(Square.G3, Square.southWest(Square.H4));
+        Assertions.assertEquals(Square.G4, Square.southWest(Square.H5));
+        Assertions.assertEquals(Square.G5, Square.southWest(Square.H6));
+        Assertions.assertEquals(Square.G6, Square.southWest(Square.H7));
+        Assertions.assertEquals(Square.G7, Square.southWest(Square.H8));
 
-        Assert.assertEquals(Square.A1, Square.southWest(Square.B2));
-        Assert.assertEquals(Square.B1, Square.southWest(Square.C2));
-        Assert.assertEquals(Square.C1, Square.southWest(Square.D2));
-        Assert.assertEquals(Square.D1, Square.southWest(Square.E2));
-        Assert.assertEquals(Square.E1, Square.southWest(Square.F2));
-        Assert.assertEquals(Square.F1, Square.southWest(Square.G2));
-        Assert.assertEquals(Square.G1, Square.southWest(Square.H2));
+        Assertions.assertEquals(Square.A1, Square.southWest(Square.B2));
+        Assertions.assertEquals(Square.B1, Square.southWest(Square.C2));
+        Assertions.assertEquals(Square.C1, Square.southWest(Square.D2));
+        Assertions.assertEquals(Square.D1, Square.southWest(Square.E2));
+        Assertions.assertEquals(Square.E1, Square.southWest(Square.F2));
+        Assertions.assertEquals(Square.F1, Square.southWest(Square.G2));
+        Assertions.assertEquals(Square.G1, Square.southWest(Square.H2));
 
-        Assert.assertEquals(Square.A7, Square.southWest(Square.B8));
-        Assert.assertEquals(Square.B7, Square.southWest(Square.C8));
-        Assert.assertEquals(Square.C7, Square.southWest(Square.D8));
-        Assert.assertEquals(Square.D7, Square.southWest(Square.E8));
-        Assert.assertEquals(Square.E7, Square.southWest(Square.F8));
-        Assert.assertEquals(Square.F7, Square.southWest(Square.G8));
-        Assert.assertEquals(Square.G7, Square.southWest(Square.H8));
+        Assertions.assertEquals(Square.A7, Square.southWest(Square.B8));
+        Assertions.assertEquals(Square.B7, Square.southWest(Square.C8));
+        Assertions.assertEquals(Square.C7, Square.southWest(Square.D8));
+        Assertions.assertEquals(Square.D7, Square.southWest(Square.E8));
+        Assertions.assertEquals(Square.E7, Square.southWest(Square.F8));
+        Assertions.assertEquals(Square.F7, Square.southWest(Square.G8));
+        Assertions.assertEquals(Square.G7, Square.southWest(Square.H8));
     }
 
     @Test
     public void testNorthNorth() {
-        Assert.assertEquals(Square.A4, Square.northNorth(Square.A2));
-        Assert.assertEquals(Square.B4, Square.northNorth(Square.B2));
-        Assert.assertEquals(Square.C4, Square.northNorth(Square.C2));
-        Assert.assertEquals(Square.D4, Square.northNorth(Square.D2));
-        Assert.assertEquals(Square.E4, Square.northNorth(Square.E2));
-        Assert.assertEquals(Square.F4, Square.northNorth(Square.F2));
-        Assert.assertEquals(Square.G4, Square.northNorth(Square.G2));
-        Assert.assertEquals(Square.H4, Square.northNorth(Square.H2));
+        Assertions.assertEquals(Square.A4, Square.northNorth(Square.A2));
+        Assertions.assertEquals(Square.B4, Square.northNorth(Square.B2));
+        Assertions.assertEquals(Square.C4, Square.northNorth(Square.C2));
+        Assertions.assertEquals(Square.D4, Square.northNorth(Square.D2));
+        Assertions.assertEquals(Square.E4, Square.northNorth(Square.E2));
+        Assertions.assertEquals(Square.F4, Square.northNorth(Square.F2));
+        Assertions.assertEquals(Square.G4, Square.northNorth(Square.G2));
+        Assertions.assertEquals(Square.H4, Square.northNorth(Square.H2));
     }
 
     @Test
     public void testSouthSouth() {
-        Assert.assertEquals(Square.A5, Square.southSouth(Square.A7));
-        Assert.assertEquals(Square.B5, Square.southSouth(Square.B7));
-        Assert.assertEquals(Square.C5, Square.southSouth(Square.C7));
-        Assert.assertEquals(Square.D5, Square.southSouth(Square.D7));
-        Assert.assertEquals(Square.E5, Square.southSouth(Square.E7));
-        Assert.assertEquals(Square.F5, Square.southSouth(Square.F7));
-        Assert.assertEquals(Square.G5, Square.southSouth(Square.G7));
-        Assert.assertEquals(Square.H5, Square.southSouth(Square.H7));
+        Assertions.assertEquals(Square.A5, Square.southSouth(Square.A7));
+        Assertions.assertEquals(Square.B5, Square.southSouth(Square.B7));
+        Assertions.assertEquals(Square.C5, Square.southSouth(Square.C7));
+        Assertions.assertEquals(Square.D5, Square.southSouth(Square.D7));
+        Assertions.assertEquals(Square.E5, Square.southSouth(Square.E7));
+        Assertions.assertEquals(Square.F5, Square.southSouth(Square.F7));
+        Assertions.assertEquals(Square.G5, Square.southSouth(Square.G7));
+        Assertions.assertEquals(Square.H5, Square.southSouth(Square.H7));
     }
 
     // -----------------------------------------------------------------------

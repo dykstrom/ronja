@@ -17,14 +17,6 @@
 
 package se.dykstrom.ronja.common.book;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.ExitCode;
@@ -36,6 +28,14 @@ import se.dykstrom.ronja.common.parser.CanParser;
 import se.dykstrom.ronja.common.parser.IllegalMoveException;
 import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.common.parser.SanParser;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -159,7 +159,7 @@ public class OpeningBookConverter implements Callable<Integer> {
         return new CommandLine(this).execute(args);
     }
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         System.exit(new OpeningBookConverter().execute(args));
     }
 }

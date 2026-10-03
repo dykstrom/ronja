@@ -17,11 +17,11 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class is for testing class {@code Evaluator} using JUnit.

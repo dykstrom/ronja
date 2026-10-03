@@ -17,18 +17,18 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import java.text.ParseException;
-import java.util.concurrent.TimeUnit;
-
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.common.parser.CanParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 import se.dykstrom.ronja.test.TestUtils;
 
-import static org.junit.Assert.assertNotEquals;
+import java.text.ParseException;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static se.dykstrom.ronja.common.parser.FenParser.parse;
 
 /**
@@ -37,7 +37,7 @@ import static se.dykstrom.ronja.common.parser.FenParser.parse;
  * @author Johan Dykstrom
  * @see AlphaBetaFinder
  */
-@Ignore
+@Disabled
 public class SlowFinderTest extends AbstractTestCase {
 
     /**
@@ -101,7 +101,7 @@ public class SlowFinderTest extends AbstractTestCase {
         System.out.printf("Finished step after %7.3f seconds%n", elapsedTime(start));
     }
 
-    public static void main(String[] args) throws Exception {
+    static void main(String[] args) throws Exception {
         final var test = new SlowFinderTest();
         System.out.println("Warming up...");
         test.findBestMoveWithDepth(FEN_MIDDLE_GAME_1, 8);

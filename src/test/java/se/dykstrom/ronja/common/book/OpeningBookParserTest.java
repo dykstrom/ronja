@@ -17,7 +17,7 @@
 
 package se.dykstrom.ronja.common.book;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
@@ -29,7 +29,8 @@ import java.util.Map;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests class {@code OpeningBookParser}.
@@ -108,8 +109,8 @@ public class OpeningBookParserTest extends AbstractTestCase {
         assertEquals(expectedMoves, positions.get(FenParser.parse(FEN_START)));
     }
 
-    @Test(expected = ParseException.class)
-    public void shouldNotParseSyntaxError() throws Exception {
-        OpeningBookParser.parseLines(singletonList(LINE_WITH_SYNTAX_ERROR));
+    @Test
+    public void shouldNotParseSyntaxError() {
+        assertThrows(ParseException.class, () -> OpeningBookParser.parseLines(singletonList(LINE_WITH_SYNTAX_ERROR)));
     }
 }

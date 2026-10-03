@@ -17,14 +17,14 @@
 
 package se.dykstrom.ronja.engine.utils;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.dykstrom.ronja.test.TestUtils.assertContainsRegex;
 
 /**
@@ -37,7 +37,7 @@ public class FileUtilsIT {
 
     private File file;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         file = Files.createTempFile("FileUtilsIT_", ".txt").toFile();
         file.deleteOnExit();

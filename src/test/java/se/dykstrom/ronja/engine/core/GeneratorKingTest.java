@@ -17,7 +17,7 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Position;
@@ -26,7 +26,7 @@ import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.dykstrom.ronja.common.model.Piece.KING;
 import static se.dykstrom.ronja.common.model.Square.*;
 

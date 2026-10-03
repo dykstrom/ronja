@@ -30,7 +30,7 @@ is scored mid-exchange. This is a known gap, not an oversight.
 
 ## Measuring a search change
 
-`SlowFinderTest` is annotated `@Ignore`, so the build skips it. Run it by hand
+`SlowFinderTest` is annotated `@Disabled`, so the build skips it. Run it by hand
 after changing the search. Its assertions only check that a move was found, so
 they do not catch a worse move. The measurement comes from its `main` method,
 which searches ten fixed positions through `runStep` and prints the seconds taken
