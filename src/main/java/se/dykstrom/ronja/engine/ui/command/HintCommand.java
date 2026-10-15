@@ -30,7 +30,7 @@ import se.dykstrom.ronja.engine.utils.PositionUtils;
  *
  * @author Johan Dykstrom
  */
-public class HintCommand extends AbstractCommand {
+public final class HintCommand extends AbstractCommand {
 
     public static final String NAME = "hint";
 

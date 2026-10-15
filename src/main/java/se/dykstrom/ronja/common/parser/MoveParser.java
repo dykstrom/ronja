@@ -36,7 +36,7 @@ public class MoveParser extends AbstractMoveParser {
      * @return The parsed move.
      * @throws IllegalMoveException If the given string does not represent a legal move in the given position.
      */
-	public static int parse(String move, Position position) throws IllegalMoveException {
+    public static int parse(String move, Position position) throws IllegalMoveException {
         if (CanParser.isMove(move)) {
             return CanParser.parse(move, position);
         } else if (SanParser.isMove(move)) {
@@ -44,5 +44,5 @@ public class MoveParser extends AbstractMoveParser {
         } else {
             throw new IllegalMoveException("syntax error");
         }
-	}
+    }
 }

@@ -17,7 +17,11 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import se.dykstrom.ronja.common.model.*;
+import se.dykstrom.ronja.common.model.Color;
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Piece;
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.model.Square;
 
 /**
  * An abstract base class for different move parsers.

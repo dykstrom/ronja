@@ -17,7 +17,11 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import se.dykstrom.ronja.common.model.*;
+import se.dykstrom.ronja.common.model.Color;
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Piece;
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.model.Square;
 
 /**
  * A class that can parse and format moves specified in Coordinate Algebraic Notation (CAN).
@@ -39,14 +43,14 @@ public class CanParser extends AbstractMoveParser {
                move.matches("[a-h][2][a-h][1][qrbn]");     // Black promotion
     }
 
-	/**
-	 * Parses and validates a move specified in CAN format in the given {@code position}.
+    /**
+     * Parses and validates a move specified in CAN format in the given {@code position}.
      *
-	 * @param move The move in CAN format.
-	 * @param position The position when the move is made.
-	 * @return The parsed move.
-	 * @throws IllegalMoveException If the given string cannot be parsed as a legal move in CAN format.
-	 */
+     * @param move The move in CAN format.
+     * @param position The position when the move is made.
+     * @return The parsed move.
+     * @throws IllegalMoveException If the given string cannot be parsed as a legal move in CAN format.
+     */
     public static int parse(String move, Position position) throws IllegalMoveException {
         long from = Square.nameToId(move.substring(0, 2));
         long to = Square.nameToId(move.substring(2, 4));
@@ -59,7 +63,7 @@ public class CanParser extends AbstractMoveParser {
         validate(position, from, to, isCastling);
 
         return create(piece, from, to, captured, promoted, isCastling, isEnPassant);
-	}
+    }
     
     /**
      * Formats the given move in CAN format.

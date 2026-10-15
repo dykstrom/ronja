@@ -25,7 +25,7 @@ import java.util.List;
 
 import static se.dykstrom.ronja.common.parser.SanParser.format;
 
-public class MovesCommand extends AbstractCommand {
+public final class MovesCommand extends AbstractCommand {
 
     public static final String NAME = "moves";
 

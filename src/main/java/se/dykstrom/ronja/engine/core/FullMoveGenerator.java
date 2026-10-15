@@ -17,10 +17,30 @@
 
 package se.dykstrom.ronja.engine.core;
 
-import se.dykstrom.ronja.common.model.*;
+import se.dykstrom.ronja.common.model.Board;
+import se.dykstrom.ronja.common.model.Color;
+import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Position;
+import se.dykstrom.ronja.common.model.Square;
 
-import static se.dykstrom.ronja.common.model.Piece.*;
-import static se.dykstrom.ronja.common.model.Square.*;
+import static se.dykstrom.ronja.common.model.Piece.BISHOP;
+import static se.dykstrom.ronja.common.model.Piece.KING;
+import static se.dykstrom.ronja.common.model.Piece.KNIGHT;
+import static se.dykstrom.ronja.common.model.Piece.PAWN;
+import static se.dykstrom.ronja.common.model.Piece.QUEEN;
+import static se.dykstrom.ronja.common.model.Piece.ROOK;
+import static se.dykstrom.ronja.common.model.Square.C1_IDX;
+import static se.dykstrom.ronja.common.model.Square.C8_IDX;
+import static se.dykstrom.ronja.common.model.Square.E1_IDX;
+import static se.dykstrom.ronja.common.model.Square.E8_IDX;
+import static se.dykstrom.ronja.common.model.Square.G1_IDX;
+import static se.dykstrom.ronja.common.model.Square.G8_IDX;
+import static se.dykstrom.ronja.common.model.Square.MAX_SQUARES;
+import static se.dykstrom.ronja.common.model.Square.SQUARE_IDS;
+import static se.dykstrom.ronja.common.model.Square.SQUARE_INDICES;
+import static se.dykstrom.ronja.common.model.Square.bitboardToIndices;
+import static se.dykstrom.ronja.common.model.Square.idToIndex;
+import static se.dykstrom.ronja.common.model.Square.indexToId;
 
 /**
  * A class used to generate all possible pseudo moves for a certain position. A
@@ -151,28 +171,36 @@ public class FullMoveGenerator extends AbstractGenerator {
      * - The squares that the rook moves across are empty.
      */
     private void generateCastlingKingMoves(int fromIndex) {
-        // White castling
         if (fromIndex == E1_IDX) {
-            if (position.isKingSideCastlingAllowed(Color.WHITE) && isRookOnStartSquare(Square.H1) &&
-                isPossibleToCastle(Square.F1 | Square.G1, Square.E1 | Square.F1 | Square.G1)) {
-                moves[positionIndex][moveIndex++] = Move.createCastling(fromIndex, G1_IDX);
-            }
-            if (position.isQueenSideCastlingAllowed(Color.WHITE) && isRookOnStartSquare(Square.A1) &&
-                isPossibleToCastle(Square.B1 | Square.C1 | Square.D1, Square.C1 | Square.D1 | Square.E1)) {
-                moves[positionIndex][moveIndex++] = Move.createCastling(fromIndex, C1_IDX);
-            }
+            generateWhiteCastlingKingMoves(fromIndex);
+        } else if (fromIndex == E8_IDX) {
+            generateBlackCastlingKingMoves(fromIndex);
         }
+    }
 
-        // Black castling
-        else if (fromIndex == E8_IDX) {
-            if (position.isKingSideCastlingAllowed(Color.BLACK) && isRookOnStartSquare(Square.H8) &&
+    private void generateWhiteCastlingKingMoves(int fromIndex) {
+        if (position.isKingSideCastlingAllowed(Color.WHITE) &&
+                isRookOnStartSquare(Square.H1) &&
+                isPossibleToCastle(Square.F1 | Square.G1, Square.E1 | Square.F1 | Square.G1)) {
+            moves[positionIndex][moveIndex++] = Move.createCastling(fromIndex, G1_IDX);
+        }
+        if (position.isQueenSideCastlingAllowed(Color.WHITE) &&
+                isRookOnStartSquare(Square.A1) &&
+                isPossibleToCastle(Square.B1 | Square.C1 | Square.D1, Square.C1 | Square.D1 | Square.E1)) {
+            moves[positionIndex][moveIndex++] = Move.createCastling(fromIndex, C1_IDX);
+        }
+    }
+
+    private void generateBlackCastlingKingMoves(int fromIndex) {
+        if (position.isKingSideCastlingAllowed(Color.BLACK) &&
+                isRookOnStartSquare(Square.H8) &&
                 isPossibleToCastle(Square.F8 | Square.G8, Square.E8 | Square.F8 | Square.G8)) {
-                moves[positionIndex][moveIndex++] = Move.createCastling(fromIndex, G8_IDX);
-            }
-            if (position.isQueenSideCastlingAllowed(Color.BLACK) && isRookOnStartSquare(Square.A8) &&
+            moves[positionIndex][moveIndex++] = Move.createCastling(fromIndex, G8_IDX);
+        }
+        if (position.isQueenSideCastlingAllowed(Color.BLACK) &&
+                isRookOnStartSquare(Square.A8) &&
                 isPossibleToCastle(Square.B8 | Square.C8 | Square.D8, Square.C8 | Square.D8 | Square.E8)) {
-                moves[positionIndex][moveIndex++] = Move.createCastling(fromIndex, C8_IDX);
-            }
+            moves[positionIndex][moveIndex++] = Move.createCastling(fromIndex, C8_IDX);
         }
     }
 
@@ -235,58 +263,48 @@ public class FullMoveGenerator extends AbstractGenerator {
      * - The move does not cross a border.
      */
     int getNormalPawnMoves(long from) {
-        boolean inEastBorder = (EAST_BORDER & from) != 0;
-        boolean inWestBorder = (WEST_BORDER & from) != 0;
+        return isWhiteMove ? getNormalWhitePawnMoves(from) : getNormalBlackPawnMoves(from);
+    }
 
-        // If the pawn is in start position
-        boolean inStartPosition = isWhiteMove ? ((from & Board.RANK_2) != 0) : ((from & Board.RANK_7) != 0);
-
+    private int getNormalWhitePawnMoves(long from) {
         int count = 0;
 
-        // If white to move
-        if (isWhiteMove) {
-            // Straight moves
-            if (isEmpty(Square.north(from))) {
-                squareIds[count++] = Square.north(from);
-                if (inStartPosition && isEmpty(Square.northNorth(from))) {
-                    squareIds[count++] = Square.northNorth(from);
-                }
-            }
-
-            // Captures
-            if (!inWestBorder) {
-                if (isCapture(Square.northWest(from))) {
-                    squareIds[count++] = Square.northWest(from);
-                }
-            }
-            if (!inEastBorder) {
-                if (isCapture(Square.northEast(from))) {
-                    squareIds[count++] = Square.northEast(from);
-                }
+        // Straight moves
+        if (isEmpty(Square.north(from))) {
+            squareIds[count++] = Square.north(from);
+            if ((from & Board.RANK_2) != 0 && isEmpty(Square.northNorth(from))) {
+                squareIds[count++] = Square.northNorth(from);
             }
         }
 
-        // Black to move
-        else {
-            // Straight moves
-            if (isEmpty(Square.south(from))) {
-                squareIds[count++] = Square.south(from);
-                if (inStartPosition && isEmpty(Square.southSouth(from))) {
-                    squareIds[count++] = Square.southSouth(from);
-                }
-            }
+        // Captures
+        if ((WEST_BORDER & from) == 0 && isCapture(Square.northWest(from))) {
+            squareIds[count++] = Square.northWest(from);
+        }
+        if ((EAST_BORDER & from) == 0 && isCapture(Square.northEast(from))) {
+            squareIds[count++] = Square.northEast(from);
+        }
 
-            // Captures
-            if (!inWestBorder) {
-                if (isCapture(Square.southWest(from))) {
-                    squareIds[count++] = Square.southWest(from);
-                }
+        return count;
+    }
+
+    private int getNormalBlackPawnMoves(long from) {
+        int count = 0;
+
+        // Straight moves
+        if (isEmpty(Square.south(from))) {
+            squareIds[count++] = Square.south(from);
+            if ((from & Board.RANK_7) != 0 && isEmpty(Square.southSouth(from))) {
+                squareIds[count++] = Square.southSouth(from);
             }
-            if (!inEastBorder) {
-                if (isCapture(Square.southEast(from))) {
-                    squareIds[count++] = Square.southEast(from);
-                }
-            }
+        }
+
+        // Captures
+        if ((WEST_BORDER & from) == 0 && isCapture(Square.southWest(from))) {
+            squareIds[count++] = Square.southWest(from);
+        }
+        if ((EAST_BORDER & from) == 0 && isCapture(Square.southEast(from))) {
+            squareIds[count++] = Square.southEast(from);
         }
 
         return count;
@@ -463,58 +481,79 @@ public class FullMoveGenerator extends AbstractGenerator {
      * - The move does not cross a border.
      */
     private int getStraightMoves(long from) {
-        boolean inNorthBorder = (NORTH_BORDER & from) != 0;
-        boolean inEastBorder = (EAST_BORDER & from) != 0;
-        boolean inSouthBorder = (SOUTH_BORDER & from) != 0;
-        boolean inWestBorder = (WEST_BORDER & from) != 0;
+        int count = getNorthAndEastMoves(from, 0);
+        return getSouthAndWestMoves(from, count);
+    }
 
-        int count = 0;
-
+    /**
+     * Adds the squares north and east of {@code from} to {@link #squareIds}, starting at
+     * index {@code count}. Returns the new number of squares.
+     */
+    private int getNorthAndEastMoves(long from, int count) {
         long stop;
         long pos;
 
         // North
-        if (!inNorthBorder) {
+        if ((NORTH_BORDER & from) == 0) {
             stop = NORTH_BORDER | occupied;
             pos = Square.north(from);
             while ((pos & stop) == 0) {
                 squareIds[count++] = pos;
                 pos = Square.north(pos);
             }
-            if (isAvailable(pos)) squareIds[count++] = pos;
+            if (isAvailable(pos)) {
+                squareIds[count++] = pos;
+            }
         }
 
         // East
-        if (!inEastBorder) {
+        if ((EAST_BORDER & from) == 0) {
             stop = EAST_BORDER | occupied;
             pos = Square.east(from);
             while ((pos & stop) == 0) {
                 squareIds[count++] = pos;
                 pos = Square.east(pos);
             }
-            if (isAvailable(pos)) squareIds[count++] = pos;
+            if (isAvailable(pos)) {
+                squareIds[count++] = pos;
+            }
         }
 
+        return count;
+    }
+
+    /**
+     * Adds the squares south and west of {@code from} to {@link #squareIds}, starting at
+     * index {@code count}. Returns the new number of squares.
+     */
+    private int getSouthAndWestMoves(long from, int count) {
+        long stop;
+        long pos;
+
         // South
-        if (!inSouthBorder) {
+        if ((SOUTH_BORDER & from) == 0) {
             stop = SOUTH_BORDER | occupied;
             pos = Square.south(from);
             while ((pos & stop) == 0) {
                 squareIds[count++] = pos;
                 pos = Square.south(pos);
             }
-            if (isAvailable(pos)) squareIds[count++] = pos;
+            if (isAvailable(pos)) {
+                squareIds[count++] = pos;
+            }
         }
 
         // West
-        if (!inWestBorder) {
+        if ((WEST_BORDER & from) == 0) {
             stop = WEST_BORDER | occupied;
             pos = Square.west(from);
             while ((pos & stop) == 0) {
                 squareIds[count++] = pos;
                 pos = Square.west(pos);
             }
-            if (isAvailable(pos)) squareIds[count++] = pos;
+            if (isAvailable(pos)) {
+                squareIds[count++] = pos;
+            }
         }
 
         return count;
@@ -530,58 +569,87 @@ public class FullMoveGenerator extends AbstractGenerator {
      * - The move does not cross a border.
      */
     private int getDiagonalMoves(long from) {
-        boolean inNorthBorder = (NORTH_BORDER & from) != 0;
-        boolean inEastBorder = (EAST_BORDER & from) != 0;
-        boolean inSouthBorder = (SOUTH_BORDER & from) != 0;
-        boolean inWestBorder = (WEST_BORDER & from) != 0;
+        int count = getEastDiagonalMoves(from, 0);
+        return getWestDiagonalMoves(from, count);
+    }
 
-        int count = 0;
+    /**
+     * Adds the squares north-east and south-east of {@code from} to {@link #squareIds},
+     * starting at index {@code count}. Returns the new number of squares.
+     */
+    private int getEastDiagonalMoves(long from, int count) {
+        if ((EAST_BORDER & from) != 0) {
+            return count;
+        }
 
         long stop;
         long pos;
 
         // NE
-        if (!inNorthBorder && !inEastBorder) {
+        if ((NORTH_BORDER & from) == 0) {
             stop = NORTH_BORDER | EAST_BORDER | occupied;
             pos = Square.northEast(from);
             while ((pos & stop) == 0) {
                 squareIds[count++] = pos;
                 pos = Square.northEast(pos);
             }
-            if (isAvailable(pos)) squareIds[count++] = pos;
+            if (isAvailable(pos)) {
+                squareIds[count++] = pos;
+            }
         }
 
         // SE
-        if (!inSouthBorder && !inEastBorder) {
+        if ((SOUTH_BORDER & from) == 0) {
             stop = SOUTH_BORDER | EAST_BORDER | occupied;
             pos = Square.southEast(from);
             while ((pos & stop) == 0) {
                 squareIds[count++] = pos;
                 pos = Square.southEast(pos);
             }
-            if (isAvailable(pos)) squareIds[count++] = pos;
+            if (isAvailable(pos)) {
+                squareIds[count++] = pos;
+            }
         }
 
+        return count;
+    }
+
+    /**
+     * Adds the squares south-west and north-west of {@code from} to {@link #squareIds},
+     * starting at index {@code count}. Returns the new number of squares.
+     */
+    private int getWestDiagonalMoves(long from, int count) {
+        if ((WEST_BORDER & from) != 0) {
+            return count;
+        }
+
+        long stop;
+        long pos;
+
         // SW
-        if (!inSouthBorder && !inWestBorder) {
+        if ((SOUTH_BORDER & from) == 0) {
             stop = SOUTH_BORDER | WEST_BORDER | occupied;
             pos = Square.southWest(from);
             while ((pos & stop) == 0) {
                 squareIds[count++] = pos;
                 pos = Square.southWest(pos);
             }
-            if (isAvailable(pos)) squareIds[count++] = pos;
+            if (isAvailable(pos)) {
+                squareIds[count++] = pos;
+            }
         }
 
         // NW
-        if (!inNorthBorder && !inWestBorder) {
+        if ((NORTH_BORDER & from) == 0) {
             stop = NORTH_BORDER | WEST_BORDER | occupied;
             pos = Square.northWest(from);
             while ((pos & stop) == 0) {
                 squareIds[count++] = pos;
                 pos = Square.northWest(pos);
             }
-            if (isAvailable(pos)) squareIds[count++] = pos;
+            if (isAvailable(pos)) {
+                squareIds[count++] = pos;
+            }
         }
 
         return count;

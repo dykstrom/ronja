@@ -87,7 +87,7 @@ public class Position {
     private static final long ACTIVE_COLOR_MASK = 1L << 4L;
 
     /**
-     * A bitset of flags that define the following data:
+     * A bitset of flags that define the values below.
      * <p>
      * - Bit 00-01 - castling rights for white (1 = yes, 0 = no)
      * - Bit 02-03 - castling rights for black (1 = yes, 0 = no)
@@ -214,6 +214,9 @@ public class Position {
      * @param move The move to make.
      * @return The position that arises when making the given move in this position.
      */
+    // The switches update six local bitboards. Splitting them into methods would need an array
+    // or a holder object for every move made during the search.
+    @SuppressWarnings("checkstyle:CyclomaticComplexity")
     public Position withMove(int move) {
         long from = Move.getFrom(move);
         long to = Move.getTo(move);
@@ -257,6 +260,8 @@ public class Position {
             case ROOK:
                 rook = rook ^ from | to;
                 break;
+            default:
+                break;
         }
 
         // If there was a piece on the to square (a capture)
@@ -288,6 +293,8 @@ public class Position {
                         break;
                     case ROOK:
                         rook = rook ^ to;
+                        break;
+                    default:
                         break;
                 }
             }
@@ -716,18 +723,9 @@ public class Position {
             return false;
         }
         Position that = (Position) obj;
-        return ((this.flags == that.flags) &&
-                (this.fullMoveNumber == that.fullMoveNumber) &&
+        return ((this.fullMoveNumber == that.fullMoveNumber) &&
                 (this.halfMoveClock == that.halfMoveClock) &&
-                (this.enPassantSquare == that.enPassantSquare) &&
-                (this.white == that.white) &&
-                (this.black == that.black) &&
-                (this.bishop == that.bishop) &&
-                (this.king == that.king) &&
-                (this.knight == that.knight) &&
-                (this.pawn == that.pawn) &&
-                (this.queen == that.queen) &&
-                (this.rook == that.rook));
+                equalTo(that));
     }
 
     /**

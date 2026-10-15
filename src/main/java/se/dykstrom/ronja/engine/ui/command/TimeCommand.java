@@ -30,7 +30,7 @@ import static se.dykstrom.ronja.engine.time.TimeUtils.formatTime;
  *
  * @author Johan Dykstrom
  */
-public class TimeCommand extends AbstractCommand {
+public final class TimeCommand extends AbstractCommand {
 
     public static final String NAME = "time";
 

@@ -36,7 +36,7 @@ import static se.dykstrom.ronja.engine.time.TimeUtils.parseLevelText;
  *
  * @author Johan Dykstrom
  */
-public class LevelCommand extends AbstractCommand {
+public final class LevelCommand extends AbstractCommand {
 
     public static final String NAME = "level";
 

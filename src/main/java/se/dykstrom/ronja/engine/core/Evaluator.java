@@ -69,7 +69,7 @@ public class Evaluator {
         score += calculateAttackedSquares(position);
 
         // If black is to move, negate the score
-        return position.isWhiteMove() ? score: -score;
+        return position.isWhiteMove() ? score : -score;
     }
 
     /**

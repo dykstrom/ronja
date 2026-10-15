@@ -20,7 +20,7 @@ package se.dykstrom.ronja.engine.ui.command;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
 
-public class BoardCommand extends AbstractCommand {
+public final class BoardCommand extends AbstractCommand {
 
     public static final String NAME = "board";
 

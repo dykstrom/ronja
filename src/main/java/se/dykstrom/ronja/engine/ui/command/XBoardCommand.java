@@ -20,7 +20,9 @@ package se.dykstrom.ronja.engine.ui.command;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
 
-public class XBoardCommand extends AbstractCommand {
+// XBoard is the name of the protocol and of the GUI that sends this command.
+@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
+public final class XBoardCommand extends AbstractCommand {
 
     public static final String NAME = "xboard";
 

@@ -17,12 +17,6 @@
 
 package se.dykstrom.ronja.common.parser;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Logger;
-
 import se.dykstrom.ronja.common.model.Board;
 import se.dykstrom.ronja.common.model.Move;
 import se.dykstrom.ronja.common.model.Piece;
@@ -30,6 +24,12 @@ import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.model.Square;
 import se.dykstrom.ronja.engine.core.FullMoveGenerator;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
 import static se.dykstrom.ronja.common.model.Board.getFile;
 import static se.dykstrom.ronja.common.model.Board.getFileChar;
@@ -67,147 +67,152 @@ public class SanParser extends AbstractMoveParser {
     // -----------------------------------------------------------------------
 
     /**
-	 * Parses and validates a move specified in SAN format in the given {@code Position}.
-	 *
-	 * @param move The move in SAN format.
-	 * @param position The position when the move is made.
-	 * @return The parsed move.
-	 * @throws IllegalMoveException If the given string cannot be parsed as a legal move in SAN format.
-	 */
+     * Parses and validates a move specified in SAN format in the given {@code Position}.
+     *
+     * @param move The move in SAN format.
+     * @param position The position when the move is made.
+     * @return The parsed move.
+     * @throws IllegalMoveException If the given string cannot be parsed as a legal move in SAN format.
+     */
     public static int parse(String move, Position position) throws IllegalMoveException {
-		TLOG.finest("move: " + move + " position: \n" + position);
+        TLOG.finest("move: " + move + " position: \n" + position);
+        if (isKingSideCastling(move)) {
+            return parseCastling(position, Square.G1, Square.G8);
+        } else if (isQueenSideCastling(move)) {
+            return parseCastling(position, Square.C1, Square.C8);
+        } else {
+            return parseNormalMove(move, position);
+        }
+    }
+
+    /**
+     * Parses a castling move, where the king moves to {@code whiteTo} or {@code blackTo}
+     * depending on the active color.
+     */
+    private static int parseCastling(Position position, long whiteTo, long blackTo) throws IllegalMoveException {
+        boolean isWhite = position.getActiveColor() == WHITE;
+        long from = isWhite ? Square.E1 : Square.E8;
+        long to = isWhite ? whiteTo : blackTo;
+        return validateAndCreate(position, from, to, 0, 0);
+    }
+
+    /**
+     * Parses a move that is not a castling move.
+     */
+    private static int parseNormalMove(String move, Position position) throws IllegalMoveException {
         long from = 0;
-        long to;
-        int promotedPiece = 0;
-        int capturedPiece = 0;
 
-		if (isKingSideCastling(move)) {
-            if (position.getActiveColor() == WHITE) {
-                from = Square.E1;
-                to = Square.G1;
-            } else {
-                from = Square.E8;
-                to = Square.G8;
-            }
-		}
+        // True if the move is a capture
+        boolean capture = false;
 
-		else if (isQueenSideCastling(move)) {
-            if (position.getActiveColor() == WHITE) {
-                from = Square.E1;
-                to = Square.C1;
-            } else {
-                from = Square.E8;
-                to = Square.C8;
+        // Get piece
+        if (move.charAt(0) < 'Z') {
+            // Remove piece name
+            move = move.substring(1);
+
+            // Remove 'x'
+            if (move.startsWith("x")) {
+                move = move.substring(1);
+                capture = true;
             }
+        } else if (move.contains("x")) {
+            // Pawn capture
+            final var fromFileChar = move.charAt(0);
+            // Remove from file and 'x'
+            move = move.substring(2);
+            capture = true;
+            from = getPawnCaptureFrom(fromFileChar, move, position);
+        } else {
+            // Pawn move
+            from = getPawnMoveFrom(Square.nameToId(move.substring(0, 2)), position);
         }
 
-		// Normal move
-		else {
-			// True if the move is a capture
-			boolean capture = false;
+        // Get to square
+        long to = Square.nameToId(move.substring(0, 2));
 
-			// Get piece
-			if (move.charAt(0) < 'Z') {
-				// Remove piece name
-				move = move.substring(1);
+        // If capture, verify that there is a piece to capture
+        int capturedPiece = capture ? getCapturedPiece(to, position) : 0;
 
-				// Remove 'x'
-				if (move.startsWith("x")) {
-					move = move.substring(1);
-					capture = true;
-				}
-			}
+        // Remove check and check mate symbols
+        if (move.endsWith("+") || move.endsWith("#")) {
+            move = move.substring(0, move.length() - 1);
+        }
 
-			// Or pawn
-			else {
-                // Pawn capture
-                if (move.contains("x")) {
-                    final var fromFileChar = move.charAt(0);
-                    // Remove from file and 'x'
-                    move = move.substring(2);
-                    capture = true;
-                    final var toRank = Integer.parseInt(move.substring(1, 2));
-                    final int fromRank;
-                    if (position.getActiveColor() == WHITE) {
-                        fromRank = toRank - 1;
-                    } else {
-                        fromRank = toRank + 1;
-                    }
-                    from = Square.nameToId("" + fromFileChar + fromRank);
-                    if (position.getPiece(from) != PAWN) {
-                        throw new IllegalMoveException("illegal pawn move, no pawn on " + Square.idToName(from));
-                    }
-                } else {
-                    to = Square.nameToId(move.substring(0, 2));
-                    if (position.getActiveColor() == WHITE) {
-                        // Is there a pawn one rank back?
-                        from = Square.south(to);
-                        if (position.getPiece(from) == PAWN) {
-                            // OK
-                        } else {
-                            // Is there a pawn two ranks back?
-                            from = Square.south(from);
-                            if (position.getPiece(from) == PAWN) {
-                                // OK
-                            } else {
-                                throw new IllegalMoveException("illegal pawn move");
-                            }
-                        }
-                    } else {
-                        // Is there a pawn one rank back?
-                        from = Square.north(to);
-                        if (position.getPiece(from) == PAWN) {
-                            // OK
-                        } else {
-                            // Is there a pawn two ranks back?
-                            from = Square.north(from);
-                            if (position.getPiece(from) == PAWN) {
-                                // OK
-                            } else {
-                                throw new IllegalMoveException("illegal pawn move");
-                            }
-                        }
-                    }
-                }
-            }
+        // Get from square
+        // TODO: Get from square of piece moves.
 
-			// Get to square
-            to = Square.nameToId(move.substring(0, 2));
+        // Promotion
+        int promotedPiece = 0;
+        if (move.contains("=")) {
+            promotedPiece = getPromotionPiece(position, from, move.charAt(move.indexOf("=") + 1));
+        }
 
-			// If capture, verify that there is a piece to capture
-			if (capture) {
-			    if (to == position.getEnPassantSquare()) {
-			        // 'En passant' capture
-                    capturedPiece = PAWN;
-			    } else {
-			        // Normal capture
-    				capturedPiece = position.getPiece(to);
-    				
-    				// The to square must contain a piece,
-    				// it must not be the king,
-    				// and it must be of the opposite color
-    				if ((capturedPiece == 0) ||
-    					(capturedPiece == Piece.KING) ||
-    					(position.getColor(to) == position.getActiveColor())) {
-    					throw new IllegalMoveException("illegal capture");
-    				}
-			    }
-			}
+        return validateAndCreate(position, from, to, capturedPiece, promotedPiece);
+    }
 
-            // Remove check and check mate symbols
-            if (move.endsWith("+") || move.endsWith("#")) {
-                move = move.substring(0, move.length() - 1);
-            }
+    /**
+     * Returns the from square of a pawn capture. The {@code move} starts with the to square.
+     */
+    private static long getPawnCaptureFrom(char fromFileChar, String move, Position position)
+            throws IllegalMoveException {
+        final var toRank = Integer.parseInt(move.substring(1, 2));
+        final int fromRank;
+        if (position.getActiveColor() == WHITE) {
+            fromRank = toRank - 1;
+        } else {
+            fromRank = toRank + 1;
+        }
+        final long from = Square.nameToId("" + fromFileChar + fromRank);
+        if (position.getPiece(from) != PAWN) {
+            throw new IllegalMoveException("illegal pawn move, no pawn on " + Square.idToName(from));
+        }
+        return from;
+    }
 
-			// Get from square
-			// TODO: Get from square of piece moves.
+    /**
+     * Returns the from square of a pawn move that is not a capture.
+     */
+    private static long getPawnMoveFrom(long to, Position position) throws IllegalMoveException {
+        final boolean isWhite = position.getActiveColor() == WHITE;
 
-			// Promotion
-			if (move.contains("=")) {
-                promotedPiece = getPromotionPiece(position, from, move.charAt(move.indexOf("=") + 1));
-			}
-		}
+        // Is there a pawn one rank back?
+        long from = isWhite ? Square.south(to) : Square.north(to);
+        if (position.getPiece(from) == PAWN) {
+            return from;
+        }
 
+        // Is there a pawn two ranks back?
+        from = isWhite ? Square.south(from) : Square.north(from);
+        if (position.getPiece(from) == PAWN) {
+            return from;
+        }
+
+        throw new IllegalMoveException("illegal pawn move");
+    }
+
+    /**
+     * Returns the piece captured on square {@code to}, and verifies that the capture is legal.
+     */
+    private static int getCapturedPiece(long to, Position position) throws IllegalMoveException {
+        if (to == position.getEnPassantSquare()) {
+            // 'En passant' capture
+            return PAWN;
+        }
+
+        // Normal capture
+        int capturedPiece = position.getPiece(to);
+
+        // The to square must contain a piece,
+        // it must not be the king,
+        // and it must be of the opposite color
+        if ((capturedPiece == 0) || (capturedPiece == Piece.KING) || (position.getColor(to) == position.getActiveColor())) {
+            throw new IllegalMoveException("illegal capture");
+        }
+        return capturedPiece;
+    }
+
+    private static int validateAndCreate(Position position, long from, long to, int capturedPiece, int promotedPiece)
+            throws IllegalMoveException {
         int piece = position.getPiece(from);
         boolean isCastling = isCastling(piece, from, to);
         boolean isEnPassant = isEnPassant(piece, to, position);
@@ -216,7 +221,7 @@ public class SanParser extends AbstractMoveParser {
 
         // Create the new move
         return create(piece, from, to, capturedPiece, promotedPiece, isCastling, isEnPassant);
-	}
+    }
 
     private static boolean isQueenSideCastling(String move) {
         return move.equals("O-O-O");

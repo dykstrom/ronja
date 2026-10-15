@@ -56,10 +56,10 @@ public class Game {
     private int moveIndex;
 
     /** All historic positions in this game. */
-    public final Position[] positions = new Position[MAX_MOVES];
+    private final Position[] positions = new Position[MAX_MOVES];
 
     /** Index to keep track of the number of stored positions. */
-    public int positionIndex;
+    private int positionIndex;
 
     /** The name of the opponent as set by the "name" command.*/
     private String opponent;
@@ -130,6 +130,20 @@ public class Game {
 
         positionIndex--;
         position = positions[positionIndex - 1];
+    }
+
+    /**
+     * Returns the number of stored positions in this game, including the start position.
+     */
+    public int getPositionCount() {
+        return positionIndex;
+    }
+
+    /**
+     * Returns the stored position with the given index, where index 0 is the start position.
+     */
+    public Position getPositionAt(int index) {
+        return positions[index];
     }
 
     /**

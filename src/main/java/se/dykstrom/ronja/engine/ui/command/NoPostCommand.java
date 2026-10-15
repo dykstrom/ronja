@@ -20,7 +20,7 @@ package se.dykstrom.ronja.engine.ui.command;
 import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
 
-public class NoPostCommand extends AbstractCommand {
+public final class NoPostCommand extends AbstractCommand {
 
     public static final String NAME = "nopost";
 

@@ -29,7 +29,7 @@ import static se.dykstrom.ronja.engine.time.TimeUtils.formatTime;
  *
  * @author Johan Dykstrom
  */
-public class OtimCommand extends AbstractCommand {
+public final class OtimCommand extends AbstractCommand {
 
     public static final String NAME = "otim";
 

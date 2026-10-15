@@ -21,7 +21,13 @@ import se.dykstrom.ronja.common.model.Color;
 import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.model.Square;
 
-import static se.dykstrom.ronja.common.model.Square.*;
+import static se.dykstrom.ronja.common.model.Square.SQUARE_IDS;
+import static se.dykstrom.ronja.common.model.Square.SQUARE_INDICES;
+import static se.dykstrom.ronja.common.model.Square.east;
+import static se.dykstrom.ronja.common.model.Square.indexToId;
+import static se.dykstrom.ronja.common.model.Square.north;
+import static se.dykstrom.ronja.common.model.Square.south;
+import static se.dykstrom.ronja.common.model.Square.west;
 
 /**
  * A class used to find all squares that are attacked in a given position.
@@ -42,10 +48,7 @@ public class AttackGenerator extends AbstractGenerator {
     /** Squares occupied by any piece in any color. */
     private long occupied;
 
-    /**
-     * 64 squares
-     * 256 possible variations of pieces on a rank
-     */
+    /** 64 squares and 256 possible variations of pieces on a rank. */
     private final long[][] horizontalAttacks = new long[64][256];
 
     // ------------------------------------------------------------------------
@@ -62,13 +65,13 @@ public class AttackGenerator extends AbstractGenerator {
             int rank = fromIndex / 8;
             long fromSquare = indexToId(fromIndex);
 
-            for (int rank_bits = 0; rank_bits < 256; rank_bits++) {
+            for (int rankBits = 0; rankBits < 256; rankBits++) {
                 // Shift the rank bits to the correct rank, and add the square ID of the
                 // current square. Now we have one possible setup of occupied (on the
                 // current rank), and we can try to slide the piece east and west from
                 // the current square, saving the attacked squares.
-                occupied = ((long) rank_bits) << (rank * 8) | fromSquare;
-                horizontalAttacks[fromIndex][rank_bits] = createCachedHorizontalAttacks(fromSquare);
+                occupied = ((long) rankBits) << (rank * 8) | fromSquare;
+                horizontalAttacks[fromIndex][rankBits] = createCachedHorizontalAttacks(fromSquare);
             }
         }
     }
@@ -204,8 +207,8 @@ public class AttackGenerator extends AbstractGenerator {
      */
     private long getCachedHorizontalAttacks(int fromIndex) {
         int rank = fromIndex / 8;   // Board.getRank() returns rank 1-8
-        int rank_bits = (int) (occupied >> (rank * 8)) & 0b11111111;
-        return horizontalAttacks[fromIndex][rank_bits];
+        int rankBits = (int) (occupied >> (rank * 8)) & 0b11111111;
+        return horizontalAttacks[fromIndex][rankBits];
     }
 
     /**
@@ -286,6 +289,8 @@ public class AttackGenerator extends AbstractGenerator {
      *
      * - The move does not cross a border.
      */
+    // Splitting this method into one method per pair of directions made the search about 5% slower.
+    @SuppressWarnings("checkstyle:CyclomaticComplexity")
     private long getDiagonalAttacks(long from) {
         boolean inNorthBorder = (NORTH_BORDER & from) != 0;
         boolean inEastBorder = (EAST_BORDER & from) != 0;

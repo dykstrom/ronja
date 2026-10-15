@@ -31,9 +31,8 @@ public interface MoveComparator {
      *
      * @param x The first move to compare.
      * @param y The second move to compare.
-     * @return a negative integer, zero, or a positive integer as the
-     * first argument is less than, equal to, or greater than the
-     * second.
+     * @return a negative integer, zero, or a positive integer as the first argument
+     *         is less than, equal to, or greater than the second.
      */
     int compare(int x, int y);
 }

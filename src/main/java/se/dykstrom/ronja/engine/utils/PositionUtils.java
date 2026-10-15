@@ -134,9 +134,9 @@ public final class PositionUtils {
      */
     private static boolean isDrawByThreefoldRepetition(Position position, Game game) {
         int count = 1;
-        int index = game.positionIndex - 2;
+        int index = game.getPositionCount() - 2;
         while (index >= 0 && count < 3) {
-            if (position.equalTo(game.positions[index])) {
+            if (position.equalTo(game.getPositionAt(index))) {
                 count++;
             }
             index--;

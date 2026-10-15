@@ -56,12 +56,13 @@ public final class ClassUtils {
      * @return The new instance created by calling the constructor.
      */
     public static <T> T invokeConstructorOrFail(Constructor<T> constructor, Object... args) {
+        final var className = constructor.getDeclaringClass().getSimpleName();
         try {
             return constructor.newInstance(args);
         } catch (InvocationTargetException e) {
-            throw new RuntimeException("Failed to call constructor '" + constructor.getDeclaringClass().getSimpleName() + "': " + e.getCause().getMessage(), e.getCause());
+            throw new RuntimeException("Failed to call constructor '" + className + "': " + e.getCause().getMessage(), e.getCause());
         } catch (Exception e) {
-            throw new RuntimeException("Failed to call constructor '" + constructor.getDeclaringClass().getSimpleName() + "': " + e.getMessage(), e);
+            throw new RuntimeException("Failed to call constructor '" + className + "': " + e.getMessage(), e);
         }
     }
 }

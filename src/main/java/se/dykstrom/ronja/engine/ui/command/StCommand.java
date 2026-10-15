@@ -32,7 +32,7 @@ import static se.dykstrom.ronja.engine.time.TimeUtils.parseStText;
  *
  * @author Johan Dykstrom
  */
-public class StCommand extends AbstractCommand {
+public final class StCommand extends AbstractCommand {
 
     public static final String NAME = "st";
 

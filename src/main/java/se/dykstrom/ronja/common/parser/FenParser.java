@@ -96,23 +96,23 @@ public class FenParser {
         StringBuilder builder = new StringBuilder();
 
         // Number of consecutive empty squares
-        int noOfEmptyInARow = 0;
+        int emptySquaresInRow = 0;
 
         for (Long square : Board.getSquaresInRank(r)) {
             int piece = position.getPiece(square);
             Color color = position.getColor(square);
             if (piece == 0) {
-                noOfEmptyInARow++;
+                emptySquaresInRow++;
             } else {
-                if (noOfEmptyInARow != 0) {
-                    builder.append(noOfEmptyInARow);
-                    noOfEmptyInARow = 0;
+                if (emptySquaresInRow != 0) {
+                    builder.append(emptySquaresInRow);
+                    emptySquaresInRow = 0;
                 }
                 builder.append(Piece.toSymbol(piece, color));
             }
         }
-        if (noOfEmptyInARow != 0) {
-            builder.append(noOfEmptyInARow);
+        if (emptySquaresInRow != 0) {
+            builder.append(emptySquaresInRow);
         }
 
         return builder.toString();
@@ -254,8 +254,8 @@ public class FenParser {
                 position = withPieceAndColor(Piece.valueOf(s.charAt(0)), Color.BLACK, f, r, position);
                 f++;
             } else {
-                int numberOfEmptyInARow = Integer.parseInt(s);
-                while (numberOfEmptyInARow-- > 0) {
+                int emptySquaresInRow = Integer.parseInt(s);
+                while (emptySquaresInRow-- > 0) {
                     position = withPieceAndColor(0, null, f, r, position);
                     f++;
                 }

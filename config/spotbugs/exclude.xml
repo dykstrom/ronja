@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SpotBugs exclude filter. Findings matching these rules are not reported.
+  See https://spotbugs.readthedocs.io/en/stable/filter.html
+-->
+<FindBugsFilter>
+
+    <!--
+      AbstractCommand checks its response and game arguments with requireNonNull, so its
+      constructor can throw. The concrete command classes are final, which SpotBugs accepts,
+      but an abstract class cannot be. The null checks catch wiring bugs early, so they stay.
+    -->
+    <Match>
+        <Class name="se.dykstrom.ronja.engine.ui.command.AbstractCommand"/>
+        <Bug pattern="CT_CONSTRUCTOR_THROW"/>
+    </Match>
+
+    <!--
+      Design choice: the commands, the search, and the XBoard front end share one mutable
+      Game and one response writer, and pass them by reference. Copying them would break
+      the sharing. Excluded project-wide.
+    -->
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2"/>
+    </Match>
+
+    <!--
+      The trace helpers enter, stay, and leave in AlphaBetaFinder are called only inside
+      if (DEBUG) blocks. DEBUG is a compile-time constant that is false, so javac removes
+      the calls, and SpotBugs sees the helpers as never called.
+    -->
+    <Match>
+        <Class name="se.dykstrom.ronja.engine.core.AlphaBetaFinder"/>
+        <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD"/>
+    </Match>
+
+    <!--
+      Square.SQUARE_IDS and Square.SQUARE_INDICES are shared scratch buffers.
+      bitboardToIds and bitboardToIndices fill them, and the move and attack generators
+      read them directly, to avoid an allocation per call in the search.
+    -->
+    <Match>
+        <Class name="se.dykstrom.ronja.common.model.Square"/>
+        <Bug pattern="MS_MUTABLE_ARRAY"/>
+    </Match>
+
+</FindBugsFilter>

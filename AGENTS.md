@@ -20,6 +20,7 @@ deepening, alpha-beta pruning, and move ordering. It requires Java 25 or later.
 | Data | No database. The opening book is the text file `book.csv` |
 | Logging | `java.util.logging`, configured by `ronja.properties` |
 | Packaging | maven-assembly-plugin builds a zip and a tar.gz holding the jar, the `ronja` and `ronja.bat` launchers, and `book.csv` |
+| Build checks | maven-enforcer-plugin at `validate`. Checkstyle and SpotBugs at `verify`, on main sources only. A Checkstyle error or any SpotBugs finding fails the build. See `docs/system/build.md` |
 
 ## Directory index
 
@@ -31,6 +32,7 @@ All Java lives under `src/main/java/se/dykstrom/ronja/`, which `…/` stands for
 | `…/engine/` | The engine that plays. `core/` (search, evaluation, move generation), `time/` (time controls), `ui/` (XBoard front end, `Ronja` main class, one class per command), `utils/` (`AppConfig`, `Version`) |
 | `src/main/resources/` | `version.properties`, filtered by Maven so `${project.version}` is replaced at build time |
 | `src/main/scripts/` | What ships beside the jar: the `ronja` and `ronja.bat` launchers, `ronja.properties`, `book.csv`. Also Maven-filtered, copied to `target/scripts/` |
+| `config/` | `checkstyle/checkstyle.xml` (the Checkstyle rules) and `spotbugs/exclude.xml` (the accepted SpotBugs findings, each with its reason) |
 | `src/test/java/se/dykstrom/ronja/test/` | Test helpers, not tests: `AbstractTestCase`, `TestUtils`, `LoggingConfig` |
 | `docs/` | Durable project context. Sub-folder layout below shows where each kind of doc goes. |
 
@@ -50,7 +52,8 @@ docs/
 | What | Command |
 |------|---------|
 | Unit tests | `mvn test` — runs `*Test` only |
-| All tests | `mvn verify` — adds the `*IT` tests, including `RonjaIT` and `XBoardProtocolIT`, which drive the engine over the protocol |
+| All tests and checks | `mvn verify` — adds the `*IT` tests, including `RonjaIT` and `XBoardProtocolIT`, which drive the engine over the protocol. Then runs Checkstyle and SpotBugs |
+| Checkstyle report | `mvn verify` writes `target/reports/checkstyle.html`, which lists every violation, warnings included |
 | Search benchmarks | `SlowFinderTest` is annotated `@Disabled`, so the build skips it. Run it by hand when changing the search |
 | Build the release archives | `mvn package` — the assembly plugin writes the zip and tar.gz to `target/` |
 | Run the engine | Start `se.dykstrom.ronja.engine.ui.Ronja` from the IDE, or unpack `target/ronja-*-bin.zip` and drive that from XBoard. The launcher needs the jar, `ronja.properties`, and `book.csv` in one directory, which only the unpacked archive gives you |

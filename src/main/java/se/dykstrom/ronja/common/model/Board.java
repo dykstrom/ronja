@@ -95,7 +95,9 @@ public class Board {
      */
     public static int popCount(final long bitboard) {
         int count = 0;
-        for (long b = bitboard; b != 0; b &= (b - 1)) { count++; }
+        for (long b = bitboard; b != 0; b &= (b - 1)) {
+            count++;
+        }
         return count;
     }
 }

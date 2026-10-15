@@ -27,7 +27,7 @@ import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.SanParser;
 import se.dykstrom.ronja.engine.ui.io.Response;
 
-public class BkCommand extends AbstractCommand {
+public final class BkCommand extends AbstractCommand {
 
     public static final String NAME = "bk";
 

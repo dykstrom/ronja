@@ -26,12 +26,12 @@ import se.dykstrom.ronja.engine.utils.AppConfig;
  *
  * @author Johan Dykstrom
  */
-public class ProtoverCommand extends AbstractCommand {
+public final class ProtoverCommand extends AbstractCommand {
 
     public static final String NAME = "protover";
 
     /** Protocol version. */
-	private final int version;
+    private final int version;
 
     @SuppressWarnings("WeakerAccess")
     public ProtoverCommand(String version, Response response, Game game) throws InvalidCommandException {

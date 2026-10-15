@@ -25,7 +25,7 @@ import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.engine.ui.io.Response;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
 
-public class UserMoveCommand extends AbstractMoveCommand {
+public final class UserMoveCommand extends AbstractMoveCommand {
 
     public static final String NAME = "usermove";
 

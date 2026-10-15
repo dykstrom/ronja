@@ -25,7 +25,7 @@ import se.dykstrom.ronja.engine.utils.PositionUtils;
 
 import java.text.ParseException;
 
-public class SetBoardCommand extends AbstractCommand {
+public final class SetBoardCommand extends AbstractCommand {
 
     public static final String NAME = "setboard";
 

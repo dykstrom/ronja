@@ -27,7 +27,7 @@ import se.dykstrom.ronja.engine.ui.io.Response;
 import se.dykstrom.ronja.engine.utils.AppConfig;
 import se.dykstrom.ronja.engine.utils.FileUtils;
 
-public class ResultCommand extends AbstractCommand {
+public final class ResultCommand extends AbstractCommand {
 
     public static final String NAME = "result";
 

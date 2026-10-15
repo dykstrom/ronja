@@ -24,7 +24,7 @@ import se.dykstrom.ronja.common.model.Game;
 import se.dykstrom.ronja.engine.ui.io.Response;
 import se.dykstrom.ronja.engine.utils.PositionUtils;
 
-public class PlayOtherCommand extends AbstractMoveCommand {
+public final class PlayOtherCommand extends AbstractMoveCommand {
 
     public static final String NAME = "playother";
 
