@@ -14,6 +14,9 @@
         <checkstyle-plugin.version>3.6.0</checkstyle-plugin.version>
         <checkstyle.version>14.3.0</checkstyle.version>
         <spotbugs-plugin.version>4.10.4.1</spotbugs-plugin.version>
+        <clean-plugin.version>3.5.0</clean-plugin.version>
+        <exec-plugin.version>3.6.4</exec-plugin.version>
+        <runtime.dir>${project.build.directory}/runtime</runtime.dir>
     </properties>
 
     <scm>
@@ -66,6 +69,10 @@
                 <version>3.6.0</version>
                 <configuration>
                     <argLine>-Djava.util.logging.config.class=se.dykstrom.ronja.test.LoggingConfig</argLine>
+                    <systemPropertyVariables>
+                        <!-- The unpacked copy of the platform archive, used by LauncherIT -->
+                        <ronja.image.dir>${project.build.directory}/${project.build.finalName}-${platform}/ronja-${project.version}</ronja.image.dir>
+                    </systemPropertyVariables>
                 </configuration>
                 <executions>
                     <execution>
@@ -73,6 +80,54 @@
                             <goal>integration-test</goal>
                             <goal>verify</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>${clean-plugin.version}</version>
+                <executions>
+                    <!-- jlink refuses to write to an existing folder -->
+                    <execution>
+                        <id>clean-runtime</id>
+                        <phase>prepare-package</phase>
+                        <goals><goal>clean</goal></goals>
+                        <configuration>
+                            <excludeDefaultDirectories>true</excludeDefaultDirectories>
+                            <filesets>
+                                <fileset>
+                                    <directory>${runtime.dir}</directory>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec-plugin.version}</version>
+                <executions>
+                    <!-- Builds the Java runtime that ships in the platform archive -->
+                    <execution>
+                        <id>jlink</id>
+                        <phase>package</phase>
+                        <goals><goal>exec</goal></goals>
+                        <configuration>
+                            <executable>${java.home}/bin/jlink</executable>
+                            <arguments>
+                                <argument>--add-modules</argument>
+                                <argument>java.base,java.logging</argument>
+                                <argument>--strip-debug</argument>
+                                <argument>--no-man-pages</argument>
+                                <argument>--no-header-files</argument>
+                                <argument>--compress</argument>
+                                <argument>zip-6</argument>
+                                <argument>--output</argument>
+                                <argument>${runtime.dir}</argument>
+                            </arguments>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -104,6 +159,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>3.3.1</version>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -125,6 +183,10 @@
                                 <requireProfileIdsExist />
                                 <requireNoRepositories />
                                 <dependencyConvergence />
+                                <requireProperty>
+                                    <property>platform</property>
+                                    <message>Ronja builds only on linux-x86_64, linux-arm64, macos-x86_64, macos-arm64, windows-x86_64, and windows-arm64. No platform profile matches os.name=${os.name}, os.arch=${os.arch}.</message>
+                                </requireProperty>
                             </rules>
                         </configuration>
                     </execution>
@@ -146,6 +208,8 @@
                     <includeTestSourceDirectory>false</includeTestSourceDirectory>
                     <!-- Error-severity violations fail the build; warnings are only reported. -->
                     <failOnViolation>true</failOnViolation>
+                    <!-- The build does not run JXR, so the report has no source cross-reference to link to -->
+                    <linkXRef>false</linkXRef>
                     <sourceDirectories>
                         <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
                     </sourceDirectories>
@@ -236,4 +300,80 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <!-- One profile per supported platform. The arch values are what Java reports in os.arch. -->
+    <profiles>
+        <profile>
+            <id>linux-x86_64</id>
+            <activation>
+                <os><name>Linux</name><arch>amd64</arch></os>
+            </activation>
+            <properties>
+                <platform>linux-x86_64</platform>
+                <archive.format>tar.gz</archive.format>
+                <launcher>ronja</launcher>
+                <launcher.line.ending>unix</launcher.line.ending>
+            </properties>
+        </profile>
+        <profile>
+            <id>linux-arm64</id>
+            <activation>
+                <os><name>Linux</name><arch>aarch64</arch></os>
+            </activation>
+            <properties>
+                <platform>linux-arm64</platform>
+                <archive.format>tar.gz</archive.format>
+                <launcher>ronja</launcher>
+                <launcher.line.ending>unix</launcher.line.ending>
+            </properties>
+        </profile>
+        <profile>
+            <id>macos-x86_64</id>
+            <activation>
+                <os><family>mac</family><arch>x86_64</arch></os>
+            </activation>
+            <properties>
+                <platform>macos-x86_64</platform>
+                <archive.format>tar.gz</archive.format>
+                <launcher>ronja</launcher>
+                <launcher.line.ending>unix</launcher.line.ending>
+            </properties>
+        </profile>
+        <profile>
+            <id>macos-arm64</id>
+            <activation>
+                <os><family>mac</family><arch>aarch64</arch></os>
+            </activation>
+            <properties>
+                <platform>macos-arm64</platform>
+                <archive.format>tar.gz</archive.format>
+                <launcher>ronja</launcher>
+                <launcher.line.ending>unix</launcher.line.ending>
+            </properties>
+        </profile>
+        <profile>
+            <id>windows-x86_64</id>
+            <activation>
+                <os><family>windows</family><arch>amd64</arch></os>
+            </activation>
+            <properties>
+                <platform>windows-x86_64</platform>
+                <archive.format>zip</archive.format>
+                <launcher>ronja.bat</launcher>
+                <launcher.line.ending>windows</launcher.line.ending>
+            </properties>
+        </profile>
+        <profile>
+            <id>windows-arm64</id>
+            <activation>
+                <os><family>windows</family><arch>aarch64</arch></os>
+            </activation>
+            <properties>
+                <platform>windows-arm64</platform>
+                <archive.format>zip</archive.format>
+                <launcher>ronja.bat</launcher>
+                <launcher.line.ending>windows</launcher.line.ending>
+            </properties>
+        </profile>
+    </profiles>
 </project>

@@ -20,6 +20,7 @@ package se.dykstrom.ronja.engine.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -80,7 +81,6 @@ public class AppConfig {
     /**
      * Sets the opening book filename.
      */
-    @SuppressWarnings("unused")
     public static void setBookFilename(String bookFilename) {
         AppConfig.bookFilename = bookFilename;
     }
@@ -93,7 +93,8 @@ public class AppConfig {
             bookFilename = getStringProperty(PROPERTY_BOOK_FILE);
         }
         if (bookFilename == null) {
-            bookFilename = getString(PROPERTY_BOOK_FILE, "book.csv");
+            // A relative path in the properties file is relative to the config directory, not the working directory
+            bookFilename = Path.of(getConfigDirectory()).resolve(getString(PROPERTY_BOOK_FILE, "book.csv")).toString();
         }
         return bookFilename;
     }

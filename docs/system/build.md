@@ -14,6 +14,9 @@
 - `requireProfileIdsExist`
 - `requireNoRepositories`
 - `dependencyConvergence`
+- `requireProperty platform`. One profile per supported platform in `pom.xml`
+  sets `platform`, so a build on any other OS or architecture fails at `validate`.
+  The message lists the six supported platforms.
 
 ## Checkstyle
 

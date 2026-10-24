@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.File;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,7 +47,9 @@ public class AppConfigTest extends AbstractTestCase {
     public void setUp() throws Exception {
         AppConfig.setConfigDirectory(TEMP_DIRECTORY);
         AppConfig.setEngineName(null);
+        AppConfig.setBookFilename(null);
         System.clearProperty(AppConfig.PROPERTY_ENGINE_NAME);
+        System.clearProperty(AppConfig.PROPERTY_BOOK_FILE);
 
         File file = new File(TEMP_DIRECTORY, "ronja.properties");
         file.deleteOnExit();
@@ -74,5 +77,31 @@ public class AppConfigTest extends AbstractTestCase {
     @Test
     public void testGetFromDataStore() {
         assertEquals(FILE_ENGINE_NAME, AppConfig.getEngineName());
+    }
+
+    @Test
+    public void shouldResolveRelativeBookFileAgainstConfigDirectory() throws Exception {
+        writeBookFile("books/book.csv");
+        assertEquals(Path.of(TEMP_DIRECTORY, "books", "book.csv").toString(), AppConfig.getBookFilename());
+    }
+
+    @Test
+    public void shouldKeepAbsoluteBookFile() throws Exception {
+        final var bookFile = new File(TEMP_DIRECTORY, "absolute.csv").getAbsolutePath();
+        writeBookFile(bookFile);
+        assertEquals(bookFile, AppConfig.getBookFilename());
+    }
+
+    @Test
+    public void shouldUseBookFileFromSystemPropertiesAsGiven() {
+        System.setProperty(AppConfig.PROPERTY_BOOK_FILE, "book.csv");
+        assertEquals("book.csv", AppConfig.getBookFilename());
+    }
+
+    private static void writeBookFile(final String bookFile) throws Exception {
+        try (PrintStream out = new PrintStream(new File(TEMP_DIRECTORY, "ronja.properties"), StandardCharsets.ISO_8859_1)) {
+            // Properties files treat a backslash as an escape character
+            out.println(AppConfig.PROPERTY_BOOK_FILE + "=" + bookFile.replace("\\", "/"));
+        }
     }
 }

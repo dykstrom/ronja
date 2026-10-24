@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# Find the real script, following symbolic links, because the jar and the config
-# files are next to the script and not next to any link to it
+# Find the real script, following symbolic links, because the jar, the config
+# files, and the runtime are next to the script and not next to any link to it
 SOURCE="${BASH_SOURCE[0]}"
 while [ -L "$SOURCE" ]; do
   LINK_DIR=$(cd -P -- "$(dirname -- "$SOURCE")" && pwd)
@@ -10,20 +10,21 @@ while [ -L "$SOURCE" ]; do
   [[ "$SOURCE" != /* ]] && SOURCE="$LINK_DIR/$SOURCE"
 done
 SCRIPT_DIR=$(cd -P -- "$(dirname -- "$SOURCE")" && pwd)
-cd "$SCRIPT_DIR" || exit 1
 
-if [ "$JAVA_HOME" == "" ]; then
-  JAVA_CMD="java"
-else
-  JAVA_CMD="$JAVA_HOME/bin/java"
-fi
+# Run in a folder per user, because Ronja writes its log and game files to the
+# working folder, and the user may not be allowed to write to the install folder
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/ronja"
+mkdir -p -- "$STATE_DIR" && cd -- "$STATE_DIR" || exit 1
+
+# Always use the bundled runtime, and never a Java found through JAVA_HOME or the PATH
+JAVA_CMD="$SCRIPT_DIR/runtime/bin/java"
 
 JVM_ARGS=(
-  "-Djava.util.logging.config.file=ronja.properties"
-  "-Dronja.config.dir=."
+  "-Djava.util.logging.config.file=$SCRIPT_DIR/ronja.properties"
+  "-Dronja.config.dir=$SCRIPT_DIR"
 )
 # Maven replaces project.version when it copies this script to target/scripts
 # shellcheck disable=SC2154
-JAR_FILE="ronja-${project.version}.jar"
+JAR_FILE="$SCRIPT_DIR/ronja-${project.version}.jar"
 
 "$JAVA_CMD" "${JVM_ARGS[@]}" -jar "$JAR_FILE"

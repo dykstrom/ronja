@@ -1,7 +1,9 @@
 # Opening book
 
 `OpeningBookParser.parse` reads the file named by `AppConfig.getBookFilename`,
-which `ronja.properties` sets to `book.csv`. Each line has three fields separated
+which `ronja.properties` sets to `book.csv`. A relative path in `ronja.properties`
+resolves against `ronja.config.dir`, the folder that holds the file. A path set
+with `-Dronja.book.file` is used as given. Each line has three fields separated
 by semicolons: the moves leading to a position, the book move and its weight after
 a slash, and a comment. The parser skips empty lines and lines starting with `#`,
 and builds a map from `Position` to a list of `BookMove`. `OpeningBook` converts

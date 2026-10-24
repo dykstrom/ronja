@@ -53,6 +53,9 @@ public class Ronja {
     @SuppressWarnings({"java:S106", "JavaPrintToLogpoint"})
     public static void main(String[] args) throws IOException {
         System.out.println("# Ronja version " + Version.instance());
+        System.out.println("# Java home " + System.getProperty("java.home"));
+        // ronja.properties names the log file with a relative path, so it lands in the working folder
+        System.out.println("# Log folder " + System.getProperty("user.dir"));
 
         final var logger = Logger.getLogger(Ronja.class.getName());
         logger.info(() -> "Ronja version: " + Version.instance());

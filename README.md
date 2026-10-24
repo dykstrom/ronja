@@ -8,7 +8,7 @@
 ![Downloads](https://img.shields.io/github/downloads/dykstrom/ronja/total)
 ![License](https://img.shields.io/github/license/dykstrom/ronja)
 ![Top Language](https://img.shields.io/github/languages/top/dykstrom/ronja)
-[![JDK compatibility: 25+](https://img.shields.io/badge/JDK_compatibility-25+-blue.svg)](https://adoptium.net)
+[![Build with: JDK 25+](https://img.shields.io/badge/Build_with-JDK_25+-blue.svg)](https://adoptium.net)
 
 </div>
 
@@ -20,20 +20,24 @@ An XBoard/WinBoard chess engine written in Java.
 Ronja is a chess engine. It provides  only a simple, character based user 
 interface. It is highly recommended that you run it from a chess GUI like 
 [XBoard/WinBoard](https://www.gnu.org/software/xboard) or
-[Arena](http://www.playwitharena.de). You will also need a 
-[Java runtime](https://adoptium.net) installed to run Ronja.
+[Arena](http://www.playwitharena.de).
 
-* Ronja versions 0.7.0 and earlier require Java 8.
-* Ronja versions 0.8.x require Java 11.
-* Ronja versions 0.9.x require Java 17+.
-* Ronja versions 0.10.0 and later require Java 25+.
+Ronja runs on these platforms:
+
+* Linux on x86_64 and arm64
+* macOS on x86_64 and arm64
+* Windows on x86_64 and arm64
+
+Running a version older than 0.10.0? See [Old Versions](OLD_VERSIONS.md).
 
 
 ## Installation
 
-Download the latest release from the GitHub 
-[releases page](https://github.com/dykstrom/ronja/releases), 
-and unzip it into a directory of your choice. Let's call this directory
+Download the archive for your platform from the GitHub
+[releases page](https://github.com/dykstrom/ronja/releases). The archive
+name ends with your operating system and architecture, for example
+`ronja-0.10.0-windows-x86_64.zip` or `ronja-0.10.0-macos-arm64.tar.gz`.
+Unpack it into a directory of your choice. Let's call this directory
 `<ronja_home>`.
 
 ### XBoard
@@ -60,9 +64,23 @@ dialog that appears, navigate to `<ronja_home>` and select `ronja.bat`.
 In the next dialog, set the type of the engine to Winboard. That's it!
 
 
+## Log Files
+
+Ronja writes its log file `ronja.log` to a folder of your own, so that
+`<ronja_home>` can be a folder you cannot write to, such as `/usr/local`:
+
+* Linux and macOS: `~/.local/state/ronja`, or `$XDG_STATE_HOME/ronja` if
+  you have set `XDG_STATE_HOME`
+* Windows: `%LOCALAPPDATA%\Ronja`
+
+If you turn on the game log in `ronja.properties`, Ronja writes it to the
+same folder. When you start Ronja in a terminal, it prints the folder on a
+line that starts with `# Log folder`.
+
+
 ## Description
 
-Ronja is written entirely in [Java](https://adoptium.net), and has its 
+Ronja is written entirely in Java, and has its 
 own opening book. It implements a few of the commonly seen features of 
 chess engines:
 
