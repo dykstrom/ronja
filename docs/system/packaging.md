@@ -57,7 +57,17 @@ that `ronja.log` lands in the per-user folder.
 
 ## Releases
 
-`mvn release:prepare` tags the release as `v<version>`. A pushed `v*` tag makes
-CI build all six platforms. Then the `release` job creates a draft GitHub
-release with the six archives, titled with the version. A maintainer publishes
-the draft by hand.
+`mvn release:prepare` runs `mvn verify`, makes the two release commits, and
+tags the release as `v<version>`. It pushes them over SSH, to the
+`developerConnection` URL in `pom.xml`. A pushed `v*` tag makes CI build all
+six platforms. Then the `release` job creates a draft GitHub release with the
+six archives, titled with the version.
+
+The `release` job runs only if all six builds pass. If one build fails for a
+reason outside the tagged code, such as a flaky test, re-run only that job with
+`gh run rerun <run-id> --failed`.
+
+The `release` job writes the notes with `--generate-notes`, which lists only
+merged pull requests. Most changes go straight to master, so the generated
+notes miss them. A maintainer must rewrite the notes to list the changes users
+see, and then publish the draft by hand.
