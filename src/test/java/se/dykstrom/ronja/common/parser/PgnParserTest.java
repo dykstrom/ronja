@@ -80,7 +80,7 @@ public class PgnParserTest extends AbstractTestCase {
 
     @Test
     public void testFormat_NewGame() {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = game.getStartTime();
         String contents = PgnParser.format(game);
         assertContains(contents,
                 "[Event \"Chess Game\"]",
