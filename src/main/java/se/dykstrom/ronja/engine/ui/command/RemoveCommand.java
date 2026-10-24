@@ -35,6 +35,10 @@ public final class RemoveCommand extends AbstractCommand {
 
     @Override
     public void execute() {
+        if (game.getMoves().length < 2) {
+            response.write("Error (no move pair to remove): " + NAME);
+            return;
+        }
         game.unmakeMove();
         game.unmakeMove();
         TLOG.info(() -> "Retracting latest move pair and expecting user move number " + game.getPosition().getFullMoveNumber());

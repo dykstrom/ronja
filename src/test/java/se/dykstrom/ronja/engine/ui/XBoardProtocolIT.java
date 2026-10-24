@@ -381,6 +381,28 @@ public class XBoardProtocolIT extends AbstractTestCase {
     }
 
     /**
+     * Tests the undo command.
+     */
+    @Test
+    public void testUndo() throws Exception {
+        writer.println("xboard");
+        writer.println("protover 2");
+        discardAllInput();
+        writer.println("new");
+        writer.println("usermove e2e4");
+        List<String> list = readAllInput();
+        assertContainsRegex("move e7(e5|e6)", list);
+        // Retract both moves, and let the engine play white from the start position
+        writer.println("force");
+        writer.println("undo");
+        writer.println("undo");
+        writer.println("go");
+        list = readAllInput();
+        assertContainsRegex("move e2e4", list);
+        writer.println("quit");
+    }
+
+    /**
      * Tests the go command.
      */
     @Test

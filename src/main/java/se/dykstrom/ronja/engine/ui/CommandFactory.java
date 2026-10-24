@@ -53,6 +53,7 @@ import se.dykstrom.ronja.engine.ui.command.ResultCommand;
 import se.dykstrom.ronja.engine.ui.command.SetBoardCommand;
 import se.dykstrom.ronja.engine.ui.command.StCommand;
 import se.dykstrom.ronja.engine.ui.command.TimeCommand;
+import se.dykstrom.ronja.engine.ui.command.UndoCommand;
 import se.dykstrom.ronja.engine.ui.command.UserMoveCommand;
 import se.dykstrom.ronja.engine.ui.command.XBoardCommand;
 import se.dykstrom.ronja.engine.ui.io.Response;
@@ -97,6 +98,7 @@ class CommandFactory {
         COMMANDS.put(SetBoardCommand.NAME, SetBoardCommand.class);
         COMMANDS.put(StCommand.NAME, StCommand.class);
         COMMANDS.put(TimeCommand.NAME, TimeCommand.class);
+        COMMANDS.put(UndoCommand.NAME, UndoCommand.class);
         COMMANDS.put(UserMoveCommand.NAME, UserMoveCommand.class);
         COMMANDS.put(XBoardCommand.NAME, XBoardCommand.class);
     }

@@ -27,6 +27,7 @@ import se.dykstrom.ronja.test.ListResponse;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static se.dykstrom.ronja.common.model.Color.BLACK;
 import static se.dykstrom.ronja.common.model.Piece.PAWN;
 import static se.dykstrom.ronja.common.model.Square.D2_IDX;
 import static se.dykstrom.ronja.common.model.Square.D4_IDX;
@@ -85,6 +86,43 @@ public class CommandFactoryTest {
     }
 
     @Test
+    public void testRemoveCommandWithOneMove() {
+        final var e2e4 = Move.create(PAWN, E2_IDX, E4_IDX);
+        game.makeMove(e2e4);
+
+        Command command = CommandFactory.create(RemoveCommand.NAME, null, response, game);
+        command.execute();
+        assertEquals(1, response.getList().size());
+        assertContainsRegex("Error \\(no move pair to remove\\): remove", response.getList());
+        assertArrayEquals(new int[]{e2e4}, game.getMoves());
+    }
+
+    @Test
+    public void testUndoCommand() {
+        final var e2e4 = Move.create(PAWN, E2_IDX, E4_IDX);
+        final var e7e5 = Move.create(PAWN, E7_IDX, E5_IDX);
+
+        game.makeMove(e2e4);
+        game.makeMove(e7e5);
+        assertArrayEquals(new int[]{e2e4, e7e5}, game.getMoves());
+
+        Command command = CommandFactory.create(UndoCommand.NAME, null, response, game);
+        command.execute();
+        assertEquals(0, response.getList().size());
+        assertArrayEquals(new int[]{e2e4}, game.getMoves());
+        assertEquals(BLACK, game.getPosition().getActiveColor());
+    }
+
+    @Test
+    public void testUndoCommandWithNoMoves() {
+        Command command = CommandFactory.create(UndoCommand.NAME, null, response, game);
+        command.execute();
+        assertEquals(1, response.getList().size());
+        assertContainsRegex("Error \\(no move to undo\\): undo", response.getList());
+        assertArrayEquals(new int[]{}, game.getMoves());
+    }
+
+    @Test
     public void testInvalidCommand() {
         Command command = CommandFactory.create("foo", null, response, game);
         assertInstanceOf(InvalidCommand.class, command);
@@ -123,6 +161,7 @@ public class CommandFactoryTest {
         assertInstanceOf(SetBoardCommand.class, CommandFactory.create(SetBoardCommand.NAME, "", response, game));
         assertInstanceOf(StCommand.class, CommandFactory.create(StCommand.NAME, "", response, game));
         assertInstanceOf(TimeCommand.class, CommandFactory.create(TimeCommand.NAME, "1", response, game));
+        assertInstanceOf(UndoCommand.class, CommandFactory.create(UndoCommand.NAME, "", response, game));
         assertInstanceOf(UserMoveCommand.class, CommandFactory.create(UserMoveCommand.NAME, "", response, game));
         assertInstanceOf(XBoardCommand.class, CommandFactory.create(XBoardCommand.NAME, "", response, game));
     }
