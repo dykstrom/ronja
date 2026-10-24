@@ -20,7 +20,7 @@
     </properties>
 
     <scm>
-        <developerConnection>scm:git:https://github.com/dykstrom/ronja.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:dykstrom/ronja.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
