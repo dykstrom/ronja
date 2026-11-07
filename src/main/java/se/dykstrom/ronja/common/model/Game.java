@@ -37,8 +37,8 @@ public class Game {
     /** Default time control is 40 moves in 2 minutes. */
     private static final TimeControl TWO_MINUTES = new TimeControl(40, 2 * 60 * 1000L, 0, CLASSIC);
 
-    /** The maximum number of moves in a game. */
-    private static final int MAX_MOVES = 500;
+    /** The initial capacity of the move and position history. The history grows when it fills up. */
+    private static final int INITIAL_CAPACITY = 500;
 
     /** True if force mode is on. */
     private boolean force;
@@ -50,13 +50,13 @@ public class Game {
     private Color engineColor;
 
     /** All moves made in this game. */
-    private final int[] moves = new int[MAX_MOVES];
+    private int[] moves = new int[INITIAL_CAPACITY];
 
     /** Index to keep track of the number of stored moves. */
     private int moveIndex;
 
     /** All historic positions in this game. */
-    private final Position[] positions = new Position[MAX_MOVES];
+    private Position[] positions = new Position[INITIAL_CAPACITY];
 
     /** Index to keep track of the number of stored positions. */
     private int positionIndex;
@@ -116,6 +116,9 @@ public class Game {
      * Makes the given move, updates game data, and returns the resulting position.
      */
     public void makeMove(int move) {
+        if (moveIndex == moves.length || positionIndex == positions.length) {
+            growHistory(2 * Math.max(moves.length, positions.length));
+        }
         moves[moveIndex++] = move;
 
         position = position.withMove(move);
@@ -124,12 +127,25 @@ public class Game {
 
     /**
      * Unmakes the last move that was made, and updates game data.
+     *
+     * @throws IllegalStateException If no move has been made since the start position.
      */
     public void unmakeMove() {
+        if (positionIndex <= 1) {
+            throw new IllegalStateException("no move to unmake in the start position");
+        }
         moveIndex--;
 
         positionIndex--;
         position = positions[positionIndex - 1];
+    }
+
+    /**
+     * Grows the move and position history to hold at least {@code capacity} entries.
+     */
+    private void growHistory(int capacity) {
+        moves = Arrays.copyOf(moves, Math.max(capacity, moves.length));
+        positions = Arrays.copyOf(positions, Math.max(capacity, positions.length));
     }
 
     /**
@@ -193,6 +209,7 @@ public class Game {
      * Sets the array of historical moves.
      */
     public void setMoves(int[] moves) {
+        growHistory(moves.length);
         System.arraycopy(moves, 0, this.moves, 0, moves.length);
         moveIndex = moves.length;
     }

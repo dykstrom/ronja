@@ -19,6 +19,11 @@ package se.dykstrom.ronja.engine.core;
 
 /**
  * Interface to be implemented by all move finders.
+ * <p>
+ * Precondition: the game must not be over in the current position, see
+ * {@link se.dykstrom.ronja.engine.utils.PositionUtils#isGameOver}. The finders do not check this.
+ * If the side to move is checkmated, they return an illegal move, and if it is stalemated, they
+ * return 0. Every command that asks for a move checks {@code isGameOver} first.
  *
  * @author Johan Dykstrom
  */

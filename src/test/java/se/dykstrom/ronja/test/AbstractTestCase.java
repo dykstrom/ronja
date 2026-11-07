@@ -146,6 +146,18 @@ public abstract class AbstractTestCase {
     protected static final String FEN_WQC_NOK_C_C1      = "rnbq1rk1/pppp1ppp/5n2/4p3/4P3/2NP1Q2/PbPB1PPP/R3KBNR w KQ - 0 1";
     protected static final String FEN_BQC_NOK_C_C8      = "r3kbnr/ppp1pppp/1Nn1b3/8/8/8/PPPP1PPP/R1BQKBNR b KQkq - 0 1";
 
+    // Captures on a rook's home square, which clear that rook's castling right
+    /** All four rooks in their corners, with all castling rights. */
+    protected static final String FEN_CORNER_ROOKS_W    = "r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1";
+    protected static final String FEN_CORNER_ROOKS_B    = "r3k2r/8/8/8/8/8/8/R3K2R b KQkq - 0 1";
+    /** A knight can capture a rook in its corner, with all castling rights. */
+    protected static final String FEN_NXH8              = "r3k2r/8/6N1/8/8/8/8/R3K2R w KQkq - 0 1";
+    protected static final String FEN_NXA8              = "r3k2r/8/1N6/8/8/8/8/R3K2R w KQkq - 0 1";
+    protected static final String FEN_NXH1              = "r3k2r/8/8/8/8/6n1/8/R3K2R b KQkq - 0 1";
+    protected static final String FEN_NXA1              = "r3k2r/8/8/8/8/1n6/8/R3K2R b KQkq - 0 1";
+    /** After Nxh8 Rxh8, a different black rook stands on h8. */
+    protected static final String FEN_SECOND_ROOK_H8    = "4k2r/8/6N1/7r/8/8/8/4K3 w k - 0 1";
+
     // Opening positions
     protected static final String FEN_OPENING_0         = "r2qkbnr/pppb1ppp/2np4/1B2p3/3PP3/5N2/PPP2PPP/RNBQK2R w KQkq - 1 5";
     protected static final String FEN_OPENING_1         = "r1bqkbnr/ppp2ppp/2n5/1B1pp3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq d6 0 4";
@@ -234,6 +246,8 @@ public abstract class AbstractTestCase {
     protected static final String FEN_NON_QUIET         = "r3k1nr/ppqb1ppp/1b2p3/3pP3/Pn6/2P2N2/1Q3PPP/RNB1KB1R b KQkq - 1 11";
     /** A position where Rxb2 which leads to stalemate is best for white. */
     protected static final String FEN_STALEMATE_BEST    = "k7/8/K7/P7/8/8/Rp6/8 w - - 0 1";
+    /** Black is stalemated. */
+    protected static final String FEN_STALEMATED        = "7k/5Q2/6K1/8/8/8/8/8 b - - 0 1";
 
     /**
      * Asserts that all given {@code squares} are empty in the given {@code position}.

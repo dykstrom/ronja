@@ -18,6 +18,8 @@
 package se.dykstrom.ronja.common.model;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
@@ -423,5 +425,45 @@ public class PositionTest extends AbstractTestCase {
         // Verify that the black pawn is _not_ on a2
         assertEquals(0, resultPosition.getPiece(Square.A2));
         assertNull(resultPosition.getColor(Square.A2));
+    }
+
+    /**
+     * Tests that capturing a rook on its home square clears the castling right that rook gave.
+     * The capturing piece is a knight, so that only the capture can clear the right.
+     */
+    @ParameterizedTest(name = "{1} in {0}")
+    @CsvSource({
+        FEN_NXH8 + ", g6h8, KQq",
+        FEN_NXA8 + ", b6a8, KQk",
+        FEN_NXH1 + ", g3h1, Qkq",
+        FEN_NXA1 + ", b3a1, Kkq",
+    })
+    public void testMakeMoveCaptureRookOnHomeSquare(String fen, String move, String expectedCastling) throws Exception {
+        Position position = FenParser.parse(fen);
+        Position resultPosition = position.withMove(MoveParser.parse(move, position));
+        assertEquals(expectedCastling, castlingField(resultPosition));
+    }
+
+    /**
+     * Tests that a rook capturing a rook clears both the mover's and the captured rook's castling rights.
+     */
+    @ParameterizedTest(name = "{1} in {0}")
+    @CsvSource({
+        FEN_CORNER_ROOKS_W + ", h1h8, Qq",
+        FEN_CORNER_ROOKS_W + ", a1a8, Kk",
+        FEN_CORNER_ROOKS_B + ", h8h1, Qq",
+        FEN_CORNER_ROOKS_B + ", a8a1, Kk",
+    })
+    public void testMakeMoveRookCapturesRook(String fen, String move, String expectedCastling) throws Exception {
+        Position position = FenParser.parse(fen);
+        Position resultPosition = position.withMove(MoveParser.parse(move, position));
+        assertEquals(expectedCastling, castlingField(resultPosition));
+    }
+
+    /**
+     * Returns the castling availability field of the FEN for {@code position}.
+     */
+    private static String castlingField(Position position) {
+        return FenParser.format(position).split(" ")[2];
     }
 }

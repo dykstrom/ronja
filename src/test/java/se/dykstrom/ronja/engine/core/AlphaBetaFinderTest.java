@@ -22,12 +22,17 @@ import java.text.ParseException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.model.Move;
+import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.model.Piece;
 import se.dykstrom.ronja.common.model.Square;
+import se.dykstrom.ronja.common.parser.FenParser;
+import se.dykstrom.ronja.engine.utils.PositionUtils;
 import se.dykstrom.ronja.test.AbstractTestCase;
 import se.dykstrom.ronja.test.TestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.dykstrom.ronja.common.model.Piece.BISHOP;
 import static se.dykstrom.ronja.common.model.Piece.KING;
@@ -298,6 +303,55 @@ public class AlphaBetaFinderTest extends AbstractTestCase {
     @Test
     public void shouldFindBestMoveInNonQuietPositionAtMaxDepth2() throws Exception {
         assertFindMoveAtDepth(Move.create(KNIGHT, B4_IDX, C6_IDX), FEN_NON_QUIET, 2);
+    }
+
+    /**
+     * Pins today's mate scoring, which is not the intended behaviour. The same mate in one scores
+     * {@code -CHECK_MATE_VALUE} at search depth 2, where the mated position is a leaf that the
+     * evaluator scores. From search depth 3, the mated position is searched, every move from it
+     * leaves the king in check, and it scores {@code -ILLEGAL_CHECK_VALUE} instead. Update this
+     * test when mate scoring is made consistent.
+     */
+    @Test
+    public void pinInconsistentMateScore_CheckmateInOne() throws Exception {
+        assertEquals(-Evaluator.CHECK_MATE_VALUE, alphaBeta(FEN_CHECKMATE_1_2, 2));
+        assertEquals(Evaluator.ILLEGAL_CHECK_VALUE, alphaBeta(FEN_CHECKMATE_1_2, 3));
+        assertEquals(Evaluator.ILLEGAL_CHECK_VALUE, alphaBeta(FEN_CHECKMATE_1_2, 4));
+        assertEquals(Evaluator.ILLEGAL_CHECK_VALUE, alphaBeta(FEN_CHECKMATE_1_2, 5));
+    }
+
+    /**
+     * Pins the finder's precondition: the game must not be over. When the side to move is
+     * already checkmated, the finder returns a move that leaves its king in check. The commands
+     * check {@code isGameOver} before asking for a move, so this never reaches XBoard.
+     */
+    @Test
+    public void pinPrecondition_CheckmatedReturnsIllegalMove() throws Exception {
+        Position position = FenParser.parse(FEN_CHECKMATE_0);
+        assertTrue(PositionUtils.isCheckMate(position));
+
+        int timedMove = findBestMoveWithTime(FEN_CHECKMATE_0, 50);
+        assertNotEquals(0, timedMove);
+        assertTrue(position.withMove(timedMove).isIllegalCheck());
+
+        int depthMove = findBestMoveWithDepth(FEN_CHECKMATE_0, 2);
+        assertNotEquals(0, depthMove);
+        assertTrue(position.withMove(depthMove).isIllegalCheck());
+    }
+
+    /**
+     * Pins the finder's precondition: the game must not be over. When the side to move is
+     * stalemated, the finder returns 0, which is not a move. The commands check
+     * {@code isGameOver} before asking for a move, so this never reaches XBoard.
+     */
+    @Test
+    public void pinPrecondition_StalematedReturnsZero() throws Exception {
+        Position position = FenParser.parse(FEN_STALEMATED);
+        assertFalse(position.isCheck(position.getActiveColor()));
+        assertEquals(0, new FullMoveGenerator().generateMoves(position, 0));
+
+        assertEquals(0, findBestMoveWithTime(FEN_STALEMATED, 50));
+        assertEquals(0, findBestMoveWithDepth(FEN_STALEMATED, 2));
     }
 
     /**

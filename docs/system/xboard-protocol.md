@@ -38,7 +38,8 @@ both through `Game.unmakeMove`. XBoard sends `undo` only in force mode, so the
 engine does not start thinking afterwards. Neither changes the game when
 there are too few moves to retract. `undo` with no moves writes
 `Error (no move to undo): undo`, and `remove` with fewer than two writes
-`Error (no move pair to remove): remove`.
+`Error (no move pair to remove): remove`. The commands must check first, because
+`Game.unmakeMove` throws `IllegalStateException` when there is no move to take back.
 
 ## Commands with no implementation
 

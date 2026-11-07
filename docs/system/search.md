@@ -22,6 +22,24 @@ minus and plus 3,000,000. The largest magnitude `Evaluator` returns is
 [architecture/search.md](../architecture/search.md). Read it before changing an
 evaluation constant.
 
+## Positions where the game is over
+
+`AlphaBetaFinder` does not check whether the game is over before it searches.
+If the side to move is checkmated, it returns a move that leaves its own king in
+check. If the side to move is stalemated, it returns 0, which is not a move.
+Every command that asks for a move calls `PositionUtils.isGameOver` first. A new
+caller of `Finder` must do the same.
+
+## Mate scores
+
+The search does not give a mate the same score at every depth. If the mated
+position is at the depth limit, `Evaluator.evaluate` scores it as
+`CHECK_MATE_VALUE`, which is minus 1,000,000. If the search goes deeper, every
+move from the mated position leaves the king in check and scores
+`ILLEGAL_CHECK_VALUE`, so the mated position scores minus 2,000,000.
+`AlphaBetaFinderTest.pinInconsistentMateScore_CheckmateInOne` records this, and
+fails if mate scoring changes.
+
 ## No quiescence search
 
 The finder evaluates the position at the depth limit, whatever is happening on the
