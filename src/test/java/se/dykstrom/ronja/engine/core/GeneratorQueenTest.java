@@ -248,6 +248,4 @@ public class GeneratorQueenTest extends AbstractTestCase {
         assertEquals(E8 | E7 | F6 | G5 | H4 | D7 | A5 | B6 | C7 | A8 | B8 | C8,
                 ATTACK_GENERATOR.getAllQueenAttacks());
     }
-
-    // TODO: Add more test cases for AttackGenerator.
 }

@@ -58,8 +58,6 @@ public class GeneratorKnightTest extends AbstractTestCase {
                                              Move.create(KNIGHT, G1_IDX, H3_IDX));
     }
 
-    // TODO: Add more tests for class FullMoveGenerator.
-
     // -----------------------------------------------------------------------
 
     /**
@@ -77,7 +75,4 @@ public class GeneratorKnightTest extends AbstractTestCase {
         assertEquals(Square.A6 | Square.C6 | Square.D7 | Square.E7 | Square.F6 | Square.H6,
                 ATTACK_GENERATOR.getAllKnightAttacks());
     }
-
-    // TODO: Add more tests for class AttackGenerator.
-
 }

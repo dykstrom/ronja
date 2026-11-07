@@ -134,7 +134,15 @@ public abstract class AbstractTestCase {
     protected static final String FEN_WKC_OK            = "rnbqk2r/pppp1ppp/5n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4";
     protected static final String FEN_BKC_OK            = "rnbqk2r/ppp2ppp/3bpn2/8/2B5/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 5";
     protected static final String FEN_WKC_NOK_K         = "rnbqk2r/pppp1ppp/5n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w - - 8 6";
+    protected static final String FEN_BKC_NOK_K         = "rnbqk2r/pppp1ppp/5n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQ1K1R b - - 9 6";
     protected static final String FEN_WKC_NOK_P         = "rnbqk1nr/pppp1ppp/8/2b1p3/2B1P3/8/PPPP1PPP/RNBQK1NR w KQkq - 6 5";
+    protected static final String FEN_BKC_NOK_P         = "rnbqk1nr/pppp1ppp/8/2b1p3/2B1P3/8/PPPP1PPP/RNBQ1KNR b kq - 7 5";
+    /** The castling right is set, but the rook is missing from its corner. */
+    protected static final String FEN_WKC_NOK_NO_ROOK   = "rnbqk2r/pppp1ppp/5n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK3 w KQkq - 4 4";
+    protected static final String FEN_BKC_NOK_NO_ROOK   = "rnbqk3/ppp2ppp/3bpn2/8/2B5/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 5";
+    /** The king is in check, but the squares it moves across are free and not attacked. */
+    protected static final String FEN_WKC_NOK_IN_CHECK  = "rnbqk2r/pppp1ppp/5n2/4p3/1bB1P3/5N2/PPP2PPP/RNBQK2R w KQkq - 0 1";
+    protected static final String FEN_BKC_NOK_IN_CHECK  = "rnbqk2r/ppp2ppp/5n2/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 0 1";
     protected static final String FEN_WKC_NOK_C         = "rnbqk2r/pppp1ppp/8/4p3/2B1P3/BP2nN2/P1PP1PPP/RN1QK2R w KQkq - 3 6";
     protected static final String FEN_BKC_NOK_C         = "rnbqk2r/pppp1ppp/5n2/4p3/4P3/BP3N2/P1PP1PPP/RN1QKB1R b KQkq - 0 4";
     protected static final String FEN_WQC_OK            = "r3kbnr/pppqpppp/2n1b3/3p4/3P4/2N1B3/PPPQPPPP/R3KBNR w KQkq - 6 5";
@@ -142,7 +150,9 @@ public abstract class AbstractTestCase {
     protected static final String FEN_WQC_OK_C_B1       = "r1bq1rk1/pppp1ppp/5n2/4p3/4P3/n1NP1Q2/P1PB1PPP/R3KBNR w KQ - 0 1";
     protected static final String FEN_BQC_OK_C_B8       = "r3kbnr/pp2pppp/2n1b3/2p5/5Q2/2N5/PPPP1PPP/R1B1KBNR b KQkq - 0 1";
     protected static final String FEN_WQC_NOK_K         = "r3kbnr/pppqpppp/2n1b3/3p4/3P4/2N1B3/PPPQPPPP/R3KBNR w - - 10 7";
+    protected static final String FEN_BQC_NOK_K         = "r3kbnr/pppqpppp/2n1b3/3p4/3P4/2N1B3/PPPQPPPP/R2K1BNR b - - 11 7";
     protected static final String FEN_WQC_NOK_P         = "rn2kbnr/pppqpppp/4b3/3p4/3P4/4B3/PPPQPPPP/RN2KBNR w KQkq - 8 6";
+    protected static final String FEN_BQC_NOK_P         = "rn2kbnr/pppqpppp/4b3/3p4/3P4/4B3/PPPQPPPP/RN1K1BNR b kq - 9 6";
     protected static final String FEN_WQC_NOK_C_C1      = "rnbq1rk1/pppp1ppp/5n2/4p3/4P3/2NP1Q2/PbPB1PPP/R3KBNR w KQ - 0 1";
     protected static final String FEN_BQC_NOK_C_C8      = "r3kbnr/ppp1pppp/1Nn1b3/8/8/8/PPPP1PPP/R1BQKBNR b KQkq - 0 1";
 
