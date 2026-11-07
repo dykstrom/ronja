@@ -23,7 +23,9 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.parser.CanParser;
+import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.FenParser;
+import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -107,6 +109,25 @@ public class FullMoveGeneratorTest extends AbstractTestCase {
         // Qe7d7, Qe7d8, Qe7e6, Qe7f6, Qe7g5, Qe7h4 = 6
         // Ke8d7, Ke8d8, Ke8c8 = 3
         assertEquals(36, numberOfMoves);
+    }
+
+    /**
+     * Tests that a rook which reaches h8 after the original rook was captured there does not give
+     * Black the right to castle king-side.
+     */
+    @Test
+    public void testNoCastlingWithReplacedRook() throws Exception {
+        Position position = FenParser.parse(FEN_SECOND_ROOK_H8);
+        for (String move : List.of("g6h8", "h5h8", "e1d1")) {
+            position = position.withMove(MoveParser.parse(move, position));
+        }
+
+        int numberOfMoves = MOVE_GENERATOR.generateMoves(position, 0);
+        // Ke8d8, Ke8d7, Ke8e7, Ke8f7, Ke8f8 = 5
+        // Rh8h7, Rh8h6, Rh8h5, Rh8h4, Rh8h3, Rh8h2, Rh8h1, Rh8g8, Rh8f8 = 9
+        assertEquals(14, numberOfMoves);
+        assertMoves(new String[]{"e8d8", "e8d7", "e8e7", "e8f7", "e8f8",
+                "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", "h8g8", "h8f8"});
     }
 
     /**

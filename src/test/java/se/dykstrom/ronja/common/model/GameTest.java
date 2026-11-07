@@ -17,13 +17,20 @@
 
 package se.dykstrom.ronja.common.model;
 
+import java.util.Arrays;
+
 import org.junit.jupiter.api.Test;
 import se.dykstrom.ronja.common.book.OpeningBook;
+import se.dykstrom.ronja.common.parser.MoveParser;
 import se.dykstrom.ronja.engine.time.TimeControl;
 import se.dykstrom.ronja.engine.time.TimeData;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.dykstrom.ronja.engine.time.TimeControlType.*;
 
 /**
@@ -98,5 +105,65 @@ public class GameTest extends AbstractTestCase {
 
         assertEquals(0, game.getTimeData().numberOfMoves());
         assertEquals(THIRTY_SECONDS, game.getTimeData().remainingTime());
+    }
+
+    /**
+     * Tests that a game can be longer than the initial history capacity, and that every move can be unmade again.
+     */
+    @Test
+    public void testLongGame() throws Exception {
+        String[] shuffle = {"g1f3", "g8f6", "f3g1", "f6g8"};
+        int plies = 1200;
+
+        for (int i = 0; i < plies; i++) {
+            game.makeMove(MoveParser.parse(shuffle[i % shuffle.length], game.getPosition()));
+        }
+        assertEquals(plies, game.getMoves().length);
+        assertEquals(plies + 1, game.getPositionCount());
+        assertTrue(game.getPosition().equalTo(Position.START));
+
+        for (int i = 0; i < plies; i++) {
+            game.unmakeMove();
+        }
+        assertEquals(0, game.getMoves().length);
+        assertEquals(1, game.getPositionCount());
+        assertSame(Position.START, game.getPosition());
+    }
+
+    /**
+     * Tests that setting a move history longer than the initial capacity keeps every move.
+     */
+    @Test
+    public void testSetLongMoveHistory() throws Exception {
+        int[] moves = new int[1200];
+        Arrays.fill(moves, MoveParser.parse("e2e4", Position.START));
+
+        game.setMoves(moves);
+
+        assertArrayEquals(moves, game.getMoves());
+    }
+
+    /**
+     * Tests that unmaking a move in the start position throws, and leaves the game unchanged.
+     */
+    @Test
+    public void testUnmakeMoveAtStart() {
+        assertThrows(IllegalStateException.class, game::unmakeMove);
+
+        assertEquals(0, game.getMoves().length);
+        assertEquals(1, game.getPositionCount());
+        assertSame(Position.START, game.getPosition());
+    }
+
+    /**
+     * Tests that unmaking a move after all moves have been unmade throws.
+     */
+    @Test
+    public void testUnmakeMoveAfterUnmakingAll() throws Exception {
+        game.makeMove(MoveParser.parse("e2e4", game.getPosition()));
+        game.unmakeMove();
+
+        assertThrows(IllegalStateException.class, game::unmakeMove);
+        assertSame(Position.START, game.getPosition());
     }
 }

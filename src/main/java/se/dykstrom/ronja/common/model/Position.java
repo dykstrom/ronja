@@ -367,7 +367,7 @@ public class Position {
         int halfMoveClock = isPawnMoveOrCapture(fromPiece, toPiece) ? 0 : this.halfMoveClock + 1;
 
         // Update castling rights
-        long flags = updateCastlingRights(from, this.flags);
+        long flags = updateCastlingRights(from, to, this.flags);
 
         // Flip sides
         flags = flags ^ ACTIVE_COLOR_MASK;
@@ -457,19 +457,22 @@ public class Position {
     }
 
     /**
-     * Returns {@code flags} updated with new castling rights, given that a move was made from square {@code from}.
+     * Returns {@code flags} updated with new castling rights, given that a move was made from square {@code from}
+     * to square {@code to}. Moving the king or a rook from its home square clears the matching rights. So does
+     * moving to a rook's home square, because that captures the rook, if it is still there.
      */
-    private long updateCastlingRights(long from, long flags) {
-        if ((from & (Square.E1 | Square.H1)) != 0) {
+    private long updateCastlingRights(long from, long to, long flags) {
+        long fromOrTo = from | to;
+        if (((from & Square.E1) | (fromOrTo & Square.H1)) != 0) {
             flags = flags & ~WKS_CASTLING_MASK;
         }
-        if ((from & (Square.E1 | Square.A1)) != 0) {
+        if (((from & Square.E1) | (fromOrTo & Square.A1)) != 0) {
             flags = flags & ~WQS_CASTLING_MASK;
         }
-        if ((from & (Square.E8 | Square.H8)) != 0) {
+        if (((from & Square.E8) | (fromOrTo & Square.H8)) != 0) {
             flags = flags & ~BKS_CASTLING_MASK;
         }
-        if ((from & (Square.E8 | Square.A8)) != 0) {
+        if (((from & Square.E8) | (fromOrTo & Square.A8)) != 0) {
             flags = flags & ~BQS_CASTLING_MASK;
         }
         return flags;
