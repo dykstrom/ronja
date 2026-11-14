@@ -19,7 +19,6 @@ package se.dykstrom.ronja.engine.core;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import se.dykstrom.ronja.common.model.Position;
 import se.dykstrom.ronja.common.parser.FenParser;
 import se.dykstrom.ronja.test.AbstractTestCase;
 
@@ -29,13 +28,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Perft tests for the move generator. Perft counts the legal move sequences from a position to a fixed depth.
  * The expected counts are the published counts for the six standard positions on the chessprogramming wiki.
  * Each position is tested at every depth from 1 up, so the lowest failing depth shows where a count goes wrong.
+ * {@link PerftIT} tests deeper counts and more positions.
  *
  * @author Johan Dykstrom
  * @see FullMoveGenerator
  */
 public class PerftTest extends AbstractTestCase {
 
-    private final FullMoveGenerator generator = new FullMoveGenerator();
+    private final Perft perft = new Perft();
 
     @ParameterizedTest(name = "{0} at depth {2}")
     @CsvSource({
@@ -67,32 +67,6 @@ public class PerftTest extends AbstractTestCase {
         "position 6, " + FEN_PERFT_6 + ", 4, 3894594",
     })
     public void testPerft(String name, String fen, int depth, long expectedCount) throws Exception {
-        assertEquals(expectedCount, perft(FenParser.parse(fen), depth, 0));
-    }
-
-    /**
-     * Returns the number of legal move sequences of length {@code depth} from {@code position}.
-     * The generator makes pseudo-legal moves, so this method skips every move that leaves the
-     * mover's king in check. The generator stores the moves for each ply in its own row,
-     * so the recursive call does not overwrite the moves that the loop is still walking.
-     *
-     * @param position The position to count from.
-     * @param depth The number of plies left to count.
-     * @param ply The number of plies from the root position, used as the generator's row index.
-     */
-    private long perft(Position position, int depth, int ply) {
-        if (depth == 0) {
-            return 1;
-        }
-
-        long count = 0;
-        int numberOfMoves = generator.generateMoves(position, ply);
-        for (int i = 0; i < numberOfMoves; i++) {
-            Position next = position.withMove(generator.moves[ply][i]);
-            if (!next.isIllegalCheck()) {
-                count += perft(next, depth - 1, ply + 1);
-            }
-        }
-        return count;
+        assertEquals(expectedCount, perft.count(FenParser.parse(fen), depth));
     }
 }

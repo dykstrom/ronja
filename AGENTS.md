@@ -36,7 +36,7 @@ All Java lives under `src/main/java/se/dykstrom/ronja/`, which `…/` stands for
 | `src/main/resources/` | `version.properties`, filtered by Maven so `${project.version}` is replaced at build time |
 | `src/main/scripts/` | What ships beside the jar: the `ronja` and `ronja.bat` launchers, `ronja.properties`, `book.csv`. Also Maven-filtered, copied to `target/scripts/`. The launchers always run `runtime/bin/java`, and ignore `JAVA_HOME` and the `PATH` |
 | `config/` | `checkstyle/checkstyle.xml` (the Checkstyle rules) and `spotbugs/exclude.xml` (the accepted SpotBugs findings, each with its reason) |
-| `src/test/java/se/dykstrom/ronja/test/` | Test helpers, not tests: `AbstractTestCase`, `TestUtils`, `LoggingConfig`. `AbstractTestCase` holds every FEN position the tests use, as `FEN_*` constants grouped by theme. Add a new test position there, not inline in the test |
+| `src/test/java/se/dykstrom/ronja/test/` | Test helpers, not tests: `AbstractTestCase`, `TestUtils`, `LoggingConfig`, and `RandomGames` and `RandomGameRunner`, which play random legal games and shrink a failing one (see `docs/system/move-generation.md`). `AbstractTestCase` holds every FEN position the tests use, as `FEN_*` constants grouped by theme. Add a new test position there, not inline in the test |
 | `docs/` | Durable project context. Sub-folder layout below shows where each kind of doc goes. |
 
 `engine` depends on `common`. `common` must not import from `engine`.
